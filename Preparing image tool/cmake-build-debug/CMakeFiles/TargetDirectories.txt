@@ -1,0 +1,4 @@
+C:/Dima/mama i am programmer/qttest/cmake-build-debug/CMakeFiles/qttest.dir
+C:/Dima/mama i am programmer/qttest/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Dima/mama i am programmer/qttest/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Dima/mama i am programmer/qttest/cmake-build-debug/CMakeFiles/qttest_autogen.dir

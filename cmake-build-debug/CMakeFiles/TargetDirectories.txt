@@ -1,0 +1,4 @@
+C:/Dima/mama i am programmer/bsu_game_project/cmake-build-debug/CMakeFiles/Death_Rally.dir
+C:/Dima/mama i am programmer/bsu_game_project/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Dima/mama i am programmer/bsu_game_project/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Dima/mama i am programmer/bsu_game_project/cmake-build-debug/CMakeFiles/Death_Rally_autogen.dir
