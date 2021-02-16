@@ -62,10 +62,10 @@ RM = "C:\Program Files\JetBrains\CLion 2020.2.1\bin\cmake\win\bin\cmake.exe" -E 
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "C:\Dima\mama i am programmer\bsu_game_project"
+CMAKE_SOURCE_DIR = "C:\Dima\mama i am programmer\Death_Rally_2021"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "C:\Dima\mama i am programmer\bsu_game_project\cmake-build-debug"
+CMAKE_BINARY_DIR = "C:\Dima\mama i am programmer\Death_Rally_2021\cmake-build-debug"
 
 # Include any dependencies generated for this target.
 include CMakeFiles/Death_Rally.dir/depend.make
@@ -79,58 +79,58 @@ include CMakeFiles/Death_Rally.dir/flags.make
 CMakeFiles/Death_Rally.dir/Death_Rally_autogen/mocs_compilation.cpp.obj: CMakeFiles/Death_Rally.dir/flags.make
 CMakeFiles/Death_Rally.dir/Death_Rally_autogen/mocs_compilation.cpp.obj: CMakeFiles/Death_Rally.dir/includes_CXX.rsp
 CMakeFiles/Death_Rally.dir/Death_Rally_autogen/mocs_compilation.cpp.obj: Death_Rally_autogen/mocs_compilation.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Dima\mama i am programmer\bsu_game_project\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Death_Rally.dir/Death_Rally_autogen/mocs_compilation.cpp.obj"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Death_Rally.dir\Death_Rally_autogen\mocs_compilation.cpp.obj -c "C:\Dima\mama i am programmer\bsu_game_project\cmake-build-debug\Death_Rally_autogen\mocs_compilation.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Dima\mama i am programmer\Death_Rally_2021\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Death_Rally.dir/Death_Rally_autogen/mocs_compilation.cpp.obj"
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Death_Rally.dir\Death_Rally_autogen\mocs_compilation.cpp.obj -c "C:\Dima\mama i am programmer\Death_Rally_2021\cmake-build-debug\Death_Rally_autogen\mocs_compilation.cpp"
 
 CMakeFiles/Death_Rally.dir/Death_Rally_autogen/mocs_compilation.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Death_Rally.dir/Death_Rally_autogen/mocs_compilation.cpp.i"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Dima\mama i am programmer\bsu_game_project\cmake-build-debug\Death_Rally_autogen\mocs_compilation.cpp" > CMakeFiles\Death_Rally.dir\Death_Rally_autogen\mocs_compilation.cpp.i
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Dima\mama i am programmer\Death_Rally_2021\cmake-build-debug\Death_Rally_autogen\mocs_compilation.cpp" > CMakeFiles\Death_Rally.dir\Death_Rally_autogen\mocs_compilation.cpp.i
 
 CMakeFiles/Death_Rally.dir/Death_Rally_autogen/mocs_compilation.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Death_Rally.dir/Death_Rally_autogen/mocs_compilation.cpp.s"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Dima\mama i am programmer\bsu_game_project\cmake-build-debug\Death_Rally_autogen\mocs_compilation.cpp" -o CMakeFiles\Death_Rally.dir\Death_Rally_autogen\mocs_compilation.cpp.s
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Dima\mama i am programmer\Death_Rally_2021\cmake-build-debug\Death_Rally_autogen\mocs_compilation.cpp" -o CMakeFiles\Death_Rally.dir\Death_Rally_autogen\mocs_compilation.cpp.s
 
 CMakeFiles/Death_Rally.dir/main.cpp.obj: CMakeFiles/Death_Rally.dir/flags.make
 CMakeFiles/Death_Rally.dir/main.cpp.obj: CMakeFiles/Death_Rally.dir/includes_CXX.rsp
 CMakeFiles/Death_Rally.dir/main.cpp.obj: ../main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Dima\mama i am programmer\bsu_game_project\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Death_Rally.dir/main.cpp.obj"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Death_Rally.dir\main.cpp.obj -c "C:\Dima\mama i am programmer\bsu_game_project\main.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Dima\mama i am programmer\Death_Rally_2021\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Death_Rally.dir/main.cpp.obj"
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Death_Rally.dir\main.cpp.obj -c "C:\Dima\mama i am programmer\Death_Rally_2021\main.cpp"
 
 CMakeFiles/Death_Rally.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Death_Rally.dir/main.cpp.i"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Dima\mama i am programmer\bsu_game_project\main.cpp" > CMakeFiles\Death_Rally.dir\main.cpp.i
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Dima\mama i am programmer\Death_Rally_2021\main.cpp" > CMakeFiles\Death_Rally.dir\main.cpp.i
 
 CMakeFiles/Death_Rally.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Death_Rally.dir/main.cpp.s"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Dima\mama i am programmer\bsu_game_project\main.cpp" -o CMakeFiles\Death_Rally.dir\main.cpp.s
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Dima\mama i am programmer\Death_Rally_2021\main.cpp" -o CMakeFiles\Death_Rally.dir\main.cpp.s
 
 CMakeFiles/Death_Rally.dir/car.cpp.obj: CMakeFiles/Death_Rally.dir/flags.make
 CMakeFiles/Death_Rally.dir/car.cpp.obj: CMakeFiles/Death_Rally.dir/includes_CXX.rsp
 CMakeFiles/Death_Rally.dir/car.cpp.obj: ../car.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Dima\mama i am programmer\bsu_game_project\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Death_Rally.dir/car.cpp.obj"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Death_Rally.dir\car.cpp.obj -c "C:\Dima\mama i am programmer\bsu_game_project\car.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Dima\mama i am programmer\Death_Rally_2021\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Death_Rally.dir/car.cpp.obj"
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Death_Rally.dir\car.cpp.obj -c "C:\Dima\mama i am programmer\Death_Rally_2021\car.cpp"
 
 CMakeFiles/Death_Rally.dir/car.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Death_Rally.dir/car.cpp.i"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Dima\mama i am programmer\bsu_game_project\car.cpp" > CMakeFiles\Death_Rally.dir\car.cpp.i
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Dima\mama i am programmer\Death_Rally_2021\car.cpp" > CMakeFiles\Death_Rally.dir\car.cpp.i
 
 CMakeFiles/Death_Rally.dir/car.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Death_Rally.dir/car.cpp.s"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Dima\mama i am programmer\bsu_game_project\car.cpp" -o CMakeFiles\Death_Rally.dir\car.cpp.s
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Dima\mama i am programmer\Death_Rally_2021\car.cpp" -o CMakeFiles\Death_Rally.dir\car.cpp.s
 
 CMakeFiles/Death_Rally.dir/helpers/vec_geometry.cpp.obj: CMakeFiles/Death_Rally.dir/flags.make
 CMakeFiles/Death_Rally.dir/helpers/vec_geometry.cpp.obj: CMakeFiles/Death_Rally.dir/includes_CXX.rsp
 CMakeFiles/Death_Rally.dir/helpers/vec_geometry.cpp.obj: ../helpers/vec_geometry.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Dima\mama i am programmer\bsu_game_project\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Death_Rally.dir/helpers/vec_geometry.cpp.obj"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Death_Rally.dir\helpers\vec_geometry.cpp.obj -c "C:\Dima\mama i am programmer\bsu_game_project\helpers\vec_geometry.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Dima\mama i am programmer\Death_Rally_2021\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Death_Rally.dir/helpers/vec_geometry.cpp.obj"
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Death_Rally.dir\helpers\vec_geometry.cpp.obj -c "C:\Dima\mama i am programmer\Death_Rally_2021\helpers\vec_geometry.cpp"
 
 CMakeFiles/Death_Rally.dir/helpers/vec_geometry.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Death_Rally.dir/helpers/vec_geometry.cpp.i"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Dima\mama i am programmer\bsu_game_project\helpers\vec_geometry.cpp" > CMakeFiles\Death_Rally.dir\helpers\vec_geometry.cpp.i
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Dima\mama i am programmer\Death_Rally_2021\helpers\vec_geometry.cpp" > CMakeFiles\Death_Rally.dir\helpers\vec_geometry.cpp.i
 
 CMakeFiles/Death_Rally.dir/helpers/vec_geometry.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Death_Rally.dir/helpers/vec_geometry.cpp.s"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Dima\mama i am programmer\bsu_game_project\helpers\vec_geometry.cpp" -o CMakeFiles\Death_Rally.dir\helpers\vec_geometry.cpp.s
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Dima\mama i am programmer\Death_Rally_2021\helpers\vec_geometry.cpp" -o CMakeFiles\Death_Rally.dir\helpers\vec_geometry.cpp.s
 
 # Object files for target Death_Rally
 Death_Rally_OBJECTS = \
@@ -153,7 +153,7 @@ Death_Rally.exe: C:/Qt/5.15.2/mingw81_64/lib/libQt5Core.a
 Death_Rally.exe: CMakeFiles/Death_Rally.dir/linklibs.rsp
 Death_Rally.exe: CMakeFiles/Death_Rally.dir/objects1.rsp
 Death_Rally.exe: CMakeFiles/Death_Rally.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="C:\Dima\mama i am programmer\bsu_game_project\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable Death_Rally.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="C:\Dima\mama i am programmer\Death_Rally_2021\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable Death_Rally.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\Death_Rally.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -166,6 +166,6 @@ CMakeFiles/Death_Rally.dir/clean:
 .PHONY : CMakeFiles/Death_Rally.dir/clean
 
 CMakeFiles/Death_Rally.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" "C:\Dima\mama i am programmer\bsu_game_project" "C:\Dima\mama i am programmer\bsu_game_project" "C:\Dima\mama i am programmer\bsu_game_project\cmake-build-debug" "C:\Dima\mama i am programmer\bsu_game_project\cmake-build-debug" "C:\Dima\mama i am programmer\bsu_game_project\cmake-build-debug\CMakeFiles\Death_Rally.dir\DependInfo.cmake" --color=$(COLOR)
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" "C:\Dima\mama i am programmer\Death_Rally_2021" "C:\Dima\mama i am programmer\Death_Rally_2021" "C:\Dima\mama i am programmer\Death_Rally_2021\cmake-build-debug" "C:\Dima\mama i am programmer\Death_Rally_2021\cmake-build-debug" "C:\Dima\mama i am programmer\Death_Rally_2021\cmake-build-debug\CMakeFiles\Death_Rally.dir\DependInfo.cmake" --color=$(COLOR)
 .PHONY : CMakeFiles/Death_Rally.dir/depend
 

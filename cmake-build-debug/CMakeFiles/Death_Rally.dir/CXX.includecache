@@ -6,9 +6,9 @@
 
 #IncludeRegexTransform: 
 
-C:/Dima/mama i am programmer/bsu_game_project/car.cpp
+C:/Dima/mama i am programmer/Death_Rally_2021/car.cpp
 car.h
-C:/Dima/mama i am programmer/bsu_game_project/car.h
+C:/Dima/mama i am programmer/Death_Rally_2021/car.h
 QPainter
 -
 QTime
@@ -16,7 +16,7 @@ QTime
 iostream
 -
 
-C:/Dima/mama i am programmer/bsu_game_project/car.h
+C:/Dima/mama i am programmer/Death_Rally_2021/car.h
 QWidget
 -
 QKeyEvent
@@ -26,19 +26,13 @@ vector
 QApplication
 -
 helpers/vec_geometry.h
-C:/Dima/mama i am programmer/bsu_game_project/helpers/vec_geometry.h
+C:/Dima/mama i am programmer/Death_Rally_2021/helpers/vec_geometry.h
 
-C:/Dima/mama i am programmer/bsu_game_project/helpers/vec_geometry.h
+C:/Dima/mama i am programmer/Death_Rally_2021/helpers/vec_geometry.h
 cmath
 -
 iostream
 -
-
-C:/Dima/mama i am programmer/bsu_game_project/main.cpp
-QApplication
--
-car.h
-C:/Dima/mama i am programmer/bsu_game_project/car.h
 
 C:/Qt/5.15.2/mingw81_64/include/QtCore/QTime
 qdatetime.h

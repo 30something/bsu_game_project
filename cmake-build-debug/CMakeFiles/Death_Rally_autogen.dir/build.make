@@ -62,10 +62,10 @@ RM = "C:\Program Files\JetBrains\CLion 2020.2.1\bin\cmake\win\bin\cmake.exe" -E 
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "C:\Dima\mama i am programmer\bsu_game_project"
+CMAKE_SOURCE_DIR = "C:\Dima\mama i am programmer\Death_Rally_2021"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "C:\Dima\mama i am programmer\bsu_game_project\cmake-build-debug"
+CMAKE_BINARY_DIR = "C:\Dima\mama i am programmer\Death_Rally_2021\cmake-build-debug"
 
 # Utility rule file for Death_Rally_autogen.
 
@@ -73,8 +73,8 @@ CMAKE_BINARY_DIR = "C:\Dima\mama i am programmer\bsu_game_project\cmake-build-de
 include CMakeFiles/Death_Rally_autogen.dir/progress.make
 
 CMakeFiles/Death_Rally_autogen:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir="C:\Dima\mama i am programmer\bsu_game_project\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC and UIC for target Death_Rally"
-	"C:\Program Files\JetBrains\CLion 2020.2.1\bin\cmake\win\bin\cmake.exe" -E cmake_autogen "C:/Dima/mama i am programmer/bsu_game_project/cmake-build-debug/CMakeFiles/Death_Rally_autogen.dir/AutogenInfo.json" Debug
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir="C:\Dima\mama i am programmer\Death_Rally_2021\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC and UIC for target Death_Rally"
+	"C:\Program Files\JetBrains\CLion 2020.2.1\bin\cmake\win\bin\cmake.exe" -E cmake_autogen "C:/Dima/mama i am programmer/Death_Rally_2021/cmake-build-debug/CMakeFiles/Death_Rally_autogen.dir/AutogenInfo.json" Debug
 
 Death_Rally_autogen: CMakeFiles/Death_Rally_autogen
 Death_Rally_autogen: CMakeFiles/Death_Rally_autogen.dir/build.make
@@ -91,6 +91,6 @@ CMakeFiles/Death_Rally_autogen.dir/clean:
 .PHONY : CMakeFiles/Death_Rally_autogen.dir/clean
 
 CMakeFiles/Death_Rally_autogen.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" "C:\Dima\mama i am programmer\bsu_game_project" "C:\Dima\mama i am programmer\bsu_game_project" "C:\Dima\mama i am programmer\bsu_game_project\cmake-build-debug" "C:\Dima\mama i am programmer\bsu_game_project\cmake-build-debug" "C:\Dima\mama i am programmer\bsu_game_project\cmake-build-debug\CMakeFiles\Death_Rally_autogen.dir\DependInfo.cmake" --color=$(COLOR)
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" "C:\Dima\mama i am programmer\Death_Rally_2021" "C:\Dima\mama i am programmer\Death_Rally_2021" "C:\Dima\mama i am programmer\Death_Rally_2021\cmake-build-debug" "C:\Dima\mama i am programmer\Death_Rally_2021\cmake-build-debug" "C:\Dima\mama i am programmer\Death_Rally_2021\cmake-build-debug\CMakeFiles\Death_Rally_autogen.dir\DependInfo.cmake" --color=$(COLOR)
 .PHONY : CMakeFiles/Death_Rally_autogen.dir/depend
 
