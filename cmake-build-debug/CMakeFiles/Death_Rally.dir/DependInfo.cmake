@@ -5,9 +5,11 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "C:/Dima/mama i am programmer/Death_Rally_2021/cmake-build-debug/Death_Rally_autogen/mocs_compilation.cpp" "C:/Dima/mama i am programmer/Death_Rally_2021/cmake-build-debug/CMakeFiles/Death_Rally.dir/Death_Rally_autogen/mocs_compilation.cpp.obj"
-  "C:/Dima/mama i am programmer/Death_Rally_2021/car.cpp" "C:/Dima/mama i am programmer/Death_Rally_2021/cmake-build-debug/CMakeFiles/Death_Rally.dir/car.cpp.obj"
   "C:/Dima/mama i am programmer/Death_Rally_2021/helpers/vec_geometry.cpp" "C:/Dima/mama i am programmer/Death_Rally_2021/cmake-build-debug/CMakeFiles/Death_Rally.dir/helpers/vec_geometry.cpp.obj"
   "C:/Dima/mama i am programmer/Death_Rally_2021/main.cpp" "C:/Dima/mama i am programmer/Death_Rally_2021/cmake-build-debug/CMakeFiles/Death_Rally.dir/main.cpp.obj"
+  "C:/Dima/mama i am programmer/Death_Rally_2021/main_window.cpp" "C:/Dima/mama i am programmer/Death_Rally_2021/cmake-build-debug/CMakeFiles/Death_Rally.dir/main_window.cpp.obj"
+  "C:/Dima/mama i am programmer/Death_Rally_2021/menu.cpp" "C:/Dima/mama i am programmer/Death_Rally_2021/cmake-build-debug/CMakeFiles/Death_Rally.dir/menu.cpp.obj"
+  "C:/Dima/mama i am programmer/Death_Rally_2021/view.cpp" "C:/Dima/mama i am programmer/Death_Rally_2021/cmake-build-debug/CMakeFiles/Death_Rally.dir/view.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

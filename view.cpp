@@ -1,9 +1,9 @@
-#include "car.h"
+#include "view.h"
 #include <QPainter>
 #include <QTime>
 #include <iostream>
 
-Car::Car(QWidget* parent) : QWidget(parent) {
+View::View(QWidget* parent) : QWidget(parent) {
   setStyleSheet("background-color:black;");
   resize(800, 800);
   car_.load("car.jpg");
@@ -12,7 +12,7 @@ Car::Car(QWidget* parent) : QWidget(parent) {
   timerId = startTimer(20);
 }
 
-void Car::paintEvent(QPaintEvent* e) {
+void View::paintEvent(QPaintEvent* e) {
   Q_UNUSED(e);
   QPainter qp(this);
   qp.scale(3, 3);
@@ -22,7 +22,7 @@ void Car::paintEvent(QPaintEvent* e) {
   qp.drawImage(-5, -5, car_);
 }
 
-void Car::timerEvent(QTimerEvent*) {
+void View::timerEvent(QTimerEvent*) {
   if (flag_left) {
     velocity_.RotateCCW(5);
   }
@@ -50,7 +50,7 @@ void Car::timerEvent(QTimerEvent*) {
   repaint();
 }
 
-void Car::keyPressEvent(QKeyEvent* e) {
+void View::keyPressEvent(QKeyEvent* e) {
   int key = e->key();
   if (key == Qt::Key_Left) {
     flag_left = true;
@@ -66,7 +66,7 @@ void Car::keyPressEvent(QKeyEvent* e) {
   }
 }
 
-void Car::keyReleaseEvent(QKeyEvent* e) {
+void View::keyReleaseEvent(QKeyEvent* e) {
   int key = e->key();
   if (key == Qt::Key_Left) {
     flag_left = false;

@@ -1,10 +1,10 @@
 #include <QApplication>
-#include "car.h"
+#include "main_window.h"
 
 int main(int argc, char* argv[]) {
   QApplication a(argc, argv);
-  Car car;
-  car.resize(800, 800);
-  car.show();
+  MainWindow main_window;
+  main_window.resize(800, 800);
+  main_window.show();
   return QApplication::exec();
 }

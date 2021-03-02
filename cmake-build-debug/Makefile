@@ -182,33 +182,6 @@ Death_Rally_autogen/mocs_compilation.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Death_Rally.dir\build.make CMakeFiles/Death_Rally.dir/Death_Rally_autogen/mocs_compilation.cpp.s
 .PHONY : Death_Rally_autogen/mocs_compilation.cpp.s
 
-car.obj: car.cpp.obj
-
-.PHONY : car.obj
-
-# target to build an object file
-car.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Death_Rally.dir\build.make CMakeFiles/Death_Rally.dir/car.cpp.obj
-.PHONY : car.cpp.obj
-
-car.i: car.cpp.i
-
-.PHONY : car.i
-
-# target to preprocess a source file
-car.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Death_Rally.dir\build.make CMakeFiles/Death_Rally.dir/car.cpp.i
-.PHONY : car.cpp.i
-
-car.s: car.cpp.s
-
-.PHONY : car.s
-
-# target to generate assembly for a file
-car.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Death_Rally.dir\build.make CMakeFiles/Death_Rally.dir/car.cpp.s
-.PHONY : car.cpp.s
-
 helpers/vec_geometry.obj: helpers/vec_geometry.cpp.obj
 
 .PHONY : helpers/vec_geometry.obj
@@ -263,6 +236,87 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Death_Rally.dir\build.make CMakeFiles/Death_Rally.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+main_window.obj: main_window.cpp.obj
+
+.PHONY : main_window.obj
+
+# target to build an object file
+main_window.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Death_Rally.dir\build.make CMakeFiles/Death_Rally.dir/main_window.cpp.obj
+.PHONY : main_window.cpp.obj
+
+main_window.i: main_window.cpp.i
+
+.PHONY : main_window.i
+
+# target to preprocess a source file
+main_window.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Death_Rally.dir\build.make CMakeFiles/Death_Rally.dir/main_window.cpp.i
+.PHONY : main_window.cpp.i
+
+main_window.s: main_window.cpp.s
+
+.PHONY : main_window.s
+
+# target to generate assembly for a file
+main_window.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Death_Rally.dir\build.make CMakeFiles/Death_Rally.dir/main_window.cpp.s
+.PHONY : main_window.cpp.s
+
+menu.obj: menu.cpp.obj
+
+.PHONY : menu.obj
+
+# target to build an object file
+menu.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Death_Rally.dir\build.make CMakeFiles/Death_Rally.dir/menu.cpp.obj
+.PHONY : menu.cpp.obj
+
+menu.i: menu.cpp.i
+
+.PHONY : menu.i
+
+# target to preprocess a source file
+menu.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Death_Rally.dir\build.make CMakeFiles/Death_Rally.dir/menu.cpp.i
+.PHONY : menu.cpp.i
+
+menu.s: menu.cpp.s
+
+.PHONY : menu.s
+
+# target to generate assembly for a file
+menu.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Death_Rally.dir\build.make CMakeFiles/Death_Rally.dir/menu.cpp.s
+.PHONY : menu.cpp.s
+
+view.obj: view.cpp.obj
+
+.PHONY : view.obj
+
+# target to build an object file
+view.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Death_Rally.dir\build.make CMakeFiles/Death_Rally.dir/view.cpp.obj
+.PHONY : view.cpp.obj
+
+view.i: view.cpp.i
+
+.PHONY : view.i
+
+# target to preprocess a source file
+view.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Death_Rally.dir\build.make CMakeFiles/Death_Rally.dir/view.cpp.i
+.PHONY : view.cpp.i
+
+view.s: view.cpp.s
+
+.PHONY : view.s
+
+# target to generate assembly for a file
+view.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Death_Rally.dir\build.make CMakeFiles/Death_Rally.dir/view.cpp.s
+.PHONY : view.cpp.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -276,15 +330,21 @@ help:
 	@echo ... Death_Rally_autogen/mocs_compilation.obj
 	@echo ... Death_Rally_autogen/mocs_compilation.i
 	@echo ... Death_Rally_autogen/mocs_compilation.s
-	@echo ... car.obj
-	@echo ... car.i
-	@echo ... car.s
 	@echo ... helpers/vec_geometry.obj
 	@echo ... helpers/vec_geometry.i
 	@echo ... helpers/vec_geometry.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
+	@echo ... main_window.obj
+	@echo ... main_window.i
+	@echo ... main_window.s
+	@echo ... menu.obj
+	@echo ... menu.i
+	@echo ... menu.s
+	@echo ... view.obj
+	@echo ... view.i
+	@echo ... view.s
 .PHONY : help
 
 

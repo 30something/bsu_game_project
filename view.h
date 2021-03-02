@@ -6,12 +6,11 @@
 #include <QApplication>
 #include "helpers/vec_geometry.h"
 
-class Car : public QWidget {
+class View : public QWidget {
 
  public:
-  explicit Car(QWidget* parent = 0);
+  explicit View(QWidget* parent = 0);
 
- protected:
   void paintEvent(QPaintEvent*) override;
   void timerEvent(QTimerEvent*) override;
   void keyPressEvent(QKeyEvent*) override;

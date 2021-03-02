@@ -114,12 +114,6 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="C:/Dima/mama i am programmer/Death_Rally_2021/car.cpp">
-			<Option target="Death_Rally"/>
-		</Unit>
-		<Unit filename="C:/Dima/mama i am programmer/Death_Rally_2021/car.h">
-			<Option target="Death_Rally"/>
-		</Unit>
 		<Unit filename="C:/Dima/mama i am programmer/Death_Rally_2021/cmake-build-debug/Death_Rally_autogen/mocs_compilation.cpp">
 			<Option target="Death_Rally"/>
 		</Unit>
@@ -130,6 +124,24 @@
 			<Option target="Death_Rally"/>
 		</Unit>
 		<Unit filename="C:/Dima/mama i am programmer/Death_Rally_2021/main.cpp">
+			<Option target="Death_Rally"/>
+		</Unit>
+		<Unit filename="C:/Dima/mama i am programmer/Death_Rally_2021/main_window.cpp">
+			<Option target="Death_Rally"/>
+		</Unit>
+		<Unit filename="C:/Dima/mama i am programmer/Death_Rally_2021/main_window.h">
+			<Option target="Death_Rally"/>
+		</Unit>
+		<Unit filename="C:/Dima/mama i am programmer/Death_Rally_2021/menu.cpp">
+			<Option target="Death_Rally"/>
+		</Unit>
+		<Unit filename="C:/Dima/mama i am programmer/Death_Rally_2021/menu.h">
+			<Option target="Death_Rally"/>
+		</Unit>
+		<Unit filename="C:/Dima/mama i am programmer/Death_Rally_2021/view.cpp">
+			<Option target="Death_Rally"/>
+		</Unit>
+		<Unit filename="C:/Dima/mama i am programmer/Death_Rally_2021/view.h">
 			<Option target="Death_Rally"/>
 		</Unit>
 		<Unit filename="C:/Dima/mama i am programmer/Death_Rally_2021/CMakeLists.txt">
