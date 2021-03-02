@@ -24,5 +24,6 @@ set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-Wall -Wextra -O3")
 
 set(SOURCES main.cpp view.cpp view.h helpers/vec_geometry.cpp main_window.cpp main_window.h menu.cpp menu.h)
 
+
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 target_link_libraries(${PROJECT_NAME} ${REQUIRED_LIBS_QUALIFIED})
