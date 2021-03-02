@@ -7,7 +7,6 @@
 #include "helpers/vec_geometry.h"
 
 class View : public QWidget {
-
  public:
   explicit View(QWidget* parent = 0);
 

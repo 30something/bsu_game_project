@@ -3,5 +3,6 @@
 
 Menu::Menu(QWidget* parent) :
     QWidget(parent),
-    button(this){
+    button(this) {
+  resize(800,800);
 }
