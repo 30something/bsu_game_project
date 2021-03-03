@@ -1,14 +1,18 @@
 #pragma once
 
-#include <QWidget>
-#include <QKeyEvent>
 #include <vector>
 #include <QApplication>
+#include <QKeyEvent>
+#include <QWidget>
+#include <QPainter>
+#include <QTime>
+
+
 #include "helpers/vec_geometry.h"
 
 class View : public QWidget {
  public:
-  explicit View(QWidget* parent = 0);
+  explicit View(QWidget* parent = nullptr);
 
   void paintEvent(QPaintEvent*) override;
   void timerEvent(QTimerEvent*) override;

@@ -1,7 +1,5 @@
 #include "view.h"
-#include <QPainter>
-#include <QTime>
-#include <iostream>
+
 
 View::View(QWidget* parent) : QWidget(parent) {
   setStyleSheet("background-color:black;");
