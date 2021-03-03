@@ -2,20 +2,20 @@
 
 MainWindow::MainWindow(QMainWindow* parent) :
     QMainWindow(parent),
-    stacked_widget(this),
-    view(new View()),
-    menu(new Menu()) {
+    stacked_widget_(this),
+    view_(new View()),
+    menu_(new Menu()) {
   resize(800, 800);
-  stacked_widget.resize(800, 800);
-  stacked_widget.addWidget(view);
-  stacked_widget.addWidget(menu);
-  stacked_widget.setCurrentWidget(view);
+  stacked_widget_.resize(800, 800);
+  stacked_widget_.addWidget(view_);
+  stacked_widget_.addWidget(menu_);
+  stacked_widget_.setCurrentWidget(view_);
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* event) {
-  view->keyPressEvent(event);
+  view_->keyPressEvent(event);
 }
 
 void MainWindow::keyReleaseEvent(QKeyEvent* event) {
-  view->keyReleaseEvent(event);
+  view_->keyReleaseEvent(event);
 }

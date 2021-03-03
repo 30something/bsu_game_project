@@ -8,6 +8,6 @@ class Menu : public QWidget {
  public:
   explicit Menu(QWidget* parent = nullptr);
   QPushButton button;
-  // Here are all menu's and stuff
+  // Here are all menu_'s and stuff
 };
 
