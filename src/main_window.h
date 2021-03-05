@@ -4,7 +4,7 @@
 #include <QStackedWidget>
 #include <QKeyEvent>
 
-#include "view.h"
+#include "src/controller.h"
 #include "menu.h"
 
 class MainWindow : public QMainWindow {
@@ -17,8 +17,10 @@ class MainWindow : public QMainWindow {
  private:
   void keyPressEvent(QKeyEvent* e) override;
   void keyReleaseEvent(QKeyEvent* e) override;
+  void timerEvent(QTimerEvent* event) override;
+  void paintEvent(QPaintEvent* event) override;
 
   QStackedWidget stacked_widget_;
-  View* view_;
+  Controller* controller_;
   Menu* menu_;
 };

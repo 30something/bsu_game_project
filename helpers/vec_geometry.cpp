@@ -10,7 +10,6 @@ void Vec2f::RotateCCW(double degrees) {
 
 Vec2f::Vec2f(double x, double y) {
   angle_ = FindAngleFromXY(x, y);
-  std::cout << angle_ << " " << x << " " << y << std::endl;
   length_ = sqrt(x * x + y * y);
 }
 
