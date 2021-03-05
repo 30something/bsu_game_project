@@ -8,17 +8,19 @@ void Vec2f::RotateCCW(double degrees) {
   angle_ += degrees;
 }
 
-Vec2f::Vec2f(double x, double y) {
-  angle_ = FindAngleFromXY(x, y);
-  length_ = sqrt(x * x + y * y);
+Vec2f::Vec2f(double length, double angle) :
+    angle_(angle),
+    length_(length) {
 }
 
 Vec2f Vec2f::operator+(const Vec2f& vec) const {
-  return Vec2f(GetX() + vec.GetX(), GetY() + vec.GetY());
+  double x = GetX() + vec.GetX();
+  double y = GetY() + vec.GetY();
+  return Vec2f(FindLengthFromXY(x, y), FindAngleFromXY(x, y));
 }
 
 void Vec2f::SetLength(double length) {
-length_ = length;
+  length_ = length;
 }
 
 double Vec2f::GetY() const {
@@ -30,19 +32,26 @@ double Vec2f::GetX() const {
 }
 
 double Vec2f::FindAngleFromXY(double x, double y) {
-  angle_ = std::abs(atan(y / x) * 360 / 2 / M_PI);
+  double angle = std::abs(atan(y / x) * 360 / 2 / M_PI);
   if (x >= 0 && y <= 0) {
-    angle_ += 270;
+    angle += 270;
   } else if (x <= 0 && y >= 0) {
-    angle_ += 90;
+    angle += 90;
   } else {
-    angle_ += 180;
+    angle += 180;
   }
-  return angle_;
+  return angle;
 }
 double Vec2f::GetAngle() const {
   return angle_;
 }
 void Vec2f::SetAngle(double angle) {
   angle_ = angle;
+}
+double Vec2f::FindLengthFromXY(double x, double y) {
+  return sqrt(x * x + y * y);
+}
+void Vec2f::SetXY(double x, double y) {
+  this->SetAngle(FindAngleFromXY(x,y));
+  this->SetLength(FindLengthFromXY(x,y));
 }
