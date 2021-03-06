@@ -17,6 +17,6 @@ class Wheel {
   void SetAngle(double angle);
   void SetRotationalSpeed(double rotational_speed);
   double GetRotationalSpeed() const;
-  Vec2f CalculateForce();
+  Vec2f CalculateForce(Vec2f velocity) const;
 
 };

@@ -34,7 +34,7 @@ int Car::GetY() const {
 void Car::Tick(int time_millisec) {
   ProceedInput();
   CalculateTotalForce();
-  CalculateVelocity();
+  CalculateVelocity(time_millisec);
   Move(time_millisec);
 }
 
@@ -53,17 +53,22 @@ void Car::ProceedInput() {
   }
 }
 void Car::CalculateTotalForce() {
-  Vec2f front_wheel_force = front_wheels_.CalculateForce();
-  Vec2f back_wheel_force = rear_wheels_.CalculateForce();
+  Vec2f front_wheel_force = front_wheels_.CalculateForce(velocity_);
+  Vec2f back_wheel_force = rear_wheels_.CalculateForce(velocity_);
   total_force_ = front_wheel_force + back_wheel_force;
 }
 
-void Car::CalculateVelocity() {
-
+void Car::CalculateVelocity(int time_millisec) {
+  total_force_.SetLength(total_force_.GetLength() / mass_); // It is now an acceleration
+  velocity_.SetLength(velocity_.GetLength() + total_force_.GetLength() * time_millisec);
 }
+
 void Car::CalculateAngularMomentum() {
-
+  // TODO this
 }
+
 void Car::Move(int time_millisec) {
+  x_position_ = static_cast<int>(velocity_.GetX()) * time_millisec;
+  y_position_ = static_cast<int>(velocity_.GetY()) * time_millisec;
 
 }

@@ -44,7 +44,7 @@ class Car {
   void ProceedInput();
   void CalculateTotalForce();
   void CalculateAngularMomentum();
-  void CalculateVelocity();
+  void CalculateVelocity(int time_millisec);
 
   void Move(int time_millisec);
 
