@@ -15,10 +15,9 @@ class Model {
   void KeyPressEvent(QKeyEvent* event);
   // (Not inherited)
   void KeyReleaseEvent(QKeyEvent* event);
-  std::pair<int, int>  GetCarCoordinates();
+  std::pair<int, int> GetCarCoordinates();
   double GetCarAngle();
 
  private:
   Car first_car_{0, 0, 1000, 10};
 };
-

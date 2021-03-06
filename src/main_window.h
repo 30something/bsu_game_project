@@ -8,7 +8,7 @@
 #include "menu.h"
 
 class MainWindow : public QMainWindow {
-  Q_OBJECT
+ Q_OBJECT
 
  public:
   explicit MainWindow(QMainWindow* parent = nullptr);

@@ -5,7 +5,6 @@
 
 #include "model.h"
 
-
 class View {
  public:
   explicit View(Model* model);

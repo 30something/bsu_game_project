@@ -34,22 +34,25 @@ int Car::GetY() const {
 void Car::Tick(int time_millisec) {
   ProceedInput();
   CalculateTotalForce();
+  CalculateAngularSpeed(time_millisec);
   CalculateVelocity(time_millisec);
   Move(time_millisec);
 }
 
 void Car::ProceedInput() {
-  if(flag_left_) {
+  if (flag_left_) {
     front_wheels_.SetAngle(this->angle_ + kFrontWheelAngle);
   }
-  if(flag_right_) {
+  if (flag_right_) {
     front_wheels_.SetAngle(this->angle_ - kFrontWheelAngle);
   }
-  if(flag_up_) {
-    front_wheels_.SetRotationalSpeed(front_wheels_.GetRotationalSpeed() + kAccelSpeed);
+  if (flag_up_) {
+    front_wheels_.SetRotationalSpeed(
+        front_wheels_.GetRotationalSpeed() + kAccelSpeed);
   }
-  if(flag_down_) {
-    front_wheels_.SetRotationalSpeed(front_wheels_.GetRotationalSpeed() - kAccelSpeed);
+  if (flag_down_) {
+    front_wheels_.SetRotationalSpeed(
+        front_wheels_.GetRotationalSpeed() - kAccelSpeed);
   }
 }
 void Car::CalculateTotalForce() {
@@ -59,18 +62,30 @@ void Car::CalculateTotalForce() {
 }
 
 void Car::CalculateVelocity(int time_millisec) {
-  total_force_.SetLength(total_force_.GetLength() / mass_); // It is now an acceleration
-  velocity_.SetLength(velocity_.GetLength() + total_force_.GetLength() * time_millisec);
+  total_force_.SetLength(
+      total_force_.GetLength() / mass_); // This is now an acceleration
+  velocity_.SetLength(
+      velocity_.GetLength() + total_force_.GetLength() * time_millisec);
 }
 
-void Car::CalculateAngularMomentum() {
-
+void Car::CalculateAngularSpeed(int time_millisec) {
+  double angle_difference = this->front_wheels_.GetAngle() - angle_;
+  double perpendicular_force =
+      front_wheels_.CalculateForce(velocity_).GetLength()
+          * sin(angle_difference);
+  // TODO pass length of the car as an additional parameter
+  double force_momentum = perpendicular_force * 5;
+  double angular_acceleration = force_momentum / moment_of_inertia_;
+  angular_speed_ += angular_acceleration * time_millisec;
 }
 
 void Car::Move(int time_millisec) {
-  x_position_ = static_cast<int>(velocity_.GetX()) * time_millisec / 1000;
-  y_position_ = static_cast<int>(velocity_.GetY()) * time_millisec / 1000;
+  x_position_ += static_cast<int>(velocity_.GetX()) * time_millisec / 1000;
+  y_position_ += static_cast<int>(velocity_.GetY()) * time_millisec / 1000;
+  velocity_.SetAngle(velocity_.GetAngle() + angular_speed_ * time_millisec);
+  angle_ = velocity_.GetAngle();
 }
+
 double Car::GetAngle() const {
   return angle_;
 }

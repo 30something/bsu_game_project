@@ -14,6 +14,7 @@ double Wheel::GetRotationalSpeed() const {
 void Wheel::SetRotationalSpeed(double rotational_speed) {
   rotational_speed_ = rotational_speed;
 }
+
 Vec2f Wheel::CalculateForce(Vec2f velocity) const {
   // Vec2f force_perpend{0.0, 0.0};
   Vec2f force_parallel{0.0, 0.0};
@@ -24,4 +25,8 @@ Vec2f Wheel::CalculateForce(Vec2f velocity) const {
     force_parallel.SetLength(this->applied_mass_ * this->adhesion_coefficient_);
   }
   return force_parallel;
+}
+
+double Wheel::GetAngle() const {
+  return angle_;
 }
