@@ -63,7 +63,7 @@ void Car::CalculateTotalForce() {
 
 void Car::CalculateVelocity(int time_millisec) {
   total_force_.SetLength(
-      total_force_.GetLength() / mass_); // This is now an acceleration
+      total_force_.GetLength() / mass_);  // This is now an acceleration
   velocity_.SetLength(
       velocity_.GetLength() + total_force_.GetLength() * time_millisec);
 }
@@ -73,7 +73,7 @@ void Car::CalculateAngularSpeed(int time_millisec) {
   double perpendicular_force =
       front_wheels_.CalculateForce(velocity_).GetLength()
           * sin(angle_difference);
-  // TODO pass length of the car as an additional parameter
+  // TODO(dima_makarov): pass length of the car as an additional parameter
   double force_momentum = perpendicular_force * 5;
   double angular_acceleration = force_momentum / moment_of_inertia_;
   angular_speed_ += angular_acceleration * time_millisec;

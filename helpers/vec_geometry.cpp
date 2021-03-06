@@ -42,16 +42,20 @@ double Vec2f::FindAngleFromXY(double x, double y) {
   }
   return angle;
 }
+
 double Vec2f::GetAngle() const {
   return angle_;
 }
+
 void Vec2f::SetAngle(double angle) {
   angle_ = angle;
 }
+
 double Vec2f::FindLengthFromXY(double x, double y) {
   return sqrt(x * x + y * y);
 }
+
 void Vec2f::SetXY(double x, double y) {
-  this->SetAngle(FindAngleFromXY(x,y));
-  this->SetLength(FindLengthFromXY(x,y));
+  this->SetAngle(FindAngleFromXY(x, y));
+  this->SetLength(FindLengthFromXY(x, y));
 }

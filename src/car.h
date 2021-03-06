@@ -50,6 +50,5 @@ class Car {
   void CalculateVelocity(int time_millisec);
 
   void Move(int time_millisec);
-
 };
 

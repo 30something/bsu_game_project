@@ -6,10 +6,12 @@ class Vec2f {
  public:
   Vec2f() = default;
   Vec2f(double length, double angle);
+
   double GetX() const;
   double GetY() const;
   double GetAngle() const;
   double GetLength() const;
+
   void SetAngle(double angle);
   void SetLength(double length);
   void SetXY(double x, double y);
