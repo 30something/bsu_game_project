@@ -20,6 +20,8 @@ Vec2f Wheel::CalculateForce(Vec2f velocity) const {
   // force_perpend.SetAngle(velocity.GetAngle() + 180);
   // force_perpend.SetLength(this->applied_mass_ * this->adhesion_coefficient_);
   force_parallel.SetAngle(this->angle_);
-  force_parallel.SetLength(this->applied_mass_ * this->adhesion_coefficient_);
+  if (this->rotational_speed_ > 0.0001) {
+    force_parallel.SetLength(this->applied_mass_ * this->adhesion_coefficient_);
+  }
   return force_parallel;
 }

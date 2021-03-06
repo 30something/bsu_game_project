@@ -17,8 +17,6 @@ class MainWindow : public QMainWindow {
  private:
   void keyPressEvent(QKeyEvent* e) override;
   void keyReleaseEvent(QKeyEvent* e) override;
-  void timerEvent(QTimerEvent* event) override;
-  void paintEvent(QPaintEvent* event) override;
 
   QStackedWidget stacked_widget_;
   Controller* controller_;

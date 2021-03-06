@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+
 #include <QWidget>
 #include <QTimerEvent>
 #include <QKeyEvent>
@@ -17,13 +19,13 @@ class Controller : public QWidget {
 
   void timerEvent(QTimerEvent* event) override;
   void paintEvent(QPaintEvent* event) override;
-  void keyPressEvent(QKeyEvent* event) override;
-  void keyReleaseEvent(QKeyEvent* event) override;
+  void KeyPressEvent(QKeyEvent* event);
+  void KeyReleaseEvent(QKeyEvent* event);
 
 
  private:
   const int kMillisPerFrame = 20;
 
-  View* view_;
   Model* model_;
+  View* view_;
 };

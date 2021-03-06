@@ -7,7 +7,7 @@ class Wheel {
   explicit Wheel(double applied_mass);
   ~Wheel() = default;
  private:
-  double adhesion_coefficient_ = 0.0;
+  double adhesion_coefficient_ = 1.0;
   double rotational_speed_ = 0.0;
   Vec2f adhesion_force_{0.0,0.0};
   double applied_mass_ = 0.0;

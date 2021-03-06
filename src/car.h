@@ -13,15 +13,15 @@ class Car {
  private:
   const double kFrontWheelAngle = 20.0;
   const double kAccelSpeed = 10.0;
-  int length_ = 0;
-  int width_ = 0;
+  int length_ = 10;
+  int width_ = 10;
   int x_position_ = 0;
   int y_position_ = 0;
   double angle_ = 0.0;
   double current_power_ = 0.0;
-  double mass_ = 0.0;
-  double max_forward_speed_ = 0.0;
-  double max_backward_speed_ = 0.0;
+  double mass_ = 1000000.0;
+  double max_forward_speed_ = 10.0;
+  double max_backward_speed_ = 10.0;
   Vec2f velocity_{0.0, 0.0};
   Vec2f total_force_{0.0, 0.0};
   Wheel front_wheels_{mass_ / 2.};
@@ -34,6 +34,7 @@ class Car {
  public:
   int GetX() const;
   int GetY() const;
+  double GetAngle() const;
 
   void SetFlagUp(bool flag_up);
   void SetFlagDown(bool flag_down);

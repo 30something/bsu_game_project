@@ -64,11 +64,13 @@ void Car::CalculateVelocity(int time_millisec) {
 }
 
 void Car::CalculateAngularMomentum() {
-  // TODO this
+
 }
 
 void Car::Move(int time_millisec) {
-  x_position_ = static_cast<int>(velocity_.GetX()) * time_millisec;
-  y_position_ = static_cast<int>(velocity_.GetY()) * time_millisec;
-
+  x_position_ = static_cast<int>(velocity_.GetX()) * time_millisec / 1000;
+  y_position_ = static_cast<int>(velocity_.GetY()) * time_millisec / 1000;
+}
+double Car::GetAngle() const {
+  return angle_;
 }
