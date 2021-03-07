@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <cmath>
 
 #include <helpers/vector_2.h>
 #include "car.h"

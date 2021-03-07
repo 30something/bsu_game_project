@@ -26,7 +26,6 @@ class Car {
   void SetFlagRight(bool flag_right);
 
  private:
-
   Vector2 position;
   Vector2 angle_vec_;
   Vector2 velocity_;
@@ -48,13 +47,11 @@ class Car {
   const double length_ = 10.995;
   const double mass_ = 200.0;
   const double moment_inertia_ =
-      (mass_ * length_ * length_) / 12.0; // Formula is for a rod.
+      (mass_ * length_ * length_) / 12.0;
   const double coef_friction_ = 70;
   const double max_slip_angle_radians_ = 0.07;
 
   void ProceedInput();
   void UpdateWheelsPosAndOrientation();
   void AdvanceStep(int time_millisec);
-
 };
-
