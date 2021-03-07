@@ -3,6 +3,7 @@
 void Model::Tick(int time_millisec) {
   first_car_.Tick(time_millisec);
 }
+
 void Model::KeyPressEvent(QKeyEvent* event) {
   int key = event->key();
   if (key == Qt::Key_Up) {
@@ -18,6 +19,7 @@ void Model::KeyPressEvent(QKeyEvent* event) {
     first_car_.SetFlagRight(true);
   }
 }
+
 void Model::KeyReleaseEvent(QKeyEvent* event) {
   int key = event->key();
   if (key == Qt::Key_Up) {

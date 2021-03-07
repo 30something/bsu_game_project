@@ -1,6 +1,3 @@
-#include <algorithm>
-
-#include <helpers/vector_2.h>
 #include "car.h"
 
 Car::Car(double speed, double angVel) {
@@ -12,22 +9,22 @@ Car::Car(double speed, double angVel) {
 
   UpdateWheelsPosAndOrientation();
   for (int i = 0; i < 4; i++) {
-    wheels_[i].m_prevPos = wheels_[i].m_pos;
+    wheels_[i].previous_position = wheels_[i].position;
   }
 }
 
 void Car::AdvanceStep(int time_millisec) {
   double time_sec = time_millisec / 1000.0;
   // Calculate forces, acceleration and angular acceleration.
-  Vector2 accel;
+  Vec2f accel;
   double angularAccel = 0.0;
   for (int i = 0; i < 4; i++) {
     wheels_[i].CalcLateralForce(max_slip_angle_radians_, mass_, coef_friction_);
-    accel += wheels_[i].m_force;
+    accel += wheels_[i].force;
 
-    Vector2 carCentreToWheel = wheels_[i].m_pos - position;
-    double projectedForce = carCentreToWheel.AngleBetween(wheels_[i].m_force)
-        * wheels_[i].m_force.GetLength();
+    Vec2f carCentreToWheel = wheels_[i].position - position;
+    double projectedForce = carCentreToWheel.AngleBetween(wheels_[i].force)
+        * wheels_[i].force.GetLength();
     double torque = projectedForce * carCentreToWheel.GetLength();
     angularAccel -= torque;
   }
@@ -47,27 +44,6 @@ void Car::AdvanceStep(int time_millisec) {
 }
 
 void Car::ProceedInput() {
-  // if (flag_left_) {
-  //   steering_angle_ -= 0.02;
-  //   if (steering_angle_ > max_steering_lock_)
-  //     steering_angle_ = max_steering_lock_;
-  // }
-  // if (flag_right_) {
-  //   steering_angle_ += 0.02;
-  //   if (steering_angle_ < -max_steering_lock_)
-  //     steering_angle_ = -max_steering_lock_;
-  // }
-  // if(!flag_right_ && !flag_left_) {
-  //   if(steering_angle_ < 0) {
-  //     steering_angle_ += 0.02;
-  //   }
-  //   if(steering_angle_ > 0) {
-  //     steering_angle_ -= 0.02;
-  //   }
-  //   if(std::abs(steering_angle_) < 0.02) {
-  //     steering_angle_ = 0;
-  //   }
-  // }
   if (flag_left_) {
     steering_angle_ = -max_steering_lock_;
   }
@@ -100,19 +76,19 @@ void Car::Tick(int time_millisec) {
 
 void Car::UpdateWheelsPosAndOrientation() {
   for (int i = 0; i < 4; i++) {
-    wheels_[i].m_prevPos = wheels_[i].m_pos;
+    wheels_[i].previous_position = wheels_[i].position;
   }
 
-  const Vector2 right(angle_vec_.y, -angle_vec_.x);
-  wheels_[0].m_pos =
+  const Vec2f right(angle_vec_.y, -angle_vec_.x);
+  wheels_[0].position =
       position + angle_vec_ * half_wheel_base_ - right * half_front_track_;
-  wheels_[1].m_pos = wheels_[0].m_pos + right * half_front_track_ * 2.0;
-  wheels_[2].m_pos =
+  wheels_[1].position = wheels_[0].position + right * half_front_track_ * 2.0;
+  wheels_[2].position =
       position - angle_vec_ * half_wheel_base_ + right * half_rear_track_;
-  wheels_[3].m_pos = wheels_[2].m_pos - right * half_rear_track_ * 2.0;
+  wheels_[3].position = wheels_[2].position - right * half_rear_track_ * 2.0;
 
   for (int i = 0; i < 4; i++) {
-    wheels_[i].m_front = angle_vec_;
+    wheels_[i].front = angle_vec_;
   }
 
   // Calculated different angles for each front wheel using the Ackerman
@@ -121,11 +97,11 @@ void Car::UpdateWheelsPosAndOrientation() {
   double outerWheelAngle =
       atan(length_ / (cornerRadius + half_front_track_ * 2.0));
   if (steering_angle_ > 0.0) {
-    wheels_[0].m_front.Rotate(steering_angle_);
-    wheels_[1].m_front.Rotate(outerWheelAngle);
+    wheels_[0].front.Rotate(steering_angle_);
+    wheels_[1].front.Rotate(outerWheelAngle);
   } else {
-    wheels_[0].m_front.Rotate(-outerWheelAngle);
-    wheels_[1].m_front.Rotate(steering_angle_);
+    wheels_[0].front.Rotate(-outerWheelAngle);
+    wheels_[1].front.Rotate(steering_angle_);
   }
 }
 

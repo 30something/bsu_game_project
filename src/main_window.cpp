@@ -20,4 +20,3 @@ void MainWindow::keyPressEvent(QKeyEvent* event) {
 void MainWindow::keyReleaseEvent(QKeyEvent* event) {
   controller_->KeyReleaseEvent(event);
 }
-

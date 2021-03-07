@@ -3,10 +3,11 @@
 
 #include <vector>
 #include <iostream>
+#include <algorithm>
+#include <cmath>
 
-#include "helpers/vec_geometry.h"
+#include "helpers/vec2f.h"
 #include "wheel.h"
-#include "force.h"
 
 class Car {
  public:
@@ -26,16 +27,16 @@ class Car {
   void SetFlagRight(bool flag_right);
 
  private:
-  Vector2 position;
-  Vector2 angle_vec_;
-  Vector2 velocity_;
+  Vec2f position;
+  Vec2f angle_vec_;
+  Vec2f velocity_;
   double angular_velocity_;
   double steering_angle_;
 
-  bool flag_up_;
-  bool flag_down_;
-  bool flag_left_;
-  bool flag_right_;
+  bool flag_up_ = false;
+  bool flag_down_ = false;
+  bool flag_left_ = false;
+  bool flag_right_ = false;
 
   std::vector<Wheel> wheels_{4};
   const double max_speed_forward = 300;

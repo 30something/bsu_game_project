@@ -7,7 +7,7 @@ View::View(Model* model) :
 }
 
 void View::Repaint(QPainter* painter) {
-  // painter->save();
+  painter->save();
   painter->scale(3, 3);
   painter->drawImage(0,
                      0,
@@ -19,5 +19,5 @@ void View::Repaint(QPainter* painter) {
   painter->translate(400. / 3, 400. / 3);
   painter->rotate(model_->GetCarAngle());
   painter->drawImage(-5, -10, car_);
-  // painter->restore();
+  painter->restore();
 }

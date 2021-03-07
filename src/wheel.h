@@ -1,28 +1,30 @@
 #pragma once
 
-#include "helpers/vector_2.h"
 #include <algorithm>
 
-struct Wheel {
-  Vector2 m_prevPos;
-  Vector2 m_pos;
-  Vector2 m_front;
-  Vector2 m_force;
+#include "helpers/vec2f.h"
+
+class Wheel {
+ public:
+  Vec2f previous_position;
+  Vec2f position;
+  Vec2f front;
+  Vec2f force;
 
   void CalcLateralForce(double maxSlipAngleRadians,
                         double mass,
-                        double coefFriction) {
-    Vector2 moveSinceLastUpdate = m_pos - m_prevPos;
-    moveSinceLastUpdate.Normalize();
+                        double friction_coefficient) {
+    Vec2f move_since_last_update = position - previous_position;
+    move_since_last_update.Normalize();
 
-    double slipAngle = moveSinceLastUpdate.AngleBetween(m_front);
-    slipAngle = std::min(slipAngle, maxSlipAngleRadians);
-    slipAngle = std::max(slipAngle, -maxSlipAngleRadians);
+    double slip_angle = move_since_last_update.AngleBetween(front);
+    slip_angle = std::min(slip_angle, maxSlipAngleRadians);
+    slip_angle = std::max(slip_angle, -maxSlipAngleRadians);
 
-    double fractionOfMaxLateralForce = slipAngle / maxSlipAngleRadians;
-    double weightOnWheel = mass * 9.81 / 4.0;
-    double forceMagnitude =
-        fractionOfMaxLateralForce * weightOnWheel * coefFriction;
-    m_force = m_front.GetPerpendicular() * forceMagnitude;
+    double fraction_of_max_lateral_force = slip_angle / maxSlipAngleRadians;
+    double weight_on_wheel = mass * 9.81 / 4.0;
+    double force_magnitude =
+        fraction_of_max_lateral_force * weight_on_wheel * friction_coefficient;
+    force = front.GetPerpendicular() * force_magnitude;
   }
 };
