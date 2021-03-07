@@ -1,6 +1,7 @@
 #pragma once
 
 #include "helpers/vector_2.h"
+#include <algorithm>
 
 struct Wheel {
   Vector2 m_prevPos;
@@ -24,5 +25,4 @@ struct Wheel {
         fractionOfMaxLateralForce * weightOnWheel * coefFriction;
     m_force = m_front.GetPerpendicular() * forceMagnitude;
   }
-
 };
