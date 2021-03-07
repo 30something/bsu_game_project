@@ -1,22 +1,28 @@
 #pragma once
 
-#include "helpers/vec_geometry.h"
+#include "helpers/vector_2.h"
 
-class Wheel {
- public:
-  explicit Wheel(double applied_mass);
-  ~Wheel() = default;
- private:
-  double adhesion_coefficient_ = 1.0;
-  double rotational_speed_ = 0.0;
-  Vec2f adhesion_force_{0.0, 0.0};
-  double applied_mass_ = 0.0;
-  double angle_ = 0.0;
+struct Wheel {
+  Vector2 m_prevPos;
+  Vector2 m_pos;
+  Vector2 m_front;
+  Vector2 m_force;
 
- public:
-  double GetAngle() const;
-  void SetAngle(double angle);
-  void SetRotationalSpeed(double rotational_speed);
-  double GetRotationalSpeed() const;
-  Vec2f CalculateForce(Vec2f velocity) const;
+  void CalcLateralForce(double maxSlipAngleRadians,
+                        double mass,
+                        double coefFriction) {
+    Vector2 moveSinceLastUpdate = m_pos - m_prevPos;
+    moveSinceLastUpdate.Normalize();
+
+    double slipAngle = moveSinceLastUpdate.AngleBetween(m_front);
+    slipAngle = std::min(slipAngle, maxSlipAngleRadians);
+    slipAngle = std::max(slipAngle, -maxSlipAngleRadians);
+
+    double fractionOfMaxLateralForce = slipAngle / maxSlipAngleRadians;
+    double weightOnWheel = mass * 9.81 / 4.0;
+    double forceMagnitude =
+        fractionOfMaxLateralForce * weightOnWheel * coefFriction;
+    m_force = m_front.GetPerpendicular() * forceMagnitude;
+  }
+
 };

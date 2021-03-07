@@ -25,7 +25,7 @@ set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-Wall -Wextra -O3")
 set(SOURCES main.cpp src/view.cpp src/view.h helpers/vec_geometry.cpp
         src/main_window.cpp src/main_window.h src/menu.cpp src/menu.h
         src/model.cpp src/model.h src/controller.cpp src/controller.h
-        src/car.cpp src/car.h src/wheel.cpp src/wheel.h images.qrc)
+        src/car.cpp src/car.h images.qrc src/force.cpp helpers/vector_2.cpp helpers/vector_2.h src/wheel.h)
 
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})

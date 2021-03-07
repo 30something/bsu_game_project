@@ -1,37 +1,19 @@
+//  Kindly taken from https://github.com/abainbridge/car_sim
 #pragma once
+
+#include <vector>
+#include <iostream>
 
 #include "helpers/vec_geometry.h"
 #include "wheel.h"
+#include "force.h"
 
 class Car {
  public:
-  Car(int x, int y, double mass, double angle);
+  Car(double speed, double angVel);
   ~Car() = default;
 
   void Tick(int time_millisec);
-
- private:
-  const double kFrontWheelAngle = 1.0;
-  const double kAccelSpeed = 10.0;
-  int length_ = 10;
-  int width_ = 10;
-  int x_position_ = 0;
-  int y_position_ = 0;
-  double angle_ = 0.0;
-  double current_power_ = 0.0;
-  double mass_ = 1000000.0;
-  double moment_of_inertia_ = 1000000;
-  double max_forward_speed_ = 10.0;
-  double max_backward_speed_ = 10.0;
-  Vec2f velocity_{0.0, 0.0};
-  double angular_speed_ = 0.0;
-  Vec2f total_force_{0.0, 0.0};
-  Wheel front_wheels_{mass_ / 2.};
-  Wheel rear_wheels_{mass_ / 2.};
-  bool flag_up_ = false;
-  bool flag_down_ = false;
-  bool flag_left_ = false;
-  bool flag_right_ = false;
 
  public:
   int GetX() const;
@@ -44,11 +26,35 @@ class Car {
   void SetFlagRight(bool flag_right);
 
  private:
-  void ProceedInput();
-  void CalculateTotalForce();
-  void CalculateAngularSpeed(int time_millisec);
-  void CalculateVelocity(int time_millisec);
 
-  void Move(int time_millisec);
+  Vector2 position;
+  Vector2 angle_vec_;
+  Vector2 velocity_;
+  double angular_velocity_;
+  double steering_angle_;
+
+  bool flag_up_;
+  bool flag_down_;
+  bool flag_left_;
+  bool flag_right_;
+
+  std::vector<Wheel> wheels_{4};
+  const double max_speed_forward = 300;
+  const double max_speed_backward = 100;
+  const double half_front_track_ = 0.75;
+  const double max_steering_lock_ = 0.7;
+  const double half_rear_track_ = half_front_track_;
+  const double half_wheel_base_ = 1.165;
+  const double length_ = 10.995;
+  const double mass_ = 200.0;
+  const double moment_inertia_ =
+      (mass_ * length_ * length_) / 12.0; // Formula is for a rod.
+  const double coef_friction_ = 70;
+  const double max_slip_angle_radians_ = 0.07;
+
+  void ProceedInput();
+  void UpdateWheelsPosAndOrientation();
+  void AdvanceStep(int time_millisec);
+
 };
 

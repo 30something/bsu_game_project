@@ -21,5 +21,5 @@ class Model {
   double GetCarAngle();
 
  private:
-  Car first_car_{0, 0, 1000, 10};
+  Car first_car_{0.0, 0.0};
 };

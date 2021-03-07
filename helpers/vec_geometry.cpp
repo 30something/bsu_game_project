@@ -32,6 +32,9 @@ double Vec2f::GetX() const {
 }
 
 double Vec2f::FindAngleFromXY(double x, double y) {
+  if(x < 0.00001 && y < 0.00001) {
+    return 0;
+  }
   double angle = std::abs(atan(y / x) * 360 / 2 / M_PI);
   if (x >= 0 && y <= 0) {
     angle += 270;
