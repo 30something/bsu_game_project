@@ -107,3 +107,8 @@ Vec2f& Vec2f::operator/=(const Vec2f& b) {
   y_ /= b.y_;
   return *this;
 }
+
+void Vec2f::Set(double _x, double _y) {
+  x_ = _x;
+  y_ = _y;
+}
