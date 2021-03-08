@@ -22,7 +22,15 @@ find_package(Qt${QT_VERSION} COMPONENTS ${REQUIRED_LIBS} REQUIRED)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-Wall -Wextra -O3")
 
-set(SOURCES main.cpp view.cpp view.h helpers/vec_geometry.cpp main_window.cpp main_window.h menu.cpp menu.h)
+set(SOURCES main.cpp
+        src/View/view.cpp
+        "src/Main window/main_window.cpp"
+        src/Menu/menu.cpp
+        src/Model/model.cpp
+        src/Controller/controller.cpp
+        src/Model/car.cpp
+        images.qrc
+        src/helpers/vec2f.cpp src/Model/wheel.cpp)
 
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})

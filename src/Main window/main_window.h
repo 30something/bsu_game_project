@@ -4,8 +4,8 @@
 #include <QStackedWidget>
 #include <QKeyEvent>
 
-#include "view.h"
-#include "menu.h"
+#include "src/Controller/controller.h"
+#include "src/Menu/menu.h"
 
 class MainWindow : public QMainWindow {
   Q_OBJECT
@@ -15,10 +15,13 @@ class MainWindow : public QMainWindow {
   ~MainWindow() override = default;
 
  private:
+  int screen_width_ = 800;
+  int screen_height_ = 800;
+
   void keyPressEvent(QKeyEvent* e) override;
   void keyReleaseEvent(QKeyEvent* e) override;
 
   QStackedWidget stacked_widget_;
-  View* view_;
+  Controller* controller_;
   Menu* menu_;
 };

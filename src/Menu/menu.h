@@ -11,4 +11,3 @@ class Menu : public QWidget {
   QPushButton button;
   // Here are all menu_'s and stuff
 };
-
