@@ -7,6 +7,7 @@ class Vec2f {
  private:
   double x_;
   double y_;
+
  public:
   double GetX() const;
   void SetX(double _x);
