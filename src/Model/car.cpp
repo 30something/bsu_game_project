@@ -1,10 +1,10 @@
 #include "car.h"
 
-Car::Car(double speed, double angVel) {
+Car::Car(double speed, double angular_velocity) {
   position_.Set(3.0, 40.0);
   angle_vec_.Set(1.0, 0.0);
   velocity_ = angle_vec_ * speed;
-  angular_velocity_ = angVel;
+  angular_velocity_ = angular_velocity;
   steering_angle_ = 0.0;
 
   UpdateWheelsPosAndOrientation();
@@ -53,13 +53,13 @@ void Car::ProceedInputFlags() {
   }
   // TODO(dima_makarov): fix keyboard controls
   if (flag_up_) {
-    velocity_ += angle_vec_ * kAccelFactor;
+    velocity_ += angle_vec_ * k_accel_factor;
     if (velocity_.GetLength() > max_speed_forward) {
       velocity_.SetLen(max_speed_forward);
     }
   }
   if (flag_down_) {
-    velocity_ -= angle_vec_ * kAccelFactor;
+    velocity_ -= angle_vec_ * k_accel_factor;
     if (velocity_.GetLength() > max_speed_backward &&
         velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees() < 89) {
       velocity_.SetLen(max_speed_backward);

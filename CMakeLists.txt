@@ -30,7 +30,7 @@ set(SOURCES main.cpp
         src/Controller/controller.cpp
         src/Model/car.cpp
         images.qrc
-        src/helpers/vec2f.cpp)
+        src/helpers/vec2f.cpp src/Model/wheel.cpp)
 
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})

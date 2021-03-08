@@ -11,7 +11,7 @@
 
 class Car {
  public:
-  Car(double speed, double angVel);
+  Car(double speed, double angular_velocity);
   ~Car() = default;
 
   void Tick(int time_millisec);
@@ -38,7 +38,7 @@ class Car {
   bool flag_right_ = false;
 
   std::vector<Wheel> wheels_{4};
-  double kAccelFactor = 10.0;
+  double k_accel_factor = 10.0;
   double max_speed_forward = 300;
   double max_speed_backward = 100;
   double half_front_track_ = 0.75;

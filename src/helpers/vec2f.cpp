@@ -1,6 +1,8 @@
 //  https://github.com/abainbridge/car_sim
 #include "vec2f.h"
 
+
+
 Vec2f Vec2f::operator+(Vec2f const& b) const {
   return Vec2f(x_ + b.x_, y_ + b.y_);
 }
@@ -80,4 +82,28 @@ double Vec2f::GetY() const {
 
 void Vec2f::SetY(double _y) {
   Vec2f::y_ = _y;
+}
+
+Vec2f& Vec2f::operator*=(double b) {
+  x_ *= b;
+  y_ *= b;
+  return *this;
+}
+
+Vec2f& Vec2f::operator+=(const Vec2f& b) {
+  x_ += b.x_;
+  y_ += b.y_;
+  return *this;
+}
+
+Vec2f& Vec2f::operator-=(const Vec2f& b) {
+  x_ -= b.x_;
+  y_ -= b.y_;
+  return *this;
+}
+
+Vec2f& Vec2f::operator/=(const Vec2f& b) {
+  x_ /= b.x_;
+  y_ /= b.y_;
+  return *this;
 }
