@@ -6,7 +6,6 @@
 
 class Wheel {
  public:
-
   Vec2f& Front() {
     return this->front_;
   }
