@@ -59,7 +59,7 @@ double Vec2f::GetLength() const {
 }
 
 double Vec2f::GetAngleDegrees() const {
-  double angle = atan(y_ / x_) * 360 / 2 / M_PI;
+  double angle = atan(y_ / x_) * 360 / (2 * M_PI);
   if (x_ < 0) {
     angle += 180;
   }

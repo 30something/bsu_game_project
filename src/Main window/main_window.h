@@ -4,8 +4,8 @@
 #include <QStackedWidget>
 #include <QKeyEvent>
 
-#include "src/controller.h"
-#include "menu.h"
+#include "src/Controller/controller.h"
+#include "src/Menu/menu.h"
 
 class MainWindow : public QMainWindow {
   Q_OBJECT

@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <cmath>
 
-#include "helpers/vec2f.h"
+#include "src/helpers/vec2f.h"
 #include "wheel.h"
 
 class Car {
@@ -26,7 +26,7 @@ class Car {
   void SetFlagRight(bool flag_right);
 
  private:
-  Vec2f position;
+  Vec2f position_;
   Vec2f angle_vec_;
   Vec2f velocity_;
   double angular_velocity_;

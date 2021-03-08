@@ -1,5 +1,5 @@
 #include <QApplication>
-#include "src/main_window.h"
+#include "src/Main window/main_window.h"
 
 int main(int argc, char* argv[]) {
   QApplication a(argc, argv);

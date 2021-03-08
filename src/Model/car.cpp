@@ -1,7 +1,7 @@
 #include "car.h"
 
 Car::Car(double speed, double angVel) {
-  position.Set(3.0, 40.0);
+  position_.Set(3.0, 40.0);
   angle_vec_.Set(1.0, 0.0);
   velocity_ = angle_vec_ * speed;
   angular_velocity_ = angVel;
@@ -23,7 +23,7 @@ void Car::AdvanceStep(int time_millisec) {
     wheel.CalcLateralForce(max_slip_angle_radians_, mass_, coef_friction_);
     accel += wheel.GetForce();
 
-    Vec2f car_centre_to_wheel = wheel.GetPosition() - position;
+    Vec2f car_centre_to_wheel = wheel.GetPosition() - position_;
     double projected_force = car_centre_to_wheel.AngleBetween(wheel.GetForce())
         * wheel.GetForce().GetLength();
     double torque = projected_force * car_centre_to_wheel.GetLength();
@@ -35,7 +35,7 @@ void Car::AdvanceStep(int time_millisec) {
   velocity_ += accel * time_sec;
   angular_velocity_ += angular_accel * time_sec;
 
-  position += velocity_ * time_sec;
+  position_ += velocity_ * time_sec;
   angle_vec_.Rotate(angular_velocity_ * time_sec);
   angle_vec_.Normalize();
   UpdateWheelsPosAndOrientation();
@@ -73,17 +73,17 @@ void Car::Tick(int time_millisec) {
 }
 
 void Car::UpdateWheelsPosAndOrientation() {
-  for (int i = 0; i < 4; i++) {
-    wheels_[i].SetPreviousPosition(wheels_[i].GetPosition());
+  for (auto& wheel : wheels_) {
+    wheel.SetPreviousPosition(wheel.GetPosition());
   }
 
   const Vec2f right(angle_vec_.GetY(), -angle_vec_.GetX());
   wheels_[0].SetPosition(
-      position + angle_vec_ * half_wheel_base_ - right * half_front_track_);
+      position_ + angle_vec_ * half_wheel_base_ - right * half_front_track_);
   wheels_[1].SetPosition(
       wheels_[0].GetPosition() + right * half_front_track_ * 2.0);
   wheels_[2].SetPosition(
-      position - angle_vec_ * half_wheel_base_ + right * half_rear_track_);
+      position_ - angle_vec_ * half_wheel_base_ + right * half_rear_track_);
   wheels_[3].SetPosition(
       wheels_[2].GetPosition() - right * half_rear_track_ * 2.0);
 
@@ -106,11 +106,11 @@ void Car::UpdateWheelsPosAndOrientation() {
 }
 
 int Car::GetX() const {
-  return position.GetX();
+  return position_.GetX();
 }
 
 int Car::GetY() const {
-  return position.GetY();
+  return position_.GetY();
 }
 
 double Car::GetAngle() const {

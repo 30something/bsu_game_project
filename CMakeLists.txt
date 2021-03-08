@@ -23,12 +23,12 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-Wall -Wextra -O3")
 
 set(SOURCES main.cpp
-        src/view.cpp
-        src/main_window.cpp
-        src/menu.cpp
-        src/model.cpp
-        src/controller.cpp
-        src/car.cpp
+        src/View/view.cpp
+        "src/Main window/main_window.cpp"
+        src/Menu/menu.cpp
+        src/Model/model.cpp
+        src/Controller/controller.cpp
+        src/Model/car.cpp
         images.qrc
         src/helpers/vec2f.cpp)
 

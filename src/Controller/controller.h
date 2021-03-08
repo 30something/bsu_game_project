@@ -5,8 +5,8 @@
 #include <QKeyEvent>
 #include <QPainter>
 
-#include "view.h"
-#include "model.h"
+#include "src/View/view.h"
+#include "src/Model/model.h"
 
 class Controller : public QWidget {
   Q_OBJECT

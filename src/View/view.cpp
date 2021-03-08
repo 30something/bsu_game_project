@@ -1,4 +1,4 @@
-#include "view.h"
+#include "src/View/view.h"
 
 View::View(Model* model) :
     model_(model),

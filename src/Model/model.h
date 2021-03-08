@@ -4,7 +4,7 @@
 
 #include <QKeyEvent>
 
-#include "car.h"
+#include "src/Model/car.h"
 
 class Model {
  public:

@@ -3,7 +3,7 @@
 #include <QPainter>
 #include <QImage>
 
-#include "model.h"
+#include "src/Model/model.h"
 
 class View {
  public:
