@@ -8,23 +8,21 @@ Controller::Controller(QWidget* parent) :
   startTimer(kMillisPerFrame);
 }
 
-void Controller::timerEvent(QTimerEvent* event) {
-  Q_UNUSED(event)
+void Controller::timerEvent(QTimerEvent*) {
   model_->Tick(kMillisPerFrame);
 
   repaint();
 }
 
-void Controller::paintEvent(QPaintEvent* event) {
-  Q_UNUSED(event)
+void Controller::paintEvent(QPaintEvent*) {
   QPainter main_painter(this);
   view_->Repaint(&main_painter);
 }
 
-void Controller::KeyPressEvent(QKeyEvent* event) {
-  model_->KeyPressEvent(event);
+void Controller::HandleKeyPressEvent(QKeyEvent* event) {
+  model_->HandleKeyPressEvent(event);
 }
 
-void Controller::KeyReleaseEvent(QKeyEvent* event) {
-  model_->KeyReleaseEvent(event);
+void Controller::HandleKeyReleaseEvent(QKeyEvent* event) {
+  model_->HandleKeyReleaseEvent(event);
 }

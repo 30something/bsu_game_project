@@ -14,9 +14,9 @@ void View::Repaint(QPainter* painter) {
                      map_,
                      model_->GetCarCoordinates().first,
                      model_->GetCarCoordinates().second,
-                     800,
-                     800);
-  painter->translate(400. / 3, 400. / 3);
+                     painter->window().width(),
+                     painter->window().height());
+  painter->translate(painter->window().width()/ 6.0, painter->window().height() / 6.0);
   painter->rotate(model_->GetCarAngle());
   painter->drawImage(-5, -10, car_);
   painter->restore();

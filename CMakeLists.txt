@@ -22,10 +22,15 @@ find_package(Qt${QT_VERSION} COMPONENTS ${REQUIRED_LIBS} REQUIRED)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-Wall -Wextra -O3")
 
-set(SOURCES main.cpp src/view.cpp src/view.h
-        src/main_window.cpp src/main_window.h src/menu.cpp src/menu.h
-        src/model.cpp src/model.h src/controller.cpp src/controller.h
-        src/car.cpp src/car.h images.qrc helpers/vec2f.cpp helpers/vec2f.h src/wheel.h)
+set(SOURCES main.cpp
+        src/view.cpp
+        src/main_window.cpp
+        src/menu.cpp
+        src/model.cpp
+        src/controller.cpp
+        src/car.cpp
+        images.qrc
+        src/helpers/vec2f.cpp)
 
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})

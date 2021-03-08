@@ -5,16 +5,15 @@
 
 class Vec2f {
  public:
-  double x, y;
+  double x;
+  double y;
 
   Vec2f() {
     x = 0.0;
     y = 0.0;
   }
 
-  Vec2f(double _x, double _y) {
-    x = _x;
-    y = _y;
+  Vec2f(double _x, double _y) : x(_x), y(_y) {
   }
 
   void Set(double _x, double _y) {
@@ -22,25 +21,25 @@ class Vec2f {
     y = _y;
   }
 
-  Vec2f operator+(Vec2f const& b) const;
+  Vec2f operator+(const Vec2f& b) const;
 
-  Vec2f operator-(Vec2f const& b) const;
+  Vec2f operator-(const Vec2f& b) const;
 
   Vec2f operator*(double b) const;
 
-  Vec2f& operator=(Vec2f const& b) = default;
+  Vec2f& operator=(const Vec2f& b) = default;
 
-  void operator*=(double const b) {
+  void operator*=(double b) {
     x *= b;
     y *= b;
   }
 
-  void operator+=(Vec2f const& b) {
+  void operator+=(const Vec2f& b) {
     x += b.x;
     y += b.y;
   }
 
-  void operator-=(Vec2f const& b) {
+  void operator-=(const Vec2f& b) {
     x -= b.x;
     y -= b.y;
   }
@@ -48,7 +47,7 @@ class Vec2f {
   Vec2f const& Normalize();
   void SetLen(double len);
   void Rotate(double radians);
-  double AngleBetween(Vec2f const& other);
+  double AngleBetween(const Vec2f& other);
 
   Vec2f GetPerpendicular() const;
   double GetLength() const;

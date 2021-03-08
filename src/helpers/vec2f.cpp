@@ -1,8 +1,6 @@
 //  https://github.com/abainbridge/car_sim
 #include "vec2f.h"
 
-
-
 Vec2f Vec2f::operator+(Vec2f const& b) const {
   return Vec2f(x + b.x, y + b.y);
 }
@@ -59,6 +57,7 @@ Vec2f Vec2f::GetPerpendicular() const {
 double Vec2f::GetLength() const {
   return sqrt(x * x + y * y);
 }
+
 double Vec2f::GetAngleDegrees() const {
   double angle = atan(y / x) * 360 / 2 / M_PI;
   if (x < 0) {

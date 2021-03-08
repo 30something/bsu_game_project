@@ -13,13 +13,12 @@ class Model {
 
   void Tick(int time_millisec);
 
-  // (Not inherited)
-  void KeyPressEvent(QKeyEvent* event);
-  // (Not inherited)
-  void KeyReleaseEvent(QKeyEvent* event);
-  std::pair<int, int> GetCarCoordinates();
-  double GetCarAngle();
+  void HandleKeyPressEvent(QKeyEvent* event);
+  void HandleKeyReleaseEvent(QKeyEvent* event);
+
+  std::pair<int, int> GetCarCoordinates() const;
+  double GetCarAngle() const;
 
  private:
-  Car first_car_{0.0, 0.0};
+  Car car_{0.0, 0.0};
 };

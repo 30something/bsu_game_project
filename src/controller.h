@@ -17,8 +17,8 @@ class Controller : public QWidget {
 
   void timerEvent(QTimerEvent* event) override;
   void paintEvent(QPaintEvent* event) override;
-  void KeyPressEvent(QKeyEvent* event);
-  void KeyReleaseEvent(QKeyEvent* event);
+  void HandleKeyPressEvent(QKeyEvent* event);
+  void HandleKeyReleaseEvent(QKeyEvent* event);
 
  private:
   const int kMillisPerFrame = 20;
