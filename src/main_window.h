@@ -15,7 +15,6 @@ class MainWindow : public QMainWindow {
   ~MainWindow() override = default;
 
  private:
-
   int screen_width_ = 800;
   int screen_height_ = 800;
 

@@ -12,7 +12,6 @@ class Wheel {
   Vec2f force_;
 
  public:
-
   Vec2f& Front() {
     return this->front_;
   }

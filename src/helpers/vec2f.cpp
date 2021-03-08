@@ -2,26 +2,26 @@
 #include "vec2f.h"
 
 Vec2f Vec2f::operator+(Vec2f const& b) const {
-  return Vec2f(x + b.x, y + b.y);
+  return Vec2f(x_ + b.x_, y_ + b.y_);
 }
 
 Vec2f Vec2f::operator-(Vec2f const& b) const {
-  return Vec2f(x - b.x, y - b.y);
+  return Vec2f(x_ - b.x_, y_ - b.y_);
 }
 
 Vec2f Vec2f::operator*(double const b) const {
-  return Vec2f(x * b, y * b);
+  return Vec2f(x_ * b, y_ * b);
 }
 
 Vec2f const& Vec2f::Normalize() {
-  double length_squared = x * x + y * y;
+  double length_squared = x_ * x_ + y_ * y_;
   if (length_squared > 0.0f) {
     double inverted_length = 1.0f / sqrt(length_squared);
-    x *= inverted_length;
-    y *= inverted_length;
+    x_ *= inverted_length;
+    y_ *= inverted_length;
   } else {
-    x = 0.0f;
-    y = 1.0f;
+    x_ = 0.0f;
+    y_ = 1.0f;
   }
 
   return *this;
@@ -29,16 +29,16 @@ Vec2f const& Vec2f::Normalize() {
 
 void Vec2f::SetLen(double len) {
   double scalar = len / GetLength();
-  x *= scalar;
-  y *= scalar;
+  x_ *= scalar;
+  y_ *= scalar;
 }
 
 void Vec2f::Rotate(double radians) {
-  double tmp = x;
+  double tmp = x_;
   double cs = cos(radians);
   double sn = sin(radians);
-  x = x * cs - y * sn;
-  y = tmp * sn + y * cs;
+  x_ = x_ * cs - y_ * sn;
+  y_ = tmp * sn + y_ * cs;
 }
 
 double Vec2f::AngleBetween(Vec2f const& other) {
@@ -46,22 +46,38 @@ double Vec2f::AngleBetween(Vec2f const& other) {
   this_normalized.Normalize();
   Vec2f other_normalized = other;
   other_normalized.Normalize();
-  return this_normalized.y * other_normalized.x
-      - this_normalized.x * other_normalized.y;
+  return this_normalized.y_ * other_normalized.x_
+      - this_normalized.x_ * other_normalized.y_;
 }
 
 Vec2f Vec2f::GetPerpendicular() const {
-  return Vec2f(y, -x);
+  return Vec2f(y_, -x_);
 }
 
 double Vec2f::GetLength() const {
-  return sqrt(x * x + y * y);
+  return sqrt(x_ * x_ + y_ * y_);
 }
 
 double Vec2f::GetAngleDegrees() const {
-  double angle = atan(y / x) * 360 / 2 / M_PI;
-  if (x < 0) {
+  double angle = atan(y_ / x_) * 360 / 2 / M_PI;
+  if (x_ < 0) {
     angle += 180;
   }
   return angle;
+}
+
+double Vec2f::GetX() const {
+  return x_;
+}
+
+void Vec2f::SetX(double _x) {
+  Vec2f::x_ = _x;
+}
+
+double Vec2f::GetY() const {
+  return y_;
+}
+
+void Vec2f::SetY(double _y) {
+  Vec2f::y_ = _y;
 }

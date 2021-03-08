@@ -4,21 +4,27 @@
 #include <cmath>
 
 class Vec2f {
+ private:
+  double x_;
+  double y_;
  public:
-  double x;
-  double y;
+  double GetX() const;
+  void SetX(double _x);
+  double GetY() const;
+  void SetY(double _y);
 
+ public:
   Vec2f() {
-    x = 0.0;
-    y = 0.0;
+    x_ = 0.0;
+    y_ = 0.0;
   }
 
-  Vec2f(double _x, double _y) : x(_x), y(_y) {
+  Vec2f(double _x, double _y) : x_(_x), y_(_y) {
   }
 
   void Set(double _x, double _y) {
-    x = _x;
-    y = _y;
+    x_ = _x;
+    y_ = _y;
   }
 
   Vec2f operator+(const Vec2f& b) const;
@@ -30,18 +36,18 @@ class Vec2f {
   Vec2f& operator=(const Vec2f& b) = default;
 
   void operator*=(double b) {
-    x *= b;
-    y *= b;
+    x_ *= b;
+    y_ *= b;
   }
 
   void operator+=(const Vec2f& b) {
-    x += b.x;
-    y += b.y;
+    x_ += b.x_;
+    y_ += b.y_;
   }
 
   void operator-=(const Vec2f& b) {
-    x -= b.x;
-    y -= b.y;
+    x_ -= b.x_;
+    y_ -= b.y_;
   }
 
   Vec2f const& Normalize();

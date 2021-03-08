@@ -77,7 +77,7 @@ void Car::UpdateWheelsPosAndOrientation() {
     wheels_[i].SetPreviousPosition(wheels_[i].GetPosition());
   }
 
-  const Vec2f right(angle_vec_.y, -angle_vec_.x);
+  const Vec2f right(angle_vec_.GetY(), -angle_vec_.GetX());
   wheels_[0].SetPosition(
       position + angle_vec_ * half_wheel_base_ - right * half_front_track_);
   wheels_[1].SetPosition(
@@ -106,11 +106,11 @@ void Car::UpdateWheelsPosAndOrientation() {
 }
 
 int Car::GetX() const {
-  return position.x;
+  return position.GetX();
 }
 
 int Car::GetY() const {
-  return position.y;
+  return position.GetY();
 }
 
 double Car::GetAngle() const {
