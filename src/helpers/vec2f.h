@@ -15,9 +15,7 @@ class Vec2f {
   void SetY(double _y);
 
  public:
-  Vec2f() {
-    x_ = 0.0;
-    y_ = 0.0;
+  Vec2f() : x_(0.0), y_(0.0) {
   }
 
   Vec2f(double _x, double _y) : x_(_x), y_(_y) {
@@ -36,19 +34,28 @@ class Vec2f {
 
   Vec2f& operator=(const Vec2f& b) = default;
 
-  void operator*=(double b) {
+  Vec2f& operator*=(double b) {
     x_ *= b;
     y_ *= b;
+    return *this;
   }
 
-  void operator+=(const Vec2f& b) {
+  Vec2f& operator+=(const Vec2f& b) {
     x_ += b.x_;
     y_ += b.y_;
+    return *this;
   }
 
-  void operator-=(const Vec2f& b) {
+  Vec2f& operator-=(const Vec2f& b) {
     x_ -= b.x_;
     y_ -= b.y_;
+    return *this;
+  }
+
+  Vec2f& operator/=(const Vec2f& b) {
+    x_ /= b.x_;
+    y_ /= b.y_;
+    return *this;
   }
 
   Vec2f const& Normalize();
