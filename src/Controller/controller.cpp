@@ -4,12 +4,9 @@ Controller::Controller(QWidget *parent) :
     QWidget(parent),
     model_(new Model()),
     view_(new View(model_)),
-    stacked_widget_(new QStackedWidget(this)),
-    pause_menu_(new PauseMenu(stacked_widget_)) {
-  stacked_widget_->resize(pause_menu_->GetWidth(), pause_menu_->GetHeight());
-  stacked_widget_->move(width() / 4, height() / 4);
-  stacked_widget_->addWidget(pause_menu_);
-  stacked_widget_->close();
+    pause_menu_(new PauseMenu(this)) {
+  pause_menu_->move(width() / 4, height() / 4);
+  pause_menu_->close();
   connect(pause_menu_->continue_button_, &QPushButton::clicked,
           this, &Controller::UnsetPause);
   startTimer(kMillisPerFrame);
@@ -41,11 +38,13 @@ void Controller::HandleKeyReleaseEvent(QKeyEvent *event) {
 }
 
 void Controller::SetPause() {
-  stacked_widget_->show();
+  pause_menu_->show();
   is_game_paused_ = true;
+  focusNextChild();
 }
 
 void Controller::UnsetPause() {
-  stacked_widget_->close();
+  pause_menu_->close();
   is_game_paused_ = false;
+  setFocus();
 }

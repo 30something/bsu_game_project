@@ -29,6 +29,5 @@ class Controller : public QWidget {
 
   Model *model_;
   View *view_;
-  QStackedWidget* stacked_widget_;
   PauseMenu *pause_menu_;
 };
