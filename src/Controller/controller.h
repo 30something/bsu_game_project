@@ -10,7 +10,7 @@
 #include "src/Menu/pause_menu.h"
 
 class Controller : public QWidget {
- Q_OBJECT
+  Q_OBJECT
 
  public:
   explicit Controller(QWidget *parent = nullptr);

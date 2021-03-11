@@ -9,7 +9,7 @@
 #include <QStyle>
 
 class SmallExitWindow : public QWidget {
- Q_OBJECT
+  Q_OBJECT
  public:
   explicit SmallExitWindow(QWidget * = nullptr);
  protected:
@@ -25,7 +25,7 @@ class SmallExitWindow : public QWidget {
 };
 
 class PauseMenu : public QWidget {
- Q_OBJECT
+  Q_OBJECT
  public:
   explicit PauseMenu(QWidget * = nullptr);
  protected:
