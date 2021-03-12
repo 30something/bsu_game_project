@@ -5,7 +5,7 @@
 #include <QVBoxLayout>
 
 class SmallExitWindow : public QWidget {
- Q_OBJECT
+  Q_OBJECT
 
  public:
   explicit SmallExitWindow(QWidget* parent = nullptr);
@@ -24,7 +24,7 @@ class SmallExitWindow : public QWidget {
 };
 
 class PauseMenu : public QWidget {
- Q_OBJECT
+  Q_OBJECT
 
  public:
   explicit PauseMenu(QWidget* parent = nullptr);
