@@ -10,24 +10,27 @@
 #include "src/Menu/pause_menu.h"
 
 class Controller : public QWidget {
-  Q_OBJECT
+ Q_OBJECT
 
  public:
-  explicit Controller(QWidget *parent = nullptr);
+  explicit Controller(QWidget* parent = nullptr);
   ~Controller() override = default;
 
-  void timerEvent(QTimerEvent *event) override;
-  void paintEvent(QPaintEvent *event) override;
-  void HandleKeyPressEvent(QKeyEvent *event);
-  void HandleKeyReleaseEvent(QKeyEvent *event);
+  void timerEvent(QTimerEvent* event) override;
+  void paintEvent(QPaintEvent* event) override;
+  void HandleKeyPressEvent(QKeyEvent* event);
+  void HandleKeyReleaseEvent(QKeyEvent* event);
+  void resizeEvent(QResizeEvent*) override;
   void SetPause();
   void UnsetPause();
 
  private:
+  Model* model_;
+  View* view_;
+  PauseMenu* pause_menu_;
+  enum Actions {
+    kOpenOrCloseMenu = Qt::Key_Escape,
+  };
   const int kMillisPerFrame = 20;
   bool is_game_paused_ = false;
-
-  Model *model_;
-  View *view_;
-  PauseMenu *pause_menu_;
 };

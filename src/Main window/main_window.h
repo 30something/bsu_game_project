@@ -8,7 +8,7 @@
 #include "src/Menu/menu.h"
 
 class MainWindow : public QMainWindow {
-  Q_OBJECT
+ Q_OBJECT
 
  public:
   explicit MainWindow(QMainWindow* parent = nullptr);
@@ -20,6 +20,7 @@ class MainWindow : public QMainWindow {
 
   void keyPressEvent(QKeyEvent* e) override;
   void keyReleaseEvent(QKeyEvent* e) override;
+  void resizeEvent(QResizeEvent*) override;
 
   QStackedWidget stacked_widget_;
   Controller* controller_;

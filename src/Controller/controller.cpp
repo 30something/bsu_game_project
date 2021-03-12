@@ -26,7 +26,7 @@ void Controller::paintEvent(QPaintEvent*) {
 
 void Controller::HandleKeyPressEvent(QKeyEvent* event) {
   model_->HandleKeyPressEvent(event);
-  if (event->key() == Qt::Key_Escape) {
+  if (event->key() == Actions::kOpenOrCloseMenu) {
     if (!is_game_paused_) {
       SetPause();
     } else {
@@ -49,4 +49,8 @@ void Controller::UnsetPause() {
   pause_menu_->close();
   is_game_paused_ = false;
   setFocus();
+}
+
+void Controller::resizeEvent(QResizeEvent*) {
+  pause_menu_->setGeometry(QRect(0, 0, width(), height()));
 }

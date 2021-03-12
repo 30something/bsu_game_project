@@ -1,6 +1,6 @@
 #include "main_window.h"
 
-MainWindow::MainWindow(QMainWindow *parent) :
+MainWindow::MainWindow(QMainWindow* parent) :
     QMainWindow(parent),
     stacked_widget_(this),
     controller_(new Controller()),
@@ -13,10 +13,14 @@ MainWindow::MainWindow(QMainWindow *parent) :
   stacked_widget_.setCurrentWidget(controller_);
 }
 
-void MainWindow::keyPressEvent(QKeyEvent *event) {
+void MainWindow::keyPressEvent(QKeyEvent* event) {
   controller_->HandleKeyPressEvent(event);
 }
 
-void MainWindow::keyReleaseEvent(QKeyEvent *event) {
+void MainWindow::keyReleaseEvent(QKeyEvent* event) {
   controller_->HandleKeyReleaseEvent(event);
+}
+
+void MainWindow::resizeEvent(QResizeEvent*) {
+  controller_->setGeometry(QRect(0, 0, width(), height()));
 }
