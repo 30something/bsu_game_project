@@ -10,7 +10,6 @@
 #include "src/Menu/pause_menu.h"
 
 class Controller : public QWidget {
-
  public:
   explicit Controller(QWidget* parent = nullptr);
   ~Controller() override = default;

@@ -5,7 +5,6 @@
 #include <QVBoxLayout>
 
 class SmallExitWindow : public QWidget {
-
  public:
   explicit SmallExitWindow(QWidget* parent = nullptr);
   ~SmallExitWindow() override = default;
