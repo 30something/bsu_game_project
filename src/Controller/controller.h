@@ -10,7 +10,6 @@
 #include "src/Menu/pause_menu.h"
 
 class Controller : public QWidget {
-  Q_OBJECT
 
  public:
   explicit Controller(QWidget* parent = nullptr);
@@ -21,16 +20,19 @@ class Controller : public QWidget {
   void HandleKeyPressEvent(QKeyEvent* event);
   void HandleKeyReleaseEvent(QKeyEvent* event);
   void resizeEvent(QResizeEvent*) override;
-  void SetPause();
-  void UnsetPause();
+  void SetOrUnsetPause();
 
  private:
   Model* model_;
   View* view_;
   PauseMenu* pause_menu_;
+  enum GameStatus {
+    kPaused,
+    kRunning,
+  };
   enum Actions {
     kOpenOrCloseMenu = Qt::Key_Escape,
   };
-  const int kMillisPerFrame = 20;
-  bool is_game_paused_ = false;
+  static constexpr int kMillisPerFrame = 20;
+  int game_status_ = GameStatus::kRunning;
 };

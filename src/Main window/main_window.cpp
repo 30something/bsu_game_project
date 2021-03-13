@@ -5,9 +5,9 @@ MainWindow::MainWindow(QMainWindow* parent) :
     stacked_widget_(this),
     controller_(new Controller()),
     menu_(new Menu()) {
-  resize(screen_width_, screen_height_);
-  stacked_widget_.resize(screen_width_, screen_height_);
-  controller_->resize(screen_width_, screen_height_);
+  resize(default_screen_width, default_screen_height);
+  stacked_widget_.resize(default_screen_width, default_screen_height);
+  controller_->resize(default_screen_width, default_screen_height);
   stacked_widget_.addWidget(controller_);
   stacked_widget_.addWidget(menu_);
   stacked_widget_.setCurrentWidget(controller_);

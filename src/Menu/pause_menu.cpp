@@ -5,9 +5,7 @@ SmallExitWindow::SmallExitWindow(QWidget* parent)
       main_widget_(new QWidget(this)),
       question_(new QLabel("Go to main menu?", main_widget_)),
       yes_button_(new QPushButton("YES", main_widget_)),
-      no_button_(new QPushButton("NO", main_widget_)),
-      width_(250),
-      height_(100) {
+      no_button_(new QPushButton("NO", main_widget_)) {
   resize(width_, height_);
   main_widget_->resize(width_, height_);
   main_widget_->move(0, 0);
@@ -24,9 +22,7 @@ PauseMenu::PauseMenu(QWidget* parent)
       settings_button_(new QPushButton("SETTINGS", this)),
       exit_button_(new QPushButton("MAIN MENU", this)),
       continue_button_(new QPushButton("CONTINUE", this)),
-      small_exit_window_(new SmallExitWindow(this)),
-      width_(500),
-      height_(500) {
+      small_exit_window_(new SmallExitWindow(this)) {
   resize(width_, height_);
   setStyleSheet("background-color : red");
   settings_button_->setMinimumSize(width_ * 3 / 5, height_ * 9 / 50);

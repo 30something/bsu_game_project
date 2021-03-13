@@ -8,15 +8,15 @@ Controller::Controller(QWidget* parent) :
   pause_menu_->move(width() / 4, height() / 4);
   pause_menu_->close();
   connect(pause_menu_->continue_button_, &QPushButton::clicked,
-          this, &Controller::UnsetPause);
+          this, &Controller::SetOrUnsetPause);
   startTimer(kMillisPerFrame);
 }
 
 void Controller::timerEvent(QTimerEvent*) {
-  if (!is_game_paused_) {
+  if (game_status_ == kRunning) {
     model_->Tick(kMillisPerFrame);
+    repaint();
   }
-  repaint();
 }
 
 void Controller::paintEvent(QPaintEvent*) {
@@ -27,11 +27,7 @@ void Controller::paintEvent(QPaintEvent*) {
 void Controller::HandleKeyPressEvent(QKeyEvent* event) {
   model_->HandleKeyPressEvent(event);
   if (event->key() == Actions::kOpenOrCloseMenu) {
-    if (!is_game_paused_) {
-      SetPause();
-    } else {
-      UnsetPause();
-    }
+    SetOrUnsetPause();
   }
 }
 
@@ -39,16 +35,16 @@ void Controller::HandleKeyReleaseEvent(QKeyEvent* event) {
   model_->HandleKeyReleaseEvent(event);
 }
 
-void Controller::SetPause() {
-  pause_menu_->show();
-  is_game_paused_ = true;
-  focusNextChild();
-}
-
-void Controller::UnsetPause() {
-  pause_menu_->close();
-  is_game_paused_ = false;
-  setFocus();
+void Controller::SetOrUnsetPause() {
+  if (game_status_ == kRunning) {
+    pause_menu_->show();
+    game_status_ = kPaused;
+    focusNextChild();
+  } else {
+    pause_menu_->close();
+    game_status_ = kRunning;
+    setFocus();
+  }
 }
 
 void Controller::resizeEvent(QResizeEvent*) {
