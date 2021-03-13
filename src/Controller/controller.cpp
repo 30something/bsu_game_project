@@ -8,12 +8,12 @@ Controller::Controller(QWidget* parent) :
   pause_menu_->move(width() / 4, height() / 4);
   pause_menu_->close();
   connect(pause_menu_->continue_button_, &QPushButton::clicked,
-          this, &Controller::SetOrUnsetPause);
+          this, &Controller::SetUnsetPause);
   startTimer(kMillisPerFrame);
 }
 
 void Controller::timerEvent(QTimerEvent*) {
-  if (game_status_ == kRunning) {
+  if (game_status_ == GameStatus::kRunning) {
     model_->Tick(kMillisPerFrame);
     repaint();
   }
@@ -26,8 +26,8 @@ void Controller::paintEvent(QPaintEvent*) {
 
 void Controller::HandleKeyPressEvent(QKeyEvent* event) {
   model_->HandleKeyPressEvent(event);
-  if (event->key() == Actions::kOpenOrCloseMenu) {
-    SetOrUnsetPause();
+  if (event->key() == static_cast<int>(Actions::kOpenOrCloseMenu)) {
+    SetUnsetPause();
   }
 }
 
@@ -35,14 +35,14 @@ void Controller::HandleKeyReleaseEvent(QKeyEvent* event) {
   model_->HandleKeyReleaseEvent(event);
 }
 
-void Controller::SetOrUnsetPause() {
-  if (game_status_ == kRunning) {
+void Controller::SetUnsetPause() {
+  if (game_status_ == GameStatus::kRunning) {
     pause_menu_->show();
-    game_status_ = kPaused;
+    game_status_ = GameStatus::kPaused;
     focusNextChild();
   } else {
     pause_menu_->close();
-    game_status_ = kRunning;
+    game_status_ = GameStatus::kRunning;
     setFocus();
   }
 }

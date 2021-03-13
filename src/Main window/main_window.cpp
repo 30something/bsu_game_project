@@ -2,15 +2,15 @@
 
 MainWindow::MainWindow(QMainWindow* parent) :
     QMainWindow(parent),
-    stacked_widget_(this),
+    stacked_widget_(new QStackedWidget(this)),
     controller_(new Controller()),
     menu_(new Menu()) {
-  resize(default_screen_width, default_screen_height);
-  stacked_widget_.resize(default_screen_width, default_screen_height);
-  controller_->resize(default_screen_width, default_screen_height);
-  stacked_widget_.addWidget(controller_);
-  stacked_widget_.addWidget(menu_);
-  stacked_widget_.setCurrentWidget(controller_);
+  resize(kDefaultScreenWidth, kDefaultScreenHeight);
+  stacked_widget_->resize(kDefaultScreenWidth, kDefaultScreenHeight);
+  controller_->resize(kDefaultScreenWidth, kDefaultScreenHeight);
+  stacked_widget_->addWidget(controller_);
+  stacked_widget_->addWidget(menu_);
+  stacked_widget_->setCurrentWidget(controller_);
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* event) {
