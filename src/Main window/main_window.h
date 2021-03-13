@@ -8,7 +8,6 @@
 #include "src/Menu/menu.h"
 
 class MainWindow : public QMainWindow {
-
  public:
   explicit MainWindow(QMainWindow* parent = nullptr);
   ~MainWindow() override = default;

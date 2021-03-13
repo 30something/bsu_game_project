@@ -32,7 +32,7 @@ set(SOURCES main.cpp
         images.qrc
         src/helpers/vec2f.cpp
         src/Model/wheel.cpp
-        src/Menu/pause_menu.cpp)
+        src/Menu/pause_menu.cpp src/Menu/small_exit_window.cpp src/Menu/small_exit_window.h)
 
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
