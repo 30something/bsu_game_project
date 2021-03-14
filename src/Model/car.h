@@ -44,12 +44,14 @@ class Car {
   double half_front_track_ = 0.75;
   double max_steering_lock_ = 0.7;
   double half_rear_track_ = half_front_track_;
-  double half_wheel_base_ = 1.165;
-  double length_ = 10.995;
-  double mass_ = 200.0;
+  double half_wheel_base_ = 5.5;
+  double length_ = 18.0;
+  double mass_ = 1000.0;
   double moment_inertia_ =
-      (mass_ * length_ * length_) / 12.0;
-  double coef_friction_ = 70;
+      (mass_ * length_ * length_) / 1.0;
+  double front_coef_friction_ = 100;
+  double rear_coef_friction_ = 80;
+
   double max_slip_angle_radians_ = 0.07;
 
   void ProceedInputFlags();

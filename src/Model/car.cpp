@@ -19,13 +19,21 @@ void Car::AdvanceStep(int time_millisec) {
   Vec2f accel;
   double angular_accel = 0.0;
 
-  for (auto& wheel : wheels_) {
-    wheel.CalcLateralForce(max_slip_angle_radians_, mass_, coef_friction_);
-    accel += wheel.GetForce();
-
-    Vec2f car_centre_to_wheel = wheel.GetPosition() - position_;
-    double projected_force = car_centre_to_wheel.AngleBetween(wheel.GetForce())
-        * wheel.GetForce().GetLength();
+  for (int i = 0; i < 4; i++) {
+    if (i == 0 || i == 1) {
+      wheels_[i].CalcLateralForce(max_slip_angle_radians_,
+                                  mass_,
+                                  front_coef_friction_);
+    } else {
+      wheels_[i].CalcLateralForce(max_slip_angle_radians_,
+                                  mass_,
+                                  rear_coef_friction_);
+    }
+    accel += wheels_[i].GetForce();
+    Vec2f car_centre_to_wheel = wheels_[i].GetPosition() - position_;
+    double projected_force =
+        car_centre_to_wheel.AngleBetween(wheels_[i].GetForce())
+            * wheels_[i].GetForce().GetLength();
     double torque = projected_force * car_centre_to_wheel.GetLength();
     angular_accel -= torque;
   }
@@ -97,11 +105,11 @@ void Car::UpdateWheelsPosAndOrientation() {
   double outerWheelAngle =
       atan(length_ / (cornerRadius + half_front_track_ * 2.0));
   if (steering_angle_ > 0.0) {
-    wheels_[0].Front().Rotate(steering_angle_);
-    wheels_[1].Front().Rotate(outerWheelAngle);
+    wheels_[0].Front().Rotate(std::min(steering_angle_, max_steering_lock_));
+    wheels_[1].Front().Rotate(std::min(outerWheelAngle, max_steering_lock_));
   } else {
-    wheels_[0].Front().Rotate(-outerWheelAngle);
-    wheels_[1].Front().Rotate(steering_angle_);
+    wheels_[0].Front().Rotate(std::min(-outerWheelAngle, max_steering_lock_));
+    wheels_[1].Front().Rotate(std::min(steering_angle_, max_steering_lock_));
   }
 }
 
