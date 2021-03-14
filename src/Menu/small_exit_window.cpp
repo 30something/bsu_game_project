@@ -19,3 +19,11 @@ SmallExitWindow::SmallExitWindow(QWidget* parent)
 QPushButton* SmallExitWindow::GetNoButton() const {
   return no_button_;
 }
+
+int SmallExitWindow::GetWidth() const {
+  return width_;
+}
+
+int SmallExitWindow::GetHeight() const {
+  return height_;
+}

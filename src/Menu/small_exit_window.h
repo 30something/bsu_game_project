@@ -10,6 +10,8 @@ class SmallExitWindow : public QWidget {
   explicit SmallExitWindow(QWidget* parent = nullptr);
   ~SmallExitWindow() override = default;
   QPushButton* GetNoButton() const;
+  int GetWidth() const;
+  int GetHeight() const;
 
  private:
   QWidget* main_widget_;
@@ -18,5 +20,4 @@ class SmallExitWindow : public QWidget {
   QPushButton* no_button_;
   int width_ = 250;
   int height_ = 100;
-  friend class PauseMenu;
 };
