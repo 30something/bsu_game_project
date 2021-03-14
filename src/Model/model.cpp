@@ -1,9 +1,8 @@
 #include "model.h"
 
 Model::Model() :
-    left_borders_(new std::vector<std::pair<int, int>>()),
-    right_borders_(new std::vector<std::pair<int, int>>()),
-    car_(360, 548, -M_PI / 2, left_borders_, right_borders_) {
+    borders_(new std::vector<std::vector<std::pair<int, int>>>()),
+    car_(360, 548, -M_PI / 2, borders_) {
   ParseMapBorders();
 }
 
@@ -57,6 +56,8 @@ void Model::ParseMapBorders() {
   if (!file.open(QIODevice::ReadOnly)) {
     qWarning("Cannot open file for reading");
   }
+  std::vector<std::pair<int,int>> left_borders_;
+  std::vector<std::pair<int,int>> right_borders_;
   QTextStream in(&file);
   bool left_part = true;
   while (!in.atEnd()) {
@@ -66,12 +67,14 @@ void Model::ParseMapBorders() {
       continue;
     }
     if (left_part) {
-      left_borders_->push_back(ParseLine(line));
+      left_borders_.push_back(ParseLine(line));
     } else {
-      right_borders_->push_back(ParseLine(line));
+      right_borders_.push_back(ParseLine(line));
     }
   }
   file.close();
+  borders_->push_back(left_borders_);
+  borders_->push_back(right_borders_);
 }
 
 std::pair<int, int> Model::ParseLine(const QString& line) {

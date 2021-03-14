@@ -3,10 +3,8 @@
 Car::Car(int x,
          int y,
          double angle,
-         std::vector<std::pair<int, int>>* left_borders,
-         std::vector<std::pair<int, int>>* right_borders) :
-    left_borders_(left_borders),
-    right_borders_(right_borders) {
+         std::vector<std::vector<std::pair<int, int>>>* borders) :
+    borders_(borders) {
   position_.Set(x, y);
   angle_vec_.Set(1.0, 0.0);
   angle_vec_.Rotate(angle);
@@ -72,47 +70,29 @@ Vec2f Car::ProceedCollisions() {
       l2.y2 = corners[i + 2].GetY();
     }
     if (i == 2 || i == 3) {
-      l2.x1 = corners[i-2].GetX();
-      l2.y1 = corners[i-2].GetY();
+      l2.x1 = corners[i - 2].GetX();
+      l2.y1 = corners[i - 2].GetY();
       l2.x2 = corners[i].GetX();
       l2.y2 = corners[i].GetY();
     }
-    for (int j = 0; j < left_borders_->size(); j++) {
-      Line l1;
-      if (j == left_borders_->size() - 1) {
-        l1.x1 = (*left_borders_)[j].first;
-        l1.y1 = (*left_borders_)[j].second;
-        l1.x2 = (*left_borders_)[0].first;
-        l1.y2 = (*left_borders_)[0].second;
-      } else {
-        l1.x1 = (*left_borders_)[j].first;
-        l1.y1 = (*left_borders_)[j].second;
-        l1.x2 = (*left_borders_)[j + 1].first;
-        l1.y2 = (*left_borders_)[j + 1].second;
-      }
-      if (isIntersects(l1, l2)) {
-        QApplication::exit();
-        position_ = previous_position_;
-        break;
-      }
-    }
-    for (int j = 0; j < right_borders_->size(); j++) {
-      Line l1;
-      if (j == right_borders_->size() - 1) {
-        l1.x1 = (*right_borders_)[j].first;
-        l1.y1 = (*right_borders_)[j].second;
-        l1.x2 = (*right_borders_)[0].first;
-        l1.y2 = (*right_borders_)[0].second;
-      } else {
-        l1.x1 = (*right_borders_)[j].first;
-        l1.y1 = (*right_borders_)[j].second;
-        l1.x2 = (*right_borders_)[j + 1].first;
-        l1.y2 = (*right_borders_)[j + 1].second;
-      }
-      if (isIntersects(l1, l2)) {
-        QApplication::exit();
-        position_ = previous_position_;
-        break;
+    for (const auto& border : *borders_) {
+      for (int j = 0; j < border.size(); j++) {
+        Line l1;
+        if (j == border.size() - 1) {
+          l1.x1 = border[j].first;
+          l1.y1 = border[j].second;
+          l1.x2 = border[0].first;
+          l1.y2 = border[0].second;
+        } else {
+          l1.x1 = border[j].first;
+          l1.y1 = border[j].second;
+          l1.x2 = border[j + 1].first;
+          l1.y2 = border[j + 1].second;
+        }
+        if (isIntersects(l1, l2)) {
+          position_ = previous_position_;
+          break;
+        }
       }
     }
   }
