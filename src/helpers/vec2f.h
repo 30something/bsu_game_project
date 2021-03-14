@@ -3,6 +3,19 @@
 
 #include <cmath>
 
+struct Line {
+  Line(int x1_, int y1_, int x2_, int y2_) :
+      x1(x1_),
+      y1(y1_),
+      x2(x2_),
+      y2(y2_) {};
+  Line() = default;
+  int x1 = 0;
+  int y1 = 0;
+  int x2 = 0;
+  int y2 = 0;
+};
+
 class Vec2f {
  private:
   double x_;

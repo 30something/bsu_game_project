@@ -20,7 +20,7 @@ set(REQUIRED_LIBS_QUALIFIED Qt5::Core Qt5::Widgets)
 find_package(Qt${QT_VERSION} COMPONENTS ${REQUIRED_LIBS} REQUIRED)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-Wall -Wextra -O3")
+set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-Wall -Wextra -O0")
 
 set(SOURCES main.cpp
         src/View/view.cpp
@@ -30,6 +30,7 @@ set(SOURCES main.cpp
         src/Controller/controller.cpp
         src/Model/car.cpp
         images.qrc
+        map_data.qrc
         src/helpers/vec2f.cpp
         src/Model/wheel.cpp
         src/Menu/pause_menu.cpp

@@ -1,0 +1,6 @@
+<RCC>
+    <qresource>
+        <file>resources/images/map_data/map_1.txt</file>
+        <file>resources/images/map_data/map_2.txt</file>
+    </qresource>
+</RCC>

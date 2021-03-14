@@ -8,16 +8,16 @@ View::View(Model* model) :
 
 void View::Repaint(QPainter* painter) {
   painter->save();
-  painter->scale(3, 3);
+  // painter->scale(3, 3);
   painter->drawImage(0,
                      0,
                      map_,
-                     model_->GetCarCoordinates().first,
-                     model_->GetCarCoordinates().second,
+                     model_->GetCarCoordinates().first - 400,
+                     model_->GetCarCoordinates().second - 400,
                      painter->window().width(),
                      painter->window().height());
-  painter->translate(painter->window().width() / 6.0,
-                     painter->window().height() / 6.0);
+  painter->translate(painter->window().width() / 2.0,
+                     painter->window().height() / 2.0);
   painter->rotate(model_->GetCarAngle());
   painter->drawImage(-5, -10, car_);
   painter->restore();
