@@ -1,28 +1,39 @@
 #pragma once
 
-#include <QWidget>
-#include <QTimerEvent>
 #include <QKeyEvent>
 #include <QPainter>
+#include <QTimerEvent>
+#include <QWidget>
 
-#include "src/View/view.h"
+#include "src/Menu/pause_menu.h"
 #include "src/Model/model.h"
+#include "src/View/view.h"
 
 class Controller : public QWidget {
-  Q_OBJECT
-
  public:
   explicit Controller(QWidget* parent = nullptr);
   ~Controller() override = default;
 
-  void timerEvent(QTimerEvent* event) override;
-  void paintEvent(QPaintEvent* event) override;
-  void HandleKeyPressEvent(QKeyEvent* event);
-  void HandleKeyReleaseEvent(QKeyEvent* event);
+  void timerEvent(QTimerEvent*) override;
+  void paintEvent(QPaintEvent*) override;
+  void HandleKeyPressEvent(QKeyEvent*);
+  void HandleKeyReleaseEvent(QKeyEvent*);
+  void resizeEvent(QResizeEvent*) override;
+  void SetUnsetPause();
 
  private:
-  const int kMillisPerFrame = 20;
+  enum class Actions {
+    kOpenOrCloseMenu = Qt::Key_Escape,
+  };
+
+  enum class GameStatus {
+    kPaused,
+    kRunning,
+  };
 
   Model* model_;
   View* view_;
+  PauseMenu* pause_menu_;
+  GameStatus game_status_ = GameStatus::kRunning;
+  static constexpr int kMillisPerFrame = 20;
 };
