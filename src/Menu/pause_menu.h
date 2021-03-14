@@ -12,6 +12,7 @@ class PauseMenu : public QWidget {
  public:
   explicit PauseMenu(QWidget* parent = nullptr);
   ~PauseMenu() override = default;
+  QPushButton* GetContinueButton() const;
 
  protected:
   void resizeEvent(QResizeEvent*) override;
@@ -24,5 +25,4 @@ class PauseMenu : public QWidget {
   SmallExitWindow* small_exit_window_;
   int width_ = 500;
   int height_ = 500;
-  friend class Controller;
 };

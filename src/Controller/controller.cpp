@@ -7,7 +7,7 @@ Controller::Controller(QWidget* parent) :
     pause_menu_(new PauseMenu(this)) {
   pause_menu_->move(width() / 4, height() / 4);
   pause_menu_->close();
-  connect(pause_menu_->continue_button_, &QPushButton::clicked,
+  connect(pause_menu_->GetContinueButton(), &QPushButton::clicked,
           this, &Controller::SetUnsetPause);
   startTimer(kMillisPerFrame);
 }

@@ -22,7 +22,7 @@ PauseMenu::PauseMenu(QWidget* parent)
   small_exit_window_->close();
   connect(exit_button_, &QPushButton::clicked,
           small_exit_window_, &QWidget::show);
-  connect(small_exit_window_->no_button_, &QPushButton::clicked,
+  connect(small_exit_window_->GetNoButton(), &QPushButton::clicked,
           small_exit_window_, &QWidget::close);
 }
 
@@ -30,4 +30,8 @@ void PauseMenu::resizeEvent(QResizeEvent*) {
   main_layout_->setGeometry(QRect(0, 0, width(), height()));
   small_exit_window_->move((width() - small_exit_window_->width_) / 2,
                            (height() - small_exit_window_->height_) / 2);
+}
+
+QPushButton* PauseMenu::GetContinueButton() const {
+  return continue_button_;
 }

@@ -9,6 +9,7 @@ class SmallExitWindow : public QWidget {
  public:
   explicit SmallExitWindow(QWidget* parent = nullptr);
   ~SmallExitWindow() override = default;
+  QPushButton* GetNoButton() const;
 
  private:
   QWidget* main_widget_;
