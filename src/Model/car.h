@@ -6,12 +6,18 @@
 #include <algorithm>
 #include <cmath>
 
+#include <QApplication>
+
 #include "src/helpers/vec2f.h"
 #include "wheel.h"
 
 class Car {
  public:
-  Car(double speed, double angular_velocity);
+  Car(int x,
+      int y,
+      double angle,
+      std::vector<std::pair<int, int>>* left_borders,
+      std::vector<std::pair<int, int>>* right_borders);
   ~Car() = default;
 
   void Tick(int time_millisec);
@@ -26,11 +32,15 @@ class Car {
   void SetFlagRight(bool flag_right);
 
  private:
+  std::vector<std::pair<int, int>>* left_borders_;
+  std::vector<std::pair<int, int>>* right_borders_;
+
   Vec2f position_;
+  Vec2f previous_position_;
   Vec2f angle_vec_;
   Vec2f velocity_;
-  double angular_velocity_;
-  double steering_angle_;
+  double angular_velocity_ = 0;
+  double steering_angle_ = 0;
 
   bool flag_up_ = false;
   bool flag_down_ = false;
@@ -47,14 +57,15 @@ class Car {
   double half_wheel_base_ = 5.5;
   double length_ = 18.0;
   double mass_ = 1000.0;
-  double moment_inertia_ =
-      (mass_ * length_ * length_) / 1.0;
+  double moment_inertia_ = (mass_ * length_ * length_) / 1.0;
   double front_coef_friction_ = 100;
   double rear_coef_friction_ = 80;
 
   double max_slip_angle_radians_ = 0.07;
 
+  Vec2f ProceedCollisions();
   void ProceedInputFlags();
   void UpdateWheelsPosAndOrientation();
   void AdvanceStep(int time_millisec);
+  static bool isIntersects(Line l1, Line l2);
 };

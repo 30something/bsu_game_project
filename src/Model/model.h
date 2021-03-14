@@ -3,12 +3,14 @@
 #include <utility>
 
 #include <QKeyEvent>
+#include <QTextStream>
+#include <QFile>
 
 #include "src/Model/car.h"
 
 class Model {
  public:
-  Model() = default;
+  Model();
   ~Model() = default;
 
   void Tick(int time_millisec);
@@ -20,5 +22,10 @@ class Model {
   double GetCarAngle() const;
 
  private:
-  Car car_{0.0, 0.0};
+  std::vector<std::pair<int, int>>* left_borders_;
+  std::vector<std::pair<int, int>>* right_borders_;
+  Car car_;
+
+  void ParseMapBorders();
+  static std::pair<int, int> ParseLine(const QString& line);
 };
