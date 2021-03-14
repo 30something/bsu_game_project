@@ -16,8 +16,7 @@ class Car {
   Car(int x,
       int y,
       double angle,
-      std::vector<std::pair<int, int>>* left_borders,
-      std::vector<std::pair<int, int>>* right_borders);
+      std::vector<std::vector<std::pair<int, int>>>* borders);
   ~Car() = default;
 
   void Tick(int time_millisec);
@@ -32,8 +31,7 @@ class Car {
   void SetFlagRight(bool flag_right);
 
  private:
-  std::vector<std::pair<int, int>>* left_borders_;
-  std::vector<std::pair<int, int>>* right_borders_;
+  std::vector<std::vector<std::pair<int, int>>>* borders_;
 
   Vec2f position_;
   Vec2f previous_position_;
