@@ -11,6 +11,8 @@ class MainWindow : public QMainWindow {
  public:
   explicit MainWindow(QMainWindow* parent = nullptr);
   ~MainWindow() override = default;
+  void StartGame();
+  void ExitGame();
 
  private:
   void keyPressEvent(QKeyEvent*) override;
