@@ -91,6 +91,7 @@ Vec2f Car::ProceedCollisions() {
         }
         if (isIntersects(l1, l2)) {
           position_ = previous_position_;
+          velocity_.Rotate(M_PI / 2);
           break;
         }
       }
