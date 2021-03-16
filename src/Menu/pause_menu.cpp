@@ -35,3 +35,7 @@ void PauseMenu::resizeEvent(QResizeEvent*) {
 QPushButton* PauseMenu::GetContinueButton() const {
   return continue_button_;
 }
+
+QPushButton* PauseMenu::GetReturnToMainMenuButton() const {
+  return small_exit_window_->GetYesButton();
+}

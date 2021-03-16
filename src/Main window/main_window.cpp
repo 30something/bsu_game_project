@@ -7,14 +7,14 @@ MainWindow::MainWindow(QMainWindow* parent) :
     menu_(new Menu()) {
   setMinimumSize(kDefaultScreenWidth, kDefaultScreenHeight);
   setWindowTitle("Death Rally");
-  stacked_widget_->resize(kDefaultScreenWidth, kDefaultScreenHeight);
-  controller_->resize(kDefaultScreenWidth, kDefaultScreenHeight);
   stacked_widget_->addWidget(controller_);
   stacked_widget_->addWidget(menu_);
   stacked_widget_->setCurrentWidget(menu_);
 
   connect(menu_->GetStartButton(), &QPushButton::clicked, this,
           &MainWindow::StartGame);
+  connect(controller_->GetReturnToMainMenuButton(), &QPushButton::clicked,
+          this, &MainWindow::ReturnToMainMenu);
   connect(menu_->GetExitButton(), &QPushButton::clicked, this,
           &MainWindow::ExitGame);
 }
@@ -28,7 +28,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent* event) {
 }
 
 void MainWindow::resizeEvent(QResizeEvent*) {
-  controller_->setGeometry(QRect(0, 0, width(), height()));
+  stacked_widget_->setGeometry(QRect(0, 0, width(), height()));
 }
 
 void MainWindow::StartGame() {
@@ -37,4 +37,8 @@ void MainWindow::StartGame() {
 
 void MainWindow::ExitGame() {
   close();
+}
+
+void MainWindow::ReturnToMainMenu() {
+  stacked_widget_->setCurrentWidget(menu_);
 }

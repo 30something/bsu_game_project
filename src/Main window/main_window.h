@@ -8,11 +8,14 @@
 #include "src/Menu/menu.h"
 
 class MainWindow : public QMainWindow {
+  Q_OBJECT
+
  public:
   explicit MainWindow(QMainWindow* parent = nullptr);
   ~MainWindow() override = default;
   void StartGame();
   void ExitGame();
+  void ReturnToMainMenu();
 
  private:
   void keyPressEvent(QKeyEvent*) override;

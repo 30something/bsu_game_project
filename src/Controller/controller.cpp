@@ -47,6 +47,6 @@ void Controller::SetUnsetPause() {
   }
 }
 
-void Controller::resizeEvent(QResizeEvent*) {
-  pause_menu_->setGeometry(QRect(0, 0, width(), height()));
+QPushButton* Controller::GetReturnToMainMenuButton() const {
+  return pause_menu_->GetReturnToMainMenuButton();
 }

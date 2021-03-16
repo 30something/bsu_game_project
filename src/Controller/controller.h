@@ -10,6 +10,8 @@
 #include "src/View/view.h"
 
 class Controller : public QWidget {
+  Q_OBJECT
+
  public:
   explicit Controller(QWidget* parent = nullptr);
   ~Controller() override = default;
@@ -18,8 +20,8 @@ class Controller : public QWidget {
   void paintEvent(QPaintEvent*) override;
   void HandleKeyPressEvent(QKeyEvent*);
   void HandleKeyReleaseEvent(QKeyEvent*);
-  void resizeEvent(QResizeEvent*) override;
   void SetUnsetPause();
+  QPushButton* GetReturnToMainMenuButton() const;
 
  private:
   enum class Actions {
