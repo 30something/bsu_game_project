@@ -18,8 +18,6 @@ class MainWindow : public QMainWindow {
   void ReturnToMainMenu();
 
  private:
-  void keyPressEvent(QKeyEvent*) override;
-  void keyReleaseEvent(QKeyEvent*) override;
   void resizeEvent(QResizeEvent*) override;
 
   QStackedWidget* stacked_widget_;

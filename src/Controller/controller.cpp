@@ -24,14 +24,14 @@ void Controller::paintEvent(QPaintEvent*) {
   view_->Repaint(&main_painter);
 }
 
-void Controller::HandleKeyPressEvent(QKeyEvent* event) {
+void Controller::keyPressEvent(QKeyEvent* event) {
   model_->HandleKeyPressEvent(event);
   if (event->key() == static_cast<int>(Actions::kOpenOrCloseMenu)) {
     SetUnsetPause();
   }
 }
 
-void Controller::HandleKeyReleaseEvent(QKeyEvent* event) {
+void Controller::keyReleaseEvent(QKeyEvent* event) {
   model_->HandleKeyReleaseEvent(event);
 }
 

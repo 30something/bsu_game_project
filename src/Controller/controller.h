@@ -18,8 +18,8 @@ class Controller : public QWidget {
 
   void timerEvent(QTimerEvent*) override;
   void paintEvent(QPaintEvent*) override;
-  void HandleKeyPressEvent(QKeyEvent*);
-  void HandleKeyReleaseEvent(QKeyEvent*);
+  void keyPressEvent(QKeyEvent*) override;
+  void keyReleaseEvent(QKeyEvent*) override;
   void SetUnsetPause();
   QPushButton* GetReturnToMainMenuButton() const;
 

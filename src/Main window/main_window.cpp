@@ -15,18 +15,6 @@ MainWindow::MainWindow(QMainWindow* parent) :
           &MainWindow::ExitGame);
 }
 
-void MainWindow::keyPressEvent(QKeyEvent* event) {
-  if (controller_ != nullptr) {
-    controller_->HandleKeyPressEvent(event);
-  }
-}
-
-void MainWindow::keyReleaseEvent(QKeyEvent* event) {
-  if (controller_ != nullptr) {
-    controller_->HandleKeyReleaseEvent(event);
-  }
-}
-
 void MainWindow::resizeEvent(QResizeEvent*) {
   stacked_widget_->setGeometry(0, 0, width(), height());
 }
@@ -35,6 +23,7 @@ void MainWindow::StartGame() {
   controller_ = new Controller(this);
   connect(controller_->GetReturnToMainMenuButton(), &QPushButton::clicked,
           this, &MainWindow::ReturnToMainMenu);
+  controller_->setFocus();
   stacked_widget_->addWidget(controller_);
   stacked_widget_->setCurrentWidget(controller_);
 }
@@ -44,6 +33,7 @@ void MainWindow::ExitGame() {
 }
 
 void MainWindow::ReturnToMainMenu() {
+  menu_->setFocus();
   stacked_widget_->removeWidget(controller_);
   stacked_widget_->setCurrentWidget(menu_);
 }
