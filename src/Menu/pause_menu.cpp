@@ -27,7 +27,6 @@ PauseMenu::PauseMenu(QWidget* parent)
 }
 
 void PauseMenu::resizeEvent(QResizeEvent*) {
-  main_layout_->setGeometry(QRect(0, 0, width(), height()));
   small_exit_window_->move((width() - small_exit_window_->GetWidth()) / 2,
                            (height() - small_exit_window_->GetHeight()) / 2);
 }

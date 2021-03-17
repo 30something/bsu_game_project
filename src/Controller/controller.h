@@ -23,6 +23,9 @@ class Controller : public QWidget {
   void SetUnsetPause();
   QPushButton* GetReturnToMainMenuButton() const;
 
+ protected:
+  void resizeEvent(QResizeEvent*) override;
+
  private:
   enum class Actions {
     kOpenOrCloseMenu = Qt::Key_Escape,

@@ -50,3 +50,7 @@ void Controller::SetUnsetPause() {
 QPushButton* Controller::GetReturnToMainMenuButton() const {
   return pause_menu_->GetReturnToMainMenuButton();
 }
+
+void Controller::resizeEvent(QResizeEvent*) {
+  pause_menu_->setGeometry(0, 0, width(), height());
+}
