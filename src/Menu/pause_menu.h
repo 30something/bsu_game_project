@@ -12,6 +12,7 @@ class PauseMenu : public QWidget {
  public:
   explicit PauseMenu(QWidget* parent = nullptr);
   ~PauseMenu() override = default;
+  QPushButton* GetReturnToMainMenuButton() const;
   QPushButton* GetContinueButton() const;
 
  protected:

@@ -10,16 +10,21 @@
 #include "src/View/view.h"
 
 class Controller : public QWidget {
+  Q_OBJECT
+
  public:
   explicit Controller(QWidget* parent = nullptr);
   ~Controller() override = default;
 
   void timerEvent(QTimerEvent*) override;
   void paintEvent(QPaintEvent*) override;
-  void HandleKeyPressEvent(QKeyEvent*);
-  void HandleKeyReleaseEvent(QKeyEvent*);
-  void resizeEvent(QResizeEvent*) override;
+  void keyPressEvent(QKeyEvent*) override;
+  void keyReleaseEvent(QKeyEvent*) override;
   void SetUnsetPause();
+  QPushButton* GetReturnToMainMenuButton() const;
+
+ protected:
+  void resizeEvent(QResizeEvent*) override;
 
  private:
   enum class Actions {

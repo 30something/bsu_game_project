@@ -24,14 +24,14 @@ void Controller::paintEvent(QPaintEvent*) {
   view_->Repaint(&main_painter);
 }
 
-void Controller::HandleKeyPressEvent(QKeyEvent* event) {
+void Controller::keyPressEvent(QKeyEvent* event) {
   model_->HandleKeyPressEvent(event);
   if (event->key() == static_cast<int>(Actions::kOpenOrCloseMenu)) {
     SetUnsetPause();
   }
 }
 
-void Controller::HandleKeyReleaseEvent(QKeyEvent* event) {
+void Controller::keyReleaseEvent(QKeyEvent* event) {
   model_->HandleKeyReleaseEvent(event);
 }
 
@@ -47,6 +47,10 @@ void Controller::SetUnsetPause() {
   }
 }
 
+QPushButton* Controller::GetReturnToMainMenuButton() const {
+  return pause_menu_->GetReturnToMainMenuButton();
+}
+
 void Controller::resizeEvent(QResizeEvent*) {
-  pause_menu_->setGeometry(QRect(0, 0, width(), height()));
+  pause_menu_->setGeometry(0, 0, width(), height());
 }
