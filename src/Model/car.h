@@ -34,8 +34,10 @@ class Car {
   std::vector<std::vector<std::pair<int, int>>>* borders_;
 
   Vec2f position_;
-  Vec2f previous_position_;
   Vec2f angle_vec_;
+  std::vector<Vec2f> prev_position_list_;
+  std::vector<Vec2f> prev_angle_vec_list_;
+  static constexpr int kSizeOfPreviousPos = 4;
   Vec2f velocity_;
   double angular_velocity_ = 0;
   double steering_angle_ = 0;

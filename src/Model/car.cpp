@@ -4,7 +4,9 @@ Car::Car(int x,
          int y,
          double angle,
          std::vector<std::vector<std::pair<int, int>>>* borders) :
-    borders_(borders) {
+    borders_(borders),
+    prev_position_list_(kSizeOfPreviousPos, position_),
+    prev_angle_vec_list_(kSizeOfPreviousPos, angle_vec_){
   position_.Set(x, y);
   angle_vec_.Set(1.0, 0.0);
   angle_vec_.Rotate(angle);
@@ -44,7 +46,14 @@ void Car::AdvanceStep(int time_millisec) {
 
   velocity_ += accel * time_sec;
   angular_velocity_ += angular_accel * time_sec;
-  previous_position_ = position_;
+
+  for(size_t i = 0; i < kSizeOfPreviousPos - 1; i++) {
+    prev_position_list_[i] = prev_position_list_[i+1];
+    prev_angle_vec_list_[i] = prev_angle_vec_list_[i+1];
+  }
+  prev_position_list_[kSizeOfPreviousPos - 1] = position_;
+  prev_angle_vec_list_[kSizeOfPreviousPos - 1] = angle_vec_;
+
   position_ += velocity_ * time_sec;
   angle_vec_.Rotate(angular_velocity_ * time_sec);
   angle_vec_.Normalize();
@@ -76,7 +85,7 @@ Vec2f Car::ProceedCollisions() {
       l2.y2 = corners[i].GetY();
     }
     for (const auto& border : *borders_) {
-      for (int j = 0; j < border.size(); j++) {
+      for (size_t j = 0; j < border.size(); j++) {
         Line l1;
         if (j == border.size() - 1) {
           l1.x1 = border[j].first;
@@ -90,8 +99,9 @@ Vec2f Car::ProceedCollisions() {
           l1.y2 = border[j + 1].second;
         }
         if (isIntersects(l1, l2)) {
-          position_ = previous_position_;
-          velocity_.Rotate(M_PI / 2);
+          position_ = prev_position_list_[0];
+          angle_vec_ = prev_angle_vec_list_[0];
+          velocity_.SetLen(0.0001);
           break;
         }
       }
@@ -120,7 +130,7 @@ void Car::ProceedInputFlags() {
   if (flag_down_) {
     velocity_ -= angle_vec_ * accel_factor;
     if (velocity_.GetLength() > max_speed_backward &&
-        velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees() < 89) {
+        std::abs(velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees()) < 90) {
       velocity_.SetLen(max_speed_backward);
     }
   }
@@ -165,11 +175,11 @@ void Car::UpdateWheelsPosAndOrientation() {
 }
 
 int Car::GetX() const {
-  return position_.GetX();
+  return static_cast<int>(position_.GetX());
 }
 
 int Car::GetY() const {
-  return position_.GetY();
+  return static_cast<int>(position_.GetY());
 }
 
 double Car::GetAngle() const {
@@ -193,18 +203,18 @@ void Car::SetFlagRight(bool flag_right) {
 }
 
 bool Car::isIntersects(Line l1, Line l2) {
-  int ax1 = l1.x1;
-  int ay1 = l1.y1;
-  int ax2 = l1.x2;
-  int ay2 = l1.y2;
-  int bx1 = l2.x1;
-  int by1 = l2.y1;
-  int bx2 = l2.x2;
-  int by2 = l2.y2;
-  int v1 = (bx2 - bx1) * (ay1 - by1) - (by2 - by1) * (ax1 - bx1);
-  int v2 = (bx2 - bx1) * (ay2 - by1) - (by2 - by1) * (ax2 - bx1);
-  int v3 = (ax2 - ax1) * (by1 - ay1) - (ay2 - ay1) * (bx1 - ax1);
-  int v4 = (ax2 - ax1) * (by2 - ay1) - (ay2 - ay1) * (bx2 - ax1);
+  double ax1 = l1.x1;
+  double ay1 = l1.y1;
+  double ax2 = l1.x2;
+  double ay2 = l1.y2;
+  double bx1 = l2.x1;
+  double by1 = l2.y1;
+  double bx2 = l2.x2;
+  double by2 = l2.y2;
+  double v1 = (bx2 - bx1) * (ay1 - by1) - (by2 - by1) * (ax1 - bx1);
+  double v2 = (bx2 - bx1) * (ay2 - by1) - (by2 - by1) * (ax2 - bx1);
+  double v3 = (ax2 - ax1) * (by1 - ay1) - (ay2 - ay1) * (bx1 - ax1);
+  double v4 = (ax2 - ax1) * (by2 - ay1) - (ay2 - ay1) * (bx2 - ax1);
   bool left;
   bool right;
   if ((v1 < 0 && v2 < 0) || (v1 > 0 && v2 > 0)) {
