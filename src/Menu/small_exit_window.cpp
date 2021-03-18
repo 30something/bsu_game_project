@@ -16,6 +16,10 @@ SmallExitWindow::SmallExitWindow(QWidget* parent)
   no_button_->move(width_ * 29 / 50, height_ * 2 / 5);
 }
 
+QPushButton* SmallExitWindow::GetYesButton() const {
+  return yes_button_;
+}
+
 QPushButton* SmallExitWindow::GetNoButton() const {
   return no_button_;
 }
