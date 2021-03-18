@@ -43,10 +43,10 @@ void Car::AdvanceStep(int time_millisec) {
   ProceedCollisions();
   accel *= 1.0 / mass_;
   angular_accel /= moment_inertia_;
-
   velocity_ += accel * time_sec;
   angular_velocity_ += angular_accel * time_sec;
 
+  // calculate vector of previous positions for collisions
   for(size_t i = 0; i < kSizeOfPreviousPos - 1; i++) {
     prev_position_list_[i] = prev_position_list_[i+1];
     prev_angle_vec_list_[i] = prev_angle_vec_list_[i+1];
@@ -60,43 +60,41 @@ void Car::AdvanceStep(int time_millisec) {
   UpdateWheelsPosAndOrientation();
 }
 
-Vec2f Car::ProceedCollisions() {
-  Vec2f front_left_corner = wheels_[0].GetPosition();
-  Vec2f front_right_corner = wheels_[1].GetPosition();
-  Vec2f back_left_corner = wheels_[2].GetPosition();
-  Vec2f back_right_corner = wheels_[3].GetPosition();
+void Car::ProceedCollisions() {
   std::vector<Vec2f> corners =
-      {front_left_corner,
-       front_right_corner,
-       back_left_corner,
-       back_right_corner};
+      {wheels_[0].GetPosition(),
+       wheels_[1].GetPosition(),
+       wheels_[2].GetPosition(),
+       wheels_[3].GetPosition()};
+  // For every line of the car find the interceptions
+  // with every line of the borders
   for (int i = 0; i < 4; i++) {
-    Line l2;
+    Line l1;
     if (i == 0 || i == 1) {
-      l2.x1 = corners[i].GetX();
-      l2.y1 = corners[i].GetY();
-      l2.x2 = corners[i + 2].GetX();
-      l2.y2 = corners[i + 2].GetY();
+      l1.x1 = corners[i].GetX();
+      l1.y1 = corners[i].GetY();
+      l1.x2 = corners[i + 2].GetX();
+      l1.y2 = corners[i + 2].GetY();
     }
     if (i == 2 || i == 3) {
-      l2.x1 = corners[i - 2].GetX();
-      l2.y1 = corners[i - 2].GetY();
-      l2.x2 = corners[i].GetX();
-      l2.y2 = corners[i].GetY();
+      l1.x1 = corners[i - 2].GetX();
+      l1.y1 = corners[i - 2].GetY();
+      l1.x2 = corners[i].GetX();
+      l1.y2 = corners[i].GetY();
     }
     for (const auto& border : *borders_) {
       for (size_t j = 0; j < border.size(); j++) {
-        Line l1;
+        Line l2;
         if (j == border.size() - 1) {
-          l1.x1 = border[j].first;
-          l1.y1 = border[j].second;
-          l1.x2 = border[0].first;
-          l1.y2 = border[0].second;
+          l2.x1 = border[j].first;
+          l2.y1 = border[j].second;
+          l2.x2 = border[0].first;
+          l2.y2 = border[0].second;
         } else {
-          l1.x1 = border[j].first;
-          l1.y1 = border[j].second;
-          l1.x2 = border[j + 1].first;
-          l1.y2 = border[j + 1].second;
+          l2.x1 = border[j].first;
+          l2.y1 = border[j].second;
+          l2.x2 = border[j + 1].first;
+          l2.y2 = border[j + 1].second;
         }
         if (isIntersects(l1, l2)) {
           position_ = prev_position_list_[0];
@@ -107,7 +105,6 @@ Vec2f Car::ProceedCollisions() {
       }
     }
   }
-  return front_left_corner;
 }
 
 void Car::ProceedInputFlags() {
@@ -203,6 +200,7 @@ void Car::SetFlagRight(bool flag_right) {
 }
 
 bool Car::isIntersects(Line l1, Line l2) {
+  // Code taken somewhere from the internet with smol bug fix
   double ax1 = l1.x1;
   double ay1 = l1.y1;
   double ax2 = l1.x2;

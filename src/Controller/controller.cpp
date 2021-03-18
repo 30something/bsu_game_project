@@ -9,6 +9,7 @@ Controller::Controller(QWidget* parent) :
   pause_menu_->close();
   connect(pause_menu_->GetContinueButton(), &QPushButton::clicked,
           this, &Controller::SetUnsetPause);
+
   connect(&controller_timer_, &QTimer::timeout, this, &Controller::PhysicsTimerEvent);
   connect(&view_timer_, &QTimer::timeout, this, &Controller::ViewTimerEvent);
   controller_timer_.start(kMillisPerPhysicsTick);

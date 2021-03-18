@@ -32,7 +32,7 @@ class Car {
 
  private:
   std::vector<std::vector<std::pair<int, int>>>* borders_;
-
+  std::vector<Wheel> wheels_{4};
   Vec2f position_;
   Vec2f angle_vec_;
   std::vector<Vec2f> prev_position_list_;
@@ -40,14 +40,15 @@ class Car {
   static constexpr int kSizeOfPreviousPos = 4;
   Vec2f velocity_;
   double angular_velocity_ = 0;
-  double steering_angle_ = 0;
 
+  double steering_angle_ = 0;
   bool flag_up_ = false;
   bool flag_down_ = false;
   bool flag_left_ = false;
+
   bool flag_right_ = false;
 
-  std::vector<Wheel> wheels_{4};
+  // constants
   double accel_factor = 2.0;
   double max_speed_forward = 300;
   double max_speed_backward = 100;
@@ -62,7 +63,7 @@ class Car {
   double rear_coef_friction_ = 80;
   double max_slip_angle_radians_ = 0.07;
 
-  Vec2f ProceedCollisions();
+  void ProceedCollisions();
   void ProceedInputFlags();
   void UpdateWheelsPosAndOrientation();
   void AdvanceStep(int time_millisec);
