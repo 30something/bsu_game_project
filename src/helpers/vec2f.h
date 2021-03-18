@@ -8,7 +8,7 @@ struct Line {
       x1(x1_),
       y1(y1_),
       x2(x2_),
-      y2(y2_) {};
+      y2(y2_) {}
   Line() = default;
   double x1 = 0;
   double y1 = 0;

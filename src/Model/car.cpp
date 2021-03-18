@@ -6,7 +6,7 @@ Car::Car(int x,
          std::vector<std::vector<std::pair<int, int>>>* borders) :
     borders_(borders),
     prev_position_list_(kSizeOfPreviousPos, position_),
-    prev_angle_vec_list_(kSizeOfPreviousPos, angle_vec_){
+    prev_angle_vec_list_(kSizeOfPreviousPos, angle_vec_) {
   position_.Set(x, y);
   angle_vec_.Set(1.0, 0.0);
   angle_vec_.Rotate(angle);
@@ -47,9 +47,9 @@ void Car::AdvanceStep(int time_millisec) {
   angular_velocity_ += angular_accel * time_sec;
 
   // calculate vector of previous positions for collisions
-  for(size_t i = 0; i < kSizeOfPreviousPos - 1; i++) {
-    prev_position_list_[i] = prev_position_list_[i+1];
-    prev_angle_vec_list_[i] = prev_angle_vec_list_[i+1];
+  for (size_t i = 0; i < kSizeOfPreviousPos - 1; i++) {
+    prev_position_list_[i] = prev_position_list_[i + 1];
+    prev_angle_vec_list_[i] = prev_angle_vec_list_[i + 1];
   }
   prev_position_list_[kSizeOfPreviousPos - 1] = position_;
   prev_angle_vec_list_[kSizeOfPreviousPos - 1] = angle_vec_;
@@ -127,7 +127,8 @@ void Car::ProceedInputFlags() {
   if (flag_down_) {
     velocity_ -= angle_vec_ * accel_factor;
     if (velocity_.GetLength() > max_speed_backward &&
-        std::abs(velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees()) < 90) {
+        std::abs(velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees())
+            < 90) {
       velocity_.SetLen(max_speed_backward);
     }
   }

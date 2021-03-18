@@ -56,8 +56,8 @@ void Model::ParseMapBorders() {
   if (!file.open(QIODevice::ReadOnly)) {
     qWarning("Cannot open file for reading");
   }
-  std::vector<std::pair<int,int>> left_borders_;
-  std::vector<std::pair<int,int>> right_borders_;
+  std::vector<std::pair<int, int>> left_borders_;
+  std::vector<std::pair<int, int>> right_borders_;
   QTextStream in(&file);
   bool left_part = true;
   while (!in.atEnd()) {

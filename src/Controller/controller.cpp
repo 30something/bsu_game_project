@@ -7,11 +7,19 @@ Controller::Controller(QWidget* parent) :
     pause_menu_(new PauseMenu(this)) {
   pause_menu_->move(width() / 4, height() / 4);
   pause_menu_->close();
-  connect(pause_menu_->GetContinueButton(), &QPushButton::clicked,
-          this, &Controller::SetUnsetPause);
+  connect(pause_menu_->GetContinueButton(),
+          &QPushButton::clicked,
+          this,
+          &Controller::SetUnsetPause);
 
-  connect(&controller_timer_, &QTimer::timeout, this, &Controller::PhysicsTimerEvent);
-  connect(&view_timer_, &QTimer::timeout, this, &Controller::ViewTimerEvent);
+  connect(&controller_timer_,
+          &QTimer::timeout,
+          this,
+          &Controller::PhysicsTimerEvent);
+  connect(&view_timer_,
+          &QTimer::timeout,
+          this,
+          &Controller::ViewTimerEvent);
   controller_timer_.start(kMillisPerPhysicsTick);
   view_timer_.start(kMillisPerFrame);
 }

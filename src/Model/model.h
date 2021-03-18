@@ -1,6 +1,7 @@
 #pragma once
 
 #include <utility>
+#include <vector>
 
 #include <QKeyEvent>
 #include <QTextStream>
