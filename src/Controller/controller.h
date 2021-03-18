@@ -4,6 +4,7 @@
 #include <QPainter>
 #include <QTimerEvent>
 #include <QWidget>
+#include <QTimer>
 
 #include "src/Menu/pause_menu.h"
 #include "src/Model/model.h"
@@ -16,7 +17,6 @@ class Controller : public QWidget {
   explicit Controller(QWidget* parent = nullptr);
   ~Controller() override = default;
 
-  void timerEvent(QTimerEvent*) override;
   void paintEvent(QPaintEvent*) override;
   void keyPressEvent(QKeyEvent*) override;
   void keyReleaseEvent(QKeyEvent*) override;
@@ -36,9 +36,16 @@ class Controller : public QWidget {
     kRunning,
   };
 
+  void PhysicsTimerEvent();
+  void ViewTimerEvent();
+
+  QTimer view_timer_;
+  QTimer controller_timer_;
   Model* model_;
   View* view_;
   PauseMenu* pause_menu_;
   GameStatus game_status_ = GameStatus::kRunning;
-  static constexpr int kMillisPerFrame = 20;
+  static constexpr int kMillisPerFrame = 10;
+  static constexpr int kMillisPerPhysicsTick = 5;
+
 };

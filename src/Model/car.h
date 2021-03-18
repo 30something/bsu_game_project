@@ -46,7 +46,7 @@ class Car {
   bool flag_right_ = false;
 
   std::vector<Wheel> wheels_{4};
-  double k_accel_factor = 10.0;
+  double accel_factor = 2.0;
   double max_speed_forward = 300;
   double max_speed_backward = 100;
   double half_front_track_ = 0.75;
@@ -58,7 +58,6 @@ class Car {
   double moment_inertia_ = (mass_ * length_ * length_) / 1.0;
   double front_coef_friction_ = 100;
   double rear_coef_friction_ = 80;
-
   double max_slip_angle_radians_ = 0.07;
 
   Vec2f ProceedCollisions();

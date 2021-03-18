@@ -9,12 +9,20 @@ Controller::Controller(QWidget* parent) :
   pause_menu_->close();
   connect(pause_menu_->GetContinueButton(), &QPushButton::clicked,
           this, &Controller::SetUnsetPause);
-  startTimer(kMillisPerFrame);
+  connect(&controller_timer_, &QTimer::timeout, this, &Controller::PhysicsTimerEvent);
+  connect(&view_timer_, &QTimer::timeout, this, &Controller::ViewTimerEvent);
+  controller_timer_.start(kMillisPerPhysicsTick);
+  view_timer_.start(kMillisPerFrame);
 }
 
-void Controller::timerEvent(QTimerEvent*) {
+void Controller::PhysicsTimerEvent() {
   if (game_status_ == GameStatus::kRunning) {
-    model_->Tick(kMillisPerFrame);
+    model_->Tick(kMillisPerPhysicsTick);
+  }
+}
+
+void Controller::ViewTimerEvent() {
+  if (game_status_ == GameStatus::kRunning) {
     repaint();
   }
 }

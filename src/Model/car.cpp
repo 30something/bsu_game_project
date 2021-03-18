@@ -112,13 +112,13 @@ void Car::ProceedInputFlags() {
   }
   // TODO(dima_makarov): fix keyboard controls
   if (flag_up_) {
-    velocity_ += angle_vec_ * k_accel_factor;
+    velocity_ += angle_vec_ * accel_factor;
     if (velocity_.GetLength() > max_speed_forward) {
       velocity_.SetLen(max_speed_forward);
     }
   }
   if (flag_down_) {
-    velocity_ -= angle_vec_ * k_accel_factor;
+    velocity_ -= angle_vec_ * accel_factor;
     if (velocity_.GetLength() > max_speed_backward &&
         velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees() < 89) {
       velocity_.SetLen(max_speed_backward);
@@ -127,7 +127,6 @@ void Car::ProceedInputFlags() {
 }
 
 void Car::Tick(int time_millisec) {
-  // std::cout << isIntersects(Line(360, 542, 359, 553), Line(356, 354, 635, 244));
   ProceedInputFlags();
   AdvanceStep(time_millisec);
 }
