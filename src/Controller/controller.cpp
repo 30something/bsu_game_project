@@ -41,6 +41,7 @@ void Controller::SetUnsetPause() {
     focusNextChild();
   } else {
     pause_menu_->close();
+    pause_menu_->CloseSmallExitWindow();
     game_status_ = GameStatus::kRunning;
     setFocus();
   }

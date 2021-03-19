@@ -13,6 +13,7 @@ class PauseMenu : public QWidget {
  public:
   explicit PauseMenu(QWidget* parent = nullptr);
   ~PauseMenu() override = default;
+  void CloseSmallExitWindow();
   QPushButton* GetReturnToMainMenuButton() const;
   QPushButton* GetContinueButton() const;
 

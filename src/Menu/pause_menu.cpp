@@ -42,6 +42,10 @@ void PauseMenu::resizeEvent(QResizeEvent*) {
           / menu_sizes::kSmallExitWindowMoveKoef);
 }
 
+void PauseMenu::CloseSmallExitWindow() {
+  small_exit_window_->close();
+}
+
 QPushButton* PauseMenu::GetContinueButton() const {
   return continue_button_;
 }
