@@ -22,24 +22,7 @@ void Car::AdvanceStep(int time_millisec) {
   Vec2f accel;
   double angular_accel = 0.0;
 
-  for (int i = 0; i < 4; i++) {
-    if (i == 0 || i == 1) {
-      wheels_[i].CalcLateralForce(max_slip_angle_radians_,
-                                  mass_,
-                                  front_coef_friction_);
-    } else {
-      wheels_[i].CalcLateralForce(max_slip_angle_radians_,
-                                  mass_,
-                                  rear_coef_friction_);
-    }
-    accel += wheels_[i].GetForce();
-    Vec2f car_centre_to_wheel = wheels_[i].GetPosition() - position_;
-    double projected_force =
-        car_centre_to_wheel.AngleBetween(wheels_[i].GetForce())
-            * wheels_[i].GetForce().GetLength();
-    double torque = projected_force * car_centre_to_wheel.GetLength();
-    angular_accel -= torque;
-  }
+  CalcAccelerations(&accel, &angular_accel);
   ProceedCollisions();
   accel *= 1.0 / mass_;
   angular_accel /= moment_inertia_;
@@ -58,6 +41,30 @@ void Car::AdvanceStep(int time_millisec) {
   angle_vec_.Rotate(angular_velocity_ * time_sec);
   angle_vec_.Normalize();
   UpdateWheelsPosAndOrientation();
+}
+
+void Car::CalcAccelerations(Vec2f* accel, double* angular_accel) {
+  for (int i = 0; i < 4; i++) {
+    wheels_[0].CalcLateralForce(max_slip_angle_radians_,
+                                mass_,
+                                front_coef_friction_);
+    wheels_[1].CalcLateralForce(max_slip_angle_radians_,
+                                mass_,
+                                front_coef_friction_);
+    wheels_[2].CalcLateralForce(max_slip_angle_radians_,
+                                mass_,
+                                rear_coef_friction_);
+    wheels_[3].CalcLateralForce(max_slip_angle_radians_,
+                                mass_,
+                                rear_coef_friction_);
+    *accel += wheels_[i].GetForce();
+    Vec2f car_centre_to_wheel = wheels_[i].GetPosition() - position_;
+    double projected_force =
+        car_centre_to_wheel.AngleBetween(wheels_[i].GetForce())
+            * wheels_[i].GetForce().GetLength();
+    double torque = projected_force * car_centre_to_wheel.GetLength();
+    *angular_accel -= torque;
+  }
 }
 
 void Car::ProceedCollisions() {
@@ -96,10 +103,10 @@ void Car::ProceedCollisions() {
           l2.x2 = border[j + 1].first;
           l2.y2 = border[j + 1].second;
         }
-        if (isIntersects(l1, l2)) {
+        if (Line::IsIntersects(l1, l2)) {
           position_ = prev_position_list_[0];
           angle_vec_ = prev_angle_vec_list_[0];
-          velocity_.SetLen(0.0001);
+          velocity_.SetLen(0.0000000001);
           break;
         }
       }
@@ -198,39 +205,4 @@ void Car::SetFlagLeft(bool flag_left) {
 
 void Car::SetFlagRight(bool flag_right) {
   flag_right_ = flag_right;
-}
-
-bool Car::isIntersects(Line l1, Line l2) {
-  // Code taken somewhere from the internet with smol bug fix
-  double ax1 = l1.x1;
-  double ay1 = l1.y1;
-  double ax2 = l1.x2;
-  double ay2 = l1.y2;
-  double bx1 = l2.x1;
-  double by1 = l2.y1;
-  double bx2 = l2.x2;
-  double by2 = l2.y2;
-  double v1 = (bx2 - bx1) * (ay1 - by1) - (by2 - by1) * (ax1 - bx1);
-  double v2 = (bx2 - bx1) * (ay2 - by1) - (by2 - by1) * (ax2 - bx1);
-  double v3 = (ax2 - ax1) * (by1 - ay1) - (ay2 - ay1) * (bx1 - ax1);
-  double v4 = (ax2 - ax1) * (by2 - ay1) - (ay2 - ay1) * (bx2 - ax1);
-  bool left;
-  bool right;
-  if ((v1 < 0 && v2 < 0) || (v1 > 0 && v2 > 0)) {
-    left = false;
-  } else if ((v1 < 0 && v2 > 0) || (v1 > 0 && v2 < 0)) {
-    left = true;
-  } else {
-    left = false;
-  }
-
-  if ((v3 < 0 && v4 < 0) || (v3 > 0 && v4 > 0)) {
-    right = false;
-  } else if ((v3 < 0 && v4 > 0) || (v3 > 0 && v4 < 0)) {
-    right = true;
-  } else {
-    right = false;
-  }
-
-  return left && right;
 }

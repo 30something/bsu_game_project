@@ -11,6 +11,7 @@
 
 #include "src/helpers/vec2f.h"
 #include "wheel.h"
+#include "src/helpers/line.h"
 
 class Car {
  public:
@@ -67,5 +68,5 @@ class Car {
   void ProceedInputFlags();
   void UpdateWheelsPosAndOrientation();
   void AdvanceStep(int time_millisec);
-  static bool isIntersects(Line l1, Line l2);
+  void CalcAccelerations(Vec2f* accel, double* angular_accel);
 };

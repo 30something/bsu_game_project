@@ -34,7 +34,7 @@ set(SOURCES main.cpp
         src/helpers/vec2f.cpp
         src/Model/wheel.cpp
         src/Menu/pause_menu.cpp
-        src/Menu/small_exit_window.cpp)
+        src/Menu/small_exit_window.cpp src/helpers/line.cpp src/helpers/line.h)
 
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
