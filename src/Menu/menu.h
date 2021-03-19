@@ -21,6 +21,7 @@ class Menu : public QWidget {
   QPushButton* settings_button_ = nullptr;
   QPushButton* credits_button_ = nullptr;
   QPushButton* exit_button_ = nullptr;
+
   static constexpr int kWidth = 800;
   static constexpr int kHeight = 800;
 };
