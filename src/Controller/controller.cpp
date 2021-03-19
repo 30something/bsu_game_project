@@ -5,23 +5,8 @@ Controller::Controller(QWidget* parent) :
     model_(new Model()),
     view_(new View(model_)),
     pause_menu_(new PauseMenu(this)) {
-  pause_menu_->move(width() / 4, height() / 4);
-  pause_menu_->close();
-  connect(pause_menu_->GetContinueButton(),
-          &QPushButton::clicked,
-          this,
-          &Controller::SetUnsetPause);
-
-  connect(&controller_timer_,
-          &QTimer::timeout,
-          this,
-          &Controller::PhysicsTimerEvent);
-  connect(&view_timer_,
-          &QTimer::timeout,
-          this,
-          &Controller::ViewTimerEvent);
-  controller_timer_.start(kMillisPerPhysicsTick);
-  view_timer_.start(kMillisPerFrame);
+  PreparePauseMenu();
+  PrepareTimer();
 }
 
 void Controller::PhysicsTimerEvent() {
@@ -62,6 +47,28 @@ void Controller::SetUnsetPause() {
     game_status_ = GameStatus::kRunning;
     setFocus();
   }
+}
+
+void Controller::PreparePauseMenu() {
+  pause_menu_->move(width() / 4, height() / 4);
+  pause_menu_->close();
+  connect(pause_menu_->GetContinueButton(),
+          &QPushButton::clicked,
+          this,
+          &Controller::SetUnsetPause);
+}
+
+void Controller::PrepareTimer() {
+  connect(&controller_timer_,
+          &QTimer::timeout,
+          this,
+          &Controller::PhysicsTimerEvent);
+  connect(&view_timer_,
+          &QTimer::timeout,
+          this,
+          &Controller::ViewTimerEvent);
+  controller_timer_.start(kMillisPerPhysicsTick);
+  view_timer_.start(kMillisPerFrame);
 }
 
 QPushButton* Controller::GetReturnToMainMenuButton() const {

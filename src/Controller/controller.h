@@ -47,4 +47,6 @@ class Controller : public QWidget {
   GameStatus game_status_ = GameStatus::kRunning;
   static constexpr int kMillisPerFrame = 10;
   static constexpr int kMillisPerPhysicsTick = 5;
+  void PrepareTimer();
+  void PreparePauseMenu();
 };
