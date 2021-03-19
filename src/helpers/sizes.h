@@ -11,10 +11,15 @@ constexpr int kPauseMenuWidth = 500;
 constexpr int kPauseMenuHeight = 500;
 constexpr int kPauseMenuMinButtonWidth = kPauseMenuWidth * 3 / 5;
 constexpr int kPauseMenuMinButtonHeight = kPauseMenuHeight * 9 / 50;
-constexpr int kPauseMenuPositionX = kMenuWidth / 4;
-constexpr int kPauseMenuPositionY = kMenuHeight / 4;
 constexpr int kSmallExitWindowWidth = 250;
 constexpr int kSmallExitWindowHeight = 100;
-constexpr int kSmallExitWindowMoveKoef = 2;
+constexpr int kSmallExitWindowMoveCoef = 2;
 
 }  // namespace menu_sizes
+
+namespace mainwindow_sizes {
+
+constexpr int kDefaultScreenWidth = 800;
+constexpr int kDefaultScreenHeight = 800;
+
+}  // mainwindow_sizes

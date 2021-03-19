@@ -1,10 +1,13 @@
 #include "main_window.h"
+#include "src/helpers/sizes.h"
 
 MainWindow::MainWindow(QMainWindow* parent) :
     QMainWindow(parent),
     stacked_widget_(new QStackedWidget(this)),
-    menu_(new Menu(this)) {
-  setMinimumSize(kDefaultScreenWidth, kDefaultScreenHeight);
+    menu_(new Menu(this)),
+    size_(mainwindow_sizes::kDefaultScreenWidth,
+          mainwindow_sizes::kDefaultScreenHeight) {
+  setMinimumSize(size_.width(), size_.height());
   setWindowTitle("Death Rally");
   stacked_widget_->addWidget(menu_);
   stacked_widget_->setCurrentWidget(menu_);

@@ -26,5 +26,5 @@ class PauseMenu : public QWidget {
   QPushButton* exit_button_;
   QPushButton* continue_button_;
   SmallExitWindow* small_exit_window_;
-  QSize* size_;
+  QSize size_;
 };

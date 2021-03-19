@@ -1,5 +1,5 @@
 #include "menu.h"
-#include "src/helpers/menu_sizes.h"
+#include "src/helpers/sizes.h"
 
 Menu::Menu(QWidget* parent) :
     QWidget(parent),
@@ -9,8 +9,8 @@ Menu::Menu(QWidget* parent) :
     settings_button_(new QPushButton("Settings", this)),
     credits_button_(new QPushButton("Credits", this)),
     exit_button_(new QPushButton("Exit", this)),
-    size_(new QSize(menu_sizes::kMenuWidth, menu_sizes::kMenuHeight)) {
-  setMinimumSize(size_->width(), size_->height());
+    size_(menu_sizes::kMenuWidth, menu_sizes::kMenuHeight) {
+  setMinimumSize(size_.width(), size_.height());
   start_game_button_->setMinimumSize(menu_sizes::kMenuMinButtonWidth,
                                      menu_sizes::kMenuMinButtonHeight);
   settings_button_->setMinimumSize(menu_sizes::kMenuMinButtonWidth,

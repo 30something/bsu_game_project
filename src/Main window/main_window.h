@@ -23,6 +23,5 @@ class MainWindow : public QMainWindow {
   QStackedWidget* stacked_widget_;
   Controller* controller_ = nullptr;
   Menu* menu_;
-  static constexpr int kDefaultScreenWidth = 800;
-  static constexpr int kDefaultScreenHeight = 800;
+  QSize size_;
 };
