@@ -24,8 +24,10 @@ class Model {
 
  private:
   std::vector<std::vector<std::pair<int, int>>>* borders_ = nullptr;
+  const int car_start_pos_x_ = 360;
+  const int car_start_pos_y_ = 548;
+  const double car_start_angle_ = -M_PI / 2;
   Car car_;
-
   void ParseMapBorders();
   static std::pair<int, int> ParseLine(const QString& line);
 };
