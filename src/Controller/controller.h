@@ -10,8 +10,6 @@
 #include "src/View/view.h"
 
 class Controller : public QWidget {
-  Q_OBJECT
-
  public:
   explicit Controller(QWidget* parent = nullptr);
   ~Controller() override = default;

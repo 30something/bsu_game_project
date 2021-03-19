@@ -1,4 +1,5 @@
 #include "menu.h"
+#include "src/helpers/menu_sizes.h"
 
 Menu::Menu(QWidget* parent) :
     QWidget(parent),
@@ -7,13 +8,18 @@ Menu::Menu(QWidget* parent) :
     start_game_button_(new QPushButton("Start game", this)),
     settings_button_(new QPushButton("Settings", this)),
     credits_button_(new QPushButton("Credits", this)),
-    exit_button_(new QPushButton("Exit", this)) {
-  setMinimumSize(kWidth, kHeight);
-  start_game_button_->setMinimumSize(kWidth * 2 / 5, kHeight / 7);
-  settings_button_->setMinimumSize(kWidth * 2 / 5, kHeight / 7);
-  credits_button_->setMinimumSize(kWidth * 2 / 5, kHeight / 7);
-  exit_button_->setMinimumSize(kWidth * 2 / 5, kHeight / 7);
-  main_layout_->setSpacing(kHeight / 50);
+    exit_button_(new QPushButton("Exit", this)),
+    size_(new QSize(menu_sizes::kMenuWidth, menu_sizes::kMenuHeight)) {
+  setMinimumSize(size_->width(), size_->height());
+  start_game_button_->setMinimumSize(menu_sizes::kMenuMinButtonWidth,
+                                     menu_sizes::kMenuMinButtonHeight);
+  settings_button_->setMinimumSize(menu_sizes::kMenuMinButtonWidth,
+                                   menu_sizes::kMenuMinButtonHeight);
+  credits_button_->setMinimumSize(menu_sizes::kMenuMinButtonWidth,
+                                  menu_sizes::kMenuMinButtonHeight);
+  exit_button_->setMinimumSize(menu_sizes::kMenuMinButtonWidth,
+                               menu_sizes::kMenuMinButtonHeight);
+  main_layout_->setSpacing(menu_sizes::kMenuSpacing);
   main_layout_->addStretch(5);
   main_layout_->addWidget(name_label_, 1, Qt::AlignCenter);
   main_layout_->addStretch(5);

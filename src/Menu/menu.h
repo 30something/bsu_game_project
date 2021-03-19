@@ -2,12 +2,11 @@
 
 #include <QLabel>
 #include <QPushButton>
+#include <QSize>
 #include <QVBoxLayout>
 #include <QWidget>
 
 class Menu : public QWidget {
-  Q_OBJECT
-
  public:
   explicit Menu(QWidget* parent = nullptr);
   ~Menu() override = default;
@@ -21,6 +20,5 @@ class Menu : public QWidget {
   QPushButton* settings_button_;
   QPushButton* credits_button_;
   QPushButton* exit_button_;
-  static constexpr int kWidth = 800;
-  static constexpr int kHeight = 800;
+  QSize* size_;
 };
