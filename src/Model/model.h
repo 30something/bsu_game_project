@@ -23,7 +23,7 @@ class Model {
   double GetCarAngle() const;
 
  private:
-  std::vector<std::vector<std::pair<int, int>>>* borders_;
+  std::vector<std::vector<std::pair<int, int>>>* borders_ = nullptr;
   Car car_;
 
   void ParseMapBorders();

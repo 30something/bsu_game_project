@@ -13,7 +13,7 @@ class View {
   void Repaint(QPainter* painter);
 
  private:
-  Model* model_;
+  Model* model_ = nullptr;
   QImage map_;
   QImage car_;
 };

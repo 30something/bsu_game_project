@@ -41,9 +41,9 @@ class Controller : public QWidget {
 
   QTimer view_timer_;
   QTimer controller_timer_;
-  Model* model_;
-  View* view_;
-  PauseMenu* pause_menu_;
+  Model* model_ = nullptr;
+  View* view_ = nullptr;
+  PauseMenu* pause_menu_ = nullptr;
   GameStatus game_status_ = GameStatus::kRunning;
   static constexpr int kMillisPerFrame = 10;
   static constexpr int kMillisPerPhysicsTick = 5;

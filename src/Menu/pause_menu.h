@@ -19,11 +19,11 @@ class PauseMenu : public QWidget {
   void resizeEvent(QResizeEvent*) override;
 
  private:
-  QVBoxLayout* main_layout_;
-  QPushButton* settings_button_;
-  QPushButton* exit_button_;
-  QPushButton* continue_button_;
-  SmallExitWindow* small_exit_window_;
+  QVBoxLayout* main_layout_ = nullptr;
+  QPushButton* settings_button_ = nullptr;
+  QPushButton* exit_button_ = nullptr;
+  QPushButton* continue_button_ = nullptr;
+  SmallExitWindow* small_exit_window_ = nullptr;
   int width_ = 500;
   int height_ = 500;
 };

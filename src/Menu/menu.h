@@ -15,12 +15,12 @@ class Menu : public QWidget {
   QPushButton* GetExitButton();
 
  private:
-  QVBoxLayout* main_layout_;
-  QLabel* name_label_;
-  QPushButton* start_game_button_;
-  QPushButton* settings_button_;
-  QPushButton* credits_button_;
-  QPushButton* exit_button_;
+  QVBoxLayout* main_layout_ = nullptr;
+  QLabel* name_label_ = nullptr;
+  QPushButton* start_game_button_ = nullptr;
+  QPushButton* settings_button_ = nullptr;
+  QPushButton* credits_button_ = nullptr;
+  QPushButton* exit_button_ = nullptr;
   static constexpr int kWidth = 800;
   static constexpr int kHeight = 800;
 };

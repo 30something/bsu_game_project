@@ -17,10 +17,10 @@ class SmallExitWindow : public QWidget {
   int GetHeight() const;
 
  private:
-  QWidget* main_widget_;
-  QLabel* question_;
-  QPushButton* yes_button_;
-  QPushButton* no_button_;
+  QWidget* main_widget_ = nullptr;
+  QLabel* question_ = nullptr;
+  QPushButton* yes_button_ = nullptr;
+  QPushButton* no_button_ = nullptr;
   int width_ = 250;
   int height_ = 100;
 };

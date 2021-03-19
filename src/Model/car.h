@@ -32,7 +32,7 @@ class Car {
   void SetFlagRight(bool flag_right);
 
  private:
-  std::vector<std::vector<std::pair<int, int>>>* borders_;
+  std::vector<std::vector<std::pair<int, int>>>* borders_ = nullptr;
   std::vector<Wheel> wheels_{4};
   Vec2f position_;
   Vec2f angle_vec_;
@@ -49,7 +49,6 @@ class Car {
 
   bool flag_right_ = false;
 
-  // constants
   double accel_factor = 2.0;
   double max_speed_forward = 300;
   double max_speed_backward = 100;
