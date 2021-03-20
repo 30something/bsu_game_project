@@ -13,7 +13,6 @@ void Controller::PhysicsTimerEvent() {
   if (game_status_ == GameStatus::kRunning) {
     model_->Tick(kMillisPerPhysicsTick);
   }
-
 }
 
 void Controller::ViewTimerEvent() {
