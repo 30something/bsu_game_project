@@ -2,6 +2,7 @@
 
 #include <QLabel>
 #include <QPushButton>
+#include <QSize>
 #include <QVBoxLayout>
 
 #include "small_exit_window.h"
@@ -12,8 +13,9 @@ class PauseMenu : public QWidget {
  public:
   explicit PauseMenu(QWidget* parent = nullptr);
   ~PauseMenu() override = default;
-  QPushButton* GetReturnToMainMenuButton() const;
-  QPushButton* GetContinueButton() const;
+  void CloseSmallExitWindow();
+  const QPushButton* GetReturnToMainMenuButton() const;
+  const QPushButton* GetContinueButton() const;
 
  protected:
   void resizeEvent(QResizeEvent*) override;
@@ -24,6 +26,4 @@ class PauseMenu : public QWidget {
   QPushButton* exit_button_;
   QPushButton* continue_button_;
   SmallExitWindow* small_exit_window_;
-  int width_ = 500;
-  int height_ = 500;
 };

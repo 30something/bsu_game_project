@@ -1,5 +1,6 @@
 #pragma once
 
+#include <QGridLayout>
 #include <QLabel>
 #include <QPushButton>
 #include <QSize>
@@ -11,16 +12,13 @@ class SmallExitWindow : public QWidget {
  public:
   explicit SmallExitWindow(QWidget* parent = nullptr);
   ~SmallExitWindow() override = default;
-  QPushButton* GetYesButton() const;
-  QPushButton* GetNoButton() const;
-  int GetWidth() const;
-  int GetHeight() const;
+  const QPushButton* GetYesButton() const;
+  const QPushButton* GetNoButton() const;
 
  private:
   QWidget* main_widget_;
+  QGridLayout* grid_layout_;
   QLabel* question_;
   QPushButton* yes_button_;
   QPushButton* no_button_;
-  int width_ = 250;
-  int height_ = 100;
 };
