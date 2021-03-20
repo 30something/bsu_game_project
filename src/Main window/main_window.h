@@ -23,5 +23,4 @@ class MainWindow : public QMainWindow {
   QStackedWidget* stacked_widget_;
   Controller* controller_ = nullptr;
   Menu* menu_;
-  QSize size_;
 };

@@ -7,17 +7,12 @@ PauseMenu::PauseMenu(QWidget* parent)
       settings_button_(new QPushButton("SETTINGS", this)),
       exit_button_(new QPushButton("MAIN MENU", this)),
       continue_button_(new QPushButton("CONTINUE", this)),
-      small_exit_window_(new SmallExitWindow(this)),
-      size_(menu_sizes::kPauseMenuWidth,
-            menu_sizes::kPauseMenuHeight) {
-  resize(size_.width(), size_.height());
+      small_exit_window_(new SmallExitWindow(this)) {
+  resize(menu_sizes::kPauseMenuSize);
   setStyleSheet("background-color : red");
-  settings_button_->setMinimumSize(menu_sizes::kPauseMenuMinButtonWidth,
-                                   menu_sizes::kPauseMenuMinButtonHeight);
-  continue_button_->setMinimumSize(menu_sizes::kPauseMenuMinButtonWidth,
-                                   menu_sizes::kPauseMenuMinButtonHeight);
-  exit_button_->setMinimumSize(menu_sizes::kPauseMenuMinButtonWidth,
-                               menu_sizes::kPauseMenuMinButtonHeight);
+  settings_button_->setMinimumSize(menu_sizes::kPauseMenuMinButtonSize);
+  continue_button_->setMinimumSize(menu_sizes::kPauseMenuMinButtonSize);
+  exit_button_->setMinimumSize(menu_sizes::kPauseMenuMinButtonSize);
   main_layout_->addStretch(5);
   main_layout_->addWidget(settings_button_, 1, Qt::AlignCenter);
   main_layout_->addWidget(continue_button_, 1, Qt::AlignCenter);
@@ -33,12 +28,10 @@ PauseMenu::PauseMenu(QWidget* parent)
 }
 
 void PauseMenu::resizeEvent(QResizeEvent*) {
-  size_.setWidth(width());
-  size_.setHeight(height());
   small_exit_window_->move(
-      (size_.width() - menu_sizes::kSmallExitWindowWidth)
+      (width() - menu_sizes::kSmallExitWindowSize.width())
           / menu_sizes::kSmallExitWindowMoveCoef,
-      (size_.height() - menu_sizes::kSmallExitWindowHeight)
+      (height() - menu_sizes::kSmallExitWindowSize.height())
           / menu_sizes::kSmallExitWindowMoveCoef);
 }
 

@@ -22,5 +22,4 @@ class Menu : public QWidget {
   QPushButton* settings_button_;
   QPushButton* credits_button_;
   QPushButton* exit_button_;
-  QSize size_;
 };

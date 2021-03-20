@@ -21,5 +21,4 @@ class SmallExitWindow : public QWidget {
   QLabel* question_;
   QPushButton* yes_button_;
   QPushButton* no_button_;
-  QSize size_;
 };
