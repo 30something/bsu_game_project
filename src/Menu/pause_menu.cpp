@@ -39,10 +39,10 @@ void PauseMenu::CloseSmallExitWindow() {
   small_exit_window_->close();
 }
 
-QPushButton* PauseMenu::GetContinueButton() const {
+const QPushButton* PauseMenu::GetContinueButton() const {
   return continue_button_;
 }
 
-QPushButton* PauseMenu::GetReturnToMainMenuButton() const {
+const QPushButton* PauseMenu::GetReturnToMainMenuButton() const {
   return small_exit_window_->GetYesButton();
 }

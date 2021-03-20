@@ -47,7 +47,7 @@ void Controller::SetUnsetPause() {
   }
 }
 
-QPushButton* Controller::GetReturnToMainMenuButton() const {
+const QPushButton* Controller::GetReturnToMainMenuButton() const {
   return pause_menu_->GetReturnToMainMenuButton();
 }
 

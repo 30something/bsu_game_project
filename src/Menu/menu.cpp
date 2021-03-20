@@ -25,10 +25,10 @@ Menu::Menu(QWidget* parent) :
   main_layout_->addStretch(5);
 }
 
-QPushButton* Menu::GetStartButton() {
+const QPushButton* Menu::GetStartButton() const {
   return start_game_button_;
 }
 
-QPushButton* Menu::GetExitButton() {
+const QPushButton* Menu::GetExitButton() const {
   return exit_button_;
 }
