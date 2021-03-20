@@ -73,7 +73,6 @@ void Controller::PrepareTimer() {
 }
 
 const QPushButton* Controller::GetReturnToMainMenuButton() const {
-
   return pause_menu_->GetReturnToMainMenuButton();
 }
 
