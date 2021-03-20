@@ -13,6 +13,7 @@ void Controller::PhysicsTimerEvent() {
   if (game_status_ == GameStatus::kRunning) {
     model_->Tick(kMillisPerPhysicsTick);
   }
+
 }
 
 void Controller::ViewTimerEvent() {
@@ -44,6 +45,7 @@ void Controller::SetUnsetPause() {
     focusNextChild();
   } else {
     pause_menu_->close();
+    pause_menu_->CloseSmallExitWindow();
     game_status_ = GameStatus::kRunning;
     setFocus();
   }
@@ -71,7 +73,8 @@ void Controller::PrepareTimer() {
   view_timer_.start(kMillisPerFrame);
 }
 
-QPushButton* Controller::GetReturnToMainMenuButton() const {
+const QPushButton* Controller::GetReturnToMainMenuButton() const {
+
   return pause_menu_->GetReturnToMainMenuButton();
 }
 

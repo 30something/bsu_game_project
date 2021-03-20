@@ -21,7 +21,7 @@ class Controller : public QWidget {
   void keyPressEvent(QKeyEvent*) override;
   void keyReleaseEvent(QKeyEvent*) override;
   void SetUnsetPause();
-  QPushButton* GetReturnToMainMenuButton() const;
+  const QPushButton* GetReturnToMainMenuButton() const;
 
  protected:
   void resizeEvent(QResizeEvent*) override;
