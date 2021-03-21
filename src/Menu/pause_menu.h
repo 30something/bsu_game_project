@@ -1,5 +1,6 @@
 #pragma once
 
+#include <QKeyEvent>
 #include <QLabel>
 #include <QPushButton>
 #include <QSize>
@@ -17,12 +18,18 @@ class PauseMenu : public QWidget {
 
  protected:
   void resizeEvent(QResizeEvent*) override;
+  void keyPressEvent(QKeyEvent*) override;
 
  signals:
   void ContinueGame();
   void ReturnToMainMenu();
 
  private:
+
+  enum class Actions {
+    kCloseMenu = Qt::Key_Escape,
+  };
+
   QVBoxLayout* main_layout_;
   QPushButton* settings_button_;
   QPushButton* exit_button_;

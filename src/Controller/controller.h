@@ -14,18 +14,20 @@ class Controller : public QWidget {
  public:
   explicit Controller(QWidget* parent = nullptr);
   ~Controller() override = default;
+  void SetUnsetPause();
 
+ protected:
   void timerEvent(QTimerEvent*) override;
   void paintEvent(QPaintEvent*) override;
   void keyPressEvent(QKeyEvent*) override;
   void keyReleaseEvent(QKeyEvent*) override;
-  void SetUnsetPause();
 
  signals:
   void SetGamePause();
   void StopGamePause();
 
  private:
+
   enum class Actions {
     kOpenOrCloseMenu = Qt::Key_Escape,
   };

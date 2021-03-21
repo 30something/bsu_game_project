@@ -39,6 +39,12 @@ void PauseMenu::resizeEvent(QResizeEvent*) {
           / menu_sizes::kSmallExitWindowMoveCoef);
 }
 
+void PauseMenu::keyPressEvent(QKeyEvent* event) {
+  if (event->key() == static_cast<int>(Actions::kCloseMenu)) {
+    emit ContinueGame();
+  }
+}
+
 void PauseMenu::Close() {
   small_exit_window_->close();
   close();

@@ -17,9 +17,10 @@ class MainWindow : public QMainWindow {
   void ReturnToMainMenu();
   void StartGame();
 
- private:
+ protected:
   void resizeEvent(QResizeEvent*) override;
 
+ private:
   QStackedWidget* stacked_widget_;
   Controller* controller_ = nullptr;
   PauseMenu* pause_menu_ = nullptr;
