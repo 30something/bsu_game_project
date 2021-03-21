@@ -27,7 +27,6 @@ class Controller : public QWidget {
   void StopGamePause();
 
  private:
-
   enum class Actions {
     kOpenOrCloseMenu = Qt::Key_Escape,
   };

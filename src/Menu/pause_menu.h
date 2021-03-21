@@ -25,7 +25,6 @@ class PauseMenu : public QWidget {
   void ReturnToMainMenu();
 
  private:
-
   enum class Actions {
     kCloseMenu = Qt::Key_Escape,
   };
