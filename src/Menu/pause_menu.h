@@ -13,12 +13,14 @@ class PauseMenu : public QWidget {
  public:
   explicit PauseMenu(QWidget* parent = nullptr);
   ~PauseMenu() override = default;
-  void CloseSmallExitWindow();
-  const QPushButton* GetReturnToMainMenuButton() const;
-  const QPushButton* GetContinueButton() const;
+  void Close();
 
  protected:
   void resizeEvent(QResizeEvent*) override;
+
+ signals:
+  void ContinueGame();
+  void ReturnToMainMenu();
 
  private:
   QVBoxLayout* main_layout_;
