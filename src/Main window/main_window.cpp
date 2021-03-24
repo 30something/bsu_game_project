@@ -4,11 +4,13 @@
 MainWindow::MainWindow(QMainWindow* parent) :
     QMainWindow(parent),
     stacked_widget_(new QStackedWidget(this)),
+    pause_menu_(new PauseMenu(this)),
     menu_(new Menu(this)) {
   setMinimumSize(mainwindow_sizes::kDefaultScreenSize);
   setWindowTitle("Death Rally");
   stacked_widget_->addWidget(menu_);
   stacked_widget_->setCurrentWidget(menu_);
+  pause_menu_->Close();
 
   connect(menu_, &Menu::StartButtonPressed, this,
           &MainWindow::StartGame);
@@ -18,15 +20,11 @@ MainWindow::MainWindow(QMainWindow* parent) :
 
 void MainWindow::resizeEvent(QResizeEvent*) {
   stacked_widget_->setGeometry(0, 0, width(), height());
-  if (pause_menu_ != nullptr) {
-    pause_menu_->setGeometry(0, 0, width(), height());
-  }
+  pause_menu_->setGeometry(0, 0, width(), height());
 }
 
 void MainWindow::StartGame() {
   controller_ = new Controller(this);
-  pause_menu_ = new PauseMenu(this);
-  pause_menu_->setGeometry(0, 0, width(), height());
 
   connect(controller_, &Controller::SetGamePause, pause_menu_,
           &PauseMenu::show);
@@ -42,12 +40,13 @@ void MainWindow::StartGame() {
 }
 
 void MainWindow::ReturnToMainMenu() {
-  pause_menu_->close();
-  controller_->close();
+  pause_menu_->Close();
   stacked_widget_->removeWidget(controller_);
   stacked_widget_->setCurrentWidget(menu_);
-  pause_menu_ = nullptr;
-  controller_ = nullptr;
+  disconnect(pause_menu_, &PauseMenu::ContinueGame, controller_,
+            &Controller::SetUnsetPause);
+  disconnect(pause_menu_, &PauseMenu::ReturnToMainMenu, this,
+            &MainWindow::ReturnToMainMenu);
   delete controller_;
-  delete pause_menu_;
+  controller_ = nullptr;
 }

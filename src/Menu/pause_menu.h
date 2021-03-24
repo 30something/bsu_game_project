@@ -16,15 +16,14 @@ class PauseMenu : public QWidget {
   ~PauseMenu() override = default;
   void Close();
 
- protected:
-  void resizeEvent(QResizeEvent*) override;
-  void keyPressEvent(QKeyEvent*) override;
-
  signals:
   void ContinueGame();
   void ReturnToMainMenu();
 
  private:
+  void resizeEvent(QResizeEvent*) override;
+  void keyPressEvent(QKeyEvent*) override;
+
   enum class Actions {
     kCloseMenu = Qt::Key_Escape,
   };

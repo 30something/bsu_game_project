@@ -16,17 +16,16 @@ class Controller : public QWidget {
   ~Controller() override = default;
   void SetUnsetPause();
 
- protected:
-  void timerEvent(QTimerEvent*) override;
-  void paintEvent(QPaintEvent*) override;
-  void keyPressEvent(QKeyEvent*) override;
-  void keyReleaseEvent(QKeyEvent*) override;
-
  signals:
   void SetGamePause();
   void StopGamePause();
 
  private:
+  void timerEvent(QTimerEvent*) override;
+  void paintEvent(QPaintEvent*) override;
+  void keyPressEvent(QKeyEvent*) override;
+  void keyReleaseEvent(QKeyEvent*) override;
+
   enum class Actions {
     kOpenOrCloseMenu = Qt::Key_Escape,
   };
