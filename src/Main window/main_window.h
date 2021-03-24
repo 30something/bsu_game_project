@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QStackedWidget>
 
-#include "src/Controller/controller.h"
+#include "src/Controller/EventsController.h"
 #include "src/Menu/menu.h"
 
 class MainWindow : public QMainWindow {

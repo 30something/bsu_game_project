@@ -1,4 +1,4 @@
-#include "model.h"
+#include "GameController.h"
 
 Model::Model() :
     borders_(new std::vector<std::vector<std::pair<int, int>>>()),

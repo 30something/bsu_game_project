@@ -26,11 +26,11 @@ set(SOURCES main.cpp
         src/View/view.cpp
         "src/Main window/main_window.cpp"
         src/Menu/menu.cpp
-        src/Model/model.cpp
-        src/Controller/controller.cpp
-        src/Model/car.cpp
+        src/GameCore/GameController.cpp
+        src/EventsController/EventsController.cpp
+        src/GameCore/car.cpp
         src/helpers/vec2f.cpp
-        src/Model/wheel.cpp
+        src/GameCore/wheel.cpp
         src/Menu/pause_menu.cpp
         src/Menu/small_exit_window.cpp
         src/helpers/line.cpp

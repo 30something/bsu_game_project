@@ -1,4 +1,4 @@
-#include "controller.h"
+#include "EventsController.h"
 
 Controller::Controller(QWidget* parent) :
     QWidget(parent),
