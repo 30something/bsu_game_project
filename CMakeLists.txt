@@ -29,17 +29,18 @@ set(SOURCES main.cpp
         src/Model/model.cpp
         src/Controller/controller.cpp
         src/Model/car.cpp
-        images.qrc
-        map_data.qrc
         src/helpers/vec2f.cpp
         src/Model/wheel.cpp
         src/Menu/pause_menu.cpp
         src/Menu/small_exit_window.cpp
         src/helpers/line.cpp
         src/helpers/line.h
-        src/Model/car_physics.cpp
-        src/Model/car_physics.h)
+        )
 
+set(RESOURCES
+        images.qrc
+        map_data.qrc
+        )
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 target_link_libraries(${PROJECT_NAME} ${REQUIRED_LIBS_QUALIFIED})
