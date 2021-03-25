@@ -40,7 +40,7 @@ set(SOURCES main.cpp
 set(RESOURCES
         images.qrc
         map_data.qrc
-        )
+        src/GameCore/map.cpp src/GameCore/map.h)
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 target_link_libraries(${PROJECT_NAME} ${REQUIRED_LIBS_QUALIFIED})

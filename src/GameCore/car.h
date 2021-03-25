@@ -9,13 +9,14 @@
 #include "src/helpers/vec2f.h"
 #include "wheel.h"
 #include "src/helpers/line.h"
+#include "map.h"
 
 class Car {
  public:
   Car(int x,
       int y,
       double angle,
-      std::vector<std::vector<std::pair<int, int>>>* borders);
+      Map* map_);
   ~Car() = default;
 
   void Tick(int time_millisec);
@@ -30,7 +31,7 @@ class Car {
   void SetFlagRight(bool flag_right);
 
  private:
-  std::vector<std::vector<std::pair<int, int>>>* borders_ = nullptr;
+  Map* map_ = nullptr;
   std::vector<Wheel> wheels_{4};
   Vec2f position_;
   Vec2f angle_vec_;

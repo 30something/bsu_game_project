@@ -8,7 +8,8 @@
 #include <QFile>
 #include <QPoint>
 
-#include "src/GameCore/car.h"
+#include "car.h"
+#include "map.h"
 
 class Model {
  public:
@@ -24,10 +25,8 @@ class Model {
   double GetCarAngle() const;
 
  private:
-  std::vector<std::vector<std::pair<int, int>>>* borders_ = nullptr;
   const QPoint car_start_pos_ = {360, 548};
   const double car_start_angle_ = -M_PI / 2;
+  Map* map_;
   Car car_;
-  void ParseMapBorders();
-  static std::pair<int, int> ParseLine(const QString& line);
 };

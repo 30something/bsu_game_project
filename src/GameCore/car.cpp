@@ -3,8 +3,8 @@
 Car::Car(int x,
          int y,
          double angle,
-         std::vector<std::vector<std::pair<int, int>>>* borders) :
-    borders_(borders),
+         Map* map) :
+    map_(map),
     prev_position_list_(kSizeOfPreviousPos, position_),
     prev_angle_vec_list_(kSizeOfPreviousPos, angle_vec_) {
   position_.Set(x, y);
@@ -125,44 +125,10 @@ void Car::ProceedCollisions() {
        wheels_[1].GetPosition(),
        wheels_[2].GetPosition(),
        wheels_[3].GetPosition()};
-  // For every line of the car find the interceptions
-  // with every line of the borders
-  for (int i = 0; i < 4; i++) {
-    Line l1;
-    if (i == 0 || i == 1) {
-      l1.x1 = corners[i].GetX();
-      l1.y1 = corners[i].GetY();
-      l1.x2 = corners[i + 2].GetX();
-      l1.y2 = corners[i + 2].GetY();
-    }
-    if (i == 2 || i == 3) {
-      l1.x1 = corners[i - 2].GetX();
-      l1.y1 = corners[i - 2].GetY();
-      l1.x2 = corners[i].GetX();
-      l1.y2 = corners[i].GetY();
-    }
-    for (const auto& border : *borders_) {
-      for (size_t j = 0; j < border.size(); j++) {
-        Line l2;
-        if (j == border.size() - 1) {
-          l2.x1 = border[j].first;
-          l2.y1 = border[j].second;
-          l2.x2 = border[0].first;
-          l2.y2 = border[0].second;
-        } else {
-          l2.x1 = border[j].first;
-          l2.y1 = border[j].second;
-          l2.x2 = border[j + 1].first;
-          l2.y2 = border[j + 1].second;
-        }
-        if (Line::IsIntersects(l1, l2)) {
-          position_ = prev_position_list_[0];
-          angle_vec_ = prev_angle_vec_list_[0];
-          velocity_.SetLen(0.0000000001);
-          break;
-        }
-      }
-    }
+  if(map_->ProceedCollisions(corners)) {
+    position_ = prev_position_list_[0];
+    angle_vec_ = prev_angle_vec_list_[0];
+    velocity_.SetLen(0.0000000001);
   }
 }
 
