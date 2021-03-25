@@ -18,27 +18,27 @@ Car::Car(int x,
 
 void Car::ProceedInputFlags() {
   if (flag_left_) {
-    steering_angle_ = -max_steering_lock_;
+    steering_angle_ = -kMaxSteeringLock;
   }
   if (flag_right_) {
-    steering_angle_ = max_steering_lock_;
+    steering_angle_ = kMaxSteeringLock;
   }
   if (!flag_right_ && !flag_left_) {
     steering_angle_ = 0;
   }
   // TODO(dima_makarov): fix keyboard controls
   if (flag_up_) {
-    velocity_ += angle_vec_ * accel_factor;
-    if (velocity_.GetLength() > max_speed_forward) {
-      velocity_.SetLen(max_speed_forward);
+    velocity_ += angle_vec_ * kAccelFactor;
+    if (velocity_.GetLength() > kMaxSpeedForward) {
+      velocity_.SetLen(kMaxSpeedForward);
     }
   }
   if (flag_down_) {
-    velocity_ -= angle_vec_ * accel_factor;
-    if (velocity_.GetLength() > max_speed_backward &&
+    velocity_ -= angle_vec_ * kAccelFactor;
+    if (velocity_.GetLength() > kMaxSpeedBackward &&
         std::abs(velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees())
             < 90) {
-      velocity_.SetLen(max_speed_backward);
+      velocity_.SetLen(kMaxSpeedBackward);
     }
   }
 }
@@ -72,8 +72,8 @@ void Car::AdvanceStep(int time_millisec) {
 
   CalcAccelerations(&accel, &angular_accel);
   ProceedCollisions();
-  accel *= 1.0 / mass_;
-  angular_accel /= moment_inertia_;
+  accel *= 1.0 / kMass;
+  angular_accel /= MomentInertia;
   velocity_ += accel * time_sec;
   angular_velocity_ += angular_accel * time_sec;
 
@@ -93,18 +93,7 @@ void Car::AdvanceStep(int time_millisec) {
 
 void Car::CalcAccelerations(Vec2f* accel, double* angular_accel) {
   for (int i = 0; i < 4; i++) {
-    wheels_[0].CalcLateralForce(max_slip_angle_radians_,
-                                mass_,
-                                front_coef_friction_);
-    wheels_[1].CalcLateralForce(max_slip_angle_radians_,
-                                mass_,
-                                front_coef_friction_);
-    wheels_[2].CalcLateralForce(max_slip_angle_radians_,
-                                mass_,
-                                rear_coef_friction_);
-    wheels_[3].CalcLateralForce(max_slip_angle_radians_,
-                                mass_,
-                                rear_coef_friction_);
+    CalcLateralForces();
     *accel += wheels_[i].GetForce();
     Vec2f car_centre_to_wheel = wheels_[i].GetPosition() - position_;
     double projected_force =
@@ -113,6 +102,21 @@ void Car::CalcAccelerations(Vec2f* accel, double* angular_accel) {
     double torque = projected_force * car_centre_to_wheel.GetLength();
     *angular_accel -= torque;
   }
+}
+
+void Car::CalcLateralForces() {
+  wheels_[0].CalcLateralForce(kMaxSlipAngleRadians,
+                              kMass,
+                              FrontCoefFriction);
+  wheels_[1].CalcLateralForce(kMaxSlipAngleRadians,
+                              kMass,
+                              FrontCoefFriction);
+  wheels_[2].CalcLateralForce(kMaxSlipAngleRadians,
+                              kMass,
+                              kRearCoefFriction);
+  wheels_[3].CalcLateralForce(kMaxSlipAngleRadians,
+                              kMass,
+                              kRearCoefFriction);
 }
 
 void Car::ProceedCollisions() {
@@ -169,13 +173,13 @@ void Car::UpdateWheelsPosAndOrientation() {
 
   const Vec2f right(angle_vec_.GetY(), -angle_vec_.GetX());
   wheels_[0].SetPosition(
-      position_ + angle_vec_ * half_wheel_base_ - right * half_front_track_);
+      position_ + angle_vec_ * kHalfWheelBase - right * kHalfFrontTrack_);
   wheels_[1].SetPosition(
-      wheels_[0].GetPosition() + right * half_front_track_ * 2.0);
+      wheels_[0].GetPosition() + right * kHalfFrontTrack_ * 2.0);
   wheels_[2].SetPosition(
-      position_ - angle_vec_ * half_wheel_base_ + right * half_rear_track_);
+      position_ - angle_vec_ * kHalfWheelBase + right * kHalfRearTrack);
   wheels_[3].SetPosition(
-      wheels_[2].GetPosition() - right * half_rear_track_ * 2.0);
+      wheels_[2].GetPosition() - right * kHalfRearTrack * 2.0);
 
   for (int i = 0; i < 4; i++) {
     wheels_[i].SetFront(angle_vec_);
@@ -183,15 +187,15 @@ void Car::UpdateWheelsPosAndOrientation() {
 
   // Calculated different angles for each front_ wheel using the Ackerman
   // principle. https://en.wikipedia.org/wiki/Ackermann_steering_geometry
-  double cornerRadius = length_ / tan(fabs(steering_angle_));
+  double cornerRadius = kLength / tan(fabs(steering_angle_));
   double outerWheelAngle =
-      atan(length_ / (cornerRadius + half_front_track_ * 2.0));
+      atan(kLength / (cornerRadius + kHalfFrontTrack_ * 2.0));
   if (steering_angle_ > 0.0) {
-    wheels_[0].Front().Rotate(std::min(steering_angle_, max_steering_lock_));
-    wheels_[1].Front().Rotate(std::min(outerWheelAngle, max_steering_lock_));
+    wheels_[0].Front().Rotate(std::min(steering_angle_, kMaxSteeringLock));
+    wheels_[1].Front().Rotate(std::min(outerWheelAngle, kMaxSteeringLock));
   } else {
-    wheels_[0].Front().Rotate(std::min(-outerWheelAngle, max_steering_lock_));
-    wheels_[1].Front().Rotate(std::min(steering_angle_, max_steering_lock_));
+    wheels_[0].Front().Rotate(std::min(-outerWheelAngle, kMaxSteeringLock));
+    wheels_[1].Front().Rotate(std::min(steering_angle_, kMaxSteeringLock));
   }
 }
 

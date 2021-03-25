@@ -2,7 +2,7 @@
 
 Model::Model() :
     borders_(new std::vector<std::vector<std::pair<int, int>>>()),
-    car_(car_start_pos_x_, car_start_pos_y_, car_start_angle_, borders_) {
+    car_(car_start_pos_.x(), car_start_pos_.y(), car_start_angle_, borders_) {
   ParseMapBorders();
 }
 

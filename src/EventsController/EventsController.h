@@ -7,7 +7,7 @@
 #include <QTimer>
 
 #include "src/Menu/pause_menu.h"
-#include "src/Model/GameController.h"
+#include "src/GameCore/GameController.h"
 #include "src/View/view.h"
 
 class Controller : public QWidget {

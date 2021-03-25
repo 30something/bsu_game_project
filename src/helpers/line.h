@@ -1,5 +1,7 @@
 #pragma once
 
+#include "vec2f.h"
+
 struct Line {
   Line(double x1_, double y1_, double x2_, double y2_) :
       x1(x1_),

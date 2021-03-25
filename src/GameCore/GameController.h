@@ -6,8 +6,9 @@
 #include <QKeyEvent>
 #include <QTextStream>
 #include <QFile>
+#include <QPoint>
 
-#include "src/Model/car.h"
+#include "src/GameCore/car.h"
 
 class Model {
  public:
@@ -24,8 +25,7 @@ class Model {
 
  private:
   std::vector<std::vector<std::pair<int, int>>>* borders_ = nullptr;
-  const int car_start_pos_x_ = 360;
-  const int car_start_pos_y_ = 548;
+  const QPoint car_start_pos_ = {360, 548};
   const double car_start_angle_ = -M_PI / 2;
   Car car_;
   void ParseMapBorders();
