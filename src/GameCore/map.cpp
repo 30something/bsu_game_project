@@ -48,7 +48,7 @@ std::pair<int, int> Map::ParseLine(const QString& line) {
   return result;
 }
 
-bool Map::ProceedCollisions(std::vector<Vec2f>& corners) {
+bool Map::ProceedCollisions(const std::vector<Vec2f>& corners) {
   // For every line of the car find the interceptions
   // with every line of the borders
   for (int i = 0; i < 4; i++) {
