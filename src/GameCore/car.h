@@ -24,12 +24,14 @@ class Car {
   int GetX() const;
   int GetY() const;
   double GetAngle() const;
+  std::vector<Line> GetLines();
 
   void SetFlagUp(bool flag_up);
   void SetFlagDown(bool flag_down);
   void SetFlagLeft(bool flag_left);
   void SetFlagRight(bool flag_right);
 
+  void SetIsColliding(bool is_colliding_with_car);
  private:
   Map* map_ = nullptr;
   std::vector<Wheel> wheels_{4};
@@ -38,15 +40,15 @@ class Car {
   Vec2f velocity_;
   double angular_velocity_ = 0;
   std::vector<Vec2f> prev_position_list_;
+
   std::vector<Vec2f> prev_angle_vec_list_;
+
   static constexpr int kSizeOfPreviousPos = 4;
-
   double steering_angle_ = 0;
-
   static constexpr double kAccelFactor = 2.0;
   static constexpr double kMaxSpeedForward = 300;
   static constexpr double kMaxSpeedBackward = 100;
-  static constexpr double kHalfFrontTrack_ = 0.75;
+  static constexpr double kHalfFrontTrack_ = 5.5;
   static constexpr double kMaxSteeringLock = 0.7;
   static constexpr double kHalfRearTrack = kHalfFrontTrack_;
   static constexpr double kHalfWheelBase = 5.5;
@@ -54,13 +56,16 @@ class Car {
   static constexpr double kMass = 1000.0;
   static constexpr double MomentInertia = (kMass * kLength * kLength) / 1.0;
   static constexpr double FrontCoefFriction = 100;
-  static constexpr double kRearCoefFriction = 80;
-  static constexpr double kMaxSlipAngleRadians = 0.07;
 
+  static constexpr double kRearCoefFriction = 80;
+
+  static constexpr double kMaxSlipAngleRadians = 0.07;
   bool flag_up_ = false;
   bool flag_down_ = false;
   bool flag_left_ = false;
   bool flag_right_ = false;
+  bool is_colliding_with_car_ = false;
+ private:
 
   void ProceedCollisions();
   void UpdateWheelsPosAndOrientation();

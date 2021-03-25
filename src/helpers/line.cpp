@@ -10,7 +10,6 @@ bool Line::IsIntersects(Line l1, Line l2) {
       (l1.x2 - l1.x1) * (l2.y1 - l1.y1) - (l1.y2 - l1.y1) * (l2.x1 - l1.x1);
   double v4 =
       (l1.x2 - l1.x1) * (l2.y2 - l1.y1) - (l1.y2 - l1.y1) * (l2.x2 - l1.x1);
-
   bool left = false;
   bool right = false;
 

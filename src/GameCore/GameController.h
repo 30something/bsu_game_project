@@ -21,12 +21,14 @@ class GameController {
   void HandleKeyPressEvent(QKeyEvent* event);
   void HandleKeyReleaseEvent(QKeyEvent* event);
 
-  std::pair<int, int> GetCarCoordinates() const;
-  double GetCarAngle() const;
+  std::vector<std::pair<int, int>> GetCarCoordinates() const;
+  std::vector<double> GetCarAngles() const;
 
  private:
-  const QPoint car_start_pos_ = {360, 548};
-  const double car_start_angle_ = -M_PI / 2;
+  const QPoint car1_start_pos_ = {360, 548};
+  const double car1_start_angle_ = -M_PI / 2;
+  const QPoint car2_start_pos_ = {380, 590};
+  const double car2_start_angle_ = -M_PI / 2;
   Map* map_;
-  Car car_;
+  std::vector<Car> cars_;
 };

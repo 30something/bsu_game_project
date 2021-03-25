@@ -48,23 +48,10 @@ std::pair<int, int> Map::ParseLine(const QString& line) {
   return result;
 }
 
-bool Map::ProceedCollisions(const std::vector<Vec2f>& corners) {
+bool Map::ProceedCollisions(const std::vector<Line>& lines) {
   // For every line of the car find the interceptions
   // with every line of the borders
   for (int i = 0; i < 4; i++) {
-    Line l1;
-    if (i == 0 || i == 1) {
-      l1.x1 = corners[i].GetX();
-      l1.y1 = corners[i].GetY();
-      l1.x2 = corners[i + 2].GetX();
-      l1.y2 = corners[i + 2].GetY();
-    }
-    if (i == 2 || i == 3) {
-      l1.x1 = corners[i - 2].GetX();
-      l1.y1 = corners[i - 2].GetY();
-      l1.x2 = corners[i].GetX();
-      l1.y2 = corners[i].GetY();
-    }
     for (const auto& border : borders_) {
       for (size_t j = 0; j < border.size(); j++) {
         Line l2;
@@ -79,7 +66,7 @@ bool Map::ProceedCollisions(const std::vector<Vec2f>& corners) {
           l2.x2 = border[j + 1].first;
           l2.y2 = border[j + 1].second;
         }
-        if (Line::IsIntersects(l1, l2)) {
+        if (Line::IsIntersects(lines[i], l2)) {
           return true;
         }
       }
