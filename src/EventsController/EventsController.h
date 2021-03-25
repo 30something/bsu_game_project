@@ -10,12 +10,12 @@
 #include "src/GameCore/GameController.h"
 #include "src/View/view.h"
 
-class Controller : public QWidget {
+class EventsController : public QWidget {
   Q_OBJECT
 
  public:
-  explicit Controller(QWidget* parent = nullptr);
-  ~Controller() override = default;
+  explicit EventsController(QWidget* parent = nullptr);
+  ~EventsController() override = default;
 
   void paintEvent(QPaintEvent*) override;
   void keyPressEvent(QKeyEvent*) override;
@@ -41,7 +41,7 @@ class Controller : public QWidget {
 
   QTimer view_timer_;
   QTimer controller_timer_;
-  Model* model_ = nullptr;
+  GameController* model_ = nullptr;
   View* view_ = nullptr;
   PauseMenu* pause_menu_ = nullptr;
   GameStatus game_status_ = GameStatus::kRunning;

@@ -125,7 +125,7 @@ void Car::ProceedCollisions() {
        wheels_[1].GetPosition(),
        wheels_[2].GetPosition(),
        wheels_[3].GetPosition()};
-  if(map_->ProceedCollisions(corners)) {
+  if (map_->ProceedCollisions(corners)) {
     position_ = prev_position_list_[0];
     angle_vec_ = prev_angle_vec_list_[0];
     velocity_.SetLen(0.0000000001);

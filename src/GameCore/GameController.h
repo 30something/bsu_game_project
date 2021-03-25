@@ -11,10 +11,10 @@
 #include "car.h"
 #include "map.h"
 
-class Model {
+class GameController {
  public:
-  Model();
-  ~Model() = default;
+  GameController();
+  ~GameController() = default;
 
   void Tick(int time_millisec);
 

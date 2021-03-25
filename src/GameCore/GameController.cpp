@@ -1,16 +1,16 @@
 #include "GameController.h"
 
-Model::Model() :
+GameController::GameController() :
     map_(new Map()),
     car_(car_start_pos_.x(), car_start_pos_.y(), car_start_angle_, map_) {
   map_->ParseMapBorders();
 }
 
-void Model::Tick(int time_millisec) {
+void GameController::Tick(int time_millisec) {
   car_.Tick(time_millisec);
 }
 
-void Model::HandleKeyPressEvent(QKeyEvent* event) {
+void GameController::HandleKeyPressEvent(QKeyEvent* event) {
   int key = event->key();
   if (key == Qt::Key_Up) {
     car_.SetFlagUp(true);
@@ -26,7 +26,7 @@ void Model::HandleKeyPressEvent(QKeyEvent* event) {
   }
 }
 
-void Model::HandleKeyReleaseEvent(QKeyEvent* event) {
+void GameController::HandleKeyReleaseEvent(QKeyEvent* event) {
   int key = event->key();
   if (key == Qt::Key_Up) {
     car_.SetFlagUp(false);
@@ -42,10 +42,10 @@ void Model::HandleKeyReleaseEvent(QKeyEvent* event) {
   }
 }
 
-std::pair<int, int> Model::GetCarCoordinates() const {
+std::pair<int, int> GameController::GetCarCoordinates() const {
   return std::make_pair(car_.GetX(), car_.GetY());
 }
 
-double Model::GetCarAngle() const {
+double GameController::GetCarAngle() const {
   return car_.GetAngle();
 }

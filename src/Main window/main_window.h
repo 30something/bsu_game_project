@@ -21,6 +21,6 @@ class MainWindow : public QMainWindow {
   void resizeEvent(QResizeEvent*) override;
 
   QStackedWidget* stacked_widget_;
-  Controller* controller_ = nullptr;
+  EventsController* controller_ = nullptr;
   Menu* menu_;
 };

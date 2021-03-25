@@ -1,43 +1,43 @@
 #include "EventsController.h"
 
-Controller::Controller(QWidget* parent) :
+EventsController::EventsController(QWidget* parent) :
     QWidget(parent),
-    model_(new Model()),
+    model_(new GameController()),
     view_(new View(model_)),
     pause_menu_(new PauseMenu(this)) {
   PreparePauseMenu();
   PrepareTimer();
 }
 
-void Controller::PhysicsTimerEvent() {
+void EventsController::PhysicsTimerEvent() {
   if (game_status_ == GameStatus::kRunning) {
     model_->Tick(kMillisPerPhysicsTick);
   }
 }
 
-void Controller::ViewTimerEvent() {
+void EventsController::ViewTimerEvent() {
   if (game_status_ == GameStatus::kRunning) {
     repaint();
   }
 }
 
-void Controller::paintEvent(QPaintEvent*) {
+void EventsController::paintEvent(QPaintEvent*) {
   QPainter main_painter(this);
   view_->Repaint(&main_painter);
 }
 
-void Controller::keyPressEvent(QKeyEvent* event) {
+void EventsController::keyPressEvent(QKeyEvent* event) {
   model_->HandleKeyPressEvent(event);
   if (event->key() == static_cast<int>(Actions::kOpenOrCloseMenu)) {
     SetUnsetPause();
   }
 }
 
-void Controller::keyReleaseEvent(QKeyEvent* event) {
+void EventsController::keyReleaseEvent(QKeyEvent* event) {
   model_->HandleKeyReleaseEvent(event);
 }
 
-void Controller::SetUnsetPause() {
+void EventsController::SetUnsetPause() {
   if (game_status_ == GameStatus::kRunning) {
     pause_menu_->show();
     game_status_ = GameStatus::kPaused;
@@ -50,32 +50,32 @@ void Controller::SetUnsetPause() {
   }
 }
 
-void Controller::PreparePauseMenu() {
+void EventsController::PreparePauseMenu() {
   pause_menu_->move(width() / 4, height() / 4);
   pause_menu_->close();
   connect(pause_menu_->GetContinueButton(),
           &QPushButton::clicked,
           this,
-          &Controller::SetUnsetPause);
+          &EventsController::SetUnsetPause);
 }
 
-void Controller::PrepareTimer() {
+void EventsController::PrepareTimer() {
   connect(&controller_timer_,
           &QTimer::timeout,
           this,
-          &Controller::PhysicsTimerEvent);
+          &EventsController::PhysicsTimerEvent);
   connect(&view_timer_,
           &QTimer::timeout,
           this,
-          &Controller::ViewTimerEvent);
+          &EventsController::ViewTimerEvent);
   controller_timer_.start(kMillisPerPhysicsTick);
   view_timer_.start(kMillisPerFrame);
 }
 
-const QPushButton* Controller::GetReturnToMainMenuButton() const {
+const QPushButton* EventsController::GetReturnToMainMenuButton() const {
   return pause_menu_->GetReturnToMainMenuButton();
 }
 
-void Controller::resizeEvent(QResizeEvent*) {
+void EventsController::resizeEvent(QResizeEvent*) {
   pause_menu_->setGeometry(0, 0, width(), height());
 }

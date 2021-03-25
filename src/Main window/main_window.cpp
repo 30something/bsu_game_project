@@ -21,7 +21,7 @@ void MainWindow::resizeEvent(QResizeEvent*) {
 }
 
 void MainWindow::StartGame() {
-  controller_ = new Controller(this);
+  controller_ = new EventsController(this);
   connect(controller_->GetReturnToMainMenuButton(), &QPushButton::clicked,
           this, &MainWindow::ReturnToMainMenu);
   controller_->setFocus();

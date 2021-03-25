@@ -1,6 +1,6 @@
 #include "src/View/view.h"
 
-View::View(Model* model) :
+View::View(GameController* model) :
     model_(model),
     map_(":resources/images/maps/map_1.jpg"),
     car_(":resources/images/cars/car_1.png") {
