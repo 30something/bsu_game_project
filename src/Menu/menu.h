@@ -12,8 +12,10 @@ class Menu : public QWidget {
  public:
   explicit Menu(QWidget* parent = nullptr);
   ~Menu() override = default;
-  const QPushButton* GetStartButton() const;
-  const QPushButton* GetExitButton() const;
+
+ signals:
+  void StartButtonPressed();
+  void ExitButtonPressed();
 
  private:
   QVBoxLayout* main_layout_;

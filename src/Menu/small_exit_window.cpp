@@ -14,12 +14,8 @@ SmallExitWindow::SmallExitWindow(QWidget* parent)
   grid_layout_->addWidget(question_, 0, 0, 1, 2, Qt::AlignCenter);
   grid_layout_->addWidget(yes_button_, 1, 0);
   grid_layout_->addWidget(no_button_, 1, 1);
-}
-
-const QPushButton* SmallExitWindow::GetYesButton() const {
-  return yes_button_;
-}
-
-const QPushButton* SmallExitWindow::GetNoButton() const {
-  return no_button_;
+  connect(no_button_, &QPushButton::clicked, this,
+          &SmallExitWindow::StayAtPauseMenu);
+  connect(yes_button_, &QPushButton::clicked, this,
+          &SmallExitWindow::ReturnToMainMenu);
 }

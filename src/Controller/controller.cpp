@@ -3,11 +3,7 @@
 Controller::Controller(QWidget* parent) :
     QWidget(parent),
     model_(new Model()),
-    view_(new View(model_)),
-    pause_menu_(new PauseMenu(this)) {
-  pause_menu_->close();
-  connect(pause_menu_->GetContinueButton(), &QPushButton::clicked,
-          this, &Controller::SetUnsetPause);
+    view_(new View(model_)) {
   startTimer(kMillisPerFrame);
 }
 
@@ -36,21 +32,12 @@ void Controller::keyReleaseEvent(QKeyEvent* event) {
 
 void Controller::SetUnsetPause() {
   if (game_status_ == GameStatus::kRunning) {
-    pause_menu_->show();
+    emit SetGamePause();
     game_status_ = GameStatus::kPaused;
     focusNextChild();
   } else {
-    pause_menu_->close();
-    pause_menu_->CloseSmallExitWindow();
+    emit StopGamePause();
     game_status_ = GameStatus::kRunning;
     setFocus();
   }
-}
-
-const QPushButton* Controller::GetReturnToMainMenuButton() const {
-  return pause_menu_->GetReturnToMainMenuButton();
-}
-
-void Controller::resizeEvent(QResizeEvent*) {
-  pause_menu_->setGeometry(0, 0, width(), height());
 }
