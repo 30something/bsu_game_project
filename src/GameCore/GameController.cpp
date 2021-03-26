@@ -3,25 +3,37 @@
 #include "GameController.h"
 
 GameController::GameController() :
-    map_(new Map())
-    {
-  cars_.emplace_back(car1_start_pos_.x(), car1_start_pos_.y(), car1_start_angle_, map_);
-  cars_.emplace_back(car2_start_pos_.x(), car2_start_pos_.y(), car2_start_angle_, map_);
-  map_->ParseMapBorders();
+    map_(Map()) {
+  cars_.emplace_back(car1_start_pos_.x(),
+                     car1_start_pos_.y(),
+                     car1_start_angle_,
+                     &map_);
+  cars_.emplace_back(car2_start_pos_.x(),
+                     car2_start_pos_.y(),
+                     car2_start_angle_,
+                     &map_);
+  map_.ParseMapBorders();
 }
 
-void GameController::Tick(int time_millisec) {
-  for(size_t i = 0; i < cars_.size(); i++) {
-    for(size_t j = 0; j < cars_.size() / 2; j++) {
-      if(i == j) {
+void GameController::Tick(int time_millis) {
+  ProceedColisionsWithCars();
+  for (auto& car : cars_) {
+    car.Tick(time_millis);
+  }
+}
+
+void GameController::ProceedColisionsWithCars() {
+  for (size_t i = 0; i < cars_.size(); i++) {
+    for (size_t j = 0; j < cars_.size() / 2; j++) {
+      if (i == j) {
         continue;
       }
       auto lines1 = cars_[i].GetLines();
       auto lines2 = cars_[j].GetLines();
       bool intersects = false;
-      for(const auto& line1 : lines1) {
-        for(const auto& line2 : lines2) {
-          if(Line::IsIntersects(line1, line2)) {
+      for (const auto& line1 : lines1) {
+        for (const auto& line2 : lines2) {
+          if (Line::IsIntersects(line1, line2)) {
             intersects = true;
           }
         }
@@ -29,9 +41,6 @@ void GameController::Tick(int time_millisec) {
       cars_[i].SetIsColliding(intersects);
       cars_[j].SetIsColliding(intersects);
     }
-  }
-  for(auto& car : cars_) {
-    car.Tick(time_millisec);
   }
 }
 
@@ -93,7 +102,7 @@ void GameController::HandleKeyReleaseEvent(QKeyEvent* event) {
 
 std::vector<std::pair<int, int>> GameController::GetCarCoordinates() const {
   std::vector<std::pair<int, int>> result;
-  for(const auto& car : cars_) {
+  for (const auto& car : cars_) {
     result.emplace_back(car.GetX(), car.GetY());
   }
   return result;
@@ -101,7 +110,7 @@ std::vector<std::pair<int, int>> GameController::GetCarCoordinates() const {
 
 std::vector<double> GameController::GetCarAngles() const {
   std::vector<double> result;
-  for(const auto& car : cars_) {
+  for (const auto& car : cars_) {
     result.push_back(car.GetAngle());
   }
   return result;

@@ -55,17 +55,11 @@ bool Map::ProceedCollisions(const std::vector<Line>& lines) {
     for (const auto& border : borders_) {
       for (size_t j = 0; j < border.size(); j++) {
         Line l2;
-        if (j == border.size() - 1) {
+        size_t border_i = (j == (border.size()) - 1 ? 0 : j + 1);
           l2.x1 = border[j].first;
           l2.y1 = border[j].second;
-          l2.x2 = border[0].first;
-          l2.y2 = border[0].second;
-        } else {
-          l2.x1 = border[j].first;
-          l2.y1 = border[j].second;
-          l2.x2 = border[j + 1].first;
-          l2.y2 = border[j + 1].second;
-        }
+          l2.x2 = border[border_i].first;
+          l2.y2 = border[border_i].second;
         if (Line::IsIntersects(lines[i], l2)) {
           return true;
         }

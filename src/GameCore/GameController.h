@@ -16,7 +16,7 @@ class GameController {
   GameController();
   ~GameController() = default;
 
-  void Tick(int time_millisec);
+  void Tick(int time_millis);
 
   void HandleKeyPressEvent(QKeyEvent* event);
   void HandleKeyReleaseEvent(QKeyEvent* event);
@@ -29,6 +29,7 @@ class GameController {
   const double car1_start_angle_ = -M_PI / 2;
   const QPoint car2_start_pos_ = {380, 590};
   const double car2_start_angle_ = -M_PI / 2;
-  Map* map_;
+  Map map_;
   std::vector<Car> cars_;
+  void ProceedColisionsWithCars();
 };
