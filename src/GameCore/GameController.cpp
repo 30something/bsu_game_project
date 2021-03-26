@@ -37,8 +37,8 @@ void GameController::ProceedColisionsWithCars() {
           }
         }
       }
-      cars_[i].SetIsCollidingWithCar(intersects);
-      cars_[j].SetIsCollidingWithCar(intersects);
+      cars_[i].SetCollidingWithCar(intersects);
+      cars_[j].SetCollidingWithCar(intersects);
     }
   }
 }

@@ -9,6 +9,7 @@
 #include "src/helpers/vec2f.h"
 #include "wheel.h"
 #include "src/helpers/line.h"
+#include "src/helpers/physics.h"
 
 class Car {
  public:
@@ -30,7 +31,7 @@ class Car {
   void SetFlagRight(bool flag_right);
 
   void SetIsCollidingWithBorders(bool is_colliding_with_borders);
-  void SetIsCollidingWithCar(bool is_colliding_with_car);
+  void SetCollidingWithCar(bool is_colliding_with_car);
 
  private:
   std::vector<Wheel> wheels_{4};

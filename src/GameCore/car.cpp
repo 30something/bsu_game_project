@@ -12,7 +12,7 @@ Car::Car(int x,
   for (auto& i : prev_angle_vec_list_) {
     i = angle_vec_;
   }
-  velocity_.Set(0.000001, 0.000001);
+  velocity_.Set(physics::kAlmostZero, physics::kAlmostZero);
   angle_vec_.Set(1.0, 0.0);
   angle_vec_.Rotate(angle);
   UpdateWheelsPosAndOrientation();
@@ -136,7 +136,7 @@ void Car::ProceedCollisions() {
   if (is_colliding_with_borders_) {
     position_ = prev_position_list_[0];
     angle_vec_ = prev_angle_vec_list_[0];
-    velocity_.SetLen(0.00001);
+    velocity_.SetLen(physics::kAlmostZero);
     is_colliding_with_borders_ = false;
   }
 }
@@ -194,7 +194,7 @@ double Car::GetAngle() const {
   return angle_vec_.GetAngleDegrees() + 90;
 }
 
-void Car::SetIsCollidingWithCar(bool is_colliding_with_car) {
+void Car::SetCollidingWithCar(bool is_colliding_with_car) {
   is_colliding_with_car_ = is_colliding_with_car;
 }
 

@@ -34,9 +34,7 @@ set(SOURCES main.cpp
         src/Menu/pause_menu.cpp
         src/Menu/small_exit_window.cpp
         src/helpers/line.cpp
-        src/helpers/line.h
         src/GameCore/map.cpp
-        src/GameCore/map.h
         )
 
 set(RESOURCES
