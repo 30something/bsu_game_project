@@ -64,8 +64,8 @@ class Car {
   bool flag_left_ = false;
   bool flag_right_ = false;
   bool is_colliding_with_car_ = false;
-
   bool is_colliding_with_borders_ = false;
+
  private:
   void ProceedCollisions();
   void UpdateWheelsPosAndOrientation();

@@ -3,16 +3,16 @@
 Car::Car(int x,
          int y,
          double angle) :
-    position_(x,y),
+    position_(x, y),
     prev_position_list_(kSizeOfPreviousPos),
     prev_angle_vec_list_(kSizeOfPreviousPos) {
-  for(auto& i : prev_position_list_) {
+  for (auto& i : prev_position_list_) {
     i = position_;
   }
-  for(auto& i : prev_angle_vec_list_) {
+  for (auto& i : prev_angle_vec_list_) {
     i = angle_vec_;
   }
-  velocity_.Set(0.000001,0.000001);
+  velocity_.Set(0.000001, 0.000001);
   angle_vec_.Set(1.0, 0.0);
   angle_vec_.Rotate(angle);
   UpdateWheelsPosAndOrientation();
@@ -89,7 +89,7 @@ void Car::AdvanceStep(int time_millisec) {
   }
   prev_position_list_[kSizeOfPreviousPos - 1] = position_;
   prev_angle_vec_list_[kSizeOfPreviousPos - 1] = angle_vec_;
-  if(velocity_.GetLength() > 0.01) {
+  if (velocity_.GetLength() > 0.01) {
     position_ += velocity_ * time_sec;
     angle_vec_.Rotate(angular_velocity_ * time_sec);
     angle_vec_.Normalize();
@@ -126,14 +126,14 @@ void Car::CalcLateralForces() {
 }
 
 void Car::ProceedCollisions() {
-  if(is_colliding_with_car_) {
+  if (is_colliding_with_car_) {
     position_ = prev_position_list_[0];
     angle_vec_ = prev_angle_vec_list_[0];
     velocity_.Rotate(M_PI);
     velocity_.SetLen(velocity_.GetLength() / 10);
     is_colliding_with_car_ = false;
   }
-  if (is_colliding_with_borders_){
+  if (is_colliding_with_borders_) {
     position_ = prev_position_list_[0];
     angle_vec_ = prev_angle_vec_list_[0];
     velocity_.SetLen(0.00001);
@@ -146,7 +146,7 @@ std::vector<Line> Car::GetLines() {
   Line l2(wheels_[0].GetPosition(), wheels_[2].GetPosition());
   Line l3(wheels_[1].GetPosition(), wheels_[3].GetPosition());
   Line l4(wheels_[2].GetPosition(), wheels_[3].GetPosition());
-  return {l1,l2,l3,l4};
+  return {l1, l2, l3, l4};
 }
 
 void Car::UpdateWheelsPosAndOrientation() {

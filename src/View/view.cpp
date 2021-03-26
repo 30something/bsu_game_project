@@ -7,26 +7,10 @@ View::View(GameController* model) :
 }
 
 void View::Repaint(QPainter* painter) {
-  // painter->save();
-  // painter->scale(3, 3);
-  // painter->drawImage(0,
-  //                    0,
-  //                    map_,
-  //                    game_controller_->GetCarCoordinates().first - 400 / 3,
-  //                    game_controller_->GetCarCoordinates().second - 400 / 3,
-  //                    painter->window().width(),
-  //                    painter->window().height());
-  // painter->translate(painter->window().width() / 6.0,
-  //                    painter->window().height() / 6.0);
-  // painter->rotate(game_controller_->GetCarAngles());
-  // // painter->scale(1/3, 1/3);
-  // painter->drawImage(-5, -10, car_);
-  // painter->restore();
-
-  painter->drawImage(0,0,map_);
+  painter->drawImage(0, 0, map_);
   std::vector<std::pair<int, int>> coordinates_ = model_->GetCarCoordinates();
   std::vector<double> angles_ = model_->GetCarAngles();
-  for(size_t i = 0; i < coordinates_.size(); i++) {
+  for (size_t i = 0; i < coordinates_.size(); i++) {
     painter->save();
     painter->translate(coordinates_[i].first, coordinates_[i].second);
     painter->rotate(angles_[i]);
