@@ -10,7 +10,8 @@
 #include "src/View/view.h"
 
 class EventsController : public QWidget {
- Q_OBJECT
+  Q_OBJECT
+
  public:
   explicit EventsController(QWidget* parent, int map_index);
   ~EventsController() override = default;

@@ -8,7 +8,8 @@
 #include "map_selector_tile.h"
 
 class MapSelector : public QWidget {
- Q_OBJECT
+  Q_OBJECT
+
  public:
   explicit MapSelector(QWidget* parent = nullptr);
   ~MapSelector() override = default;
