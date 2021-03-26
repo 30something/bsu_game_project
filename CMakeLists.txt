@@ -26,15 +26,21 @@ set(SOURCES main.cpp
         src/View/view.cpp
         "src/Main window/main_window.cpp"
         src/Menu/menu.cpp
-        src/Model/model.cpp
-        src/Controller/controller.cpp
-        src/Model/car.cpp
-        images.qrc
+        src/GameCore/GameController.cpp
+        src/EventsController/EventsController.cpp
+        src/GameCore/car.cpp
         src/helpers/vec2f.cpp
-        src/Model/wheel.cpp
+        src/GameCore/wheel.cpp
         src/Menu/pause_menu.cpp
-        src/Menu/small_exit_window.cpp)
+        src/Menu/small_exit_window.cpp
+        src/helpers/line.cpp
+        src/GameCore/map.cpp
+        )
 
+set(RESOURCES
+        images.qrc
+        map_data.qrc
+        )
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 target_link_libraries(${PROJECT_NAME} ${REQUIRED_LIBS_QUALIFIED})

@@ -9,6 +9,7 @@ class Wheel {
   Vec2f& Front() {
     return this->front_;
   }
+
   const Vec2f& GetPreviousPosition() const {
     return previous_position_;
   }

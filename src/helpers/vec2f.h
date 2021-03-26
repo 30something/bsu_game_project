@@ -43,7 +43,6 @@ class Vec2f {
   void SetLen(double len);
   void Rotate(double radians);
   double AngleBetween(const Vec2f& other);
-
   Vec2f GetPerpendicular() const;
   double GetLength() const;
   double GetAngleDegrees() const;

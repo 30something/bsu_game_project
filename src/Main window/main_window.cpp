@@ -24,14 +24,14 @@ void MainWindow::resizeEvent(QResizeEvent*) {
 }
 
 void MainWindow::StartGame() {
-  controller_ = new Controller(this);
+  controller_ = new EventsController(this);
 
-  connect(controller_, &Controller::SetGamePause, pause_menu_,
+  connect(controller_, &EventsController::SetGamePause, pause_menu_,
           &PauseMenu::show);
-  connect(controller_, &Controller::StopGamePause, pause_menu_,
+  connect(controller_, &EventsController::StopGamePause, pause_menu_,
           &PauseMenu::Close);
   connect(pause_menu_, &PauseMenu::ContinueGame, controller_,
-          &Controller::SetUnsetPause);
+          &EventsController::SetUnsetPause);
   connect(pause_menu_, &PauseMenu::ReturnToMainMenu, this,
           &MainWindow::ReturnToMainMenu);
 
@@ -44,9 +44,9 @@ void MainWindow::ReturnToMainMenu() {
   stacked_widget_->removeWidget(controller_);
   stacked_widget_->setCurrentWidget(menu_);
   disconnect(pause_menu_, &PauseMenu::ContinueGame, controller_,
-            &Controller::SetUnsetPause);
+             &EventsController::SetUnsetPause);
   disconnect(pause_menu_, &PauseMenu::ReturnToMainMenu, this,
-            &MainWindow::ReturnToMainMenu);
+             &MainWindow::ReturnToMainMenu);
   delete controller_;
   controller_ = nullptr;
 }

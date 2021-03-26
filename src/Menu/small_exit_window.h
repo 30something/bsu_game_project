@@ -18,9 +18,9 @@ class SmallExitWindow : public QWidget {
   void ReturnToMainMenu();
 
  private:
-  QWidget* main_widget_;
-  QGridLayout* grid_layout_;
-  QLabel* question_;
-  QPushButton* yes_button_;
-  QPushButton* no_button_;
+  QWidget* main_widget_ = nullptr;
+  QGridLayout* grid_layout_ = nullptr;
+  QLabel* question_ = nullptr;
+  QPushButton* yes_button_ = nullptr;
+  QPushButton* no_button_ = nullptr;
 };
