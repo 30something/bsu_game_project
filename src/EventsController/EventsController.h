@@ -10,15 +10,15 @@
 #include "src/View/view.h"
 
 class EventsController : public QWidget {
-  Q_OBJECT
-
+ Q_OBJECT
  public:
-  explicit EventsController(QWidget* parent = nullptr);
+  explicit EventsController(QWidget* parent, int map_index);
   ~EventsController() override = default;
 
   void paintEvent(QPaintEvent*) override;
   void keyPressEvent(QKeyEvent*) override;
   void keyReleaseEvent(QKeyEvent*) override;
+
   void SetUnsetPause();
 
   void PhysicsTimerEvent();
@@ -32,7 +32,6 @@ class EventsController : public QWidget {
   enum class Actions {
     kOpenOrCloseMenu = Qt::Key_Escape,
   };
-
   enum class GameStatus {
     kPaused,
     kRunning,

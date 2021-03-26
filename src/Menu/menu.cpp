@@ -30,3 +30,4 @@ Menu::Menu(QWidget* parent) :
   connect(exit_button_, &QPushButton::clicked, this,
           &Menu::ExitButtonPressed);
 }
+

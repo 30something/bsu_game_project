@@ -13,7 +13,7 @@
 
 class GameController {
  public:
-  GameController();
+  explicit GameController(int map_index);
   ~GameController() = default;
 
   void Tick(int time_millis);

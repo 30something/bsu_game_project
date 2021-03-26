@@ -2,8 +2,8 @@
 
 #include "GameController.h"
 
-GameController::GameController() :
-    map_(Map()) {
+GameController::GameController(int map_index) :
+    map_(Map(map_index)) {
   cars_.emplace_back(car1_start_pos_.x(),
                      car1_start_pos_.y(),
                      car1_start_angle_);

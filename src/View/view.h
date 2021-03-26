@@ -10,7 +10,7 @@
 
 class View {
  public:
-  explicit View(GameController* model);
+  explicit View(GameController* model, int map_index);
   ~View() = default;
 
   void Repaint(QPainter* painter);
