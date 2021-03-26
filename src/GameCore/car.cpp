@@ -2,9 +2,7 @@
 
 Car::Car(int x,
          int y,
-         double angle,
-         Map* map) :
-    map_(map),
+         double angle) :
     position_(x,y),
     prev_position_list_(kSizeOfPreviousPos),
     prev_angle_vec_list_(kSizeOfPreviousPos) {
@@ -135,10 +133,11 @@ void Car::ProceedCollisions() {
     velocity_.SetLen(velocity_.GetLength() / 10);
     is_colliding_with_car_ = false;
   }
-  if (map_->ProceedCollisions(GetLines())){
+  if (is_colliding_with_borders_){
     position_ = prev_position_list_[0];
     angle_vec_ = prev_angle_vec_list_[0];
     velocity_.SetLen(0.00001);
+    is_colliding_with_borders_ = false;
   }
 }
 
@@ -195,6 +194,10 @@ double Car::GetAngle() const {
   return angle_vec_.GetAngleDegrees() + 90;
 }
 
-void Car::SetIsColliding(bool is_colliding_with_car) {
+void Car::SetIsCollidingWithCar(bool is_colliding_with_car) {
   is_colliding_with_car_ = is_colliding_with_car;
+}
+
+void Car::SetIsCollidingWithBorders(bool is_colliding_with_borders) {
+  is_colliding_with_borders_ = is_colliding_with_borders;
 }

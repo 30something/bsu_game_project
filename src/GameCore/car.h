@@ -9,14 +9,12 @@
 #include "src/helpers/vec2f.h"
 #include "wheel.h"
 #include "src/helpers/line.h"
-#include "map.h"
 
 class Car {
  public:
   Car(int x,
       int y,
-      double angle,
-      Map* map_);
+      double angle);
   ~Car() = default;
 
   void Tick(int time_millisec);
@@ -31,18 +29,19 @@ class Car {
   void SetFlagLeft(bool flag_left);
   void SetFlagRight(bool flag_right);
 
-  void SetIsColliding(bool is_colliding_with_car);
+  void SetIsCollidingWithBorders(bool is_colliding_with_borders);
+  void SetIsCollidingWithCar(bool is_colliding_with_car);
+
  private:
-  Map* map_ = nullptr;
   std::vector<Wheel> wheels_{4};
   Vec2f position_;
   Vec2f angle_vec_;
   Vec2f velocity_;
   double angular_velocity_ = 0;
+
   std::vector<Vec2f> prev_position_list_;
 
   std::vector<Vec2f> prev_angle_vec_list_;
-
   static constexpr int kSizeOfPreviousPos = 4;
   double steering_angle_ = 0;
   static constexpr double kAccelFactor = 2.0;
@@ -55,10 +54,10 @@ class Car {
   static constexpr double kLength = 18.0;
   static constexpr double kMass = 1000.0;
   static constexpr double MomentInertia = (kMass * kLength * kLength) / 1.0;
+
   static constexpr double FrontCoefFriction = 100;
 
   static constexpr double kRearCoefFriction = 80;
-
   static constexpr double kMaxSlipAngleRadians = 0.07;
   bool flag_up_ = false;
   bool flag_down_ = false;
@@ -66,6 +65,7 @@ class Car {
   bool flag_right_ = false;
   bool is_colliding_with_car_ = false;
 
+  bool is_colliding_with_borders_ = false;
  private:
   void ProceedCollisions();
   void UpdateWheelsPosAndOrientation();

@@ -12,13 +12,13 @@ void View::Repaint(QPainter* painter) {
   // painter->drawImage(0,
   //                    0,
   //                    map_,
-  //                    model_->GetCarCoordinates().first - 400 / 3,
-  //                    model_->GetCarCoordinates().second - 400 / 3,
+  //                    game_controller_->GetCarCoordinates().first - 400 / 3,
+  //                    game_controller_->GetCarCoordinates().second - 400 / 3,
   //                    painter->window().width(),
   //                    painter->window().height());
   // painter->translate(painter->window().width() / 6.0,
   //                    painter->window().height() / 6.0);
-  // painter->rotate(model_->GetCarAngles());
+  // painter->rotate(game_controller_->GetCarAngles());
   // // painter->scale(1/3, 1/3);
   // painter->drawImage(-5, -10, car_);
   // painter->restore();

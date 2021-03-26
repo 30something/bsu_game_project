@@ -6,18 +6,17 @@ GameController::GameController() :
     map_(Map()) {
   cars_.emplace_back(car1_start_pos_.x(),
                      car1_start_pos_.y(),
-                     car1_start_angle_,
-                     &map_);
+                     car1_start_angle_);
   cars_.emplace_back(car2_start_pos_.x(),
                      car2_start_pos_.y(),
-                     car2_start_angle_,
-                     &map_);
+                     car2_start_angle_);
   map_.ParseMapBorders();
 }
 
 void GameController::Tick(int time_millis) {
   ProceedColisionsWithCars();
   for (auto& car : cars_) {
+    map_.ProceedCollisions(&car);
     car.Tick(time_millis);
   }
 }
@@ -38,8 +37,8 @@ void GameController::ProceedColisionsWithCars() {
           }
         }
       }
-      cars_[i].SetIsColliding(intersects);
-      cars_[j].SetIsColliding(intersects);
+      cars_[i].SetIsCollidingWithCar(intersects);
+      cars_[j].SetIsCollidingWithCar(intersects);
     }
   }
 }

@@ -2,8 +2,8 @@
 
 EventsController::EventsController(QWidget* parent) :
     QWidget(parent),
-    model_(new GameController()),
-    view_(new View(model_)),
+    game_controller_(new GameController()),
+    view_(new View(game_controller_)),
     pause_menu_(new PauseMenu(this)) {
   PreparePauseMenu();
   PrepareTimer();
@@ -11,7 +11,7 @@ EventsController::EventsController(QWidget* parent) :
 
 void EventsController::PhysicsTimerEvent() {
   if (game_status_ == GameStatus::kRunning) {
-    model_->Tick(kMillisPerPhysicsTick);
+    game_controller_->Tick(kMillisPerPhysicsTick);
   }
 }
 
@@ -27,14 +27,14 @@ void EventsController::paintEvent(QPaintEvent*) {
 }
 
 void EventsController::keyPressEvent(QKeyEvent* event) {
-  model_->HandleKeyPressEvent(event);
+  game_controller_->HandleKeyPressEvent(event);
   if (event->key() == static_cast<int>(Actions::kOpenOrCloseMenu)) {
     SetUnsetPause();
   }
 }
 
 void EventsController::keyReleaseEvent(QKeyEvent* event) {
-  model_->HandleKeyReleaseEvent(event);
+  game_controller_->HandleKeyReleaseEvent(event);
 }
 
 void EventsController::SetUnsetPause() {
