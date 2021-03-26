@@ -23,7 +23,11 @@ PauseMenu::PauseMenu(QWidget* parent)
   small_exit_window_->close();
   connect(exit_button_, &QPushButton::clicked,
           small_exit_window_, &QWidget::show);
-  connect(small_exit_window_->GetNoButton(), &QPushButton::clicked,
+  connect(continue_button_, &QPushButton::clicked, this,
+          &PauseMenu::ContinueGame);
+  connect(small_exit_window_, &SmallExitWindow::ReturnToMainMenu, this,
+          &PauseMenu::ReturnToMainMenu);
+  connect(small_exit_window_, &SmallExitWindow::StayAtPauseMenu,
           small_exit_window_, &QWidget::close);
 }
 
@@ -35,14 +39,13 @@ void PauseMenu::resizeEvent(QResizeEvent*) {
           / menu_sizes::kSmallExitWindowMoveCoef);
 }
 
-void PauseMenu::CloseSmallExitWindow() {
+void PauseMenu::keyPressEvent(QKeyEvent* event) {
+  if (event->key() == static_cast<int>(Actions::kCloseMenu)) {
+    emit ContinueGame();
+  }
+}
+
+void PauseMenu::Close() {
   small_exit_window_->close();
-}
-
-const QPushButton* PauseMenu::GetContinueButton() const {
-  return continue_button_;
-}
-
-const QPushButton* PauseMenu::GetReturnToMainMenuButton() const {
-  return small_exit_window_->GetYesButton();
+  close();
 }

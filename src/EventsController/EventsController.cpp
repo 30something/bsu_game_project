@@ -3,9 +3,7 @@
 EventsController::EventsController(QWidget* parent) :
     QWidget(parent),
     game_controller_(new GameController()),
-    view_(new View(game_controller_)),
-    pause_menu_(new PauseMenu(this)) {
-  PreparePauseMenu();
+    view_(new View(game_controller_)) {
   PrepareTimer();
 }
 
@@ -39,24 +37,14 @@ void EventsController::keyReleaseEvent(QKeyEvent* event) {
 
 void EventsController::SetUnsetPause() {
   if (game_status_ == GameStatus::kRunning) {
-    pause_menu_->show();
+    emit SetGamePause();
     game_status_ = GameStatus::kPaused;
     focusNextChild();
   } else {
-    pause_menu_->close();
-    pause_menu_->CloseSmallExitWindow();
+    emit StopGamePause();
     game_status_ = GameStatus::kRunning;
     setFocus();
   }
-}
-
-void EventsController::PreparePauseMenu() {
-  pause_menu_->move(width() / 4, height() / 4);
-  pause_menu_->close();
-  connect(pause_menu_->GetContinueButton(),
-          &QPushButton::clicked,
-          this,
-          &EventsController::SetUnsetPause);
 }
 
 void EventsController::PrepareTimer() {
@@ -70,12 +58,4 @@ void EventsController::PrepareTimer() {
           &EventsController::ViewTimerEvent);
   controller_timer_.start(kMillisPerPhysicsTick);
   view_timer_.start(kMillisPerFrame);
-}
-
-const QPushButton* EventsController::GetReturnToMainMenuButton() const {
-  return pause_menu_->GetReturnToMainMenuButton();
-}
-
-void EventsController::resizeEvent(QResizeEvent*) {
-  pause_menu_->setGeometry(0, 0, width(), height());
 }

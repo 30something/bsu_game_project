@@ -12,8 +12,10 @@ class SmallExitWindow : public QWidget {
  public:
   explicit SmallExitWindow(QWidget* parent = nullptr);
   ~SmallExitWindow() override = default;
-  const QPushButton* GetYesButton() const;
-  const QPushButton* GetNoButton() const;
+
+ signals:
+  void StayAtPauseMenu();
+  void ReturnToMainMenu();
 
  private:
   QWidget* main_widget_ = nullptr;

@@ -14,6 +14,7 @@ Menu::Menu(QWidget* parent) :
   settings_button_->setMinimumSize(menu_sizes::kMenuMinButtonSize);
   credits_button_->setMinimumSize(menu_sizes::kMenuMinButtonSize);
   exit_button_->setMinimumSize(menu_sizes::kMenuMinButtonSize);
+
   main_layout_->setSpacing(menu_sizes::kMenuSpacing);
   main_layout_->addStretch(5);
   main_layout_->addWidget(name_label_, 1, Qt::AlignCenter);
@@ -23,12 +24,9 @@ Menu::Menu(QWidget* parent) :
   main_layout_->addWidget(credits_button_, 1, Qt::AlignCenter);
   main_layout_->addWidget(exit_button_, 1, Qt::AlignCenter);
   main_layout_->addStretch(5);
-}
 
-const QPushButton* Menu::GetStartButton() const {
-  return start_game_button_;
-}
-
-const QPushButton* Menu::GetExitButton() const {
-  return exit_button_;
+  connect(start_game_button_, &QPushButton::clicked, this,
+          &Menu::StartButtonPressed);
+  connect(exit_button_, &QPushButton::clicked, this,
+          &Menu::ExitButtonPressed);
 }

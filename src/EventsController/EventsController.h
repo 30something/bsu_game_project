@@ -2,7 +2,6 @@
 
 #include <QKeyEvent>
 #include <QPainter>
-#include <QTimerEvent>
 #include <QWidget>
 #include <QTimer>
 
@@ -21,10 +20,13 @@ class EventsController : public QWidget {
   void keyPressEvent(QKeyEvent*) override;
   void keyReleaseEvent(QKeyEvent*) override;
   void SetUnsetPause();
-  const QPushButton* GetReturnToMainMenuButton() const;
 
- protected:
-  void resizeEvent(QResizeEvent*) override;
+  void PhysicsTimerEvent();
+  void ViewTimerEvent();
+
+ signals:
+  void SetGamePause();
+  void StopGamePause();
 
  private:
   enum class Actions {
@@ -36,17 +38,12 @@ class EventsController : public QWidget {
     kRunning,
   };
 
-  void PhysicsTimerEvent();
-  void ViewTimerEvent();
-
   QTimer view_timer_;
   QTimer controller_timer_;
   GameController* game_controller_ = nullptr;
   View* view_ = nullptr;
-  PauseMenu* pause_menu_ = nullptr;
   GameStatus game_status_ = GameStatus::kRunning;
   static constexpr int kMillisPerFrame = 10;
   static constexpr int kMillisPerPhysicsTick = 5;
   void PrepareTimer();
-  void PreparePauseMenu();
 };
