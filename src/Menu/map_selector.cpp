@@ -2,35 +2,35 @@
 
 MapSelector::MapSelector(QWidget* parent) :
     QWidget(parent),
-    start_game_("Start", this),
-    back_to_main_menu_("Back", this),
-    left_("Previous", this),
-    right_("Next", this),
-    layout_(this),
-    stacked_widget_(this) {
+    start_game_(new QPushButton("Start", this)),
+    back_to_main_menu_(new QPushButton("Back", this)),
+    left_(new QPushButton("Previous", this)),
+    right_(new QPushButton("Next", this)),
+    layout_(new QHBoxLayout(this)),
+    stacked_widget_(new QStackedWidget(this)) {
   for (const auto& i : map_data::map_filepaths) {
-    stacked_widget_.addWidget(new MapSelectorTile(this, i.second));
+    stacked_widget_->addWidget(new MapSelectorTile(this, i.second));
   }
-  layout_.addWidget(&back_to_main_menu_);
-  layout_.addWidget(&left_);
-  layout_.addWidget(&stacked_widget_, 0, Qt::AlignCenter);
-  layout_.addWidget(&right_);
-  layout_.addWidget(&start_game_);
-  stacked_widget_.setCurrentIndex(0);
+  layout_->addWidget(back_to_main_menu_);
+  layout_->addWidget(left_);
+  layout_->addWidget(stacked_widget_, 0, Qt::AlignCenter);
+  layout_->addWidget(right_);
+  layout_->addWidget(start_game_);
+  stacked_widget_->setCurrentIndex(0);
 
-  connect(&left_,
+  connect(left_,
           &QPushButton::clicked,
           this,
           &MapSelector::SwitchLeft);
-  connect(&right_,
+  connect(right_,
           &QPushButton::clicked,
           this,
           &MapSelector::SwitchRight);
-  connect(&start_game_,
+  connect(start_game_,
           &QPushButton::clicked,
           this,
           &MapSelector::StartGame);
-  connect(&back_to_main_menu_,
+  connect(back_to_main_menu_,
           &QPushButton::clicked,
           this,
           &MapSelector::ReturnToMainMenu);
@@ -42,7 +42,7 @@ void MapSelector::SwitchRight() {
   } else {
     current_id++;
   }
-  stacked_widget_.setCurrentIndex(current_id);
+  stacked_widget_->setCurrentIndex(current_id);
   repaint();
 }
 
@@ -52,7 +52,7 @@ void MapSelector::SwitchLeft() {
   } else {
     current_id--;
   }
-  stacked_widget_.setCurrentIndex(current_id);
+  stacked_widget_->setCurrentIndex(current_id);
   repaint();
 }
 
