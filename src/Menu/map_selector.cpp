@@ -8,7 +8,7 @@ MapSelector::MapSelector(QWidget* parent) :
     right_("Next", this),
     layout_(this),
     stacked_widget_(this) {
-  for(const auto& i : map_data::map_filepaths) {
+  for (const auto& i : map_data::map_filepaths) {
     stacked_widget_.addWidget(new MapSelectorTile(this, i.second));
   }
   layout_.addWidget(&back_to_main_menu_);
