@@ -39,14 +39,16 @@ void View::Repaint(QPainter* painter) {
   // draw second car on first map
   painter->save();
   painter->translate(
-      coordinates_[1].first - coordinates_[0].first + width / 2 / kScaleFactor / 2,
-      coordinates_[1].second - coordinates_[0].second + height / kScaleFactor / 2);
+      coordinates_[1].first - coordinates_[0].first
+          + width / 2 / kScaleFactor / 2,
+      coordinates_[1].second - coordinates_[0].second
+          + height / kScaleFactor / 2);
   painter->rotate(angles_[1]);
   painter->drawImage(-5, -10, car_);
   painter->restore();
   // draw second car
   painter->save();
-  painter->translate(width/ 4. * 3 / kScaleFactor,
+  painter->translate(width / 4. * 3 / kScaleFactor,
                      height / 2. / kScaleFactor);
   painter->rotate(angles_[1]);
   painter->drawImage(-5, -10, car_);
@@ -55,8 +57,10 @@ void View::Repaint(QPainter* painter) {
   painter->save();
   painter->translate(width / 2 / kScaleFactor, 0);
   painter->translate(
-      coordinates_[0].first - coordinates_[1].first + width / 2 / kScaleFactor / 2,
-      coordinates_[0].second - coordinates_[1].second + height / kScaleFactor / 2);
+      coordinates_[0].first - coordinates_[1].first
+          + width / 2 / kScaleFactor / 2,
+      coordinates_[0].second - coordinates_[1].second
+          + height / kScaleFactor / 2);
   painter->rotate(angles_[0]);
   painter->drawImage(-5, -10, car_);
   painter->restore();
