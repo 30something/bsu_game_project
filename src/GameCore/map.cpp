@@ -1,28 +1,13 @@
 #include "map.h"
 
-Map::Map(uint map_index) {
-  switch (map_index) {
-    case 0: {
-      map_data_filename_ = ":resources/images/map_data/map_1.txt";
-      break;
-    }
-    case 1: {
-      map_data_filename_ = ":resources/images/map_data/map_2.txt";
-      break;
-    }
-    case 2: {
-      map_data_filename_ = ":resources/images/map_data/map_3.txt";
-      break;
-    }
-    default: {
-      qWarning("Something went wrong with map");
-    }
-  }
+Map::Map(uint map_index) :
+    map_index_(map_index) {
+  ParseMapBorders();
 }
 
 void Map::ParseMapBorders() {
   QTextStream out(stdout);
-  QFile file(map_data_filename_);
+  QFile file(map_data::map_filepaths[map_index_].first);
   if (!file.open(QIODevice::ReadOnly)) {
     qWarning("Cannot open file for reading");
   }

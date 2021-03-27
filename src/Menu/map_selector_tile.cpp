@@ -1,11 +1,9 @@
 #include "map_selector_tile.h"
 
 MapSelectorTile::MapSelectorTile(QWidget* parent,
-                                 const QString& filename,
-                                 const QString& name) :
+                                 const QString& filename) :
     QWidget(parent),
-    pixmap_(new QPixmap(filename)),
-    name_(new QLabel(name, this)) {
+    pixmap_(new QPixmap(filename)) {
   repaint();
   setMinimumSize(400, 400);
 }

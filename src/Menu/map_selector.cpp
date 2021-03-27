@@ -7,13 +7,10 @@ MapSelector::MapSelector(QWidget* parent) :
     left_("Previous", this),
     right_("Next", this),
     layout_(this),
-    stacked_widget_(this),
-    tile1(this, ":resources/images/maps/map_1.jpg", "1"),
-    tile2(this, ":resources/images/maps/map_2.jpg", "2"),
-    tile3(this, ":resources/images/maps/map_3.jpg", "3") {
-  stacked_widget_.addWidget(&tile1);
-  stacked_widget_.addWidget(&tile2);
-  stacked_widget_.addWidget(&tile3);
+    stacked_widget_(this) {
+  for(const auto& i : map_data::map_filepaths) {
+    stacked_widget_.addWidget(new MapSelectorTile(this, i.second));
+  }
   layout_.addWidget(&back_to_main_menu_);
   layout_.addWidget(&left_);
   layout_.addWidget(&stacked_widget_, 0, Qt::AlignCenter);
@@ -40,7 +37,7 @@ MapSelector::MapSelector(QWidget* parent) :
 }
 
 void MapSelector::SwitchRight() {
-  if (current_id >= kNumberOfMaps - 1) {
+  if (current_id >= map_data::map_filepaths.size() - 1) {
     current_id = 0;
   } else {
     current_id++;
@@ -51,7 +48,7 @@ void MapSelector::SwitchRight() {
 
 void MapSelector::SwitchLeft() {
   if (current_id <= 0) {
-    current_id = kNumberOfMaps - 1;
+    current_id = map_data::map_filepaths.size() - 1;
   } else {
     current_id--;
   }

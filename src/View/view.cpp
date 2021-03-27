@@ -3,23 +3,7 @@
 View::View(GameController* model, int map_index) :
     model_(model),
     car_(":resources/images/cars/car_1.png") {
-  switch (map_index) {
-    case 0: {
-      map_.load(":resources/images/maps/map_1.jpg");
-      break;
-    }
-    case 1: {
-      map_.load(":resources/images/maps/map_2.jpg");
-      break;
-    }
-    case 2: {
-      map_.load(":resources/images/maps/map_3.jpg");
-      break;
-    }
-    default: {
-      qWarning("Something went wrong with view");
-    }
-  }
+  map_.load(map_data::map_filepaths[map_index].second);
 }
 
 void View::Repaint(QPainter* painter) {

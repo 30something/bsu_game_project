@@ -10,7 +10,6 @@ GameController::GameController(uint map_index) :
   cars_.emplace_back(car2_start_pos_.x(),
                      car2_start_pos_.y(),
                      car2_start_angle_);
-  map_.ParseMapBorders();
 }
 
 void GameController::Tick(int time_millis) {

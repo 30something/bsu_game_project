@@ -5,6 +5,7 @@
 #include <QStackedWidget>
 
 #include "map_selector_tile.h"
+#include "src/helpers/map_data.h"
 
 class MapSelector : public QWidget {
   Q_OBJECT
@@ -26,11 +27,7 @@ class MapSelector : public QWidget {
   QPushButton right_;
   QHBoxLayout layout_;
   QStackedWidget stacked_widget_;
-  MapSelectorTile tile1;
-  MapSelectorTile tile2;
-  MapSelectorTile tile3;
   void SwitchRight();
   void SwitchLeft();
   uint current_id = 0;
-  const uint kNumberOfMaps = 3;
 };
