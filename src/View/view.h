@@ -7,6 +7,7 @@
 #include <QImage>
 
 #include "src/GameCore/GameController.h"
+#include "src/helpers/sizes.h"
 
 class View {
  public:
@@ -19,4 +20,5 @@ class View {
   GameController* model_ = nullptr;
   QImage map_;
   QImage car_;
+  const double kScaleFactor = 2;
 };
