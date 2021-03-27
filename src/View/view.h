@@ -20,5 +20,9 @@ class View {
   GameController* model_ = nullptr;
   QImage map_;
   QImage car_;
-  const double kScaleFactor = 2;
+  const double kScale = 2;
+  void PaintCar(QPainter* painter,
+                double width,
+                double height,
+                double angle) const;
 };

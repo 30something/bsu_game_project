@@ -11,57 +11,58 @@ void View::Repaint(QPainter* painter) {
   double width = painter->window().width();
   double height = painter->window().height();
 
-  painter->scale(kScaleFactor, kScaleFactor);
+  painter->scale(kScale, kScale);
   std::vector<std::pair<int, int>> coordinates_ = model_->GetCarCoordinates();
   std::vector<double> angles_ = model_->GetCarAngles();
   // Draw two maps
   painter->drawImage(0,
                      0,
                      map_,
-                     coordinates_[0].first - width / 2 / kScaleFactor / 2,
-                     coordinates_[0].second - height / kScaleFactor / 2,
-                     width / 2 / kScaleFactor,
-                     height / kScaleFactor);
-  painter->drawImage(width / 2 / kScaleFactor,
+                     coordinates_[0].first - width / 2 / kScale / 2,
+                     coordinates_[0].second - height / kScale / 2,
+                     width / 2 / kScale,
+                     height / kScale);
+  painter->drawImage(width / 2 / kScale,
                      0,
                      map_,
-                     coordinates_[1].first - width / 2 / kScaleFactor / 2,
-                     coordinates_[1].second - height / kScaleFactor / 2,
-                     width / 2 / kScaleFactor,
-                     height / kScaleFactor);
+                     coordinates_[1].first - width / 2 / kScale / 2,
+                     coordinates_[1].second - height / kScale / 2,
+                     width / 2 / kScale,
+                     height / kScale);
   // Draw first car
-  painter->save();
-  painter->translate(width / 4 / kScaleFactor,
-                     height / 2. / kScaleFactor);
-  painter->rotate(angles_[0]);
-  painter->drawImage(-5, -10, car_);
-  painter->restore();
+  PaintCar(painter,
+           width / 4 / kScale,
+           height / 2 / kScale,
+           angles_[0]);
   // draw second car on first map
-  painter->save();
-  painter->translate(
-      coordinates_[1].first - coordinates_[0].first
-          + width / 2 / kScaleFactor / 2,
-      coordinates_[1].second - coordinates_[0].second
-          + height / kScaleFactor / 2);
-  painter->rotate(angles_[1]);
-  painter->drawImage(-5, -10, car_);
-  painter->restore();
+  PaintCar(painter,
+           coordinates_[1].first - coordinates_[0].first
+               + width / 2 / kScale / 2,
+           coordinates_[1].second - coordinates_[0].second
+               + height / kScale / 2,
+           angles_[1]);
   // draw second car
-  painter->save();
-  painter->translate(width / 4. * 3 / kScaleFactor,
-                     height / 2. / kScaleFactor);
-  painter->rotate(angles_[1]);
-  painter->drawImage(-5, -10, car_);
-  painter->restore();
+  PaintCar(painter,
+           width / 4. * 3 / kScale,
+           height / 2. / kScale,
+           angles_[1]);
   // draw first car on second map
+  painter->translate(width / 2 / kScale, 0);
+  PaintCar(painter,
+           coordinates_[0].first - coordinates_[1].first
+               + width / 2 / kScale / 2,
+           coordinates_[0].second - coordinates_[1].second
+               + height / kScale / 2,
+           angles_[0]);
+}
+
+void View::PaintCar(QPainter* painter,
+                    double width,
+                    double height,
+                    double angle) const {
   painter->save();
-  painter->translate(width / 2 / kScaleFactor, 0);
-  painter->translate(
-      coordinates_[0].first - coordinates_[1].first
-          + width / 2 / kScaleFactor / 2,
-      coordinates_[0].second - coordinates_[1].second
-          + height / kScaleFactor / 2);
-  painter->rotate(angles_[0]);
+  painter->translate(width, height);
+  painter->rotate(angle);
   painter->drawImage(-5, -10, car_);
   painter->restore();
 }
