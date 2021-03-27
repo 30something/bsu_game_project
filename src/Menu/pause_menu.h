@@ -19,6 +19,7 @@ class PauseMenu : public QWidget {
  signals:
   void ContinueGame();
   void ReturnToMainMenu();
+  void ShowSettingsFromPM();
 
  private:
   void resizeEvent(QResizeEvent*) override;

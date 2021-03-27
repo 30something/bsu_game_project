@@ -25,6 +25,8 @@ PauseMenu::PauseMenu(QWidget* parent)
           small_exit_window_, &QWidget::show);
   connect(continue_button_, &QPushButton::clicked, this,
           &PauseMenu::ContinueGame);
+  connect(settings_button_, &QPushButton::clicked,
+          this, &PauseMenu::ShowSettingsFromPM);
   connect(small_exit_window_, &SmallExitWindow::ReturnToMainMenu, this,
           &PauseMenu::ReturnToMainMenu);
   connect(small_exit_window_, &SmallExitWindow::StayAtPauseMenu,

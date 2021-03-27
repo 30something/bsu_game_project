@@ -27,6 +27,8 @@ Menu::Menu(QWidget* parent) :
 
   connect(start_game_button_, &QPushButton::clicked, this,
           &Menu::StartButtonPressed);
+  connect(settings_button_, &QPushButton::clicked, this,
+          &Menu::SettingsButtonPressed);
   connect(exit_button_, &QPushButton::clicked, this,
           &Menu::ExitButtonPressed);
 }

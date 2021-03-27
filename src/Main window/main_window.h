@@ -7,6 +7,7 @@
 #include "src/Controller/controller.h"
 #include "src/Menu/menu.h"
 #include "src/Menu/pause_menu.h"
+#include "src/Menu/settings.h"
 
 class MainWindow : public QMainWindow {
   Q_OBJECT
@@ -16,12 +17,15 @@ class MainWindow : public QMainWindow {
   ~MainWindow() override = default;
   void ReturnToMainMenu();
   void StartGame();
+  void ShowSettings();
+  void HideSettings();
 
  private:
   void resizeEvent(QResizeEvent*) override;
 
   QStackedWidget* stacked_widget_;
   Controller* controller_ = nullptr;
-  PauseMenu* pause_menu_;
+  Settings* settings_;
   Menu* menu_;
+  PauseMenu* pause_menu_;
 };

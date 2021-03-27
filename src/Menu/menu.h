@@ -15,6 +15,7 @@ class Menu : public QWidget {
 
  signals:
   void StartButtonPressed();
+  void SettingsButtonPressed();
   void ExitButtonPressed();
 
  private:
