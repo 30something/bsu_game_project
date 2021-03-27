@@ -8,7 +8,7 @@
 #include "src/helpers/map_data.h"
 
 class MapSelector : public QWidget {
- Q_OBJECT
+  Q_OBJECT
 
  public:
   explicit MapSelector(QWidget* parent = nullptr);
