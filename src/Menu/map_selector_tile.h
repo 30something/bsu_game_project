@@ -2,7 +2,6 @@
 
 #include <QWidget>
 #include <QLabel>
-#include <QHBoxLayout>
 #include <QPaintEvent>
 #include <QPainter>
 #include <QPushButton>

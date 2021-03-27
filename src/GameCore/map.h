@@ -12,12 +12,12 @@
 
 class Map {
  public:
-  explicit Map(int map_index);
+  explicit Map(uint map_index);
   void ParseMapBorders();
   static std::pair<int, int> ParseLine(const QString& line);
   void ProceedCollisions(Car* car);
 
  private:
-  QString map_data_filename;
+  QString map_data_filename_;
   std::vector<std::vector<std::pair<int, int>>> borders_;
 };

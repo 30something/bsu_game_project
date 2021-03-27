@@ -13,7 +13,7 @@ class EventsController : public QWidget {
   Q_OBJECT
 
  public:
-  explicit EventsController(QWidget* parent, int map_index);
+  explicit EventsController(QWidget* parent, uint map_index);
   ~EventsController() override = default;
 
   void paintEvent(QPaintEvent*) override;

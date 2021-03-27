@@ -21,9 +21,18 @@ MapSelector::MapSelector(QWidget* parent) :
   layout_.addWidget(&start_game_);
   stacked_widget_.setCurrentIndex(0);
 
-  connect(&left_, &QPushButton::clicked, this, &MapSelector::SwitchLeft);
-  connect(&right_, &QPushButton::clicked, this, &MapSelector::SwitchRight);
-  connect(&start_game_, &QPushButton::clicked, this, &MapSelector::StartGame);
+  connect(&left_,
+          &QPushButton::clicked,
+          this,
+          &MapSelector::SwitchLeft);
+  connect(&right_,
+          &QPushButton::clicked,
+          this,
+          &MapSelector::SwitchRight);
+  connect(&start_game_,
+          &QPushButton::clicked,
+          this,
+          &MapSelector::StartGame);
   connect(&back_to_main_menu_,
           &QPushButton::clicked,
           this,
@@ -50,6 +59,6 @@ void MapSelector::SwitchLeft() {
   repaint();
 }
 
-int MapSelector::GetMapId() const {
+uint MapSelector::GetMapId() const {
   return current_id;
 }

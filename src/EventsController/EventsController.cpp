@@ -1,6 +1,6 @@
 #include "EventsController.h"
 
-EventsController::EventsController(QWidget* parent, int map_index) :
+EventsController::EventsController(QWidget* parent, uint map_index) :
     QWidget(parent),
     game_controller_(new GameController(map_index)),
     view_(new View(game_controller_, map_index)) {

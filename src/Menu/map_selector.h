@@ -2,7 +2,6 @@
 
 #include <QPushButton>
 #include <QHBoxLayout>
-#include <QImage>
 #include <QStackedWidget>
 
 #include "map_selector_tile.h"
@@ -14,7 +13,7 @@ class MapSelector : public QWidget {
   explicit MapSelector(QWidget* parent = nullptr);
   ~MapSelector() override = default;
 
-  int GetMapId() const;
+  uint GetMapId() const;
 
  signals:
   void StartGame();
@@ -32,6 +31,6 @@ class MapSelector : public QWidget {
   MapSelectorTile tile3;
   void SwitchRight();
   void SwitchLeft();
-  int current_id = 0;
-  const int kNumberOfMaps = 3;
+  uint current_id = 0;
+  const uint kNumberOfMaps = 3;
 };
