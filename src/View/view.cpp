@@ -1,5 +1,4 @@
 #include "src/View/view.h"
-#include <iostream>
 
 View::View(GameController* model, int map_index) :
     model_(model),
