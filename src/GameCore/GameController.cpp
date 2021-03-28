@@ -98,8 +98,8 @@ void GameController::HandleKeyReleaseEvent(QKeyEvent* event) {
   }
 }
 
-std::vector<std::pair<int, int>> GameController::GetCarCoordinates() const {
-  std::vector<std::pair<int, int>> result;
+std::vector<QPoint> GameController::GetCarCoordinates() const {
+  std::vector<QPoint> result;
   for (const auto& car : cars_) {
     result.emplace_back(car.GetX(), car.GetY());
   }

@@ -21,7 +21,7 @@ class GameController {
   void HandleKeyPressEvent(QKeyEvent* event);
   void HandleKeyReleaseEvent(QKeyEvent* event);
 
-  std::vector<std::pair<int, int>> GetCarCoordinates() const;
+  std::vector<QPoint> GetCarCoordinates() const;
   std::vector<double> GetCarAngles() const;
 
  private:

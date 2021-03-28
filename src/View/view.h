@@ -21,8 +21,13 @@ class View {
   QImage map_;
   QImage car_;
   const double kScale = 2;
-  void PaintCar(QPainter* painter,
-                double width,
-                double height,
-                double angle) const;
+  void DrawCenteredCar(QPainter* painter, const QRect& frame, double angle);
+  void DrawMap(QPainter* painter,
+               const QRect& frame,
+               const QPoint& pos);
+  void DrawCar(QPainter* painter,
+               const QRect& frame,
+               const QPoint& center,
+               const QPoint& frame_center,
+               double angle);
 };

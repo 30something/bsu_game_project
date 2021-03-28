@@ -1,4 +1,5 @@
 #include "src/View/view.h"
+#include <iostream>
 
 View::View(GameController* model, int map_index) :
     model_(model),
@@ -7,60 +8,66 @@ View::View(GameController* model, int map_index) :
 }
 
 void View::Repaint(QPainter* painter) {
-  // Dis works only for 2 cars
-  QSize size(painter->window().width(), painter->window().height());
-
+  std::vector<QRect> frames;
+  frames.emplace_back(0,
+                      0,
+                      painter->window().width() / 2,
+                      painter->window().height());
+  frames.emplace_back(painter->window().width() / 2,
+                      0,
+                      painter->window().width() / 2,
+                      painter->window().height());
   painter->scale(kScale, kScale);
-  std::vector<std::pair<int, int>> coordinates_ = model_->GetCarCoordinates();
-  std::vector<double> angles_ = model_->GetCarAngles();
-  // Draw two maps
-  painter->drawImage(0,
-                     0,
-                     map_,
-                     coordinates_[0].first - size.width() / 2 / kScale / 2,
-                     coordinates_[0].second - size.height() / kScale / 2,
-                     size.width() / 2 / kScale,
-                     size.height() / kScale);
-  painter->drawImage(size.width() / 2 / kScale,
-                     0,
-                     map_,
-                     coordinates_[1].first - size.width() / 2 / kScale / 2,
-                     coordinates_[1].second - size.height() / kScale / 2,
-                     size.width() / 2 / kScale,
-                     size.height() / kScale);
-  // Draw first car
-  PaintCar(painter,
-           size.width() / 4 / kScale,
-           size.height() / 2 / kScale,
-           angles_[0]);
-  // draw second car on first map
-  PaintCar(painter,
-           coordinates_[1].first - coordinates_[0].first
-               + size.width() / 2 / kScale / 2,
-           coordinates_[1].second - coordinates_[0].second
-               + size.height() / kScale / 2,
-           angles_[1]);
-  // draw second car
-  PaintCar(painter,
-           size.width() / 4. * 3 / kScale,
-           size.height() / 2. / kScale,
-           angles_[1]);
-  // draw first car on second map
-  painter->translate(size.width() / 2 / kScale, 0);
-  PaintCar(painter,
-           coordinates_[0].first - coordinates_[1].first
-               + size.width() / 2 / kScale / 2,
-           coordinates_[0].second - coordinates_[1].second
-               + size.height() / kScale / 2,
-           angles_[0]);
+  std::vector<QPoint> coordinates = model_->GetCarCoordinates();
+  std::vector<double> angles = model_->GetCarAngles();
+
+  for (size_t i = 0; i < frames.size(); i++) {
+    DrawMap(painter, frames[i], coordinates[i]);
+  }
+  for (size_t i = 0; i < frames.size(); i++) {
+    for (size_t j = 0; j < coordinates.size(); j++) {
+      if (i == j) {
+        DrawCenteredCar(painter, frames[i], angles[i]);
+      } else {
+        DrawCar(painter, frames[i], coordinates[i], coordinates[j], angles[j]);
+      }
+    }
+  }
 }
 
-void View::PaintCar(QPainter* painter,
-                    double width,
-                    double height,
-                    double angle) const {
+void View::DrawMap(QPainter* painter,
+                   const QRect& frame,
+                   const QPoint& pos) {
+  painter->drawImage(frame.left() / kScale,
+                     0,
+                     map_,
+                     pos.x() - frame.width() / 2 / kScale,
+                     pos.y() - frame.height() / 2 / kScale,
+                     frame.width() / kScale,
+                     frame.height() / kScale);
+}
+
+void View::DrawCar(QPainter* painter,
+                   const QRect& frame,
+                   const QPoint& center,
+                   const QPoint& frame_center,
+                   double angle) {
   painter->save();
-  painter->translate(width, height);
+  painter->translate(frame.left() / kScale + frame_center.x() - center.x()
+                         + frame.width() / kScale / 2,
+                     frame_center.y() - center.y()
+                         + frame.height() / kScale / 2);
+  painter->rotate(angle);
+  painter->drawImage(-5, -10, car_);
+  painter->restore();
+}
+
+void View::DrawCenteredCar(QPainter* painter,
+                           const QRect& frame,
+                           double angle) {
+  painter->save();
+  painter->translate(frame.left() / kScale + frame.width() / 2 / kScale,
+                     frame.height() / 2 / kScale);
   painter->rotate(angle);
   painter->drawImage(-5, -10, car_);
   painter->restore();
