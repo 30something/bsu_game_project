@@ -21,7 +21,6 @@ class View {
   QImage map_;
   QImage car_;
   const double kScale = 2;
-  void DrawCenteredCar(QPainter* painter, const QRect& frame, double angle);
   void DrawMap(QPainter* painter,
                const QRect& frame,
                const QPoint& pos);
