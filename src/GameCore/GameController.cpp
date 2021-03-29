@@ -31,7 +31,7 @@ void GameController::ProceedColisionsWithCars() {
       for (const auto& line1 : lines1) {
         for (const auto& line2 : lines2) {
           if (Line::IsIntersects(line1, line2)) {
-            CollideCars(cars_[i], cars_[j]);
+            CollideCars(&cars_[i], &cars_[j]);
             return;
           }
         }
@@ -40,9 +40,9 @@ void GameController::ProceedColisionsWithCars() {
   }
 }
 
-void GameController::CollideCars(Car& car_1, Car& car_2) {
-  Vec2f pos_1 = car_1.GetPosition();
-  Vec2f pos_2 = car_2.GetPosition();
+void GameController::CollideCars(Car* car_1, Car* car_2) {
+  Vec2f pos_1 = car_1->GetPosition();
+  Vec2f pos_2 = car_2->GetPosition();
   Vec2f deviation_1
       (pos_1.GetX() - pos_2.GetX(), pos_1.GetY() - pos_2.GetY());
   Vec2f deviation_2
@@ -50,17 +50,17 @@ void GameController::CollideCars(Car& car_1, Car& car_2) {
   deviation_1.Normalize();
   deviation_2.Normalize();
   Vec2f vel_1 =
-      car_1.GetVelocity() + deviation_1 * physics::kCollisionDeviationScalar;
+      car_1->GetVelocity() + deviation_1 * physics::kCollisionDeviationScalar;
   Vec2f vel_2 =
-      car_2.GetVelocity() + deviation_2 * physics::kCollisionDeviationScalar;
+      car_2->GetVelocity() + deviation_2 * physics::kCollisionDeviationScalar;
   vel_1 *= 1. / 2;
   vel_2 *= 1. / 2;
 
-  car_1.SetVelocity(vel_1);
-  car_2.SetVelocity(vel_2);
+  car_1->SetVelocity(vel_1);
+  car_2->SetVelocity(vel_2);
 
-  car_1.SetPosition(pos_1 + deviation_1);
-  car_2.SetPosition(pos_2 + deviation_2);
+  car_1->SetPosition(pos_1 + deviation_1);
+  car_2->SetPosition(pos_2 + deviation_2);
 }
 
 void GameController::HandleKeyPressEvent(QKeyEvent* event) {

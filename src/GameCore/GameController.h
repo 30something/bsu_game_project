@@ -33,5 +33,5 @@ class GameController {
   Map map_;
   std::vector<Car> cars_;
   void ProceedColisionsWithCars();
-  static void CollideCars(Car& car_1, Car& car_2);
+  static void CollideCars(Car* car_1, Car* car_2);
 };
