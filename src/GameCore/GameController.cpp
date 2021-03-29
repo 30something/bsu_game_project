@@ -2,15 +2,14 @@
 
 #include "GameController.h"
 
-GameController::GameController() :
-    map_(Map()) {
+GameController::GameController(uint map_index) :
+    map_(Map(map_index)) {
   cars_.emplace_back(car1_start_pos_.x(),
                      car1_start_pos_.y(),
                      car1_start_angle_);
   cars_.emplace_back(car2_start_pos_.x(),
                      car2_start_pos_.y(),
                      car2_start_angle_);
-  map_.ParseMapBorders();
 }
 
 void GameController::Tick(int time_millis) {
@@ -99,8 +98,8 @@ void GameController::HandleKeyReleaseEvent(QKeyEvent* event) {
   }
 }
 
-std::vector<std::pair<int, int>> GameController::GetCarCoordinates() const {
-  std::vector<std::pair<int, int>> result;
+std::vector<QPoint> GameController::GetCarCoordinates() const {
+  std::vector<QPoint> result;
   for (const auto& car : cars_) {
     result.emplace_back(car.GetX(), car.GetY());
   }

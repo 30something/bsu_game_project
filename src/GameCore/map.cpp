@@ -1,8 +1,13 @@
 #include "map.h"
 
+Map::Map(uint map_index) :
+    map_index_(map_index) {
+  ParseMapBorders();
+}
+
 void Map::ParseMapBorders() {
   QTextStream out(stdout);
-  QFile file(":resources/images/map_data/map_1.txt");
+  QFile file(map_data::map_filepaths[map_index_].first);
   if (!file.open(QIODevice::ReadOnly)) {
     qWarning("Cannot open file for reading");
   }
@@ -57,10 +62,10 @@ void Map::ProceedCollisions(Car* car) {
       for (size_t j = 0; j < border.size(); j++) {
         Line l2;
         size_t border_i = (j == (border.size()) - 1 ? 0 : j + 1);
-          l2.x1 = border[j].first;
-          l2.y1 = border[j].second;
-          l2.x2 = border[border_i].first;
-          l2.y2 = border[border_i].second;
+        l2.x1 = border[j].first;
+        l2.y1 = border[j].second;
+        l2.x2 = border[border_i].first;
+        l2.y2 = border[border_i].second;
         if (Line::IsIntersects(lines[i], l2)) {
           car->SetIsCollidingWithBorders(true);
           return;

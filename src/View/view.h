@@ -7,10 +7,11 @@
 #include <QImage>
 
 #include "src/GameCore/GameController.h"
+#include "src/helpers/sizes.h"
 
 class View {
  public:
-  explicit View(GameController* model);
+  explicit View(GameController* model, int map_index);
   ~View() = default;
 
   void Repaint(QPainter* painter);
@@ -19,4 +20,13 @@ class View {
   GameController* model_ = nullptr;
   QImage map_;
   QImage car_;
+  const double kScale = 2;
+  void DrawMap(QPainter* painter,
+               const QRect& frame,
+               const QPoint& pos);
+  void DrawCar(QPainter* painter,
+               const QRect& frame,
+               const QPoint& center,
+               const QPoint& frame_center,
+               double angle);
 };

@@ -5,15 +5,21 @@ MainWindow::MainWindow(QMainWindow* parent) :
     QMainWindow(parent),
     stacked_widget_(new QStackedWidget(this)),
     pause_menu_(new PauseMenu(this)),
-    menu_(new Menu(this)) {
+    menu_(new Menu(this)),
+    map_selector_(new MapSelector(this)) {
   setMinimumSize(mainwindow_sizes::kDefaultScreenSize);
   setWindowTitle("Death Rally");
   stacked_widget_->addWidget(menu_);
+  stacked_widget_->addWidget(map_selector_);
   stacked_widget_->setCurrentWidget(menu_);
   pause_menu_->Close();
 
   connect(menu_, &Menu::StartButtonPressed, this,
+          &MainWindow::OpenMapSelector);
+  connect(map_selector_, &MapSelector::StartGame, this,
           &MainWindow::StartGame);
+  connect(map_selector_, &MapSelector::ReturnToMainMenu, this,
+          &MainWindow::CloseMapSelector);
   connect(menu_, &Menu::ExitButtonPressed, this,
           &MainWindow::close);
 }
@@ -24,7 +30,7 @@ void MainWindow::resizeEvent(QResizeEvent*) {
 }
 
 void MainWindow::StartGame() {
-  controller_ = new EventsController(this);
+  controller_ = new EventsController(this, map_selector_->GetMapId());
 
   connect(controller_, &EventsController::SetGamePause, pause_menu_,
           &PauseMenu::show);
@@ -49,4 +55,12 @@ void MainWindow::ReturnToMainMenu() {
              &MainWindow::ReturnToMainMenu);
   delete controller_;
   controller_ = nullptr;
+}
+
+void MainWindow::OpenMapSelector() {
+  stacked_widget_->setCurrentWidget(map_selector_);
+}
+
+void MainWindow::CloseMapSelector() {
+  stacked_widget_->setCurrentWidget(menu_);
 }
