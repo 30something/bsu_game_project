@@ -21,3 +21,15 @@ bool Line::IsIntersects(Line l1, Line l2) {
   }
   return left && right;
 }
+
+Vec2f Line::FindIntersectionPoint(Line l1, Line l2) {
+  Vec2f result;
+  double k1 = (l1.y1 - l1.y2) / (l1.x1 - l1.x2);
+  double k2 = (l2.y1 - l2.y2) / (l2.x1 - l2.x2);
+  double b1 = l1.y1 - k1 * l1.x1;
+  double b2 = l2.y1 - k2 * l2.x1;
+  double result_x = (b2 - b1) / (k1 - k2);
+  double result_y = k1 * result_x + b1;
+  result.Set(result_x, result_y);
+  return result;
+}
