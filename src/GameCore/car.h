@@ -25,9 +25,9 @@ class Car {
   double GetAngle() const;
   std::vector<Line> GetLines();
   const Vec2f& GetVelocity() const;
+  const Vec2f& GetPosition() const;
   void SetVelocity(const Vec2f& velocity);
   void SetPosition(const Vec2f& position);
-  const Vec2f& GetPosition() const;
 
   void SetFlagUp(bool flag_up);
   void SetFlagDown(bool flag_down);
