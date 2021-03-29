@@ -23,7 +23,7 @@ Vec2f const& Vec2f::Normalize() {
     y_ *= inverted_length;
   } else {
     x_ = 0.0f;
-    y_ = 1.0f;
+    y_ = 0.0f;
   }
 
   return *this;
