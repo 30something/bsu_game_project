@@ -18,6 +18,10 @@ class SmallExitWindow : public QWidget {
   void ReturnToMainMenu();
 
  private:
+  void SetSizes();
+  void MakeLayout();
+  void DoConnects();
+
   QWidget* main_widget_ = nullptr;
   QGridLayout* grid_layout_ = nullptr;
   QLabel* question_ = nullptr;

@@ -9,12 +9,20 @@ Menu::Menu(QWidget* parent) :
     settings_button_(new QPushButton("Settings", this)),
     credits_button_(new QPushButton("Credits", this)),
     exit_button_(new QPushButton("Exit", this)) {
+  SetSizes();
+  MakeLayout();
+  DoConnects();
+}
+
+void Menu::SetSizes() {
   setMinimumSize(menu_sizes::kMenuSize);
   start_game_button_->setMinimumSize(menu_sizes::kMenuMinButtonSize);
   settings_button_->setMinimumSize(menu_sizes::kMenuMinButtonSize);
   credits_button_->setMinimumSize(menu_sizes::kMenuMinButtonSize);
   exit_button_->setMinimumSize(menu_sizes::kMenuMinButtonSize);
+}
 
+void Menu::MakeLayout() {
   main_layout_->setSpacing(menu_sizes::kMenuSpacing);
   main_layout_->addStretch(5);
   main_layout_->addWidget(name_label_, 1, Qt::AlignCenter);
@@ -24,12 +32,20 @@ Menu::Menu(QWidget* parent) :
   main_layout_->addWidget(credits_button_, 1, Qt::AlignCenter);
   main_layout_->addWidget(exit_button_, 1, Qt::AlignCenter);
   main_layout_->addStretch(5);
+}
 
-  connect(start_game_button_, &QPushButton::clicked, this,
+void Menu::DoConnects() {
+  connect(start_game_button_,
+          &QPushButton::clicked,
+          this,
           &Menu::StartButtonPressed);
-  connect(settings_button_, &QPushButton::clicked, this,
+  connect(settings_button_,
+          &QPushButton::clicked,
+          this,
           &Menu::SettingsButtonPressed);
-  connect(exit_button_, &QPushButton::clicked, this,
+  connect(exit_button_,
+          &QPushButton::clicked,
+          this,
           &Menu::ExitButtonPressed);
 }
 

@@ -14,6 +14,7 @@ class PauseMenu : public QWidget {
  public:
   explicit PauseMenu(QWidget* parent = nullptr);
   ~PauseMenu() override = default;
+
   void Close();
 
  signals:
@@ -24,6 +25,10 @@ class PauseMenu : public QWidget {
  private:
   void resizeEvent(QResizeEvent*) override;
   void keyPressEvent(QKeyEvent*) override;
+
+  void SetSizes();
+  void MakeLayout();
+  void DoConnects();
 
   enum class Actions {
     kCloseMenu = Qt::Key_Escape,

@@ -21,13 +21,17 @@ class MapSelector : public QWidget {
   void ReturnToMainMenu();
 
  private:
+  void MakeLayout();
+  void DoConnects();
+
+  void SwitchRight();
+  void SwitchLeft();
+
   QPushButton* start_game_;
   QPushButton* back_to_main_menu_;
   QPushButton* left_;
   QPushButton* right_;
   QHBoxLayout* layout_;
   QStackedWidget* stacked_widget_;
-  void SwitchRight();
-  void SwitchLeft();
   uint current_id = 0;
 };

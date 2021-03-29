@@ -8,14 +8,30 @@ SmallExitWindow::SmallExitWindow(QWidget* parent)
       question_(new QLabel("Go to main menu?", main_widget_)),
       yes_button_(new QPushButton("YES", main_widget_)),
       no_button_(new QPushButton("NO", main_widget_)) {
+  SetSizes();
+  main_widget_->move(0, 0);
+  MakeLayout();
+  DoConnects();
+}
+
+void SmallExitWindow::SetSizes() {
   resize(menu_sizes::kSmallExitWindowSize);
   main_widget_->resize(menu_sizes::kSmallExitWindowSize);
-  main_widget_->move(0, 0);
+}
+
+void SmallExitWindow::MakeLayout() {
   grid_layout_->addWidget(question_, 0, 0, 1, 2, Qt::AlignCenter);
   grid_layout_->addWidget(yes_button_, 1, 0);
   grid_layout_->addWidget(no_button_, 1, 1);
-  connect(no_button_, &QPushButton::clicked, this,
+}
+
+void SmallExitWindow::DoConnects() {
+  connect(no_button_,
+          &QPushButton::clicked,
+          this,
           &SmallExitWindow::StayAtPauseMenu);
-  connect(yes_button_, &QPushButton::clicked, this,
+  connect(yes_button_,
+          &QPushButton::clicked,
+          this,
           &SmallExitWindow::ReturnToMainMenu);
 }

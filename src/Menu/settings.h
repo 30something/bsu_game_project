@@ -17,13 +17,22 @@ class Settings : public QWidget {
 
  signals:
   void BackButtonPressed();
+  void MakeFullScreen();
+  void MakeDefaultScreenSize();
 
  private:
+  void SetSizes();
+  void MakeLayout();
+  void DoConnects();
+
+  void CommitSettingsChanges();
+
   QVBoxLayout* main_layout_;
   QLabel* music_;
   QSlider* music_volume_;
   QLabel* sound_effects_;
   QSlider* sound_effects_volume_;
   QRadioButton* full_screen_cell_;
+  QPushButton* apply_button_;
   QPushButton* back_button_;
 };
