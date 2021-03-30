@@ -20,9 +20,9 @@ class MainWindow : public QMainWindow {
  private:
   void resizeEvent(QResizeEvent*) override;
 
-  void MakeStackedWidget();
-  void DoConnects();
-  void DoStartGameConnects();
+  void SetUpStackedWidget();
+  void ConnectUI();
+  void ConnectGameSignals();
 
   void StartGame();
   void ReturnToMainMenu();
@@ -39,4 +39,5 @@ class MainWindow : public QMainWindow {
   Menu* menu_ = nullptr;
   Settings* settings_ = nullptr;
   MapSelector* map_selector_ = nullptr;
+  bool is_game_in_main_menu = true;
 };

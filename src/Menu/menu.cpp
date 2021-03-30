@@ -10,8 +10,8 @@ Menu::Menu(QWidget* parent) :
     credits_button_(new QPushButton("Credits", this)),
     exit_button_(new QPushButton("Exit", this)) {
   SetSizes();
-  MakeLayout();
-  DoConnects();
+  SetUpLayout();
+  ConnectUI();
 }
 
 void Menu::SetSizes() {
@@ -22,7 +22,7 @@ void Menu::SetSizes() {
   exit_button_->setMinimumSize(menu_sizes::kMenuMinButtonSize);
 }
 
-void Menu::MakeLayout() {
+void Menu::SetUpLayout() {
   main_layout_->setSpacing(menu_sizes::kMenuSpacing);
   main_layout_->addStretch(5);
   main_layout_->addWidget(name_label_, 1, Qt::AlignCenter);
@@ -34,7 +34,7 @@ void Menu::MakeLayout() {
   main_layout_->addStretch(5);
 }
 
-void Menu::DoConnects() {
+void Menu::ConnectUI() {
   connect(start_game_button_,
           &QPushButton::clicked,
           this,
@@ -48,4 +48,3 @@ void Menu::DoConnects() {
           this,
           &Menu::ExitButtonPressed);
 }
-

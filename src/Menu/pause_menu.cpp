@@ -10,11 +10,11 @@ PauseMenu::PauseMenu(QWidget* parent)
       small_exit_window_(new SmallExitWindow(this)) {
   setStyleSheet("background-color : red");
   SetSizes();
-  MakeLayout();
+  SetUpLayout();
   small_exit_window_->setStyleSheet("background-color : yellow;"
                                     "color : darkBlue");
   small_exit_window_->close();
-  DoConnects();
+  ConnectUI();
 }
 
 void PauseMenu::resizeEvent(QResizeEvent*) {
@@ -43,7 +43,7 @@ void PauseMenu::SetSizes() {
   exit_button_->setMinimumSize(menu_sizes::kPauseMenuMinButtonSize);
 }
 
-void PauseMenu::MakeLayout() {
+void PauseMenu::SetUpLayout() {
   main_layout_->addStretch(5);
   main_layout_->addWidget(settings_button_, 1, Qt::AlignCenter);
   main_layout_->addWidget(continue_button_, 1, Qt::AlignCenter);
@@ -51,7 +51,7 @@ void PauseMenu::MakeLayout() {
   main_layout_->addStretch(5);
 }
 
-void PauseMenu::DoConnects() {
+void PauseMenu::ConnectUI() {
   connect(exit_button_,
           &QPushButton::clicked,
           small_exit_window_,

@@ -4,7 +4,7 @@
 #include <QPushButton>
 #include <QSize>
 #include <QSlider>
-#include <QRadioButton>
+#include <QCheckBox>
 #include <QVBoxLayout>
 #include <QWidget>
 
@@ -22,8 +22,8 @@ class Settings : public QWidget {
 
  private:
   void SetSizes();
-  void MakeLayout();
-  void DoConnects();
+  void SetUpLayout();
+  void ConnectUI();
 
   void CommitSettingsChanges();
 
@@ -32,7 +32,7 @@ class Settings : public QWidget {
   QSlider* music_volume_;
   QLabel* sound_effects_;
   QSlider* sound_effects_volume_;
-  QRadioButton* full_screen_cell_;
+  QCheckBox* full_screen_cell_;
   QPushButton* apply_button_;
   QPushButton* back_button_;
 };

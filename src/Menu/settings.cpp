@@ -8,12 +8,12 @@ Settings::Settings(QWidget* parent) :
     music_volume_(new QSlider(Qt::Horizontal)),
     sound_effects_(new QLabel("Sound Effects", this)),
     sound_effects_volume_(new QSlider(Qt::Horizontal)),
-    full_screen_cell_(new QRadioButton("Full Screen")),
+    full_screen_cell_(new QCheckBox("Full Screen")),
     apply_button_(new QPushButton("Apply", this)),
     back_button_(new QPushButton("Back", this)) {
   SetSizes();
-  MakeLayout();
-  DoConnects();
+  SetUpLayout();
+  ConnectUI();
 }
 
 void Settings::SetSizes() {
@@ -22,7 +22,7 @@ void Settings::SetSizes() {
   back_button_->setMinimumSize(menu_sizes::kSettingsMinButtonSize);
 }
 
-void Settings::MakeLayout() {
+void Settings::SetUpLayout() {
   main_layout_->addStretch(3);
   main_layout_->addWidget(music_, 1, Qt::AlignLeft);
   main_layout_->addWidget(music_volume_, 1, Qt::AlignCenter);
@@ -38,7 +38,7 @@ void Settings::MakeLayout() {
   main_layout_->addStretch(3);
 }
 
-void Settings::DoConnects() {
+void Settings::ConnectUI() {
   connect(back_button_,
           &QPushButton::clicked,
           this,

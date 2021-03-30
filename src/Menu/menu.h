@@ -20,8 +20,8 @@ class Menu : public QWidget {
 
  private:
   void SetSizes();
-  void MakeLayout();
-  void DoConnects();
+  void SetUpLayout();
+  void ConnectUI();
 
   QVBoxLayout* main_layout_ = nullptr;
   QLabel* name_label_ = nullptr;

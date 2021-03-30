@@ -10,8 +10,8 @@ SmallExitWindow::SmallExitWindow(QWidget* parent)
       no_button_(new QPushButton("NO", main_widget_)) {
   SetSizes();
   main_widget_->move(0, 0);
-  MakeLayout();
-  DoConnects();
+  SetUpLayout();
+  ConnectUI();
 }
 
 void SmallExitWindow::SetSizes() {
@@ -19,13 +19,13 @@ void SmallExitWindow::SetSizes() {
   main_widget_->resize(menu_sizes::kSmallExitWindowSize);
 }
 
-void SmallExitWindow::MakeLayout() {
+void SmallExitWindow::SetUpLayout() {
   grid_layout_->addWidget(question_, 0, 0, 1, 2, Qt::AlignCenter);
   grid_layout_->addWidget(yes_button_, 1, 0);
   grid_layout_->addWidget(no_button_, 1, 1);
 }
 
-void SmallExitWindow::DoConnects() {
+void SmallExitWindow::ConnectUI() {
   connect(no_button_,
           &QPushButton::clicked,
           this,

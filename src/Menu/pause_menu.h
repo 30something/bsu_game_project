@@ -27,8 +27,8 @@ class PauseMenu : public QWidget {
   void keyPressEvent(QKeyEvent*) override;
 
   void SetSizes();
-  void MakeLayout();
-  void DoConnects();
+  void SetUpLayout();
+  void ConnectUI();
 
   enum class Actions {
     kCloseMenu = Qt::Key_Escape,

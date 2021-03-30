@@ -21,8 +21,8 @@ class MapSelector : public QWidget {
   void ReturnToMainMenu();
 
  private:
-  void MakeLayout();
-  void DoConnects();
+  void SetUpLayout();
+  void ConnectUI();
 
   void SwitchRight();
   void SwitchLeft();

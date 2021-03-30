@@ -9,9 +9,9 @@ MainWindow::MainWindow(QMainWindow* parent) :
     map_selector_(new MapSelector(this)) {
   setMinimumSize(mainwindow_sizes::kDefaultScreenSize);
   setWindowTitle("Death Rally");
-  MakeStackedWidget();
+  SetUpStackedWidget();
   pause_menu_->Close();
-  DoConnects();
+  ConnectUI();
 }
 
 void MainWindow::resizeEvent(QResizeEvent*) {
@@ -20,8 +20,9 @@ void MainWindow::resizeEvent(QResizeEvent*) {
 }
 
 void MainWindow::StartGame() {
+  is_game_in_main_menu = false;
   controller_ = new EventsController(this, map_selector_->GetMapId());
-  DoStartGameConnects();
+  ConnectGameSignals();
   stacked_widget_->addWidget(controller_);
   stacked_widget_->setCurrentWidget(controller_);
 }
@@ -32,7 +33,7 @@ void MainWindow::ShowSettings() {
 }
 
 void MainWindow::HideSettings() {
-  if (controller_ == nullptr) {
+  if (is_game_in_main_menu) {
     stacked_widget_->setCurrentWidget(menu_);
   } else {
     stacked_widget_->setCurrentWidget(controller_);
@@ -41,6 +42,7 @@ void MainWindow::HideSettings() {
 }
 
 void MainWindow::ReturnToMainMenu() {
+  is_game_in_main_menu = true;
   pause_menu_->Close();
   stacked_widget_->removeWidget(controller_);
   stacked_widget_->setCurrentWidget(menu_);
@@ -60,14 +62,14 @@ void MainWindow::CloseMapSelector() {
   stacked_widget_->setCurrentWidget(menu_);
 }
 
-void MainWindow::MakeStackedWidget() {
+void MainWindow::SetUpStackedWidget() {
   stacked_widget_->addWidget(menu_);
   stacked_widget_->addWidget(map_selector_);
   stacked_widget_->addWidget(settings_);
   stacked_widget_->setCurrentWidget(menu_);
 }
 
-void MainWindow::DoConnects() {
+void MainWindow::ConnectUI() {
   connect(menu_,
           &Menu::StartButtonPressed,
           this,
@@ -102,7 +104,7 @@ void MainWindow::DoConnects() {
           &MainWindow::close);
 }
 
-void MainWindow::DoStartGameConnects() {
+void MainWindow::ConnectGameSignals() {
   connect(controller_,
           &EventsController::SetGamePause,
           pause_menu_,

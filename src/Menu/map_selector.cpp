@@ -8,12 +8,12 @@ MapSelector::MapSelector(QWidget* parent) :
     right_(new QPushButton("Next", this)),
     layout_(new QHBoxLayout(this)),
     stacked_widget_(new QStackedWidget(this)) {
-  for (const auto &i : map_data::map_filepaths) {
+  for (const auto& i : map_data::map_filepaths) {
     stacked_widget_->addWidget(new MapSelectorTile(this, i.second));
   }
-  MakeLayout();
+  SetUpLayout();
   stacked_widget_->setCurrentIndex(0);
-  DoConnects();
+  ConnectUI();
 }
 
 void MapSelector::SwitchRight() {
@@ -40,7 +40,7 @@ uint MapSelector::GetMapId() const {
   return current_id;
 }
 
-void MapSelector::MakeLayout() {
+void MapSelector::SetUpLayout() {
   layout_->addWidget(back_to_main_menu_);
   layout_->addWidget(left_);
   layout_->addWidget(stacked_widget_, 0, Qt::AlignCenter);
@@ -48,7 +48,7 @@ void MapSelector::MakeLayout() {
   layout_->addWidget(start_game_);
 }
 
-void MapSelector::DoConnects() {
+void MapSelector::ConnectUI() {
   connect(left_,
           &QPushButton::clicked,
           this,

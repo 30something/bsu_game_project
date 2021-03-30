@@ -19,8 +19,8 @@ class SmallExitWindow : public QWidget {
 
  private:
   void SetSizes();
-  void MakeLayout();
-  void DoConnects();
+  void SetUpLayout();
+  void ConnectUI();
 
   QWidget* main_widget_ = nullptr;
   QGridLayout* grid_layout_ = nullptr;
