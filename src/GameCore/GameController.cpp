@@ -13,14 +13,14 @@ GameController::GameController(uint map_index) :
 }
 
 void GameController::Tick(int time_millis) {
-  ProceedColisionsWithCars();
+  ProceedCollisionsWithCars();
   for (auto& car : cars_) {
     map_.ProceedCollisions(&car);
     car.Tick(time_millis);
   }
 }
 
-void GameController::ProceedColisionsWithCars() {
+void GameController::ProceedCollisionsWithCars() {
   for (size_t i = 0; i < cars_.size(); i++) {
     for (size_t j = 0; j < cars_.size() / 2; j++) {
       if (i == j) {
@@ -43,21 +43,21 @@ void GameController::ProceedColisionsWithCars() {
 void GameController::CollideCars(Car* car_1, Car* car_2) {
   Vec2f pos_1 = car_1->GetPosition();
   Vec2f pos_2 = car_2->GetPosition();
-  Vec2f deviation_1
+  Vec2f deviation
       (pos_1.GetX() - pos_2.GetX(), pos_1.GetY() - pos_2.GetY());
-  deviation_1.Normalize();
+  deviation.Normalize();
   Vec2f vel_1 =
-      car_1->GetVelocity() + deviation_1 * physics::kCollisionDeviationScalar;
+      car_1->GetVelocity() + deviation * physics::kCollisionDeviationScalar;
   Vec2f vel_2 =
-      car_2->GetVelocity() - deviation_1 * physics::kCollisionDeviationScalar;
-  vel_1 *= 0.5;
-  vel_2 *= 0.5;
+      car_2->GetVelocity() - deviation * physics::kCollisionDeviationScalar;
+  vel_1 *= kVelocityDecrease;
+  vel_2 *= kVelocityDecrease;
 
   car_1->SetVelocity(vel_1);
   car_2->SetVelocity(vel_2);
 
-  car_1->SetPosition(pos_1 + deviation_1);
-  car_2->SetPosition(pos_2 - deviation_1);
+  car_1->SetPosition(pos_1 + deviation);
+  car_2->SetPosition(pos_2 - deviation);
 }
 
 void GameController::HandleKeyPressEvent(QKeyEvent* event) {

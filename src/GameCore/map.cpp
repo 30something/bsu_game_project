@@ -83,7 +83,7 @@ void Map::CollideCar(Car* car, const Vec2f& point) {
   deviation.Normalize();
   Vec2f velocity = car->GetVelocity()
       + deviation * physics::kCollisionDeviationScalar;
-  velocity *= 3. / 4;
+  velocity *= kVelocityDecrease;
   car->SetVelocity(velocity);
   car->SetPosition(position + deviation);
 }
