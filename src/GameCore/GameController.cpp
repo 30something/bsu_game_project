@@ -114,3 +114,7 @@ std::vector<double> GameController::GetCarAngles() const {
   }
   return result;
 }
+
+double GameController::GetCoefficientForEngineSound() {
+    return cars_[0].GetCoefficientForEngineSound();
+}

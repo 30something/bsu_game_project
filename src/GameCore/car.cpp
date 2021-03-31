@@ -201,3 +201,7 @@ void Car::SetCollidingWithCar(bool is_colliding_with_car) {
 void Car::SetIsCollidingWithBorders(bool is_colliding_with_borders) {
   is_colliding_with_borders_ = is_colliding_with_borders;
 }
+
+double Car::GetCoefficientForEngineSound() {
+    return velocity_.GetLength() / kMaxSpeedForward;
+}

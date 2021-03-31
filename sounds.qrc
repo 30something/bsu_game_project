@@ -1,0 +1,15 @@
+<RCC>
+    <qresource>
+        <file>resources/sounds/Engine_01.wav</file>
+        <file>resources/sounds/Engine_02.wav</file>
+        <file>resources/sounds/Engine_03.wav</file>
+        <file>resources/sounds/Engine_04.wav</file>
+        <file>resources/sounds/Engine_05.wav</file>
+        <file>resources/sounds/Engine_06.wav</file>
+        <file>resources/sounds/Engine_07.wav</file>
+        <file>resources/sounds/Engine_08.wav</file>
+        <file>resources/sounds/Engine_02 (mp3cut.net).wav</file>
+        <file>resources/sounds/Engine_06 (mp3cut.net).wav</file>
+        <file>resources/sounds/Engine_06 (mp3cut.net)(1).wav</file>
+    </qresource>
+</RCC>

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(Death_Rally)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 set(CMAKE_AUTOMOC ON) # Enable Qt MOC compiler
 set(CMAKE_AUTORCC ON) # Enable Qt resources compiler
@@ -15,8 +15,9 @@ if (NOT CMAKE_PREFIX_PATH)
 endif ()
 
 set(QT_VERSION 5)
-set(REQUIRED_LIBS Core Widgets)
-set(REQUIRED_LIBS_QUALIFIED Qt5::Core Qt5::Widgets)
+set(REQUIRED_LIBS Core Widgets Multimedia)
+set(REQUIRED_LIBS_QUALIFIED Qt5::Core Qt5::Widgets Multimedia)
+set(REQUIRED_LIBS_QUALIFIED Qt5::Core Qt5::Widgets Qt5::Multimedia)
 find_package(Qt${QT_VERSION} COMPONENTS ${REQUIRED_LIBS} REQUIRED)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -35,12 +36,14 @@ set(SOURCES main.cpp
         src/Menu/small_exit_window.cpp
         src/helpers/line.cpp
         src/GameCore/map.cpp
+        src/View/engine.cpp
+        src/View/engine.h
         )
 
 set(RESOURCES
         images.qrc
         map_data.qrc
-        )
+        sounds.qrc)
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 target_link_libraries(${PROJECT_NAME} ${REQUIRED_LIBS_QUALIFIED})

@@ -16,6 +16,8 @@ void EventsController::PhysicsTimerEvent() {
 void EventsController::ViewTimerEvent() {
   if (game_status_ == GameStatus::kRunning) {
     repaint();
+
+    view_->ChangeEngineVolume(game_controller_->GetCoefficientForEngineSound());
   }
 }
 

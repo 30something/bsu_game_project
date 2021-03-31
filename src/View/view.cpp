@@ -3,7 +3,8 @@
 View::View(GameController* model) :
     model_(model),
     map_(":resources/images/maps/map_1.jpg"),
-    car_(":resources/images/cars/car_1.png") {
+    car_(":resources/images/cars/car_1.png"),
+    engine_(new Engine()) {
 }
 
 void View::Repaint(QPainter* painter) {
@@ -17,4 +18,8 @@ void View::Repaint(QPainter* painter) {
     painter->drawImage(-5, -10, car_);
     painter->restore();
   }
+}
+
+void View::ChangeEngineVolume(double coefficient) {
+    engine_->ChangeVolume(coefficient);
 }
