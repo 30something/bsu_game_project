@@ -1,21 +1,31 @@
 #include "src/View/view.h"
 
-View::View(GameController* model, int map_index) :
+View::View(GameController* model, GameMode* game_mode) :
     model_(model),
-    car_(":resources/images/cars/car_1.png") {
-  map_.load(map_data::map_filepaths[map_index].second);
+    car_(":resources/images/cars/car_1.png"),
+    amount_of_players_(game_mode->players_amount){
+  map_.load(map_data::map_filepaths[game_mode->map_index].second);
 }
 
 void View::Repaint(QPainter* painter) {
   std::vector<QRect> frames;
-  frames.emplace_back(0,
-                      0,
-                      painter->window().width() / 2,
-                      painter->window().height());
-  frames.emplace_back(painter->window().width() / 2,
-                      0,
-                      painter->window().width() / 2,
-                      painter->window().height());
+  if(amount_of_players_ == 1) {
+    frames.emplace_back(0,
+                        0,
+                        painter->window().width(),
+                        painter->window().height());
+  } else if(amount_of_players_ == 2) {
+    frames.emplace_back(0,
+                        0,
+                        painter->window().width() / 2,
+                        painter->window().height());
+    frames.emplace_back(painter->window().width() / 2,
+                        0,
+                        painter->window().width() / 2,
+                        painter->window().height());
+  } else {
+    qWarning("Something went wrong with amount of players in View.cpp");
+  }
   painter->scale(kScale, kScale);
   std::vector<QPoint> coordinates = model_->GetCarCoordinates();
   std::vector<double> angles = model_->GetCarAngles();

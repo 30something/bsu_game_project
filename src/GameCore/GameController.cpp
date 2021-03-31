@@ -1,15 +1,16 @@
-#include <iostream>
-
 #include "GameController.h"
 
-GameController::GameController(uint map_index) :
-    map_(Map(map_index)) {
+GameController::GameController(GameMode* game_mode) :
+    map_(Map(game_mode)),
+    game_mode_(game_mode) {
   cars_.emplace_back(car1_start_pos_.x(),
                      car1_start_pos_.y(),
                      car1_start_angle_);
-  cars_.emplace_back(car2_start_pos_.x(),
-                     car2_start_pos_.y(),
-                     car2_start_angle_);
+  if (game_mode_->players_amount > 1) {
+    cars_.emplace_back(car2_start_pos_.x(),
+                       car2_start_pos_.y(),
+                       car2_start_angle_);
+  }
 }
 
 void GameController::Tick(int time_millis) {
@@ -74,17 +75,19 @@ void GameController::HandleKeyPressEvent(QKeyEvent* event) {
   if (key == Qt::Key_Right) {
     cars_[0].SetFlagRight(true);
   }
-  if (key == Qt::Key_W) {
-    cars_[1].SetFlagUp(true);
-  }
-  if (key == Qt::Key_S) {
-    cars_[1].SetFlagDown(true);
-  }
-  if (key == Qt::Key_A) {
-    cars_[1].SetFlagLeft(true);
-  }
-  if (key == Qt::Key_D) {
-    cars_[1].SetFlagRight(true);
+  if (game_mode_->players_amount > 1) {
+    if (key == Qt::Key_W) {
+      cars_[1].SetFlagUp(true);
+    }
+    if (key == Qt::Key_S) {
+      cars_[1].SetFlagDown(true);
+    }
+    if (key == Qt::Key_A) {
+      cars_[1].SetFlagLeft(true);
+    }
+    if (key == Qt::Key_D) {
+      cars_[1].SetFlagRight(true);
+    }
   }
 }
 
@@ -102,17 +105,19 @@ void GameController::HandleKeyReleaseEvent(QKeyEvent* event) {
   if (key == Qt::Key_Right) {
     cars_[0].SetFlagRight(false);
   }
-  if (key == Qt::Key_W) {
-    cars_[1].SetFlagUp(false);
-  }
-  if (key == Qt::Key_S) {
-    cars_[1].SetFlagDown(false);
-  }
-  if (key == Qt::Key_A) {
-    cars_[1].SetFlagLeft(false);
-  }
-  if (key == Qt::Key_D) {
-    cars_[1].SetFlagRight(false);
+  if (game_mode_->players_amount > 1) {
+    if (key == Qt::Key_W) {
+      cars_[1].SetFlagUp(false);
+    }
+    if (key == Qt::Key_S) {
+      cars_[1].SetFlagDown(false);
+    }
+    if (key == Qt::Key_A) {
+      cars_[1].SetFlagLeft(false);
+    }
+    if (key == Qt::Key_D) {
+      cars_[1].SetFlagRight(false);
+    }
   }
 }
 

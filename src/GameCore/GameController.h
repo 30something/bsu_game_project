@@ -13,7 +13,7 @@
 
 class GameController {
  public:
-  explicit GameController(uint map_index);
+  explicit GameController(GameMode* game_mode);
   ~GameController() = default;
 
   void Tick(int time_millis);
@@ -33,6 +33,7 @@ class GameController {
 
   Map map_;
   std::vector<Car> cars_;
+  GameMode* game_mode_ = nullptr;
   void ProceedCollisionsWithCars();
   static void CollideCars(Car* car_1, Car* car_2);
 };

@@ -10,10 +10,11 @@
 #include "src/helpers/line.h"
 #include "car.h"
 #include "src/helpers/map_data.h"
+#include <src/helpers/game_mode.h>
 
 class Map {
  public:
-  explicit Map(uint map_index);
+  explicit Map(GameMode* game_mode);
   void ParseMapBorders();
   static std::pair<int, int> ParseLine(const QString& line);
   void ProceedCollisions(Car* car);

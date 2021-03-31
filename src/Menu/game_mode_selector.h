@@ -3,18 +3,20 @@
 #include <QPushButton>
 #include <QHBoxLayout>
 #include <QStackedWidget>
+#include <QLineEdit>
 
 #include "map_selector_tile.h"
 #include "src/helpers/map_data.h"
+#include "src/helpers/game_mode.h"
 
-class MapSelector : public QWidget {
+
+class GameModeSelector : public QWidget {
   Q_OBJECT
 
  public:
-  explicit MapSelector(QWidget* parent = nullptr);
-  ~MapSelector() override = default;
+  explicit GameModeSelector(QWidget* parent, GameMode* game_mode);
+  ~GameModeSelector() override = default;
 
-  uint GetMapId() const;
 
  signals:
   void StartGame();
@@ -27,7 +29,10 @@ class MapSelector : public QWidget {
   QPushButton* right_;
   QHBoxLayout* layout_;
   QStackedWidget* stacked_widget_;
+  GameMode* game_mode_ = nullptr;
+  QLineEdit* number_of_players_ = nullptr;
+  QLineEdit* number_of_bots_ = nullptr;
   void SwitchRight();
   void SwitchLeft();
-  uint current_id = 0;
+  void ApplySettings();
 };

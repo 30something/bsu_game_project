@@ -11,7 +11,7 @@
 
 class View {
  public:
-  explicit View(GameController* model, int map_index);
+  explicit View(GameController* model, GameMode* game_mode);
   ~View() = default;
 
   void Repaint(QPainter* painter);
@@ -21,6 +21,7 @@ class View {
   QImage map_;
   QImage car_;
   const double kScale = 2;
+  int amount_of_players_ = 0;
   void DrawMap(QPainter* painter,
                const QRect& frame,
                const QPoint& pos);
