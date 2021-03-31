@@ -3,18 +3,18 @@
 View::View(GameController* model, GameMode* game_mode) :
     model_(model),
     car_(":resources/images/cars/car_1.png"),
-    amount_of_players_(game_mode->players_amount){
+    amount_of_players_(game_mode->players_amount) {
   map_.load(map_data::map_filepaths[game_mode->map_index].second);
 }
 
 void View::Repaint(QPainter* painter) {
   std::vector<QRect> frames;
-  if(amount_of_players_ == 1) {
+  if (amount_of_players_ == 1) {
     frames.emplace_back(0,
                         0,
                         painter->window().width(),
                         painter->window().height());
-  } else if(amount_of_players_ == 2) {
+  } else if (amount_of_players_ == 2) {
     frames.emplace_back(0,
                         0,
                         painter->window().width() / 2,
