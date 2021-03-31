@@ -9,8 +9,8 @@ GameModeSelector::GameModeSelector(QWidget* parent, GameMode* game_mode) :
     layout_(new QHBoxLayout(this)),
     stacked_widget_(new QStackedWidget(this)),
     game_mode_(game_mode),
-    number_of_players_(new QLineEdit("players", this)),
-    number_of_bots_(new QLineEdit("bots", this)) {
+    number_of_players_(new QLineEdit("2", this)),
+    number_of_bots_(new QLineEdit("0", this)) {
   for (const auto& i : map_data::map_filepaths) {
     stacked_widget_->addWidget(new MapSelectorTile(this, i.second));
   }

@@ -30,6 +30,7 @@ class GameController {
   const QPoint car2_start_pos_ = {380, 590};
   const double car2_start_angle_ = -M_PI / 2;
   static constexpr double kVelocityDecrease = 0.5;
+  static constexpr double kDeviationDecrease = 0.5;
 
   Map map_;
   std::vector<Car> cars_;

@@ -43,6 +43,7 @@ class Car {
   double angular_velocity_ = 0;
   double steering_angle_ = 0;
   static constexpr double kAccelFactor = 2.0;
+  static constexpr double kFrictionFactor = 0.5;
   static constexpr double kMaxSpeedForward = 300;
   static constexpr double kMaxSpeedBackward = 100;
   static constexpr double kHalfFrontTrack_ = 5.5;
@@ -55,6 +56,9 @@ class Car {
   static constexpr double FrontCoefFriction = 100;
   static constexpr double kRearCoefFriction = 80;
   static constexpr double kMaxSlipAngleRadians = 0.07;
+  static constexpr double kMinVelocityThreshold = 5;
+  static constexpr double kMinAngularVelocityThreshold = 0.1;
+
   bool flag_up_ = false;
   bool flag_down_ = false;
   bool flag_left_ = false;

@@ -7,7 +7,7 @@ GameController::GameController(GameMode* game_mode) :
                      car1_start_pos_.y(),
                      car1_start_angle_);
   if (game_mode_->players_amount > 1) {
-    for(size_t i = 1; i < game_mode_->players_amount; i++) {
+    for (size_t i = 1; i < game_mode_->players_amount; i++) {
       cars_.emplace_back(car2_start_pos_.x(),
                          car2_start_pos_.y(),
                          car2_start_angle_);
@@ -58,6 +58,8 @@ void GameController::CollideCars(Car* car_1, Car* car_2) {
 
   car_1->SetVelocity(vel_1);
   car_2->SetVelocity(vel_2);
+
+  deviation *= kDeviationDecrease;
 
   car_1->SetPosition(pos_1 + deviation);
   car_2->SetPosition(pos_2 - deviation);
