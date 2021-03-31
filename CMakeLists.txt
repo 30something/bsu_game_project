@@ -33,6 +33,8 @@ set(SOURCES main.cpp
         src/GameCore/wheel.cpp
         src/Menu/pause_menu.cpp
         src/Menu/small_exit_window.cpp
+        src/Menu/settings.cpp
+        src/Menu/small_exit_window.cpp
         src/helpers/line.cpp
         src/GameCore/map.cpp
         src/Menu/game_mode_selector.cpp

@@ -34,6 +34,7 @@ class GameController {
   Map map_;
   std::vector<Car> cars_;
   GameMode* game_mode_ = nullptr;
+
   void ProceedCollisionsWithCars();
   static void CollideCars(Car* car_1, Car* car_2);
 };

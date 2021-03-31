@@ -9,12 +9,11 @@
 #include "src/helpers/map_data.h"
 #include "src/helpers/game_mode.h"
 
-
 class GameModeSelector : public QWidget {
   Q_OBJECT
 
  public:
-  explicit GameModeSelector(QWidget* parent, GameMode* game_mode);
+  explicit GameModeSelector(QWidget* parent = nullptr);
   ~GameModeSelector() override = default;
 
 
@@ -23,6 +22,13 @@ class GameModeSelector : public QWidget {
   void ReturnToMainMenu();
 
  private:
+  void SetUpLayout();
+  void ConnectUI();
+
+  void SwitchRight();
+  void SwitchLeft();
+  void ApplySettings();
+
   QPushButton* start_game_;
   QPushButton* back_to_main_menu_;
   QPushButton* left_;
@@ -32,7 +38,4 @@ class GameModeSelector : public QWidget {
   GameMode* game_mode_ = nullptr;
   QLineEdit* number_of_players_ = nullptr;
   QLineEdit* number_of_bots_ = nullptr;
-  void SwitchRight();
-  void SwitchLeft();
-  void ApplySettings();
 };
