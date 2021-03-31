@@ -14,7 +14,7 @@ void View::Repaint(QPainter* painter) {
                         0,
                         painter->window().width(),
                         painter->window().height());
-  } else if (amount_of_players_ == 2) {
+  } else if (amount_of_players_ > 1) {
     frames.emplace_back(0,
                         0,
                         painter->window().width() / 2,
@@ -23,8 +23,6 @@ void View::Repaint(QPainter* painter) {
                         0,
                         painter->window().width() / 2,
                         painter->window().height());
-  } else {
-    qWarning("Something went wrong with amount of players in View.cpp");
   }
   painter->scale(kScale, kScale);
   std::vector<QPoint> coordinates = model_->GetCarCoordinates();

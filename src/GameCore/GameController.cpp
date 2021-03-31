@@ -7,9 +7,11 @@ GameController::GameController(GameMode* game_mode) :
                      car1_start_pos_.y(),
                      car1_start_angle_);
   if (game_mode_->players_amount > 1) {
-    cars_.emplace_back(car2_start_pos_.x(),
-                       car2_start_pos_.y(),
-                       car2_start_angle_);
+    for(size_t i = 1; i < game_mode_->players_amount; i++) {
+      cars_.emplace_back(car2_start_pos_.x(),
+                         car2_start_pos_.y(),
+                         car2_start_angle_);
+    }
   }
 }
 
@@ -23,7 +25,7 @@ void GameController::Tick(int time_millis) {
 
 void GameController::ProceedCollisionsWithCars() {
   for (size_t i = 0; i < cars_.size(); i++) {
-    for (size_t j = 0; j < cars_.size() / 2; j++) {
+    for (size_t j = 0; j < cars_.size(); j++) {
       if (i == j) {
         continue;
       }
