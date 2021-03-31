@@ -3,7 +3,7 @@
 #include <QPushButton>
 #include <QHBoxLayout>
 #include <QStackedWidget>
-#include <QLineEdit>
+#include <QComboBox>
 
 #include "map_selector_tile.h"
 #include "src/helpers/map_data.h"
@@ -16,7 +16,6 @@ class GameModeSelector : public QWidget {
   explicit GameModeSelector(QWidget* parent, GameMode* game_mode);
   ~GameModeSelector() override = default;
 
-
  signals:
   void StartGame();
   void ReturnToMainMenu();
@@ -24,6 +23,7 @@ class GameModeSelector : public QWidget {
  private:
   void SetUpLayout();
   void ConnectUI();
+  void PrepareComboBoxes();
 
   void SwitchRight();
   void SwitchLeft();
@@ -33,11 +33,9 @@ class GameModeSelector : public QWidget {
   QPushButton* back_to_main_menu_;
   QPushButton* left_;
   QPushButton* right_;
-  QLineEdit* number_of_players = nullptr;
-  QLineEdit* number_of_bots = nullptr;
   QHBoxLayout* layout_;
   QStackedWidget* stacked_widget_;
   GameMode* game_mode_ = nullptr;
-  QLineEdit* number_of_players_ = nullptr;
-  QLineEdit* number_of_bots_ = nullptr;
+  QComboBox* number_of_players_ = nullptr;
+  QComboBox* number_of_bots_ = nullptr;
 };

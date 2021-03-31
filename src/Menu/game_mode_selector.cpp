@@ -9,14 +9,27 @@ GameModeSelector::GameModeSelector(QWidget* parent, GameMode* game_mode) :
     layout_(new QHBoxLayout(this)),
     stacked_widget_(new QStackedWidget(this)),
     game_mode_(game_mode),
-    number_of_players_(new QLineEdit("2", this)),
-    number_of_bots_(new QLineEdit("0", this)) {
+    number_of_players_(new QComboBox(this)),
+    number_of_bots_(new QComboBox(this)) {
   for (const auto& i : map_data::map_filepaths) {
     stacked_widget_->addWidget(new MapSelectorTile(this, i.second));
   }
+  PrepareComboBoxes();
   SetUpLayout();
   stacked_widget_->setCurrentIndex(0);
   ConnectUI();
+}
+
+void GameModeSelector::PrepareComboBoxes() {
+  number_of_players_->addItem("1");
+  number_of_players_->addItem("2");
+  number_of_bots_->addItem("0");
+  number_of_bots_->addItem("1");
+  number_of_bots_->addItem("2");
+  number_of_bots_->addItem("3");
+  number_of_bots_->addItem("4");
+  number_of_bots_->addItem("5");
+  number_of_bots_->addItem("6");
 }
 
 void GameModeSelector::SwitchRight() {
@@ -40,8 +53,8 @@ void GameModeSelector::SwitchLeft() {
 }
 
 void GameModeSelector::ApplySettings() {
-  game_mode_->players_amount = number_of_players_->text().toInt();
-  game_mode_->bots_amount = number_of_bots_->text().toInt();
+  game_mode_->players_amount = number_of_players_->currentIndex() + 1;
+  game_mode_->bots_amount = number_of_bots_->currentIndex() + 1;
   emit StartGame();
 }
 
