@@ -14,7 +14,7 @@ void View::Repaint(QPainter* painter) {
                         0,
                         painter->window().width(),
                         painter->window().height());
-  } else if (amount_of_players_ > 1) {
+  } else {
     frames.emplace_back(0,
                         0,
                         painter->window().width() / 2,

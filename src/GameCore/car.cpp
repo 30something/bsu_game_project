@@ -1,5 +1,4 @@
 #include "car.h"
-#include <iostream>
 
 Car::Car(int x,
          int y,
@@ -89,11 +88,9 @@ void Car::AdvanceStep(int time_millisec) {
   angular_accel /= MomentInertia;
   velocity_ += accel * time_sec;
   angular_velocity_ += angular_accel * time_sec;
-  std::cout << "velocity: " << velocity_.GetLength() << std::endl;
   if (velocity_.GetLength() > kMinVelocityThreshold) {
     position_ += velocity_ * time_sec;
   }
-  std::cout << "ang velocity: " << angular_velocity_ << std::endl;
 
   if (std::abs(angular_velocity_) > kMinAngularVelocityThreshold) {
     angle_vec_.Rotate(angular_velocity_ * time_sec);
