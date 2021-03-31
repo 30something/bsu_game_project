@@ -7,7 +7,7 @@ MainWindow::MainWindow(QMainWindow* parent) :
     pause_menu_(new PauseMenu(this)),
     menu_(new Menu(this)),
     game_mode_(new GameMode()),
-    game_mode_selector_(new GameModeSelector(this, game_mode_)){
+    game_mode_selector_(new GameModeSelector(this, game_mode_)),
     settings_(new Settings(this)){
   setMinimumSize(mainwindow_sizes::kDefaultScreenSize);
   setWindowTitle("Death Rally");
@@ -23,7 +23,7 @@ void MainWindow::resizeEvent(QResizeEvent*) {
 
 void MainWindow::StartGame() {
   is_game_in_main_menu = false;
-  events_controller_ = new EventsController(this, map_selector_->GetMapId());
+  events_controller_ = new EventsController(this, game_mode_);
   ConnectGameSignals();
   stacked_widget_->addWidget(events_controller_);
   stacked_widget_->setCurrentWidget(events_controller_);
@@ -39,7 +39,7 @@ void MainWindow::HideSettings() {
   if (is_game_in_main_menu) {
     stacked_widget_->setCurrentWidget(menu_);
   } else {
-    stacked_widget_->setCurrentWidget(controller_);
+    stacked_widget_->setCurrentWidget(events_controller_);
     pause_menu_->show();
   }
 }
@@ -67,7 +67,7 @@ void MainWindow::CloseMapSelector() {
 
 void MainWindow::SetUpStackedWidget() {
   stacked_widget_->addWidget(menu_);
-  stacked_widget_->addWidget(map_selector_);
+  stacked_widget_->addWidget(game_mode_selector_);
   stacked_widget_->addWidget(settings_);
   stacked_widget_->setCurrentWidget(menu_);
 }
@@ -77,12 +77,12 @@ void MainWindow::ConnectUI() {
           &Menu::StartButtonPressed,
           this,
           &MainWindow::OpenMapSelector);
-  connect(map_selector_,
-          &MapSelector::StartGame,
+  connect(game_mode_selector_,
+          &GameModeSelector::StartGame,
           this,
           &MainWindow::StartGame);
-  connect(map_selector_,
-          &MapSelector::ReturnToMainMenu,
+  connect(game_mode_selector_,
+          &GameModeSelector::ReturnToMainMenu,
           this,
           &MainWindow::CloseMapSelector);
   connect(menu_,
@@ -108,17 +108,17 @@ void MainWindow::ConnectUI() {
 }
 
 void MainWindow::ConnectGameSignals() {
-  connect(controller_,
+  connect(events_controller_,
           &EventsController::SetGamePause,
           pause_menu_,
           &PauseMenu::show);
-  connect(controller_,
+  connect(events_controller_,
           &EventsController::StopGamePause,
           pause_menu_,
           &PauseMenu::Close);
   connect(pause_menu_,
           &PauseMenu::ContinueGame,
-          controller_,
+          events_controller_,
           &EventsController::SetUnsetPause);
   connect(pause_menu_,
           &PauseMenu::ReturnToMainMenu,

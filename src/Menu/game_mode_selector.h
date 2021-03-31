@@ -13,7 +13,7 @@ class GameModeSelector : public QWidget {
   Q_OBJECT
 
  public:
-  explicit GameModeSelector(QWidget* parent = nullptr);
+  explicit GameModeSelector(QWidget* parent, GameMode* game_mode);
   ~GameModeSelector() override = default;
 
 
@@ -33,6 +33,8 @@ class GameModeSelector : public QWidget {
   QPushButton* back_to_main_menu_;
   QPushButton* left_;
   QPushButton* right_;
+  QLineEdit* number_of_players = nullptr;
+  QLineEdit* number_of_bots = nullptr;
   QHBoxLayout* layout_;
   QStackedWidget* stacked_widget_;
   GameMode* game_mode_ = nullptr;
