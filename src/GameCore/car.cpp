@@ -39,18 +39,15 @@ void Car::ProceedInputFlags() {
     }
   }
   if (!flag_up_ && !flag_down_) {
-    if (std::abs(velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees())
-        > 90) {
-      if (velocity_.GetLength() < (angle_vec_ * kFrictionFactor).GetLength()) {
-        velocity_.SetLen(physics::kAlmostZero);
-      } else {
-        velocity_ += angle_vec_ * kFrictionFactor;
-      }
+    Vec2f coef = angle_vec_ * kFrictionFactor;
+    if (velocity_.GetLength() < (coef).GetLength()) {
+      velocity_.SetLen(physics::kAlmostZero);
     } else {
-      if (velocity_.GetLength() < (angle_vec_ * kFrictionFactor).GetLength()) {
-        velocity_.SetLen(physics::kAlmostZero);
+      if (std::abs(velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees())
+          > 90) {
+        velocity_ += coef;
       } else {
-        velocity_ -= angle_vec_ * kFrictionFactor;
+        velocity_ -= coef;
       }
     }
   }

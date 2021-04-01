@@ -20,8 +20,8 @@ class View {
   GameController* model_ = nullptr;
   QImage map_;
   QImage car_;
+  int players_amount_ = 0;
   const double kScale = 2;
-  int amount_of_players_ = 0;
   void DrawMap(QPainter* painter,
                const QRect& frame,
                const QPoint& pos);

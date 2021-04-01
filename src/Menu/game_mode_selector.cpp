@@ -11,8 +11,8 @@ GameModeSelector::GameModeSelector(QWidget* parent, GameMode* game_mode) :
     game_mode_(game_mode),
     number_of_players_(new QComboBox(this)),
     number_of_bots_(new QComboBox(this)) {
-  for (const auto& i : map_data::map_filepaths) {
-    stacked_widget_->addWidget(new MapSelectorTile(this, i.second));
+  for (const auto& [image, data] : map_data::map_filepaths) {
+    stacked_widget_->addWidget(new MapSelectorTile(this, data));
   }
   PrepareComboBoxes();
   SetUpLayout();
@@ -21,15 +21,12 @@ GameModeSelector::GameModeSelector(QWidget* parent, GameMode* game_mode) :
 }
 
 void GameModeSelector::PrepareComboBoxes() {
-  number_of_players_->addItem("1");
-  number_of_players_->addItem("2");
-  number_of_bots_->addItem("0");
-  number_of_bots_->addItem("1");
-  number_of_bots_->addItem("2");
-  number_of_bots_->addItem("3");
-  number_of_bots_->addItem("4");
-  number_of_bots_->addItem("5");
-  number_of_bots_->addItem("6");
+  for (int i = 1; i <= 2; i++) {
+    number_of_players_->addItem(QString::number(i));
+  }
+  for (int i = 1; i <= 6; i++) {
+    number_of_bots_->addItem(QString::number(i));
+  }
 }
 
 void GameModeSelector::SwitchRight() {
