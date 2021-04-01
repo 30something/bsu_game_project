@@ -27,7 +27,7 @@ class GameModeSelector : public QWidget {
 
   void SwitchRight();
   void SwitchLeft();
-  void ApplySettings();
+  void ApplyAndStart();
 
   QPushButton* start_game_;
   QPushButton* back_to_main_menu_;
@@ -38,4 +38,6 @@ class GameModeSelector : public QWidget {
   GameMode* game_mode_ = nullptr;
   QComboBox* number_of_players_ = nullptr;
   QComboBox* number_of_bots_ = nullptr;
+  static constexpr size_t kMaxPlayersAmount = 2;
+  static constexpr size_t kMaxBotsAmount = 6;
 };

@@ -11,7 +11,7 @@
 
 class View {
  public:
-  explicit View(GameController* model, GameMode* game_mode);
+  View(GameController* model, GameMode* game_mode);
   ~View() = default;
 
   void Repaint(QPainter* painter);
@@ -30,4 +30,5 @@ class View {
                const QPoint& center,
                const QPoint& frame_center,
                double angle);
+  std::vector<QRect> GetFramesVector(const QPainter* painter) const;
 };

@@ -7,7 +7,7 @@ Map::Map(GameMode* game_mode) :
 
 void Map::ParseMapBorders() {
   QTextStream out(stdout);
-  QFile file(map_data::map_filepaths[map_index_].first);
+  QFile file(map_data::borders_filepaths[map_index_]);
   if (!file.open(QIODevice::ReadOnly)) {
     qWarning("Cannot open file for reading");
   }

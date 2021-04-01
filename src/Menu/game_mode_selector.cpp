@@ -11,8 +11,8 @@ GameModeSelector::GameModeSelector(QWidget* parent, GameMode* game_mode) :
     game_mode_(game_mode),
     number_of_players_(new QComboBox(this)),
     number_of_bots_(new QComboBox(this)) {
-  for (const auto& [image, data] : map_data::map_filepaths) {
-    stacked_widget_->addWidget(new MapSelectorTile(this, data));
+  for (const auto& image : map_data::image_filepaths) {
+    stacked_widget_->addWidget(new MapSelectorTile(this, image));
   }
   PrepareComboBoxes();
   SetUpLayout();
@@ -21,16 +21,16 @@ GameModeSelector::GameModeSelector(QWidget* parent, GameMode* game_mode) :
 }
 
 void GameModeSelector::PrepareComboBoxes() {
-  for (int i = 1; i <= 2; i++) {
+  for (int i = 1; i <= kMaxPlayersAmount; i++) {
     number_of_players_->addItem(QString::number(i));
   }
-  for (int i = 1; i <= 6; i++) {
+  for (int i = 1; i <= kMaxBotsAmount; i++) {
     number_of_bots_->addItem(QString::number(i));
   }
 }
 
 void GameModeSelector::SwitchRight() {
-  if (game_mode_->map_index >= map_data::map_filepaths.size() - 1) {
+  if (game_mode_->map_index >= map_data::image_filepaths.size() - 1) {
     game_mode_->map_index = 0;
   } else {
     game_mode_->map_index++;
@@ -41,7 +41,7 @@ void GameModeSelector::SwitchRight() {
 
 void GameModeSelector::SwitchLeft() {
   if (game_mode_->map_index <= 0) {
-    game_mode_->map_index = map_data::map_filepaths.size() - 1;
+    game_mode_->map_index = map_data::image_filepaths.size() - 1;
   } else {
     game_mode_->map_index--;
   }
@@ -49,7 +49,7 @@ void GameModeSelector::SwitchLeft() {
   repaint();
 }
 
-void GameModeSelector::ApplySettings() {
+void GameModeSelector::ApplyAndStart() {
   game_mode_->players_amount = number_of_players_->currentIndex() + 1;
   game_mode_->bots_amount = number_of_bots_->currentIndex() + 1;
   emit StartGame();
@@ -77,7 +77,7 @@ void GameModeSelector::ConnectUI() {
   connect(start_game_,
           &QPushButton::clicked,
           this,
-          &GameModeSelector::ApplySettings);
+          &GameModeSelector::ApplyAndStart);
   connect(back_to_main_menu_,
           &QPushButton::clicked,
           this,
