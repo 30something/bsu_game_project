@@ -27,7 +27,7 @@ class GameModeSelector : public QWidget {
 
   void SwitchRight();
   void SwitchLeft();
-  void ApplyAndStart();
+  void ApplySettings();
 
   QPushButton* start_game_;
   QPushButton* back_to_main_menu_;

@@ -49,10 +49,9 @@ void GameModeSelector::SwitchLeft() {
   repaint();
 }
 
-void GameModeSelector::ApplyAndStart() {
+void GameModeSelector::ApplySettings() {
   game_mode_->players_amount = number_of_players_->currentIndex() + 1;
   game_mode_->bots_amount = number_of_bots_->currentIndex() + 1;
-  emit StartGame();
 }
 
 void GameModeSelector::SetUpLayout() {
@@ -77,9 +76,17 @@ void GameModeSelector::ConnectUI() {
   connect(start_game_,
           &QPushButton::clicked,
           this,
-          &GameModeSelector::ApplyAndStart);
+          &GameModeSelector::StartGame);
   connect(back_to_main_menu_,
           &QPushButton::clicked,
           this,
           &GameModeSelector::ReturnToMainMenu);
+  connect(number_of_players_,
+          QOverload<int>::of(&QComboBox::currentIndexChanged),
+          this,
+          &GameModeSelector::ApplySettings);
+  connect(number_of_bots_,
+          QOverload<int>::of(&QComboBox::currentIndexChanged),
+          this,
+          &GameModeSelector::ApplySettings);
 }
