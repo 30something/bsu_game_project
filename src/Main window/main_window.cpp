@@ -1,12 +1,14 @@
 #include "main_window.h"
+#include "src/helpers/sizes.h"
 
 MainWindow::MainWindow(QMainWindow* parent) :
     QMainWindow(parent),
     stacked_widget_(new QStackedWidget(this)),
     pause_menu_(new PauseMenu(this)),
     menu_(new Menu(this)),
-    settings_(new Settings(this)),
-    map_selector_(new MapSelector(this)) {
+    game_mode_(new GameMode()),
+    game_mode_selector_(new GameModeSelector(this, game_mode_)),
+    settings_(new Settings(this)){
   setMinimumSize(mainwindow_sizes::kDefaultScreenSize);
   setWindowTitle("Death Rally");
   SetUpStackedWidget();
@@ -21,11 +23,12 @@ void MainWindow::resizeEvent(QResizeEvent*) {
 
 void MainWindow::StartGame() {
   is_game_in_main_menu = false;
-  controller_ = new EventsController(this, map_selector_->GetMapId());
+  events_controller_ = new EventsController(this, game_mode_);
   ConnectGameSignals();
-  stacked_widget_->addWidget(controller_);
-  stacked_widget_->setCurrentWidget(controller_);
-}
+  stacked_widget_->addWidget(events_controller_);
+  stacked_widget_->setCurrentWidget(events_controller_);
+    stacked_widget_->addWidget(events_controller_);
+  stacked_widget_->setCurrentWidget(events_controller_);}
 
 void MainWindow::ShowSettings() {
   stacked_widget_->setCurrentWidget(settings_);
@@ -36,7 +39,7 @@ void MainWindow::HideSettings() {
   if (is_game_in_main_menu) {
     stacked_widget_->setCurrentWidget(menu_);
   } else {
-    stacked_widget_->setCurrentWidget(controller_);
+    stacked_widget_->setCurrentWidget(events_controller_);
     pause_menu_->show();
   }
 }
@@ -44,18 +47,18 @@ void MainWindow::HideSettings() {
 void MainWindow::ReturnToMainMenu() {
   is_game_in_main_menu = true;
   pause_menu_->Close();
-  stacked_widget_->removeWidget(controller_);
+  stacked_widget_->removeWidget(events_controller_);
   stacked_widget_->setCurrentWidget(menu_);
-  disconnect(pause_menu_, &PauseMenu::ContinueGame, controller_,
+  disconnect(pause_menu_, &PauseMenu::ContinueGame, events_controller_,
              &EventsController::SetUnsetPause);
   disconnect(pause_menu_, &PauseMenu::ReturnToMainMenu, this,
              &MainWindow::ReturnToMainMenu);
-  delete controller_;
-  controller_ = nullptr;
+  delete events_controller_;
+  events_controller_ = nullptr;
 }
 
 void MainWindow::OpenMapSelector() {
-  stacked_widget_->setCurrentWidget(map_selector_);
+  stacked_widget_->setCurrentWidget(game_mode_selector_);
 }
 
 void MainWindow::CloseMapSelector() {
@@ -64,7 +67,7 @@ void MainWindow::CloseMapSelector() {
 
 void MainWindow::SetUpStackedWidget() {
   stacked_widget_->addWidget(menu_);
-  stacked_widget_->addWidget(map_selector_);
+  stacked_widget_->addWidget(game_mode_selector_);
   stacked_widget_->addWidget(settings_);
   stacked_widget_->setCurrentWidget(menu_);
 }
@@ -74,12 +77,12 @@ void MainWindow::ConnectUI() {
           &Menu::StartButtonPressed,
           this,
           &MainWindow::OpenMapSelector);
-  connect(map_selector_,
-          &MapSelector::StartGame,
+  connect(game_mode_selector_,
+          &GameModeSelector::StartGame,
           this,
           &MainWindow::StartGame);
-  connect(map_selector_,
-          &MapSelector::ReturnToMainMenu,
+  connect(game_mode_selector_,
+          &GameModeSelector::ReturnToMainMenu,
           this,
           &MainWindow::CloseMapSelector);
   connect(menu_,
@@ -105,17 +108,17 @@ void MainWindow::ConnectUI() {
 }
 
 void MainWindow::ConnectGameSignals() {
-  connect(controller_,
+  connect(events_controller_,
           &EventsController::SetGamePause,
           pause_menu_,
           &PauseMenu::show);
-  connect(controller_,
+  connect(events_controller_,
           &EventsController::StopGamePause,
           pause_menu_,
           &PauseMenu::Close);
   connect(pause_menu_,
           &PauseMenu::ContinueGame,
-          controller_,
+          events_controller_,
           &EventsController::SetUnsetPause);
   connect(pause_menu_,
           &PauseMenu::ReturnToMainMenu,

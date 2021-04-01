@@ -1,21 +1,14 @@
 #include "src/View/view.h"
 
-View::View(GameController* model, int map_index) :
+View::View(GameController* model, GameMode* game_mode) :
     model_(model),
-    car_(":resources/images/cars/car_1.png") {
-  map_.load(map_data::map_filepaths[map_index].second);
+    car_(":resources/images/cars/car_1.png"),
+    players_amount_(game_mode->players_amount) {
+  map_.load(map_data::image_filepaths[game_mode->map_index]);
 }
 
 void View::Repaint(QPainter* painter) {
-  std::vector<QRect> frames;
-  frames.emplace_back(0,
-                      0,
-                      painter->window().width() / 2,
-                      painter->window().height());
-  frames.emplace_back(painter->window().width() / 2,
-                      0,
-                      painter->window().width() / 2,
-                      painter->window().height());
+  std::vector<QRect> frames = GetFramesVector(painter);
   painter->scale(kScale, kScale);
   std::vector<QPoint> coordinates = model_->GetCarCoordinates();
   std::vector<double> angles = model_->GetCarAngles();
@@ -28,6 +21,26 @@ void View::Repaint(QPainter* painter) {
       DrawCar(painter, frames[i], coordinates[i], coordinates[j], angles[j]);
     }
   }
+}
+
+std::vector<QRect> View::GetFramesVector(const QPainter* painter) const {
+  std::vector<QRect> frames;
+  if (players_amount_ == 1) {
+    frames.emplace_back(0,
+                        0,
+                        painter->window().width(),
+                        painter->window().height());
+  } else {
+    frames.emplace_back(0,
+                        0,
+                        painter->window().width() / 2,
+                        painter->window().height());
+    frames.emplace_back(painter->window().width() / 2,
+                        0,
+                        painter->window().width() / 2,
+                        painter->window().height());
+  }
+  return frames;
 }
 
 void View::DrawMap(QPainter* painter,

@@ -34,8 +34,21 @@ void Car::ProceedInputFlags() {
     velocity_ -= angle_vec_ * kAccelFactor;
     if (velocity_.GetLength() > kMaxSpeedBackward &&
         std::abs(velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees())
-            < 90) {
+            > 90) {
       velocity_.SetLen(kMaxSpeedBackward);
+    }
+  }
+  if (!flag_up_ && !flag_down_) {
+    Vec2f coef = angle_vec_ * kFrictionFactor;
+    if (velocity_.GetLength() < (coef).GetLength()) {
+      velocity_.SetLen(physics::kAlmostZero);
+    } else {
+      if (std::abs(velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees())
+          > 90) {
+        velocity_ += coef;
+      } else {
+        velocity_ -= coef;
+      }
     }
   }
 }
@@ -72,9 +85,11 @@ void Car::AdvanceStep(int time_millisec) {
   angular_accel /= MomentInertia;
   velocity_ += accel * time_sec;
   angular_velocity_ += angular_accel * time_sec;
-
-  if (velocity_.GetLength() > 0.01) {
+  if (velocity_.GetLength() > kMinVelocityThreshold) {
     position_ += velocity_ * time_sec;
+  }
+
+  if (std::abs(angular_velocity_) > kMinAngularVelocityThreshold) {
     angle_vec_.Rotate(angular_velocity_ * time_sec);
     angle_vec_.Normalize();
   }
@@ -161,6 +176,7 @@ int Car::GetY() const {
 double Car::GetAngle() const {
   return angle_vec_.GetAngleDegrees() + 90;
 }
+
 const Vec2f& Car::GetPosition() const {
   return position_;
 }

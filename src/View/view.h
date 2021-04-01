@@ -11,7 +11,7 @@
 
 class View {
  public:
-  explicit View(GameController* model, int map_index);
+  View(GameController* model, GameMode* game_mode);
   ~View() = default;
 
   void Repaint(QPainter* painter);
@@ -20,6 +20,7 @@ class View {
   GameController* model_ = nullptr;
   QImage map_;
   QImage car_;
+  int players_amount_ = 0;
   const double kScale = 2;
   void DrawMap(QPainter* painter,
                const QRect& frame,
@@ -29,4 +30,5 @@ class View {
                const QPoint& center,
                const QPoint& frame_center,
                double angle);
+  std::vector<QRect> GetFramesVector(const QPainter* painter) const;
 };

@@ -1,9 +1,9 @@
 #include "EventsController.h"
 
-EventsController::EventsController(QWidget* parent, uint map_index) :
+EventsController::EventsController(QWidget* parent, GameMode* game_mode) :
     QWidget(parent),
-    game_controller_(new GameController(map_index)),
-    view_(new View(game_controller_, map_index)) {
+    game_controller_(new GameController(game_mode)),
+    view_(new View(game_controller_, game_mode)) {
   PrepareTimer();
 }
 
