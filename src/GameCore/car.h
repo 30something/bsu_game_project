@@ -10,7 +10,6 @@
 #include "wheel.h"
 #include "src/helpers/line.h"
 #include "src/helpers/physics.h"
-#include "src/View/engine.h"
 
 class Car {
  public:
@@ -26,6 +25,7 @@ class Car {
   double GetAngle() const;
   std::vector<Line> GetLines();
   double GetCoefficientForEngineSound();
+  double GetCoefficientForDriftSound();
 
   void SetFlagUp(bool flag_up);
   void SetFlagDown(bool flag_down);

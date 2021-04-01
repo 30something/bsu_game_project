@@ -3,7 +3,7 @@
 EventsController::EventsController(QWidget* parent) :
     QWidget(parent),
     game_controller_(new GameController()),
-    view_(new View(game_controller_)) {
+    view_(new View(this, game_controller_)) {
   PrepareTimer();
 }
 
@@ -18,6 +18,7 @@ void EventsController::ViewTimerEvent() {
     repaint();
 
     view_->ChangeEngineVolume(game_controller_->GetCoefficientForEngineSound());
+    view_->PlayDrift(game_controller_->GetCoefficientForDriftSound());
   }
 }
 

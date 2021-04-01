@@ -36,8 +36,10 @@ set(SOURCES main.cpp
         src/Menu/small_exit_window.cpp
         src/helpers/line.cpp
         src/GameCore/map.cpp
-        src/View/engine.cpp
-        src/View/engine.h
+        src/View/EngineSound.cpp
+        src/View/EngineSound.h
+        src/View/DriftSound.h
+        src/View/DriftSound.cpp
         )
 
 set(RESOURCES

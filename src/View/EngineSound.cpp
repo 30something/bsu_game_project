@@ -1,5 +1,4 @@
-#include "engine.h"
-#include <QDebug>
+#include "EngineSound.h"
 
 Engine::Engine(QWidget* parent) : QWidget(parent),
                                   sound_playlist_(new QMediaPlaylist(this)),

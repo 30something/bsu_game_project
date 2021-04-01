@@ -1,10 +1,11 @@
 #include "src/View/view.h"
 
-View::View(GameController* model) :
+View::View(QWidget* events_controller, GameController* model) :
     model_(model),
     map_(":resources/images/maps/map_1.jpg"),
     car_(":resources/images/cars/car_1.png"),
-    engine_(new Engine()) {
+    engine_(new Engine(events_controller)),
+    drift_(new Drift(events_controller)) {
 }
 
 void View::Repaint(QPainter* painter) {
@@ -22,4 +23,8 @@ void View::Repaint(QPainter* painter) {
 
 void View::ChangeEngineVolume(double coefficient) {
     engine_->ChangeVolume(coefficient);
+}
+
+void View::PlayDrift(double coefficient) {
+    drift_->Play(coefficient);
 }
