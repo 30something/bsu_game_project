@@ -7,8 +7,8 @@
 #include "src/EventsController/EventsController.h"
 #include "src/Menu/menu.h"
 #include "src/Menu/pause_menu.h"
+#include "src/Menu/game_mode_selector.h"
 #include "src/Menu/settings.h"
-#include "src/Menu/map_selector.h"
 
 class MainWindow : public QMainWindow {
   Q_OBJECT
@@ -34,10 +34,11 @@ class MainWindow : public QMainWindow {
   void HideSettings();
 
   QStackedWidget* stacked_widget_ = nullptr;
-  EventsController* controller_ = nullptr;
+  EventsController* events_controller_ = nullptr;
   PauseMenu* pause_menu_ = nullptr;
   Menu* menu_ = nullptr;
+  GameMode* game_mode_ = nullptr;
+  GameModeSelector* game_mode_selector_ = nullptr;
   Settings* settings_ = nullptr;
-  MapSelector* map_selector_ = nullptr;
   bool is_game_in_main_menu = true;
 };

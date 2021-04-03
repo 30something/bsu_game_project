@@ -1,13 +1,13 @@
 #include "map.h"
 
-Map::Map(uint map_index) :
-    map_index_(map_index) {
+Map::Map(GameMode* game_mode) :
+    map_index_(game_mode->map_index) {
   ParseMapBorders();
 }
 
 void Map::ParseMapBorders() {
   QTextStream out(stdout);
-  QFile file(map_data::map_filepaths[map_index_].first);
+  QFile file(map_data::borders_filepaths[map_index_]);
   if (!file.open(QIODevice::ReadOnly)) {
     qWarning("Cannot open file for reading");
   }
