@@ -25,7 +25,7 @@ void View::Repaint(QPainter* painter) {
   }
   for (size_t i = 0; i < frames.size(); i++) {
     for (size_t j = 0; j < coordinates.size(); j++) {
-        DrawCar(painter, frames[i], coordinates[i], coordinates[j], angles[j]);
+      DrawCar(painter, frames[i], coordinates[i], coordinates[j], angles[j]);
     }
   }
 }
@@ -47,12 +47,15 @@ void View::DrawCar(QPainter* painter,
                    const QPoint& center,
                    const QPoint& frame_center,
                    double angle) {
-  painter->save();
-  painter->translate(frame.left() / kScale + frame_center.x() - center.x()
-                         + frame.width() / kScale / 2,
-                     frame_center.y() - center.y()
-                         + frame.height() / kScale / 2);
-  painter->rotate(angle);
-  painter->drawImage(-5, -10, car_);
-  painter->restore();
+  int x_coord = frame.left() / kScale + frame_center.x() - center.x()
+      + frame.width() / kScale / 2;
+  int y_coord = frame_center.y() - center.y()
+      + frame.height() / kScale / 2;
+  if (frame.contains(x_coord * kScale, y_coord * kScale)) {
+    painter->save();
+    painter->translate(x_coord, y_coord);
+    painter->rotate(angle);
+    painter->drawImage(-5, -10, car_);
+    painter->restore();
+  }
 }
