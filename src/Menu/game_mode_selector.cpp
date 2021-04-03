@@ -10,6 +10,7 @@ GameModeSelector::GameModeSelector(QWidget* parent, GameMode* game_mode) :
     stacked_widget_(new QStackedWidget(this)),
     game_mode_(game_mode),
     number_of_players_(new QComboBox(this)),
+    number_of_laps_(new QComboBox(this)),
     number_of_bots_(new QComboBox(this)) {
   for (const auto& image : map_data::image_filepaths) {
     stacked_widget_->addWidget(new MapSelectorTile(this, image));
@@ -21,11 +22,14 @@ GameModeSelector::GameModeSelector(QWidget* parent, GameMode* game_mode) :
 }
 
 void GameModeSelector::PrepareComboBoxes() {
-  for (int i = 1; i <= kMaxPlayersAmount; i++) {
+  for (size_t i = 1; i <= kMaxPlayersAmount; i++) {
     number_of_players_->addItem(QString::number(i));
   }
-  for (int i = 1; i <= kMaxBotsAmount; i++) {
+  for (size_t i = 1; i <= kMaxBotsAmount; i++) {
     number_of_bots_->addItem(QString::number(i));
+  }
+  for (size_t i = 1; i <= kMaxLapsAmount; i++) {
+    number_of_laps_->addItem(QString::number(i));
   }
 }
 
@@ -51,6 +55,7 @@ void GameModeSelector::SwitchLeft() {
 
 void GameModeSelector::ApplySettings() {
   game_mode_->players_amount = number_of_players_->currentIndex() + 1;
+  game_mode_->laps_amount = number_of_laps_->currentIndex() + 1;
   game_mode_->bots_amount = number_of_bots_->currentIndex() + 1;
 }
 
@@ -60,6 +65,7 @@ void GameModeSelector::SetUpLayout() {
   layout_->addWidget(stacked_widget_, 0, Qt::AlignCenter);
   layout_->addWidget(right_);
   layout_->addWidget(number_of_players_);
+  layout_->addWidget(number_of_laps_);
   layout_->addWidget(number_of_bots_);
   layout_->addWidget(start_game_);
 }
@@ -82,6 +88,10 @@ void GameModeSelector::ConnectUI() {
           this,
           &GameModeSelector::ReturnToMainMenu);
   connect(number_of_players_,
+          QOverload<int>::of(&QComboBox::currentIndexChanged),
+          this,
+          &GameModeSelector::ApplySettings);
+  connect(number_of_laps_,
           QOverload<int>::of(&QComboBox::currentIndexChanged),
           this,
           &GameModeSelector::ApplySettings);

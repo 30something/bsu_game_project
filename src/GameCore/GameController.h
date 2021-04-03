@@ -31,7 +31,7 @@ class GameController {
   void ProceedCollisionsWithFinish();
 
   static void CollideCars(Car* car_1, Car* car_2);
-  void CollideFinish(size_t index, Line finish_line);
+  double CalculateFinishDeviation(size_t index);
 
   const QPoint car1_start_pos_ = {360, 548};
   const double car1_start_angle_ = -M_PI / 2;
@@ -49,6 +49,8 @@ class GameController {
   Map map_;
   std::vector<Car> cars_;
   std::vector<int> laps_counters_;
+  std::vector<double> finish_deviations_;
   std::vector<FinishCollisionStatus> finish_collision_statuses_;
   GameMode* game_mode_ = nullptr;
+  Line finish_line_;
 };

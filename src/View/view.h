@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include <utility>
 #include <vector>
 
@@ -17,10 +18,11 @@ class View {
   ~View() = default;
 
   void Repaint(QPainter* painter);
+  void Resize(int width, int height);
 
   void UpdateStartLabel(const std::string& new_text);
-  static void UpdateLapsLabel(QLabel* label, int laps_counter);
-  static void UpdateVelocityLabel(QLabel* label, double velocity);
+  void UpdateLapsLabels();
+  void UpdateVelocityLabels();
 
  private:
   void DrawMap(QPainter* painter,
@@ -35,12 +37,12 @@ class View {
   std::vector<QRect> GetFramesVector(const QPainter* painter) const;
 
   GameController* model_ = nullptr;
-  QWidget* parent_ = nullptr;
   QLabel* start_label_ = nullptr;
   std::vector<QLabel*> laps_labels_;
   std::vector<QLabel*> velocity_labels_;
   QImage map_;
   QImage car_;
   int players_amount_ = 0;
+  int laps_amount_ = 0;
   const double kScale = 2;
 };

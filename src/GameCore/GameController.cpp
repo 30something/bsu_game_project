@@ -1,11 +1,14 @@
 #include "GameController.h"
+#include <iostream>
 
 GameController::GameController(GameMode* game_mode) :
     map_(Map(game_mode)),
-    game_mode_(game_mode) {
+    game_mode_(game_mode),
+    finish_line_(map_.GetFinishLine()) {
   laps_counters_.resize(game_mode_->players_amount, 0);
+  finish_deviations_.resize(game_mode_->players_amount, 0);
   finish_collision_statuses_.resize(
-      game_mode->players_amount, FinishCollisionStatus::kNotCollide);
+      game_mode_->players_amount, FinishCollisionStatus::kNotCollide);
   cars_.emplace_back(car1_start_pos_.x(),
                      car1_start_pos_.y(),
                      car1_start_angle_);
@@ -19,6 +22,11 @@ GameController::GameController(GameMode* game_mode) :
 void GameController::Tick(int time_millis) {
   ProceedCollisionsWithCars();
   ProceedCollisionsWithFinish();
+  for (size_t i = 0; i < game_mode_->players_amount; i++) {
+    if (finish_collision_statuses_[i] == FinishCollisionStatus::kNotCollide) {
+      finish_deviations_[i] = CalculateFinishDeviation(i);
+    }
+  }
   for (auto& car : cars_) {
     map_.ProceedCollisions(&car);
     car.Tick(time_millis);
@@ -46,45 +54,45 @@ void GameController::ProceedCollisionsWithCars() {
 }
 
 void GameController::ProceedCollisionsWithFinish() {
-  Line finish_line = map_.GetFinishLine();
   for (size_t i = 0; i < cars_.size(); i++) {
     bool collision_exists = false;
     for (const auto& line : cars_[i].GetLines()) {
-      if (Line::IsIntersects(line, finish_line)) {
+      if (Line::IsIntersects(line, finish_line_)) {
         collision_exists = true;
-        if (finish_collision_statuses_[i]
-            == FinishCollisionStatus::kNotCollide) {
-          CollideFinish(i, finish_line);
-        }
         break;
       }
     }
     if (collision_exists) {
       finish_collision_statuses_[i] = FinishCollisionStatus::kCollide;
     } else {
+      if (finish_collision_statuses_[i] == FinishCollisionStatus::kCollide) {
+        double past_deviation = finish_deviations_[i];
+        double current_deviation = CalculateFinishDeviation(i);
+        // Variability - depends on finish line location
+        if (past_deviation < 0 && current_deviation > 0) {
+          laps_counters_[i]--;
+        } else if (past_deviation > 0 && current_deviation < 0) {
+          laps_counters_[i]++;
+        }
+      }
       finish_collision_statuses_[i] = FinishCollisionStatus::kNotCollide;
     }
   }
 }
 
-void GameController::CollideFinish(size_t index, Line finish_line) {
-  // Use general form of line equation and deviation calculation
+double GameController::CalculateFinishDeviation(size_t index) {
+  // Using general form of line equation
   double xc = cars_[index].GetPosition().GetX();
   double yc = cars_[index].GetPosition().GetY();
-  double A = finish_line.y1 - finish_line.y2;
-  double B = finish_line.x2 - finish_line.x1;
-  double C = finish_line.x1 * finish_line.y2 -
-      finish_line.x2 * finish_line.y1;
+  double A = finish_line_.y1 - finish_line_.y2;
+  double B = finish_line_.x2 - finish_line_.x1;
+  double C = finish_line_.x1 * finish_line_.y2 -
+      finish_line_.x2 * finish_line_.y1;
   double d = (A * xc + B * yc + C) / sqrt(A * A + B * B);
   if (C > 0) {
     d *= -1;
   }
-  // Variability - depends on location of finish line
-  if (d > 0) {
-    laps_counters_[index]++;
-  } else {
-    laps_counters_[index]--;
-  }
+  return d;
 }
 
 void GameController::CollideCars(Car* car_1, Car* car_2) {
