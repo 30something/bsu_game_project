@@ -3,8 +3,12 @@
 EventsController::EventsController(QWidget* parent, GameMode* game_mode) :
     QWidget(parent),
     game_controller_(new GameController(game_mode)),
-    view_(new View(game_controller_, game_mode)) {
-  PrepareTimer();
+    view_(new View(this, game_controller_, game_mode)) {
+  connect(&start_timer_,
+          &QTimer::timeout,
+          this,
+          &EventsController::StartTimer);
+  start_timer_.start(kMillisInSecond);
 }
 
 void EventsController::PhysicsTimerEvent() {
@@ -58,4 +62,22 @@ void EventsController::PrepareTimer() {
           &EventsController::ViewTimerEvent);
   controller_timer_.start(kMillisPerPhysicsTick);
   view_timer_.start(kMillisPerFrame);
+}
+
+void EventsController::StartTimer() {
+  if (game_status_ == GameStatus::kPaused) {
+    return;
+  }
+  if (seconds_before_start_ == 0) {
+    start_timer_.stop();
+    view_->UpdateStartLabel("");
+    PrepareTimer();
+  } else {
+    seconds_before_start_--;
+    if (seconds_before_start_ == 0) {
+      view_->UpdateStartLabel("Go!");
+    } else {
+      view_->UpdateStartLabel(std::to_string(seconds_before_start_));
+    }
+  }
 }

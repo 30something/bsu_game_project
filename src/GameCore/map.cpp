@@ -3,6 +3,7 @@
 Map::Map(GameMode* game_mode) :
     map_index_(game_mode->map_index) {
   ParseMapBorders();
+  ParseFinishLine();
 }
 
 void Map::ParseMapBorders() {
@@ -30,6 +31,26 @@ void Map::ParseMapBorders() {
   file.close();
   borders_.push_back(left_borders_);
   borders_.push_back(right_borders_);
+}
+
+void Map::ParseFinishLine() {
+  QTextStream out(stdout);
+  QFile file(map_data::finish_lines_filepaths[map_index_]);
+  if (!file.open(QIODevice::ReadOnly)) {
+    qWarning("Cannot open file for reading");
+  }
+  QTextStream in(&file);
+  std::vector<std::pair<int, int>> dots;
+  while (!in.atEnd()) {
+    QString line = in.readLine();
+    std::pair<int, int> coords = ParseLine(line);
+    dots.emplace_back(coords);
+  }
+  finish_line_.x1 = dots[0].first;
+  finish_line_.y1 = dots[0].second;
+  finish_line_.x2 = dots[1].first;
+  finish_line_.y2 = dots[1].second;
+  file.close();
 }
 
 std::pair<int, int> Map::ParseLine(const QString& line) {
@@ -86,4 +107,8 @@ void Map::CollideCar(Car* car, const Vec2f& point) {
   velocity *= kVelocityDecrease;
   car->SetVelocity(velocity);
   car->SetPosition(position + deviation);
+}
+
+Line Map::GetFinishLine() const {
+  return finish_line_;
 }

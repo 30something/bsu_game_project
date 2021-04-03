@@ -30,14 +30,19 @@ class EventsController : public QWidget {
   void StopGamePause();
 
  private:
+  void PrepareTimer();
+  void StartTimer();
+
   enum class Actions {
     kOpenOrCloseMenu = Qt::Key_Escape,
   };
+
   enum class GameStatus {
     kPaused,
     kRunning,
   };
 
+  QTimer start_timer_;
   QTimer view_timer_;
   QTimer controller_timer_;
   GameController* game_controller_ = nullptr;
@@ -45,5 +50,6 @@ class EventsController : public QWidget {
   GameStatus game_status_ = GameStatus::kRunning;
   static constexpr int kMillisPerFrame = 10;
   static constexpr int kMillisPerPhysicsTick = 5;
-  void PrepareTimer();
+  static constexpr int kMillisInSecond = 1000;
+  int seconds_before_start_ = 4;
 };

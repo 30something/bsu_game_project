@@ -1,9 +1,18 @@
 #include "src/View/view.h"
 
-View::View(GameController* model, GameMode* game_mode) :
+View::View(QWidget* parent, GameController* model, GameMode* game_mode) :
     model_(model),
+    parent_(parent),
+    start_label_(new QLabel("Get ready!", parent)),
     car_(":resources/images/cars/car_1.png"),
     players_amount_(game_mode->players_amount) {
+  start_label_->setAlignment(Qt::AlignCenter);
+  for (int i = 0; i < players_amount_; i++) {
+    laps_labels_.emplace_back(new QLabel(parent));
+    velocity_labels_.emplace_back(new QLabel(parent));
+    laps_labels_[i]->setAlignment(Qt::AlignRight);
+    velocity_labels_[i]->setAlignment(Qt::AlignLeft);
+  }
   map_.load(map_data::image_filepaths[game_mode->map_index]);
 }
 
@@ -13,6 +22,24 @@ void View::Repaint(QPainter* painter) {
   std::vector<QPoint> coordinates = model_->GetCarCoordinates();
   std::vector<double> angles = model_->GetCarAngles();
 
+  start_label_->setGeometry(
+      0, 0, parent_->width(), parent_->height());
+  for (int i = 0; i < players_amount_; i++) {
+    UpdateLapsLabel(laps_labels_[i], model_->GetLapsCounter(i));
+    UpdateVelocityLabel(velocity_labels_[i], model_->GetVelocity(i));
+  }
+  if (players_amount_ == 1) {
+    laps_labels_[0]->setGeometry(0, 0, parent_->width(), parent_->height());
+    velocity_labels_[0]->setGeometry(0, 0, parent_->width(), parent_->height());
+  } else {
+    laps_labels_[0]->setGeometry(
+        0, 0, parent_->width() / 2, parent_->height() / 2);
+    velocity_labels_[0]->setGeometry(0, 0, parent_->width(), parent_->height());
+    laps_labels_[1]->setGeometry(0, 0, parent_->width(), parent_->height());
+    velocity_labels_[1]->setGeometry(
+        parent_->width() / 2, 0, parent_->width(), parent_->height());
+  }
+
   for (size_t i = 0; i < frames.size(); i++) {
     DrawMap(painter, frames[i], coordinates[i]);
   }
@@ -21,6 +48,20 @@ void View::Repaint(QPainter* painter) {
       DrawCar(painter, frames[i], coordinates[i], coordinates[j], angles[j]);
     }
   }
+}
+
+void View::UpdateStartLabel(const std::string& new_text) {
+  start_label_->setText(QString::fromStdString(new_text));
+}
+
+void View::UpdateLapsLabel(QLabel* label, int laps_counter) {
+  label->setText(QString::fromStdString(
+      "Laps: " + std::to_string(laps_counter) + " / 3"));
+}
+
+void View::UpdateVelocityLabel(QLabel* label, double velocity) {
+  label->setText(QString::fromStdString(
+      "Velocity: " + std::to_string(velocity)));
 }
 
 std::vector<QRect> View::GetFramesVector(const QPainter* painter) const {
