@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <cmath>
 #include <utility>
+#include <QKeyEvent>
 
 #include "src/helpers/vec2f.h"
 #include "wheel.h"
@@ -20,19 +21,31 @@ class Car {
 
   void Tick(int time_millisec);
 
-  int GetX() const;
-  int GetY() const;
+  void HandleKeyPressEvent(QKeyEvent* event);
+  void HandleKeyReleaseEvent(QKeyEvent* event);
+
+  double GetHitPoints() const;
+  double GetBulletsAmount() const;
+  double GetMinesAmount() const;
   double GetAngle() const;
-  std::vector<Line> GetLines();
+  std::vector<Line> GetLines() const ;
   const Vec2f& GetVelocity() const;
   const Vec2f& GetPosition() const;
+  const Vec2f& GetAngleVec() const;
   void SetVelocity(const Vec2f& velocity);
   void SetPosition(const Vec2f& position);
+  void SetHitPoints(double hit_points_);
+  void SetBulletsAmount(double bullets_amount_);
+  void SetMinesAmount(double mines_amount_);
 
   void SetFlagUp(bool flag_up);
   void SetFlagDown(bool flag_down);
   void SetFlagLeft(bool flag_left);
   void SetFlagRight(bool flag_right);
+  bool IsShooting() const;
+  void SetIsShooting(bool is_shooting);
+  bool IsAlive() const;
+  void SetIsAlive(bool is_alive);
 
  private:
   std::vector<Wheel> wheels_{4};
@@ -63,6 +76,12 @@ class Car {
   bool flag_down_ = false;
   bool flag_left_ = false;
   bool flag_right_ = false;
+  bool is_shooting_ = false;
+  bool is_alive_ = true;
+
+  double hit_points = 100;
+  size_t bullets_amount_ = 1000;
+  size_t mines_amount = 20;
 
  private:
   void UpdateWheelsPosAndOrientation();

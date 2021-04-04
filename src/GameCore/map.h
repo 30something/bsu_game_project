@@ -22,6 +22,7 @@ class Map {
  private:
   uint map_index_ = 0;
   static constexpr double kVelocityDecrease = 0.75;
+  static constexpr double kHPDecrease = 0.005;
   std::vector<std::vector<std::pair<int, int>>> borders_;
   static void CollideCar(Car* car, const Vec2f& point);
 };

@@ -78,6 +78,8 @@ void Map::ProceedCollisions(Car* car) {
 
 void Map::CollideCar(Car* car, const Vec2f& point) {
   Vec2f position = car->GetPosition();
+  car->SetHitPoints(
+      car->GetHitPoints() - car->GetVelocity().GetLength() * kHPDecrease);
   Vec2f deviation
       (position.GetX() - point.GetX(), position.GetY() - point.GetY());
   deviation.Normalize();

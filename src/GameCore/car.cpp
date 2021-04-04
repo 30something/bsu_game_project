@@ -54,6 +54,12 @@ void Car::ProceedInputFlags() {
 }
 
 void Car::Tick(int time_millisec) {
+  if(!is_alive_) {
+    flag_down_ = false;
+    flag_up_ = false;
+    flag_left_ = false;
+    flag_right_ = false;
+  }
   ProceedInputFlags();
   AdvanceStep(time_millisec);
 }
@@ -124,7 +130,7 @@ void Car::CalcLateralForces() {
                               kRearCoefFriction);
 }
 
-std::vector<Line> Car::GetLines() {
+std::vector<Line> Car::GetLines() const {
   Line l1(wheels_[0].GetPosition(), wheels_[1].GetPosition());
   Line l2(wheels_[0].GetPosition(), wheels_[2].GetPosition());
   Line l3(wheels_[1].GetPosition(), wheels_[3].GetPosition());
@@ -165,14 +171,6 @@ void Car::UpdateWheelsPosAndOrientation() {
   }
 }
 
-int Car::GetX() const {
-  return static_cast<int>(position_.GetX());
-}
-
-int Car::GetY() const {
-  return static_cast<int>(position_.GetY());
-}
-
 double Car::GetAngle() const {
   return angle_vec_.GetAngleDegrees() + 90;
 }
@@ -191,4 +189,55 @@ void Car::SetVelocity(const Vec2f& velocity) {
 
 void Car::SetPosition(const Vec2f& position) {
   position_ = position;
+}
+
+double Car::GetHitPoints() const {
+  return hit_points;
+}
+
+double Car::GetBulletsAmount() const {
+  return bullets_amount_;
+}
+
+double Car::GetMinesAmount() const {
+  return mines_amount;
+}
+
+void Car::SetHitPoints(double hit_points_) {
+  Car::hit_points = hit_points_;
+}
+
+void Car::SetBulletsAmount(double bullets_amount_) {
+  Car::bullets_amount_ = bullets_amount_;
+}
+
+void Car::SetMinesAmount(double mines_amount_) {
+  Car::mines_amount = mines_amount_;
+}
+
+const Vec2f& Car::GetAngleVec() const {
+  return angle_vec_;
+}
+
+bool Car::IsShooting() const {
+  if (bullets_amount_ <= 0) {
+    return false;
+  }
+  return is_shooting_;
+}
+
+void Car::SetIsShooting(bool is_shooting) {
+  if (bullets_amount_ <= 0) {
+    is_shooting_ = false;
+  } else {
+    is_shooting_ = is_shooting;
+  }
+}
+
+bool Car::IsAlive() const {
+  return is_alive_;
+}
+
+void Car::SetIsAlive(bool is_alive) {
+  is_alive_ = is_alive;
 }

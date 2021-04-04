@@ -20,15 +20,27 @@ class View {
   GameController* model_ = nullptr;
   QImage map_;
   QImage car_;
+  QImage mine_;
+  QImage shot_;
   int players_amount_ = 0;
   const double kScale = 2;
   void DrawMap(QPainter* painter,
                const QRect& frame,
-               const QPoint& pos);
+               const Vec2f& pos);
   void DrawCar(QPainter* painter,
                const QRect& frame,
-               const QPoint& center,
-               const QPoint& frame_center,
-               double angle);
+               const Vec2f& center,
+               const Vec2f& frame_center,
+               double angle,
+               const QImage& car);
+  void DrawMine(QPainter* painter,
+                const QRect& frame,
+                const Vec2f& frame_center,
+                const QPoint& mine);
+  void DrawShot(QPainter* painter,
+                const QRect& frame,
+                const Vec2f& frame_center,
+                const Vec2f& coord,
+                double angle);
   std::vector<QRect> GetFramesVector(const QPainter* painter) const;
 };
