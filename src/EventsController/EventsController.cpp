@@ -1,4 +1,5 @@
 #include "EventsController.h"
+#include <iostream>
 
 EventsController::EventsController(QWidget* parent, GameMode* game_mode) :
     QWidget(parent),
@@ -75,9 +76,14 @@ void EventsController::PrepareTimer() {
           &QTimer::timeout,
           this,
           &EventsController::ViewLabelsUpdateEvent);
+  connect(&end_game_check_timer_,
+          &QTimer::timeout,
+          this,
+          &EventsController::FinishCheck);
   controller_timer_.start(kMillisPerPhysicsTick);
   view_timer_.start(kMillisPerFrame);
   view_labels_update_timer_.start(kMillisPerLabelsUpdate);
+  end_game_check_timer_.start(kMillisPerFinishCheck);
 }
 
 void EventsController::StartTimer() {
@@ -95,5 +101,14 @@ void EventsController::StartTimer() {
     } else {
       view_->UpdateStartLabel(std::to_string(seconds_before_start_));
     }
+  }
+}
+
+void EventsController::FinishCheck() {
+  if (game_controller_->GetWonCar() > 0) {
+    view_timer_.stop();
+    view_labels_update_timer_.stop();
+    controller_timer_.stop();
+    emit ReturnToMainMenu();
   }
 }

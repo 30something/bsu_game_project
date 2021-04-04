@@ -6,6 +6,7 @@
 #include <QTimer>
 
 #include "src/Menu/pause_menu.h"
+#include "src/Menu/end_game_stats.h"
 #include "src/GameCore/GameController.h"
 #include "src/View/view.h"
 
@@ -27,9 +28,12 @@ class EventsController : public QWidget {
   void ViewTimerEvent();
   void ViewLabelsUpdateEvent();
 
+  void FinishCheck();
+
  signals:
   void SetGamePause();
   void StopGamePause();
+  void ReturnToMainMenu();
 
  private:
   void PrepareTimer();
@@ -48,10 +52,12 @@ class EventsController : public QWidget {
   QTimer view_timer_;
   QTimer view_labels_update_timer_;
   QTimer controller_timer_;
+  QTimer end_game_check_timer_;
   GameController* game_controller_ = nullptr;
   View* view_ = nullptr;
   GameStatus game_status_ = GameStatus::kRunning;
   static constexpr int kMillisPerFrame = 10;
+  static constexpr int kMillisPerFinishCheck = 100;
   static constexpr int kMillisPerLabelsUpdate = 75;
   static constexpr int kMillisPerPhysicsTick = 5;
   static constexpr int kMillisInSecond = 1000;

@@ -4,5 +4,7 @@
         <file>resources/images/map_data/map_2.txt</file>
         <file>resources/images/map_data/map_3.txt</file>
         <file>resources/images/map_data/finish_map_1.txt</file>
+        <file>resources/images/map_data/finish_map_2.txt</file>
+        <file>resources/images/map_data/finish_map_3.txt</file>
     </qresource>
 </RCC>

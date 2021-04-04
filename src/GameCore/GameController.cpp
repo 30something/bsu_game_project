@@ -1,5 +1,4 @@
 #include "GameController.h"
-#include <iostream>
 
 GameController::GameController(GameMode* game_mode) :
     map_(Map(game_mode)),
@@ -22,6 +21,7 @@ GameController::GameController(GameMode* game_mode) :
 void GameController::Tick(int time_millis) {
   ProceedCollisionsWithCars();
   ProceedCollisionsWithFinish();
+  ProceedFinishGame();
   for (size_t i = 0; i < game_mode_->players_amount; i++) {
     if (finish_collision_statuses_[i] == FinishCollisionStatus::kNotCollide) {
       finish_deviations_[i] = CalculateFinishDeviation(i);
@@ -76,6 +76,15 @@ void GameController::ProceedCollisionsWithFinish() {
         }
       }
       finish_collision_statuses_[i] = FinishCollisionStatus::kNotCollide;
+    }
+  }
+}
+
+void GameController::ProceedFinishGame() {
+  for (size_t i = 0; i < game_mode_->players_amount; i++) {
+    if (laps_counters_[i] > static_cast<int>(game_mode_->laps_amount)) {
+      number_of_won_car_ = i;
+      break;
     }
   }
 }
@@ -200,4 +209,8 @@ int GameController::GetLapsCounter(int index) const {
 double GameController::GetVelocity(int index) const {
   double current_velocity = cars_[index].GetVelocity().GetLength();
   return current_velocity < kMinVisibleVelocity ? 0 : current_velocity;
+}
+
+int GameController::GetWonCar() const {
+  return number_of_won_car_ + 1;
 }

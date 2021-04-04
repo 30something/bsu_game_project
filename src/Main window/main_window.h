@@ -33,6 +33,8 @@ class MainWindow : public QMainWindow {
   void ShowSettings();
   void HideSettings();
 
+  void ShowEndGameStats();
+
   QStackedWidget* stacked_widget_ = nullptr;
   EventsController* events_controller_ = nullptr;
   PauseMenu* pause_menu_ = nullptr;
@@ -40,5 +42,6 @@ class MainWindow : public QMainWindow {
   GameMode* game_mode_ = nullptr;
   GameModeSelector* game_mode_selector_ = nullptr;
   Settings* settings_ = nullptr;
-  bool is_game_in_main_menu = true;
+  EndGameStats* end_game_stats_ = nullptr;
+  bool is_game_in_main_menu_ = true;
 };

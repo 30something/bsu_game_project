@@ -25,10 +25,12 @@ class GameController {
   std::vector<double> GetCarAngles() const;
   int GetLapsCounter(int index) const;
   double GetVelocity(int index) const;
+  int GetWonCar() const;
 
  private:
   void ProceedCollisionsWithCars();
   void ProceedCollisionsWithFinish();
+  void ProceedFinishGame();
 
   static void CollideCars(Car* car_1, Car* car_2);
   double CalculateFinishDeviation(size_t index);
@@ -53,4 +55,5 @@ class GameController {
   std::vector<FinishCollisionStatus> finish_collision_statuses_;
   GameMode* game_mode_ = nullptr;
   Line finish_line_;
+  int number_of_won_car_ = -1;
 };

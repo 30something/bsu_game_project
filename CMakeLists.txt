@@ -39,7 +39,8 @@ set(SOURCES main.cpp
         src/GameCore/map.cpp
         src/Menu/game_mode_selector.cpp
         src/Menu/map_selector_tile.cpp
-        )
+        src/Menu/end_game_stats.h
+        src/Menu/end_game_stats.cpp)
 
 set(RESOURCES
         images.qrc

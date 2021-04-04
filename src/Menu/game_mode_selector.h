@@ -21,7 +21,7 @@ class GameModeSelector : public QWidget {
   void ReturnToMainMenu();
 
  private:
-  void SetUpLayout();
+  void SetUpLayouts();
   void ConnectUI();
   void PrepareComboBoxes();
 
@@ -33,7 +33,10 @@ class GameModeSelector : public QWidget {
   QPushButton* back_to_main_menu_;
   QPushButton* left_;
   QPushButton* right_;
-  QHBoxLayout* layout_;
+  QVBoxLayout* main_layout_;
+  QHBoxLayout* picture_layout_;
+  QHBoxLayout* boxes_layout_;
+  QHBoxLayout* buttons_layout_;
   QStackedWidget* stacked_widget_;
   GameMode* game_mode_ = nullptr;
   QComboBox* number_of_players_ = nullptr;
