@@ -125,7 +125,7 @@ void MainWindow::ConnectGameSignals() {
           pause_menu_,
           &PauseMenu::Close);
   connect(events_controller_,
-          &EventsController::ReturnToMainMenu,
+          &EventsController::ShowStats,
           this,
           &MainWindow::ShowEndGameStats);
   connect(pause_menu_,

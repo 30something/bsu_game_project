@@ -1,5 +1,4 @@
 #include "EventsController.h"
-#include <iostream>
 
 EventsController::EventsController(QWidget* parent, GameMode* game_mode) :
     QWidget(parent),
@@ -109,6 +108,6 @@ void EventsController::FinishCheck() {
     view_timer_.stop();
     view_labels_update_timer_.stop();
     controller_timer_.stop();
-    emit ReturnToMainMenu();
+    emit ShowStats();
   }
 }

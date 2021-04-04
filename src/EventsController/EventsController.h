@@ -33,7 +33,7 @@ class EventsController : public QWidget {
  signals:
   void SetGamePause();
   void StopGamePause();
-  void ReturnToMainMenu();
+  void ShowStats();
 
  private:
   void PrepareTimer();
