@@ -1,10 +1,9 @@
 #include "GameController.h"
-#include <iostream>
 
 GameController::GameController(GameMode* game_mode) :
     map_(Map(game_mode)),
     game_mode_(game_mode),
-    weapon_handler_(&cars_){
+    weapon_handler_(&cars_) {
   cars_.emplace_back(car1_start_pos_.x(),
                      car1_start_pos_.y(),
                      car1_start_angle_);
@@ -18,15 +17,12 @@ GameController::GameController(GameMode* game_mode) :
 }
 
 void GameController::Tick(int time_millis) {
-  std::cout << cars_[1].GetHitPoints() << " " <<cars_[0].GetHitPoints() << std::endl;
   weapon_handler_.ProceedWeapons();
   ProceedCollisionsWithCars();
   for (auto& car : cars_) {
     map_.ProceedCollisions(&car);
     car.Tick(time_millis);
-  }
-  for(auto& car : cars_) {
-    if(car.GetHitPoints() < physics::kAlmostZero) {
+    if (car.GetHitPoints() < physics::kAlmostZero) {
       car.SetIsAlive(false);
     }
   }
@@ -55,7 +51,8 @@ void GameController::ProceedCollisionsWithCars() {
 void GameController::CollideCars(Car* car_1, Car* car_2) {
   Vec2f pos_1 = car_1->GetPosition();
   Vec2f pos_2 = car_2->GetPosition();
-  double relative_speed = (car_1->GetVelocity() - car_2->GetVelocity()).GetLength();
+  double relative_speed =
+      (car_1->GetVelocity() - car_2->GetVelocity()).GetLength();
   car_1->SetHitPoints(car_1->GetHitPoints() - relative_speed * kHPDecrease);
   car_2->SetHitPoints(car_2->GetHitPoints() - relative_speed * kHPDecrease);
   Vec2f deviation
@@ -79,7 +76,7 @@ void GameController::CollideCars(Car* car_1, Car* car_2) {
 
 void GameController::HandleKeyPressEvent(QKeyEvent* event) {
   int key = event->key();
-  if(cars_[0].IsAlive()) {
+  if (cars_[0].IsAlive()) {
     if (key == Qt::Key_Up) {
       cars_[0].SetFlagUp(true);
     }
@@ -112,10 +109,10 @@ void GameController::HandleKeyPressEvent(QKeyEvent* event) {
     if (key == Qt::Key_D) {
       cars_[1].SetFlagRight(true);
     }
-    if(key == Qt::Key_Alt) {
+    if (key == Qt::Key_Alt) {
       cars_[1].SetIsShooting(true);
     }
-    if(key == Qt::Key_Space) {
+    if (key == Qt::Key_Space) {
       weapon_handler_.PutMine(&cars_[1]);
     }
   }
@@ -135,7 +132,7 @@ void GameController::HandleKeyReleaseEvent(QKeyEvent* event) {
   if (key == Qt::Key_Right) {
     cars_[0].SetFlagRight(false);
   }
-  if(key == Qt::Key_Control) {
+  if (key == Qt::Key_Control) {
     cars_[0].SetIsShooting(false);
   }
   if (game_mode_->players_amount > 1) {
@@ -151,26 +148,10 @@ void GameController::HandleKeyReleaseEvent(QKeyEvent* event) {
     if (key == Qt::Key_D) {
       cars_[1].SetFlagRight(false);
     }
-    if(key == Qt::Key_Alt) {
+    if (key == Qt::Key_Alt) {
       cars_[1].SetIsShooting(false);
     }
   }
-}
-
-std::vector<QPoint> GameController::GetCarCoordinates() const {
-  std::vector<QPoint> result;
-  for (const auto& car : cars_) {
-    result.emplace_back(car.GetPosition().GetX(), car.GetPosition().GetY());
-  }
-  return result;
-}
-
-std::vector<double> GameController::GetCarAngles() const {
-  std::vector<double> result;
-  for (const auto& car : cars_) {
-    result.push_back(car.GetAngle());
-  }
-  return result;
 }
 
 const std::vector<QPoint>& GameController::GetMines() const {

@@ -5,7 +5,6 @@
 #include <algorithm>
 #include <cmath>
 #include <utility>
-#include <QKeyEvent>
 
 #include "src/helpers/vec2f.h"
 #include "wheel.h"
@@ -20,9 +19,6 @@ class Car {
   ~Car() = default;
 
   void Tick(int time_millisec);
-
-  void HandleKeyPressEvent(QKeyEvent* event);
-  void HandleKeyReleaseEvent(QKeyEvent* event);
 
   double GetHitPoints() const;
   double GetBulletsAmount() const;
