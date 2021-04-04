@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include <QPoint>
 
 #include "car.h"

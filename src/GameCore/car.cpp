@@ -54,7 +54,7 @@ void Car::ProceedInputFlags() {
 }
 
 void Car::Tick(int time_millisec) {
-  if(!is_alive_) {
+  if (!is_alive_) {
     flag_down_ = false;
     flag_up_ = false;
     flag_left_ = false;

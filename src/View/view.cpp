@@ -19,7 +19,7 @@ void View::Repaint(QPainter* painter) {
   }
   for (size_t i = 0; i < frames.size(); i++) {
     for (size_t j = 0; j < cars.size(); j++) {
-      if(cars[j].IsAlive()) {
+      if (cars[j].IsAlive()) {
         car_.load(":resources/images/cars/car_1.png");
       } else {
         car_.load(":resources/images/cars/car_1_dead.png");
@@ -48,7 +48,6 @@ void View::Repaint(QPainter* painter) {
       }
     }
   }
-
 }
 
 std::vector<QRect> View::GetFramesVector(const QPainter* painter) const {
@@ -124,7 +123,8 @@ void View::DrawShot(QPainter* painter,
                     double angle) {
   int x_coord = frame.left() / kScale + coord.GetX() - frame_center.GetX()
       + frame.width() / kScale / 2;
-  int y_coord = coord.GetY() - frame_center.GetY() + frame.height() / kScale / 2;
+  int y_coord =
+      coord.GetY() - frame_center.GetY() + frame.height() / kScale / 2;
   if (frame.contains(x_coord * kScale, y_coord * kScale)) {
     painter->save();
     painter->translate(x_coord, y_coord);

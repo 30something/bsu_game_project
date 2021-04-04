@@ -24,7 +24,7 @@ class Car {
   double GetBulletsAmount() const;
   double GetMinesAmount() const;
   double GetAngle() const;
-  std::vector<Line> GetLines() const ;
+  std::vector<Line> GetLines() const;
   const Vec2f& GetVelocity() const;
   const Vec2f& GetPosition() const;
   const Vec2f& GetAngleVec() const;
