@@ -35,8 +35,7 @@ void WeaponHandler::PutMine(Car* car) {
   if (car->GetMinesAmount() > 0) {
     mines_.emplace_back(
         car->GetAngleVec().GetX() * (-15) + car->GetPosition().GetX(),
-        car->GetAngleVec().GetY() * (-15) + car->GetPosition().GetY()
-    );
+        car->GetAngleVec().GetY() * (-15) + car->GetPosition().GetY());
     car->SetMinesAmount(car->GetMinesAmount() - 1);
   }
 }
