@@ -1,5 +1,4 @@
 #include "pause_menu.h"
-#include "pause_menu.h"
 #include "src/helpers/sizes.h"
 
 PauseMenu::PauseMenu(QWidget* parent)

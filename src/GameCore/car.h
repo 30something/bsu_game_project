@@ -47,9 +47,9 @@ class Car {
   std::vector<Vec2f> prev_angle_vec_list_;
   static constexpr int kSizeOfPreviousPos = 4;
   double steering_angle_ = 0;
-  static constexpr double kAccelFactor = 2.0;
-  static constexpr double kMaxSpeedForward = 300;
-  static constexpr double kMaxSpeedBackward = 100;
+  static constexpr double kAccelFactor = 1.1;
+  static constexpr double kMaxSpeedForward = 150;
+  static constexpr double kMaxSpeedBackward = 50;
   static constexpr double kHalfFrontTrack_ = 5.5;
   static constexpr double kMaxSteeringLock = 0.7;
   static constexpr double kHalfRearTrack = kHalfFrontTrack_;

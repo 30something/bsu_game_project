@@ -7,8 +7,7 @@ Drift::Drift(QWidget* parent) :  QWidget(parent),
                                   volume_(0) {
     sound_playlist_->
             addMedia(QUrl(
-            "qrc:/resources/sounds/drift1.mp3")
-    );
+            "qrc:/resources/sounds/drift5.mp3"));
     sound_player_->setPlaylist(sound_playlist_);
     sound_playlist_->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
 }

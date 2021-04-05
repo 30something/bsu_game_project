@@ -207,7 +207,8 @@ double Car::GetCoefficientForEngineSound() {
 }
 
 double Car::GetCoefficientForDriftSound() {
-    if ((flag_right_ || flag_left_) && velocity_.GetLength() > 100) {
+    double kDriftSpeed = 80;
+    if ((flag_right_ || flag_left_) && velocity_.GetLength() > kDriftSpeed) {
         return velocity_.GetLength() / kMaxSpeedForward;
     }
     return 0;

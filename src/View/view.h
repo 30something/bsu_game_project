@@ -11,7 +11,6 @@
 #include "DriftSound.h"
 
 class View {
-
  public:
   explicit View(QWidget* events_controller, GameController* model);
   ~View() = default;

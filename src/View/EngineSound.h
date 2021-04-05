@@ -16,6 +16,6 @@ class Engine : public QWidget {
  private:
     QMediaPlaylist* sound_playlist_;
     QMediaPlayer* sound_player_;
-    static constexpr int kDefaultVolume = 5;
+    static constexpr int kDefaultVolume = 10;
     int volume_;
 };
