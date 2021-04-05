@@ -1,6 +1,6 @@
 #include "map.h"
 
-Map::Map( JsonOurParser* parser) :
+Map::Map(JsonOurParser* parser) :
     parser_(parser) {
   borders_ = parser_->GetBorders();
 }
