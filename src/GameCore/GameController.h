@@ -11,6 +11,7 @@
 #include "car.h"
 #include "map.h"
 #include "weapon_handler.h"
+#include "src/helpers/json_parser.h"
 
 class GameController {
  public:
@@ -33,11 +34,11 @@ class GameController {
   static constexpr double kDeviationDecrease = 0.5;
   static constexpr double kHPDecrease = 0.005;
 
+  JsonOurParser parser;
   Map map_;
   std::vector<Car> cars_;
   GameMode* game_mode_ = nullptr;
   WeaponHandler weapon_handler_;
-
   void ProceedCollisionsWithCars();
   static void CollideCars(Car* car_1, Car* car_2);
 };

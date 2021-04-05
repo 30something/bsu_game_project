@@ -1,18 +1,19 @@
 #include "GameController.h"
 
 GameController::GameController(GameMode* game_mode) :
-    map_(Map(game_mode)),
+    parser(game_mode),
+    map_(Map(&parser)),
     game_mode_(game_mode),
     weapon_handler_(&cars_) {
-  cars_.emplace_back(car1_start_pos_.x(),
-                     car1_start_pos_.y(),
-                     car1_start_angle_);
-  if (game_mode_->players_amount > 1) {
-    for (size_t i = 1; i < game_mode_->players_amount; i++) {
-      cars_.emplace_back(car2_start_pos_.x(),
-                         car2_start_pos_.y(),
-                         car2_start_angle_);
-    }
+  std::vector<std::pair<QPoint, double>>
+      pos_and_angles = parser.GetCarStartPositionsAndAngles();
+  for (size_t i = 0; i < game_mode_->players_amount + game_mode_->bots_amount;
+       i++) {
+    cars_.emplace_back(
+        pos_and_angles[i].first.x(),
+        pos_and_angles[i].first.y(),
+        pos_and_angles[i].second
+    );
   }
 }
 
