@@ -18,7 +18,7 @@ class EventsController : public QWidget {
   ~EventsController() override = default;
 
   void paintEvent(QPaintEvent*) override;
-  void resizeEvent(QResizeEvent*) override;
+  // void resizeEvent(QResizeEvent*) override;
   void keyPressEvent(QKeyEvent*) override;
   void keyReleaseEvent(QKeyEvent*) override;
 
@@ -26,7 +26,7 @@ class EventsController : public QWidget {
 
   void PhysicsTimerEvent();
   void ViewTimerEvent();
-  void ViewLabelsUpdateEvent();
+  // void ViewLabelsUpdateEvent();
 
   void FinishCheck();
 

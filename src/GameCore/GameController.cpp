@@ -214,3 +214,7 @@ double GameController::GetVelocity(int index) const {
 int GameController::GetWonCar() const {
   return number_of_won_car_ + 1;
 }
+
+const std::vector<Car>& GameController::GetCars() const {
+  return cars_;
+}

@@ -24,6 +24,7 @@ class GameController {
   std::vector<QPoint> GetCarCoordinates() const;
   std::vector<double> GetCarAngles() const;
   int GetLapsCounter(int index) const;
+  const std::vector<Car>& GetCars() const;
   double GetVelocity(int index) const;
   int GetWonCar() const;
 

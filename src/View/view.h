@@ -18,11 +18,11 @@ class View {
   ~View() = default;
 
   void Repaint(QPainter* painter);
-  void Resize(int width, int height);
+  // void Resize(int width, int height);
 
   void UpdateStartLabel(const std::string& new_text);
-  void UpdateLapsLabels();
-  void UpdateVelocityLabels();
+  // void UpdateLapsLabels();
+  // void UpdateVelocityLabels();
 
  private:
   void DrawMap(QPainter* painter,
@@ -33,6 +33,9 @@ class View {
                const QPoint& center,
                const QPoint& frame_center,
                double angle);
+  void DrawUI(QPainter* painter,
+              const QRect& frame,
+              const Car& car);
 
   std::vector<QRect> GetFramesVector(const QPainter* painter) const;
 
