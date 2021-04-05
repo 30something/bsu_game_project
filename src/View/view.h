@@ -4,7 +4,7 @@
 #include <vector>
 
 #include <QPainter>
-#include <QImage>
+#include <QPixmap>
 
 #include "src/GameCore/GameController.h"
 #include "src/helpers/sizes.h"
@@ -18,12 +18,14 @@ class View {
 
  private:
   GameController* model_ = nullptr;
-  QImage map_;
-  QImage car_;
-  QImage mine_;
-  QImage shot_;
+  QPixmap map_;
+  QPixmap car_;
+  QPixmap mine_;
+  QPixmap shot_;
   int players_amount_ = 0;
+
   const double kScale = 2;
+
   void DrawMap(QPainter* painter,
                const QRect& frame,
                const Vec2f& pos);
@@ -32,7 +34,7 @@ class View {
                const Vec2f& center,
                const Vec2f& frame_center,
                double angle,
-               const QImage& car);
+               const QPixmap& car);
   void DrawMine(QPainter* painter,
                 const QRect& frame,
                 const Vec2f& frame_center,

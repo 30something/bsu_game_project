@@ -11,15 +11,13 @@ void WeaponHandler::ShotBullet(Car* car) {
         continue;
       }
       car->SetBulletsAmount(car->GetBulletsAmount() - 1);
-      Line shoot_trajectory;
-      shoot_trajectory.x1 = car->GetPosition().GetX();
-      shoot_trajectory.y1 = car->GetPosition().GetY();
-      shoot_trajectory.x2 =
+      Line shoot_trajectory(
+          car->GetPosition().GetX(),
+          car->GetPosition().GetY(),
           car->GetAngleVec().GetX() * kShootingRange
-              + car->GetPosition().GetX();
-      shoot_trajectory.y2 =
+              + car->GetPosition().GetX(),
           car->GetAngleVec().GetY() * kShootingRange
-              + car->GetPosition().GetY();
+              + car->GetPosition().GetY());
       std::vector<Line> car_lines = second_car.GetLines();
       for (const auto& line : car_lines) {
         if (Line::IsIntersects(shoot_trajectory, line)) {
@@ -34,8 +32,8 @@ void WeaponHandler::ShotBullet(Car* car) {
 void WeaponHandler::PutMine(Car* car) {
   if (car->GetMinesAmount() > 0) {
     mines_.emplace_back(
-        car->GetAngleVec().GetX() * (-15) + car->GetPosition().GetX(),
-        car->GetAngleVec().GetY() * (-15) + car->GetPosition().GetY());
+        car->GetAngleVec().GetX() * (kPutMineOffset) + car->GetPosition().GetX(),
+        car->GetAngleVec().GetY() * (kPutMineOffset) + car->GetPosition().GetY());
     car->SetMinesAmount(car->GetMinesAmount() - 1);
   }
 }

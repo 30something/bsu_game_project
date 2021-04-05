@@ -73,7 +73,7 @@ std::vector<QRect> View::GetFramesVector(const QPainter* painter) const {
 void View::DrawMap(QPainter* painter,
                    const QRect& frame,
                    const Vec2f& pos) {
-  painter->drawImage(frame.left() / kScale,
+  painter->drawPixmap(frame.left() / kScale,
                      0,
                      map_,
                      pos.GetX() - frame.width() / 2 / kScale,
@@ -87,16 +87,16 @@ void View::DrawCar(QPainter* painter,
                    const Vec2f& center,
                    const Vec2f& frame_center,
                    double angle,
-                   const QImage& car) {
-  int x_coord = frame.left() / kScale + frame_center.GetX() - center.GetX()
+                   const QPixmap& car) {
+  int x = frame.left() / kScale + frame_center.GetX() - center.GetX()
       + frame.width() / kScale / 2;
-  int y_coord = frame_center.GetY() - center.GetY()
+  int y = frame_center.GetY() - center.GetY()
       + frame.height() / kScale / 2;
-  if (frame.contains(x_coord * kScale, y_coord * kScale)) {
+  if (frame.contains(x * kScale, y * kScale)) {
     painter->save();
-    painter->translate(x_coord, y_coord);
+    painter->translate(x, y);
     painter->rotate(angle);
-    painter->drawImage(-5, -10, car);
+    painter->drawPixmap(-5, -10, car);
     painter->restore();
   }
 }
@@ -105,13 +105,13 @@ void View::DrawMine(QPainter* painter,
                     const QRect& frame,
                     const Vec2f& frame_center,
                     const QPoint& mine) {
-  int x_coord = frame.left() / kScale + mine.x() - frame_center.GetX()
+  int x = frame.left() / kScale + mine.x() - frame_center.GetX()
       + frame.width() / kScale / 2;
-  int y_coord = mine.y() - frame_center.GetY() + frame.height() / kScale / 2;
-  if (frame.contains(x_coord * kScale, y_coord * kScale)) {
+  int y = mine.y() - frame_center.GetY() + frame.height() / kScale / 2;
+  if (frame.contains(x * kScale, y * kScale)) {
     painter->save();
-    painter->translate(x_coord, y_coord);
-    painter->drawImage(-2, -2, mine_);
+    painter->translate(x, y);
+    painter->drawPixmap(-2, -2, mine_);
     painter->restore();
   }
 }
@@ -121,15 +121,15 @@ void View::DrawShot(QPainter* painter,
                     const Vec2f& frame_center,
                     const Vec2f& coord,
                     double angle) {
-  int x_coord = frame.left() / kScale + coord.GetX() - frame_center.GetX()
+  int x = frame.left() / kScale + coord.GetX() - frame_center.GetX()
       + frame.width() / kScale / 2;
-  int y_coord =
+  int y =
       coord.GetY() - frame_center.GetY() + frame.height() / kScale / 2;
-  if (frame.contains(x_coord * kScale, y_coord * kScale)) {
+  if (frame.contains(x * kScale, y * kScale)) {
     painter->save();
-    painter->translate(x_coord, y_coord);
+    painter->translate(x, y);
     painter->rotate(angle);
-    painter->drawImage(-2, -20, shot_);
+    painter->drawPixmap(-2, -20, shot_);
     painter->restore();
   }
 }
