@@ -27,7 +27,8 @@ std::vector<std::vector<QPoint>> JsonOurParser::GetBorders() {
   return result;
 }
 
-std::vector<std::pair<QPoint, double>> JsonOurParser::GetCarStartPositionsAndAngles() {
+std::vector<std::pair<QPoint,
+                      double>> JsonOurParser::GetCarStartPositionsAndAngles() {
   std::vector<std::pair<QPoint, double>> result;
   QJsonDocument doc = QJsonDocument::fromJson(json_string_.toUtf8());
   QJsonObject json = doc.object();
@@ -50,6 +51,5 @@ Line JsonOurParser::GetFinishLine() {
       finish_line["x1"].toInt(),
       finish_line["y1"].toInt(),
       finish_line["x2"].toInt(),
-      finish_line["y2"].toInt()
-      );
+      finish_line["y2"].toInt());
 }

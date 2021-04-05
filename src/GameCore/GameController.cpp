@@ -12,8 +12,7 @@ GameController::GameController(GameMode* game_mode) :
     cars_.emplace_back(
         pos_and_angles[i].first.x(),
         pos_and_angles[i].first.y(),
-        pos_and_angles[i].second
-    );
+        pos_and_angles[i].second);
   }
 }
 
