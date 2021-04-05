@@ -32,8 +32,10 @@ void WeaponHandler::ShotBullet(Car* car) {
 void WeaponHandler::PutMine(Car* car) {
   if (car->GetMinesAmount() > 0) {
     mines_.emplace_back(
-        car->GetAngleVec().GetX() * (kPutMineOffset) + car->GetPosition().GetX(),
-        car->GetAngleVec().GetY() * (kPutMineOffset) + car->GetPosition().GetY());
+        car->GetAngleVec().GetX() * (kPutMineOffset)
+            + car->GetPosition().GetX(),
+        car->GetAngleVec().GetY() * (kPutMineOffset)
+            + car->GetPosition().GetY());
     car->SetMinesAmount(car->GetMinesAmount() - 1);
   }
 }
