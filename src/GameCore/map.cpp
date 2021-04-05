@@ -1,8 +1,13 @@
 #include "map.h"
 
+Map::Map(GameMode* game_mode) :
+    map_index_(game_mode->map_index) {
+  ParseMapBorders();
+}
+
 void Map::ParseMapBorders() {
   QTextStream out(stdout);
-  QFile file(":resources/images/map_data/map_1.txt");
+  QFile file(map_data::borders_filepaths[map_index_]);
   if (!file.open(QIODevice::ReadOnly)) {
     qWarning("Cannot open file for reading");
   }
@@ -57,15 +62,28 @@ void Map::ProceedCollisions(Car* car) {
       for (size_t j = 0; j < border.size(); j++) {
         Line l2;
         size_t border_i = (j == (border.size()) - 1 ? 0 : j + 1);
-          l2.x1 = border[j].first;
-          l2.y1 = border[j].second;
-          l2.x2 = border[border_i].first;
-          l2.y2 = border[border_i].second;
+        l2.x1 = border[j].first;
+        l2.y1 = border[j].second;
+        l2.x2 = border[border_i].first;
+        l2.y2 = border[border_i].second;
         if (Line::IsIntersects(lines[i], l2)) {
-          car->SetIsCollidingWithBorders(true);
+          Vec2f point = Line::FindIntersectionPoint(lines[i], l2);
+          CollideCar(car, point);
           return;
         }
       }
     }
   }
+}
+
+void Map::CollideCar(Car* car, const Vec2f& point) {
+  Vec2f position = car->GetPosition();
+  Vec2f deviation
+      (position.GetX() - point.GetX(), position.GetY() - point.GetY());
+  deviation.Normalize();
+  Vec2f velocity = car->GetVelocity()
+      + deviation * physics::kCollisionDeviationScalar;
+  velocity *= kVelocityDecrease;
+  car->SetVelocity(velocity);
+  car->SetPosition(position + deviation);
 }

@@ -19,4 +19,5 @@ struct Line {
   double x2 = 0;
   double y2 = 0;
   static bool IsIntersects(Line l1, Line l2);
+  static Vec2f FindIntersectionPoint(Line l1, Line l2);
 };

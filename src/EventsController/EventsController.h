@@ -13,12 +13,13 @@ class EventsController : public QWidget {
   Q_OBJECT
 
  public:
-  explicit EventsController(QWidget* parent = nullptr);
+  explicit EventsController(QWidget* parent, GameMode* game_mode);
   ~EventsController() override = default;
 
   void paintEvent(QPaintEvent*) override;
   void keyPressEvent(QKeyEvent*) override;
   void keyReleaseEvent(QKeyEvent*) override;
+
   void SetUnsetPause();
 
   void PhysicsTimerEvent();
@@ -32,7 +33,6 @@ class EventsController : public QWidget {
   enum class Actions {
     kOpenOrCloseMenu = Qt::Key_Escape,
   };
-
   enum class GameStatus {
     kPaused,
     kRunning,

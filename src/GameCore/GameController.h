@@ -13,7 +13,7 @@
 
 class GameController {
  public:
-  GameController();
+  explicit GameController(GameMode* game_mode);
   ~GameController() = default;
 
   void Tick(int time_millis);
@@ -23,8 +23,7 @@ class GameController {
 
   double GetCoefficientForEngineSound();
   double GetCoefficientForDriftSound();
-
-  std::vector<std::pair<int, int>> GetCarCoordinates() const;
+  std::vector<QPoint> GetCarCoordinates() const;
   std::vector<double> GetCarAngles() const;
 
  private:
@@ -32,7 +31,13 @@ class GameController {
   const double car1_start_angle_ = -M_PI / 2;
   const QPoint car2_start_pos_ = {380, 590};
   const double car2_start_angle_ = -M_PI / 2;
+  static constexpr double kVelocityDecrease = 0.5;
+  static constexpr double kDeviationDecrease = 0.5;
+
   Map map_;
   std::vector<Car> cars_;
-  void ProceedColisionsWithCars();
+  GameMode* game_mode_ = nullptr;
+
+  void ProceedCollisionsWithCars();
+  static void CollideCars(Car* car_1, Car* car_2);
 };

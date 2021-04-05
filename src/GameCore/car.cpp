@@ -3,15 +3,7 @@
 Car::Car(int x,
          int y,
          double angle) :
-    position_(x, y),
-    prev_position_list_(kSizeOfPreviousPos),
-    prev_angle_vec_list_(kSizeOfPreviousPos) {
-  for (auto& i : prev_position_list_) {
-    i = position_;
-  }
-  for (auto& i : prev_angle_vec_list_) {
-    i = angle_vec_;
-  }
+    position_(x, y) {
   velocity_.Set(physics::kAlmostZero, physics::kAlmostZero);
   angle_vec_.Set(1.0, 0.0);
   angle_vec_.Rotate(angle);
@@ -42,8 +34,21 @@ void Car::ProceedInputFlags() {
     velocity_ -= angle_vec_ * kAccelFactor;
     if (velocity_.GetLength() > kMaxSpeedBackward &&
         std::abs(velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees())
-            < 90) {
+            > 90) {
       velocity_.SetLen(kMaxSpeedBackward);
+    }
+  }
+  if (!flag_up_ && !flag_down_) {
+    Vec2f coef = angle_vec_ * kFrictionFactor;
+    if (velocity_.GetLength() < (coef).GetLength()) {
+      velocity_.SetLen(physics::kAlmostZero);
+    } else {
+      if (std::abs(velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees())
+          > 90) {
+        velocity_ += coef;
+      } else {
+        velocity_ -= coef;
+      }
     }
   }
 }
@@ -76,21 +81,15 @@ void Car::AdvanceStep(int time_millisec) {
   double angular_accel = 0.0;
 
   CalcAccelerations(&accel, &angular_accel);
-  ProceedCollisions();
   accel *= 1.0 / kMass;
   angular_accel /= MomentInertia;
   velocity_ += accel * time_sec;
   angular_velocity_ += angular_accel * time_sec;
-
-  // calculate vector of previous positions for collisions
-  for (size_t i = 0; i < kSizeOfPreviousPos - 1; i++) {
-    prev_position_list_[i] = prev_position_list_[i + 1];
-    prev_angle_vec_list_[i] = prev_angle_vec_list_[i + 1];
-  }
-  prev_position_list_[kSizeOfPreviousPos - 1] = position_;
-  prev_angle_vec_list_[kSizeOfPreviousPos - 1] = angle_vec_;
-  if (velocity_.GetLength() > 0.01) {
+  if (velocity_.GetLength() > kMinVelocityThreshold) {
     position_ += velocity_ * time_sec;
+  }
+
+  if (std::abs(angular_velocity_) > kMinAngularVelocityThreshold) {
     angle_vec_.Rotate(angular_velocity_ * time_sec);
     angle_vec_.Normalize();
   }
@@ -123,22 +122,6 @@ void Car::CalcLateralForces() {
   wheels_[3].CalcLateralForce(kMaxSlipAngleRadians,
                               kMass,
                               kRearCoefFriction);
-}
-
-void Car::ProceedCollisions() {
-  if (is_colliding_with_car_) {
-    position_ = prev_position_list_[0];
-    angle_vec_ = prev_angle_vec_list_[0];
-    velocity_.Rotate(M_PI);
-    velocity_.SetLen(velocity_.GetLength() / 10);
-    is_colliding_with_car_ = false;
-  }
-  if (is_colliding_with_borders_) {
-    position_ = prev_position_list_[0];
-    angle_vec_ = prev_angle_vec_list_[0];
-    velocity_.SetLen(physics::kAlmostZero);
-    is_colliding_with_borders_ = false;
-  }
 }
 
 std::vector<Line> Car::GetLines() {
@@ -194,15 +177,26 @@ double Car::GetAngle() const {
   return angle_vec_.GetAngleDegrees() + 90;
 }
 
-void Car::SetCollidingWithCar(bool is_colliding_with_car) {
-  is_colliding_with_car_ = is_colliding_with_car;
+const Vec2f& Car::GetPosition() const {
+  return position_;
 }
 
-void Car::SetIsCollidingWithBorders(bool is_colliding_with_borders) {
-  is_colliding_with_borders_ = is_colliding_with_borders;
+const Vec2f& Car::GetVelocity() const {
+  return velocity_;
+}
+
+void Car::SetVelocity(const Vec2f& velocity) {
+  velocity_ = velocity;
+}
+
+void Car::SetPosition(const Vec2f& position) {
+  position_ = position;
 }
 
 double Car::GetCoefficientForEngineSound() {
+//    if (!flag_up_ && !flag_down_) {
+//
+//    }
     return velocity_.GetLength() / kMaxSpeedForward;
 }
 

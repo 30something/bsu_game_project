@@ -24,32 +24,34 @@ class Car {
   int GetY() const;
   double GetAngle() const;
   std::vector<Line> GetLines();
+  const Vec2f& GetVelocity() const;
+  const Vec2f& GetPosition() const;
   double GetCoefficientForEngineSound();
   double GetCoefficientForDriftSound();
+
+
+  void SetVelocity(const Vec2f& velocity);
+  void SetPosition(const Vec2f& position);
 
   void SetFlagUp(bool flag_up);
   void SetFlagDown(bool flag_down);
   void SetFlagLeft(bool flag_left);
   void SetFlagRight(bool flag_right);
 
-  void SetIsCollidingWithBorders(bool is_colliding_with_borders);
-  void SetCollidingWithCar(bool is_colliding_with_car);
-
  private:
   std::vector<Wheel> wheels_{4};
   Vec2f position_;
   Vec2f angle_vec_;
   Vec2f velocity_;
+
   double angular_velocity_ = 0;
-
-  std::vector<Vec2f> prev_position_list_;
-
-  std::vector<Vec2f> prev_angle_vec_list_;
-  static constexpr int kSizeOfPreviousPos = 4;
   double steering_angle_ = 0;
-  static constexpr double kAccelFactor = 1.1;
-  static constexpr double kMaxSpeedForward = 150;
-  static constexpr double kMaxSpeedBackward = 50;
+
+  static constexpr double kAccelFactor = 2;
+  static constexpr double kFrictionFactor = 0.5;
+  static constexpr double kMaxSpeedForward = 200;
+  static constexpr double kMaxSpeedBackward = 100;
+
   static constexpr double kHalfFrontTrack_ = 5.5;
   static constexpr double kMaxSteeringLock = 0.7;
   static constexpr double kHalfRearTrack = kHalfFrontTrack_;
@@ -57,20 +59,18 @@ class Car {
   static constexpr double kLength = 18.0;
   static constexpr double kMass = 1000.0;
   static constexpr double MomentInertia = (kMass * kLength * kLength) / 1.0;
-
   static constexpr double FrontCoefFriction = 100;
-
   static constexpr double kRearCoefFriction = 80;
   static constexpr double kMaxSlipAngleRadians = 0.07;
+  static constexpr double kMinVelocityThreshold = 5;
+  static constexpr double kMinAngularVelocityThreshold = 0.1;
+
   bool flag_up_ = false;
   bool flag_down_ = false;
   bool flag_left_ = false;
   bool flag_right_ = false;
-  bool is_colliding_with_car_ = false;
-  bool is_colliding_with_borders_ = false;
 
  private:
-  void ProceedCollisions();
   void UpdateWheelsPosAndOrientation();
   void AdvanceStep(int time_millisec);
   void CalcAccelerations(Vec2f* accel, double* angular_accel);

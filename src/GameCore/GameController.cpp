@@ -1,46 +1,68 @@
-#include <iostream>
-
 #include "GameController.h"
 
-GameController::GameController() :
-    map_(Map()) {
+GameController::GameController(GameMode* game_mode) :
+    map_(Map(game_mode)),
+    game_mode_(game_mode) {
   cars_.emplace_back(car1_start_pos_.x(),
                      car1_start_pos_.y(),
                      car1_start_angle_);
-  cars_.emplace_back(car2_start_pos_.x(),
-                     car2_start_pos_.y(),
-                     car2_start_angle_);
-  map_.ParseMapBorders();
+  if (game_mode_->players_amount > 1) {
+    for (size_t i = 1; i < game_mode_->players_amount; i++) {
+      cars_.emplace_back(car2_start_pos_.x(),
+                         car2_start_pos_.y(),
+                         car2_start_angle_);
+    }
+  }
 }
 
 void GameController::Tick(int time_millis) {
-  ProceedColisionsWithCars();
+  ProceedCollisionsWithCars();
   for (auto& car : cars_) {
     map_.ProceedCollisions(&car);
     car.Tick(time_millis);
   }
 }
 
-void GameController::ProceedColisionsWithCars() {
+void GameController::ProceedCollisionsWithCars() {
   for (size_t i = 0; i < cars_.size(); i++) {
-    for (size_t j = 0; j < cars_.size() / 2; j++) {
+    for (size_t j = 0; j < cars_.size(); j++) {
       if (i == j) {
         continue;
       }
       auto lines1 = cars_[i].GetLines();
       auto lines2 = cars_[j].GetLines();
-      bool intersects = false;
       for (const auto& line1 : lines1) {
         for (const auto& line2 : lines2) {
           if (Line::IsIntersects(line1, line2)) {
-            intersects = true;
+            CollideCars(&cars_[i], &cars_[j]);
+            return;
           }
         }
       }
-      cars_[i].SetCollidingWithCar(intersects);
-      cars_[j].SetCollidingWithCar(intersects);
     }
   }
+}
+
+void GameController::CollideCars(Car* car_1, Car* car_2) {
+  Vec2f pos_1 = car_1->GetPosition();
+  Vec2f pos_2 = car_2->GetPosition();
+  Vec2f deviation
+      (pos_1.GetX() - pos_2.GetX(), pos_1.GetY() - pos_2.GetY());
+  deviation.Normalize();
+  Vec2f vel_1 =
+      car_1->GetVelocity() + deviation * physics::kCollisionDeviationScalar;
+  Vec2f vel_2 =
+      car_2->GetVelocity() - deviation * physics::kCollisionDeviationScalar;
+  vel_1 *= kVelocityDecrease;
+  vel_2 *= kVelocityDecrease;
+
+  car_1->SetVelocity(vel_1);
+  car_2->SetVelocity(vel_2);
+
+  deviation *= kDeviationDecrease;
+
+  car_1->SetPosition(pos_1 + deviation);
+  car_2->SetPosition(pos_2 - deviation);
 }
 
 void GameController::HandleKeyPressEvent(QKeyEvent* event) {
@@ -57,17 +79,19 @@ void GameController::HandleKeyPressEvent(QKeyEvent* event) {
   if (key == Qt::Key_Right) {
     cars_[0].SetFlagRight(true);
   }
-  if (key == Qt::Key_W) {
-    cars_[1].SetFlagUp(true);
-  }
-  if (key == Qt::Key_S) {
-    cars_[1].SetFlagDown(true);
-  }
-  if (key == Qt::Key_A) {
-    cars_[1].SetFlagLeft(true);
-  }
-  if (key == Qt::Key_D) {
-    cars_[1].SetFlagRight(true);
+  if (game_mode_->players_amount > 1) {
+    if (key == Qt::Key_W) {
+      cars_[1].SetFlagUp(true);
+    }
+    if (key == Qt::Key_S) {
+      cars_[1].SetFlagDown(true);
+    }
+    if (key == Qt::Key_A) {
+      cars_[1].SetFlagLeft(true);
+    }
+    if (key == Qt::Key_D) {
+      cars_[1].SetFlagRight(true);
+    }
   }
 }
 
@@ -85,22 +109,24 @@ void GameController::HandleKeyReleaseEvent(QKeyEvent* event) {
   if (key == Qt::Key_Right) {
     cars_[0].SetFlagRight(false);
   }
-  if (key == Qt::Key_W) {
-    cars_[1].SetFlagUp(false);
-  }
-  if (key == Qt::Key_S) {
-    cars_[1].SetFlagDown(false);
-  }
-  if (key == Qt::Key_A) {
-    cars_[1].SetFlagLeft(false);
-  }
-  if (key == Qt::Key_D) {
-    cars_[1].SetFlagRight(false);
+  if (game_mode_->players_amount > 1) {
+    if (key == Qt::Key_W) {
+      cars_[1].SetFlagUp(false);
+    }
+    if (key == Qt::Key_S) {
+      cars_[1].SetFlagDown(false);
+    }
+    if (key == Qt::Key_A) {
+      cars_[1].SetFlagLeft(false);
+    }
+    if (key == Qt::Key_D) {
+      cars_[1].SetFlagRight(false);
+    }
   }
 }
 
-std::vector<std::pair<int, int>> GameController::GetCarCoordinates() const {
-  std::vector<std::pair<int, int>> result;
+std::vector<QPoint> GameController::GetCarCoordinates() const {
+  std::vector<QPoint> result;
   for (const auto& car : cars_) {
     result.emplace_back(car.GetX(), car.GetY());
   }
