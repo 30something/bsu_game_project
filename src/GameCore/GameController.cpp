@@ -7,8 +7,8 @@ GameController::GameController(GameMode* game_mode) :
     weapon_handler_(&cars_) {
   std::vector<std::pair<QPoint, double>>
       pos_and_angles = parser.GetCarStartPositionsAndAngles();
-  for (size_t i = 0; i < game_mode_->players_amount + game_mode_->bots_amount;
-       i++) {
+  size_t cars_amount = game_mode_->players_amount + game_mode_->bots_amount;
+  for (size_t i = 0; i < cars_amount; i++) {
     cars_.emplace_back(
         pos_and_angles[i].first.x(),
         pos_and_angles[i].first.y(),

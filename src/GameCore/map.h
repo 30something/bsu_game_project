@@ -15,11 +15,11 @@
 
 class Map {
  public:
-  explicit Map(JsonOurParser* parser);
+  explicit Map(JsonParser* parser);
   void ProceedCollisions(Car* car);
 
  private:
-  JsonOurParser* parser_;
+  JsonParser* parser_;
   std::vector<std::vector<QPoint>> borders_;
 
   static constexpr double kVelocityDecrease = 0.75;

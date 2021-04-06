@@ -1,18 +1,18 @@
 #include "json_parser.h"
 
-JsonOurParser::JsonOurParser(GameMode* game_mode) {
+JsonParser::JsonParser(GameMode* game_mode) {
   QFile file;
   file.setFileName(map_data::json_filepaths[game_mode->map_index]);
   file.open(QIODevice::ReadOnly | QIODevice::Text);
-  json_string_ = file.readAll();
+  QString json_string = file.readAll();
   file.close();
+  QJsonDocument doc = QJsonDocument::fromJson(json_string.toUtf8());
+  json_ = doc.object();
 }
 
-std::vector<std::vector<QPoint>> JsonOurParser::GetBorders() {
+std::vector<std::vector<QPoint>> JsonParser::GetBorders() {
   std::vector<std::vector<QPoint>> result;
-  QJsonDocument doc = QJsonDocument::fromJson(json_string_.toUtf8());
-  QJsonObject json = doc.object();
-  QJsonArray borders_array = json["border_coords"].toArray();
+  QJsonArray borders_array = json_["border_coords"].toArray();
   for (const auto& border : borders_array) {
     QJsonArray coords = border.toArray();
     std::vector<QPoint> border_vector;
@@ -27,12 +27,10 @@ std::vector<std::vector<QPoint>> JsonOurParser::GetBorders() {
   return result;
 }
 
-std::vector<std::pair<QPoint,
-                      double>> JsonOurParser::GetCarStartPositionsAndAngles() {
+std::vector<std::pair<QPoint, double>>
+JsonParser::GetCarStartPositionsAndAngles() {
   std::vector<std::pair<QPoint, double>> result;
-  QJsonDocument doc = QJsonDocument::fromJson(json_string_.toUtf8());
-  QJsonObject json = doc.object();
-  QJsonArray positions_array = json["car_start_positions"].toArray();
+  QJsonArray positions_array = json_["car_start_positions"].toArray();
   for (const auto& position : positions_array) {
     QJsonObject position_obj = position.toObject();
     result.emplace_back(
@@ -43,10 +41,8 @@ std::vector<std::pair<QPoint,
   return result;
 }
 
-Line JsonOurParser::GetFinishLine() {
-  QJsonDocument doc = QJsonDocument::fromJson(json_string_.toUtf8());
-  QJsonObject json = doc.object();
-  QJsonObject finish_line = json["finish_line"].toObject();
+Line JsonParser::GetFinishLine() {
+  QJsonObject finish_line = json_["finish_line"].toObject();
   return Line(
       finish_line["x1"].toInt(),
       finish_line["y1"].toInt(),
