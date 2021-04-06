@@ -8,7 +8,7 @@
 
 class WeaponHandler {
  public:
-  explicit WeaponHandler() = default;
+  WeaponHandler() = default;
   ~WeaponHandler() = default;
   void PutMine(Car* car);
   void ProceedWeapons(std::vector<Car>* cars);
@@ -18,7 +18,6 @@ class WeaponHandler {
   std::vector<QPoint> mines_;
 
   static void ShootBullet(Car* car, std::vector<Car>* cars);
-
 
   static constexpr int kMineSplash = 100;
   static constexpr double kBulletDamage = 0.1;

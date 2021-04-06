@@ -22,7 +22,7 @@ void WeaponHandler::ShootBullet(Car* car, std::vector<Car>* cars) {
 void WeaponHandler::PutMine(Car* car) {
   bool successful_drop = false;
   QPoint position = car->DropMine(&successful_drop);
-  if(successful_drop) {
+  if (successful_drop) {
     mines_.emplace_back(position);
   }
 }

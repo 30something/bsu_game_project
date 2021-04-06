@@ -235,20 +235,20 @@ void Car::SetIsAlive(bool is_alive) {
   is_alive_ = is_alive;
 }
 
-QPoint Car::DropMine(bool * successful) {
-  if(mines_amount_ > 0) {
+QPoint Car::DropMine(bool* successful) {
+  if (mines_amount_ > 0) {
     *successful = true;
     mines_amount_--;
     return QPoint(angle_vec_.GetX() * (kPutMineOffset) + position_.GetX(),
                   angle_vec_.GetY() * (kPutMineOffset) + position_.GetY());
   } else {
     *successful = false;
-    return QPoint(0,0);
+    return QPoint(0, 0);
   }
 }
 
 Line Car::ShootBullet(bool* successful) {
-  if(bullets_amount_ > 0) {
+  if (bullets_amount_ > 0) {
     *successful = true;
     bullets_amount_--;
     return Line(
