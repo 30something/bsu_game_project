@@ -8,22 +8,19 @@
 
 class WeaponHandler {
  public:
-  explicit WeaponHandler(std::vector<Car>* cars);
+  explicit WeaponHandler() = default;
   ~WeaponHandler() = default;
   void PutMine(Car* car);
-  void ProceedWeapons();
-  const std::vector<QPoint>& GetMines() const;
+  void ProceedWeapons(std::vector<Car>* cars);
+  const std::vector<QPoint>& GetMinesCoordinates() const;
 
  private:
-  std::vector<Car>* cars_;
   std::vector<QPoint> mines_;
 
-  void ShotBullet(Car* car);
-  static bool CarIsAboveMine(const Car& car, const QPoint& mine);
-  static int Product(const QPoint&, const QPoint& p1, const QPoint& p2);
+  static void ShootBullet(Car* car, std::vector<Car>* cars);
 
-  static constexpr int kPutMineOffset = -10;
+
+  static constexpr int kMineSplash = 100;
   static constexpr double kBulletDamage = 0.1;
-  static constexpr double kShootingRange = 100;
   static constexpr double kMineDamage = 20;
 };

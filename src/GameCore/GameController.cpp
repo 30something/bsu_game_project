@@ -3,7 +3,7 @@
 GameController::GameController(GameMode* game_mode) :
     map_(Map(game_mode)),
     game_mode_(game_mode),
-    weapon_handler_(&cars_) {
+    weapon_handler_() {
   cars_.emplace_back(car1_start_pos_.x(),
                      car1_start_pos_.y(),
                      car1_start_angle_);
@@ -17,12 +17,12 @@ GameController::GameController(GameMode* game_mode) :
 }
 
 void GameController::Tick(int time_millis) {
-  weapon_handler_.ProceedWeapons();
+  weapon_handler_.ProceedWeapons(&cars_);
   ProceedCollisionsWithCars();
   for (auto& car : cars_) {
     map_.ProceedCollisions(&car);
     car.Tick(time_millis);
-    if (car.GetHitPoints() < physics::kAlmostZero) {
+    if (car.GetHitPoints() < Physics::kAlmostZero) {
       car.SetIsAlive(false);
     }
   }
@@ -36,13 +36,9 @@ void GameController::ProceedCollisionsWithCars() {
       }
       auto lines1 = cars_[i].GetLines();
       auto lines2 = cars_[j].GetLines();
-      for (const auto& line1 : lines1) {
-        for (const auto& line2 : lines2) {
-          if (Line::IsIntersects(line1, line2)) {
-            CollideCars(&cars_[i], &cars_[j]);
-            return;
-          }
-        }
+      if (Physics::IsIntersects(lines1, lines2)) {
+        CollideCars(&cars_[i], &cars_[j]);
+        return;
       }
     }
   }
@@ -53,15 +49,15 @@ void GameController::CollideCars(Car* car_1, Car* car_2) {
   Vec2f pos_2 = car_2->GetPosition();
   double relative_speed =
       (car_1->GetVelocity() - car_2->GetVelocity()).GetLength();
-  car_1->SetHitPoints(car_1->GetHitPoints() - relative_speed * kHPDecrease);
-  car_2->SetHitPoints(car_2->GetHitPoints() - relative_speed * kHPDecrease);
+  car_1->AddHitPoints(-relative_speed * kHPDecrease);
+  car_2->AddHitPoints(-relative_speed * kHPDecrease);
   Vec2f deviation
       (pos_1.GetX() - pos_2.GetX(), pos_1.GetY() - pos_2.GetY());
   deviation.Normalize();
   Vec2f vel_1 =
-      car_1->GetVelocity() + deviation * physics::kCollisionDeviationScalar;
+      car_1->GetVelocity() + deviation * Physics::kCollisionDeviationScalar;
   Vec2f vel_2 =
-      car_2->GetVelocity() - deviation * physics::kCollisionDeviationScalar;
+      car_2->GetVelocity() - deviation * Physics::kCollisionDeviationScalar;
   vel_1 *= kVelocityDecrease;
   vel_2 *= kVelocityDecrease;
 
@@ -154,8 +150,8 @@ void GameController::HandleKeyReleaseEvent(QKeyEvent* event) {
   }
 }
 
-const std::vector<QPoint>& GameController::GetMines() const {
-  return weapon_handler_.GetMines();
+const std::vector<QPoint>& GameController::GetMinesCoordinates() const {
+  return weapon_handler_.GetMinesCoordinates();
 }
 
 const std::vector<Car>& GameController::GetCars() const {

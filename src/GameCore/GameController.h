@@ -22,7 +22,7 @@ class GameController {
   void HandleKeyPressEvent(QKeyEvent* event);
   void HandleKeyReleaseEvent(QKeyEvent* event);
   const std::vector<Car>& GetCars() const;
-  const std::vector<QPoint>& GetMines() const;
+  const std::vector<QPoint>& GetMinesCoordinates() const;
 
  private:
   const QPoint car1_start_pos_ = {360, 548};
