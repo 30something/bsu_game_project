@@ -1,8 +1,9 @@
 #include "map.h"
 
-Map::Map(JsonParser* parser) :
-    parser_(parser) {
-  borders_ = parser_->GetBorders();
+#include <utility>
+
+Map::Map(std::vector<std::vector<QPoint>> borders) {
+  borders_ = std::move(borders);
 }
 
 void Map::ProceedCollisions(Car* car) {
@@ -40,4 +41,8 @@ void Map::CollideCar(Car* car, const Vec2f& point) {
   velocity *= kVelocityDecrease;
   car->SetVelocity(velocity);
   car->SetPosition(position + deviation);
+}
+
+void Map::SetBorders(const std::vector<std::vector<QPoint>>& borders) {
+  borders_ = borders;
 }

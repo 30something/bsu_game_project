@@ -11,7 +11,7 @@
 #include "car.h"
 #include "map.h"
 #include "weapon_handler.h"
-#include "src/helpers/json_parser.h"
+#include "src/helpers/json_map_parser.h"
 
 class GameController {
  public:
@@ -26,7 +26,6 @@ class GameController {
   const std::vector<QPoint>& GetMines() const;
 
  private:
-  JsonParser parser;
   Map map_;
   std::vector<Car> cars_;
   GameMode* game_mode_ = nullptr;

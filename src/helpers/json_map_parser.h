@@ -14,9 +14,9 @@
 #include "line.h"
 #include "map_data.h"
 
-class JsonParser {
+class JsonMapParser {
  public:
-  explicit JsonParser(GameMode* game_mode);
+  explicit JsonMapParser(const QString& filepath);
   std::vector<std::vector<QPoint>> GetBorders();
   std::vector<std::pair<QPoint, double>> GetCarStartPositionsAndAngles();
   Line GetFinishLine();

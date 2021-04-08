@@ -1,10 +1,10 @@
 #include "GameController.h"
 
 GameController::GameController(GameMode* game_mode) :
-    parser(game_mode),
-    map_(Map(&parser)),
     game_mode_(game_mode),
     weapon_handler_(&cars_) {
+  JsonMapParser parser(map_data::json_filepaths[game_mode->map_index]);
+  map_ = Map(parser.GetBorders());
   std::vector<std::pair<QPoint, double>>
       pos_and_angles = parser.GetCarStartPositionsAndAngles();
   size_t cars_amount = game_mode_->players_amount + game_mode_->bots_amount;

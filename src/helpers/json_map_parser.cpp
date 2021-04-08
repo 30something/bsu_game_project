@@ -1,8 +1,8 @@
-#include "json_parser.h"
+#include "json_map_parser.h"
 
-JsonParser::JsonParser(GameMode* game_mode) {
+JsonMapParser::JsonMapParser(const QString& filepath) {
   QFile file;
-  file.setFileName(map_data::json_filepaths[game_mode->map_index]);
+  file.setFileName(filepath);
   file.open(QIODevice::ReadOnly | QIODevice::Text);
   QString json_string = file.readAll();
   file.close();
@@ -10,7 +10,7 @@ JsonParser::JsonParser(GameMode* game_mode) {
   json_ = doc.object();
 }
 
-std::vector<std::vector<QPoint>> JsonParser::GetBorders() {
+std::vector<std::vector<QPoint>> JsonMapParser::GetBorders() {
   std::vector<std::vector<QPoint>> result;
   QJsonArray borders_array = json_["border_coords"].toArray();
   for (const auto& border : borders_array) {
@@ -28,7 +28,7 @@ std::vector<std::vector<QPoint>> JsonParser::GetBorders() {
 }
 
 std::vector<std::pair<QPoint, double>>
-JsonParser::GetCarStartPositionsAndAngles() {
+JsonMapParser::GetCarStartPositionsAndAngles() {
   std::vector<std::pair<QPoint, double>> result;
   QJsonArray positions_array = json_["car_start_positions"].toArray();
   for (const auto& position : positions_array) {
@@ -41,7 +41,7 @@ JsonParser::GetCarStartPositionsAndAngles() {
   return result;
 }
 
-Line JsonParser::GetFinishLine() {
+Line JsonMapParser::GetFinishLine() {
   QJsonObject finish_line = json_["finish_line"].toObject();
   return Line(
       finish_line["x1"].toInt(),

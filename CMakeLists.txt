@@ -40,7 +40,7 @@ set(SOURCES main.cpp
         src/Menu/game_mode_selector.cpp
         src/Menu/map_selector_tile.cpp
         src/GameCore/weapon_handler.cpp
-        src/helpers/json_parser.cpp
+        src/helpers/json_map_parser.cpp
         )
 
 set(RESOURCES

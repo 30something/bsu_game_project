@@ -11,15 +11,15 @@
 #include "car.h"
 #include "src/helpers/map_data.h"
 #include "src/helpers/game_mode.h"
-#include "src/helpers/json_parser.h"
+#include "src/helpers/json_map_parser.h"
 
 class Map {
  public:
-  explicit Map(JsonParser* parser);
+  Map() = default;
+  explicit Map(std::vector<std::vector<QPoint>> borders);
   void ProceedCollisions(Car* car);
-
+  void SetBorders(const std::vector<std::vector<QPoint>>& borders);
  private:
-  JsonParser* parser_;
   std::vector<std::vector<QPoint>> borders_;
 
   static constexpr double kVelocityDecrease = 0.75;
