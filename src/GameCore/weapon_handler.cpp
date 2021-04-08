@@ -5,12 +5,11 @@ void WeaponHandler::ShootBullet(Car* car, std::vector<Car>* cars) {
     if (&second_car == car) {
       continue;
     }
-    bool successful_shot = false;
-    Line shoot_trajectory = car->ShootBullet(&successful_shot);
-    if (successful_shot) {
+    std::optional<Line> shoot_trajectory = car->ShootBullet();
+    if (shoot_trajectory) {
       std::vector<Line> car_lines = second_car.GetLines();
       for (const auto& line : car_lines) {
-        if (Physics::IsIntersects(shoot_trajectory, line)) {
+        if (Physics::IsIntersects(*shoot_trajectory, line)) {
           second_car.AddHitPoints(-kBulletDamage);
           break;
         }
@@ -20,10 +19,9 @@ void WeaponHandler::ShootBullet(Car* car, std::vector<Car>* cars) {
 }
 
 void WeaponHandler::PutMine(Car* car) {
-  bool successful_drop = false;
-  QPoint position = car->DropMine(&successful_drop);
-  if (successful_drop) {
-    mines_.emplace_back(position);
+  std::optional<QPoint> position = car->DropMine();
+  if (position) {
+    mines_.emplace_back(*position);
   }
 }
 

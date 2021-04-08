@@ -15,6 +15,6 @@ class Physics {
   static bool IsIntersects(Line l1, Line l2);
   static Vec2f FindIntersectionPoint(Line l1, Line l2);
   static bool IsIntersects(const std::vector<Line>& lines_1,
-                    const std::vector<Line>& lines_2);
+                           const std::vector<Line>& lines_2);
   static int Product(const QPoint& m, const QPoint& p1, const QPoint& p2);
 };

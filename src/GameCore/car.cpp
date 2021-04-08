@@ -53,6 +53,12 @@ void Car::ProceedInputFlags() {
 }
 
 void Car::Tick(int time_millisec) {
+  if (!is_alive_) {
+    flag_right_ = false;
+    flag_left_ = false;
+    flag_up_ = false;
+    flag_down_ = false;
+  }
   ProceedInputFlags();
   AdvanceStep(time_millisec);
 }
@@ -235,21 +241,18 @@ void Car::SetIsAlive(bool is_alive) {
   is_alive_ = is_alive;
 }
 
-QPoint Car::DropMine(bool* successful) {
+std::optional<QPoint> Car::DropMine() {
   if (mines_amount_ > 0) {
-    *successful = true;
     mines_amount_--;
     return QPoint(angle_vec_.GetX() * (kPutMineOffset) + position_.GetX(),
                   angle_vec_.GetY() * (kPutMineOffset) + position_.GetY());
   } else {
-    *successful = false;
-    return QPoint(0, 0);
+    return std::nullopt;
   }
 }
 
-Line Car::ShootBullet(bool* successful) {
+std::optional<Line> Car::ShootBullet() {
   if (bullets_amount_ > 0) {
-    *successful = true;
     bullets_amount_--;
     return Line(
         position_.GetX(),
@@ -257,7 +260,6 @@ Line Car::ShootBullet(bool* successful) {
         angle_vec_.GetX() * kShootingRange + position_.GetX(),
         angle_vec_.GetY() * kShootingRange + position_.GetY());
   } else {
-    *successful = false;
-    return Line();
+    return std::nullopt;
   }
 }

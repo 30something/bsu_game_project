@@ -5,8 +5,7 @@ int Physics::Product(const QPoint& m, const QPoint& p1, const QPoint& p2) {
       - (p2.y() - p1.y()) * (m.x() - p1.x());
 }
 
-
-bool Physics::IsInside(const std::vector <Line>& rect, const QPoint& point) {
+bool Physics::IsInside(const std::vector<Line>& rect, const QPoint& point) {
   int p1 = Product(point,
                    QPoint(rect[0].x1, rect[0].y1),
                    QPoint(rect[0].x2, rect[0].y2));
@@ -24,7 +23,6 @@ bool Physics::IsInside(const std::vector <Line>& rect, const QPoint& point) {
 }
 
 bool Physics::IsIntersects(Line l1, Line l2) {
-  // Code taken somewhere from the internet with smol bug fix
   double v1 =
       (l2.x2 - l2.x1) * (l1.y1 - l2.y1) - (l2.y2 - l2.y1) * (l1.x1 - l2.x1);
   double v2 =
@@ -56,7 +54,7 @@ Vec2f Physics::FindIntersectionPoint(Line l1, Line l2) {
 }
 
 bool Physics::IsIntersects(const std::vector<Line>& lines_1,
-                  const std::vector<Line>& lines_2) {
+                           const std::vector<Line>& lines_2) {
   for (const auto& line1 : lines_1) {
     for (const auto& line2 : lines_2) {
       if (IsIntersects(line1, line2)) {

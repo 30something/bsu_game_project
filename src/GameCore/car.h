@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <cmath>
 #include <utility>
+#include <optional>
 
 #include <QPoint>
 
@@ -22,8 +23,8 @@ class Car {
 
   void Tick(int time_millisec);
 
-  QPoint DropMine(bool* successful);
-  Line ShootBullet(bool* successful);
+  std::optional<QPoint> DropMine();
+  std::optional<Line> ShootBullet();
 
   double GetHitPoints() const;
   double GetBulletsAmount() const;
