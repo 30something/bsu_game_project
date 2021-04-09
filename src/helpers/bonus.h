@@ -9,12 +9,13 @@ struct Bonus {
     kMineAmmo = 2
   };
 
+  BonusType type;
+  QPoint position;
+
   Bonus(QPoint point, BonusType _type) :
       type(_type),
       position(point) {
-  };
-  BonusType type;
-  QPoint position;
+  }
 
   bool operator==(const Bonus& rhs) const {
     return type == rhs.type &&

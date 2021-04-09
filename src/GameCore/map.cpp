@@ -25,7 +25,7 @@ void Map::CollideCar(Car* car, const Vec2f& point) {
 }
 
 void Map::CalculateBonusesPositions() {
-   for (const auto& first : borders_[0]) {
+  for (const auto& first : borders_[0]) {
     QPoint second = borders_[1][FindIndexOfMinimalDistance(first, borders_[1])];
     Line line(first.x(), first.y(), second.x(), second.y());
     double dx = line.x1 - line.x2;
