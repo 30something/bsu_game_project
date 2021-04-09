@@ -19,7 +19,7 @@ void Map::ProceedCollisions(Car* car) {
         l2.y1 = border[j].y();
         l2.x2 = border[border_i].x();
         l2.y2 = border[border_i].y();
-        if (Line::IsIntersects(lines[i], l2)) {
+        if (Physics::IsIntersects(lines[i], l2)) {
           Vec2f point = Line::FindIntersectionPoint(lines[i], l2);
           CollideCar(car, point);
           return;
@@ -31,13 +31,12 @@ void Map::ProceedCollisions(Car* car) {
 
 void Map::CollideCar(Car* car, const Vec2f& point) {
   Vec2f position = car->GetPosition();
-  car->SetHitPoints(
-      car->GetHitPoints() - car->GetVelocity().GetLength() * kHPDecrease);
+  car->AddHitPoints(-car->GetVelocity().GetLength() * kHPDecrease);
   Vec2f deviation
       (position.GetX() - point.GetX(), position.GetY() - point.GetY());
   deviation.Normalize();
   Vec2f velocity = car->GetVelocity()
-      + deviation * physics::kCollisionDeviationScalar;
+      + deviation * Physics::kCollisionDeviationScalar;
   velocity *= kVelocityDecrease;
   car->SetVelocity(velocity);
   car->SetPosition(position + deviation);

@@ -4,7 +4,7 @@ Car::Car(int x,
          int y,
          double angle) :
     position_(x, y) {
-  velocity_.Set(physics::kAlmostZero, physics::kAlmostZero);
+  velocity_.Set(Physics::kAlmostZero, Physics::kAlmostZero);
   angle_vec_.Set(1.0, 0.0);
   angle_vec_.Rotate(angle);
   UpdateWheelsPosAndOrientation();
@@ -23,7 +23,6 @@ void Car::ProceedInputFlags() {
   if (!flag_right_ && !flag_left_) {
     steering_angle_ = 0;
   }
-  // TODO(dima_makarov): fix keyboard controls
   if (flag_up_) {
     velocity_ += angle_vec_ * kAccelFactor;
     if (velocity_.GetLength() > kMaxSpeedForward) {
@@ -41,7 +40,7 @@ void Car::ProceedInputFlags() {
   if (!flag_up_ && !flag_down_) {
     Vec2f coef = angle_vec_ * kFrictionFactor;
     if (velocity_.GetLength() < (coef).GetLength()) {
-      velocity_.SetLen(physics::kAlmostZero);
+      velocity_.SetLen(Physics::kAlmostZero);
     } else {
       if (std::abs(velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees())
           > 90) {
@@ -55,10 +54,10 @@ void Car::ProceedInputFlags() {
 
 void Car::Tick(int time_millisec) {
   if (!is_alive_) {
-    flag_down_ = false;
-    flag_up_ = false;
-    flag_left_ = false;
     flag_right_ = false;
+    flag_left_ = false;
+    flag_up_ = false;
+    flag_down_ = false;
   }
   ProceedInputFlags();
   AdvanceStep(time_millisec);
@@ -192,7 +191,7 @@ void Car::SetPosition(const Vec2f& position) {
 }
 
 double Car::GetHitPoints() const {
-  return hit_points;
+  return hit_points_;
 }
 
 double Car::GetBulletsAmount() const {
@@ -200,19 +199,19 @@ double Car::GetBulletsAmount() const {
 }
 
 double Car::GetMinesAmount() const {
-  return mines_amount;
+  return mines_amount_;
 }
 
-void Car::SetHitPoints(double hit_points_) {
-  Car::hit_points = hit_points_;
+void Car::AddHitPoints(double hit_points) {
+  hit_points_ += hit_points;
 }
 
-void Car::SetBulletsAmount(double bullets_amount_) {
-  Car::bullets_amount_ = bullets_amount_;
+void Car::AddBulletsAmount(double bullets_amount) {
+  bullets_amount_ += bullets_amount;
 }
 
-void Car::SetMinesAmount(double mines_amount_) {
-  Car::mines_amount = mines_amount_;
+void Car::AddMinesAmount(double mines_amount) {
+  mines_amount_ += mines_amount;
 }
 
 const Vec2f& Car::GetAngleVec() const {
@@ -240,4 +239,27 @@ bool Car::IsAlive() const {
 
 void Car::SetIsAlive(bool is_alive) {
   is_alive_ = is_alive;
+}
+
+std::optional<QPoint> Car::DropMine() {
+  if (mines_amount_ > 0) {
+    mines_amount_--;
+    return QPoint(angle_vec_.GetX() * (kPutMineOffset) + position_.GetX(),
+                  angle_vec_.GetY() * (kPutMineOffset) + position_.GetY());
+  } else {
+    return std::nullopt;
+  }
+}
+
+std::optional<Line> Car::ShootBullet() {
+  if (bullets_amount_ > 0) {
+    bullets_amount_--;
+    return Line(
+        position_.GetX(),
+        position_.GetY(),
+        angle_vec_.GetX() * kShootingRange + position_.GetX(),
+        angle_vec_.GetY() * kShootingRange + position_.GetY());
+  } else {
+    return std::nullopt;
+  }
 }

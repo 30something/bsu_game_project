@@ -20,6 +20,7 @@ class View {
   GameController* model_ = nullptr;
   QPixmap map_;
   QPixmap car_;
+  QPixmap dead_car_;
   QPixmap mine_;
   QPixmap shot_;
   int players_amount_ = 0;
@@ -29,20 +30,13 @@ class View {
   void DrawMap(QPainter* painter,
                const QRect& frame,
                const Vec2f& pos);
-  void DrawCar(QPainter* painter,
-               const QRect& frame,
-               const Vec2f& center,
-               const Vec2f& frame_center,
-               double angle,
-               const QPixmap& car);
-  void DrawMine(QPainter* painter,
-                const QRect& frame,
-                const Vec2f& frame_center,
-                const QPoint& mine);
-  void DrawShot(QPainter* painter,
-                const QRect& frame,
-                const Vec2f& frame_center,
-                const Vec2f& coord,
-                double angle);
+  void DrawPicture(
+      QPainter* painter,
+      const QRect& frame,
+      const Vec2f& frame_center,
+      const Vec2f& coords,
+      double angle,
+      const QPixmap& car,
+      const QPoint& offset) const;
   std::vector<QRect> GetFramesVector(const QPainter* painter) const;
 };
