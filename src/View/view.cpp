@@ -89,9 +89,9 @@ void View::DrawPicture(QPainter* painter,
                        double angle,
                        const QPixmap& pixmap,
                        const QPoint& offset) const {
-  int x = frame.left() / kScale + coords.GetX() - frame_center.GetX()
+  double x = frame.left() / kScale + coords.GetX() - frame_center.GetX()
       + frame.width() / kScale / 2;
-  int y = coords.GetY() - frame_center.GetY()
+  double y = coords.GetY() - frame_center.GetY()
       + frame.height() / kScale / 2;
   if (frame.contains(x * kScale, y * kScale)) {
     painter->save();
