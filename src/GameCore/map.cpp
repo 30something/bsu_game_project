@@ -41,7 +41,3 @@ void Map::CollideCar(Car* car, const Vec2f& point) {
   car->SetVelocity(velocity);
   car->SetPosition(position + deviation);
 }
-
-void Map::SetBorders(const std::vector<std::vector<QPoint>>& borders) {
-  borders_ = borders;
-}

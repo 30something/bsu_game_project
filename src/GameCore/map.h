@@ -18,7 +18,7 @@ class Map {
   Map() = default;
   explicit Map(std::vector<std::vector<QPoint>> borders);
   void ProceedCollisions(Car* car);
-  void SetBorders(const std::vector<std::vector<QPoint>>& borders);
+
  private:
   std::vector<std::vector<QPoint>> borders_;
 
