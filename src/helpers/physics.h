@@ -17,4 +17,5 @@ class Physics {
   static bool IsIntersects(const std::vector<Line>& lines_1,
                            const std::vector<Line>& lines_2);
   static int Product(const QPoint& m, const QPoint& p1, const QPoint& p2);
+  static double Distance(QPoint first, QPoint second);
 };

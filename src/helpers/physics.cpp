@@ -64,3 +64,8 @@ bool Physics::IsIntersects(const std::vector<Line>& lines_1,
   }
   return false;
 }
+
+double Physics::Distance(QPoint first, QPoint second) {
+  return std::sqrt((first.x() - second.x()) * (first.x() - second.x())
+                       + (first.y() - second.y()) * (first.y() - second.y()));
+}

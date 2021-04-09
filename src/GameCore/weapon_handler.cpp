@@ -1,12 +1,12 @@
 #include "weapon_handler.h"
 
 void WeaponHandler::ShootBullet(Car* car, std::vector<Car>* cars) {
-  for (auto& second_car : *cars) {
-    if (&second_car == car) {
-      continue;
-    }
-    std::optional<Line> shoot_trajectory = car->ShootBullet();
-    if (shoot_trajectory) {
+  std::optional<Line> shoot_trajectory = car->ShootBullet();
+  if (shoot_trajectory) {
+    for (auto& second_car : *cars) {
+      if (&second_car == car) {
+        continue;
+      }
       std::vector<Line> car_lines = second_car.GetLines();
       for (const auto& line : car_lines) {
         if (Physics::IsIntersects(*shoot_trajectory, line)) {

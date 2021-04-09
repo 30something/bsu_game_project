@@ -2,11 +2,11 @@
 
 GameController::GameController(GameMode* game_mode) :
     game_mode_(game_mode),
-weapon_handler_() {
+    weapon_handler_() {
   JsonMapParser parser(map_data::json_filepaths[game_mode->map_index]);
   map_ = Map(parser.GetBorders());
   std::vector<std::pair<QPoint, double>>
-  pos_and_angles = parser.GetCarStartPositionsAndAngles();
+      pos_and_angles = parser.GetCarStartPositionsAndAngles();
   size_t cars_amount = game_mode_->players_amount + game_mode_->bots_amount;
   for (size_t i = 0; i < cars_amount; i++) {
     cars_.emplace_back(
@@ -20,7 +20,7 @@ void GameController::Tick(int time_millis) {
   weapon_handler_.ProceedWeapons(&cars_);
   ProceedCollisionsWithCars();
   for (auto& car : cars_) {
-    map_.ProceedCollisions(&car);
+    map_.Tick(&car);
     car.Tick(time_millis);
     if (car.GetHitPoints() < Physics::kAlmostZero) {
       car.SetIsAlive(false);
@@ -156,4 +156,8 @@ const std::vector<QPoint>& GameController::GetMinesCoordinates() const {
 
 const std::vector<Car>& GameController::GetCars() const {
   return cars_;
+}
+
+const std::vector<Bonus>& GameController::GetActiveBonuses() const {
+  return map_.GetActiveBonuses();
 }

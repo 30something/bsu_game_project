@@ -58,6 +58,7 @@ void Car::Tick(int time_millisec) {
     flag_left_ = false;
     flag_up_ = false;
     flag_down_ = false;
+    is_shooting_ = false;
   }
   ProceedInputFlags();
   AdvanceStep(time_millisec);
