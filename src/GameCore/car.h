@@ -5,6 +5,9 @@
 #include <algorithm>
 #include <cmath>
 #include <utility>
+#include <optional>
+
+#include <QPoint>
 
 #include "src/helpers/vec2f.h"
 #include "wheel.h"
@@ -20,19 +23,31 @@ class Car {
 
   void Tick(int time_millisec);
 
-  int GetX() const;
-  int GetY() const;
+  std::optional<QPoint> DropMine();
+  std::optional<Line> ShootBullet();
+
+  double GetHitPoints() const;
+  double GetBulletsAmount() const;
+  double GetMinesAmount() const;
   double GetAngle() const;
-  std::vector<Line> GetLines();
+  std::vector<Line> GetLines() const;
   const Vec2f& GetVelocity() const;
   const Vec2f& GetPosition() const;
+  const Vec2f& GetAngleVec() const;
+  bool IsShooting() const;
+  bool IsAlive() const;
   void SetVelocity(const Vec2f& velocity);
   void SetPosition(const Vec2f& position);
+  void AddHitPoints(double hit_points_);
+  void AddBulletsAmount(double bullets_amount_);
+  void AddMinesAmount(double mines_amount_);
 
   void SetFlagUp(bool flag_up);
   void SetFlagDown(bool flag_down);
   void SetFlagLeft(bool flag_left);
   void SetFlagRight(bool flag_right);
+  void SetIsShooting(bool is_shooting);
+  void SetIsAlive(bool is_alive);
 
  private:
   std::vector<Wheel> wheels_{4};
@@ -42,6 +57,8 @@ class Car {
 
   double angular_velocity_ = 0;
   double steering_angle_ = 0;
+  static constexpr int kPutMineOffset = -10;
+  static constexpr double kShootingRange = 100;
   static constexpr double kAccelFactor = 2.0;
   static constexpr double kFrictionFactor = 0.5;
   static constexpr double kMaxSpeedForward = 300;
@@ -63,8 +80,13 @@ class Car {
   bool flag_down_ = false;
   bool flag_left_ = false;
   bool flag_right_ = false;
+  bool is_shooting_ = false;
+  bool is_alive_ = true;
 
- private:
+  double hit_points_ = 100;
+  size_t bullets_amount_ = 1000;
+  size_t mines_amount_ = 20;
+
   void UpdateWheelsPosAndOrientation();
   void AdvanceStep(int time_millisec);
   void CalcAccelerations(Vec2f* accel, double* angular_accel);

@@ -43,7 +43,9 @@ class EventsController : public QWidget {
   GameController* game_controller_ = nullptr;
   View* view_ = nullptr;
   GameStatus game_status_ = GameStatus::kRunning;
-  static constexpr int kMillisPerFrame = 10;
+
+  static constexpr int kMillisPerFrame = 15;
   static constexpr int kMillisPerPhysicsTick = 5;
+
   void PrepareTimer();
 };
