@@ -20,7 +20,7 @@ void Map::ProceedCollisions(Car* car) {
         l2.x2 = border[border_i].x();
         l2.y2 = border[border_i].y();
         if (Physics::IsIntersects(lines[i], l2)) {
-          Vec2f point = Line::FindIntersectionPoint(lines[i], l2);
+          Vec2f point = Physics::FindIntersectionPoint(lines[i], l2);
           CollideCar(car, point);
           return;
         }
