@@ -33,7 +33,7 @@ class Map {
   static constexpr double kBonusBulletsAmmoPrize = 100;
   static constexpr double kBonusMinesPrize = 2;
   static constexpr int kMaxBonusesAmount = 5;
-  static constexpr int kBonusProbability = 1000000;
+  static constexpr int kBonusProbability = 100000;
 
   void CalculateBonusesPositions();
   void ProceedCollisions(Car*);
