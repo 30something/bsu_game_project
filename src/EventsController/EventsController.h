@@ -18,7 +18,6 @@ class EventsController : public QWidget {
   ~EventsController() override = default;
 
   void paintEvent(QPaintEvent*) override;
-  // void resizeEvent(QResizeEvent*) override;
   void keyPressEvent(QKeyEvent*) override;
   void keyReleaseEvent(QKeyEvent*) override;
 
@@ -26,7 +25,6 @@ class EventsController : public QWidget {
 
   void PhysicsTimerEvent();
   void ViewTimerEvent();
-  // void ViewLabelsUpdateEvent();
 
   void FinishCheck();
 
@@ -56,9 +54,8 @@ class EventsController : public QWidget {
   GameController* game_controller_ = nullptr;
   View* view_ = nullptr;
   GameStatus game_status_ = GameStatus::kRunning;
-  static constexpr int kMillisPerFrame = 10;
-  static constexpr int kMillisPerFinishCheck = 100;
-  static constexpr int kMillisPerLabelsUpdate = 75;
+
+  static constexpr int kMillisPerFrame = 15;
   static constexpr int kMillisPerPhysicsTick = 5;
   static constexpr int kMillisInSecond = 1000;
   int seconds_before_start_ = 4;

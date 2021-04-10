@@ -23,21 +23,10 @@ void EventsController::ViewTimerEvent() {
   }
 }
 
-// void EventsController::ViewLabelsUpdateEvent() {
-//   if (game_status_ == GameStatus::kRunning) {
-//     view_->UpdateLapsLabels();
-//     view_->UpdateVelocityLabels();
-//   }
-// }
-
 void EventsController::paintEvent(QPaintEvent*) {
   QPainter main_painter(this);
   view_->Repaint(&main_painter);
 }
-//
-// void EventsController::resizeEvent(QResizeEvent*) {
-//   view_->Resize(width(), height());
-// }
 
 void EventsController::keyPressEvent(QKeyEvent* event) {
   game_controller_->HandleKeyPressEvent(event);
@@ -71,18 +60,12 @@ void EventsController::PrepareTimer() {
           &QTimer::timeout,
           this,
           &EventsController::ViewTimerEvent);
-  // connect(&view_labels_update_timer_,
-  //         &QTimer::timeout,
-  //         this,
-  //         &EventsController::ViewLabelsUpdateEvent);
   connect(&end_game_check_timer_,
           &QTimer::timeout,
           this,
           &EventsController::FinishCheck);
   controller_timer_.start(kMillisPerPhysicsTick);
   view_timer_.start(kMillisPerFrame);
-  // view_labels_update_timer_.start(kMillisPerLabelsUpdate);
-  // end_game_check_timer_.start(kMillisPerFinishCheck);
 }
 
 void EventsController::StartTimer() {

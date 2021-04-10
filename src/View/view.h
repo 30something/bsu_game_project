@@ -7,6 +7,7 @@
 #include <QImage>
 #include <QLabel>
 #include <QPainter>
+#include <QPixmap>
 #include <QWidget>
 
 #include "src/GameCore/GameController.h"
@@ -18,34 +19,31 @@ class View {
   ~View() = default;
 
   void Repaint(QPainter* painter);
-  // void Resize(int width, int height);
-
   void UpdateStartLabel(const std::string& new_text);
-  // void UpdateLapsLabels();
-  // void UpdateVelocityLabels();
+  void UpdateInfoDescription(QPainter* painter);
 
  private:
   void DrawMap(QPainter* painter,
                const QRect& frame,
-               const QPoint& pos);
-  void DrawCar(QPainter* painter,
-               const QRect& frame,
-               const QPoint& center,
-               const QPoint& frame_center,
-               double angle);
-  void DrawUI(QPainter* painter,
-              const QRect& frame,
-              const Car& car);
-
+               const Vec2f& pos);
+  void DrawPicture(
+      QPainter* painter,
+      const QRect& frame,
+      const Vec2f& frame_center,
+      const Vec2f& coords,
+      double angle,
+      const QPixmap& car,
+      const QPoint& offset) const;
   std::vector<QRect> GetFramesVector(const QPainter* painter) const;
 
   GameController* model_ = nullptr;
+  QPixmap map_;
+  QPixmap car_;
+  QPixmap dead_car_;
+  QPixmap mine_;
+  QPixmap shot_;
   QLabel* start_label_ = nullptr;
-  std::vector<QLabel*> laps_labels_;
-  std::vector<QLabel*> velocity_labels_;
-  QImage map_;
-  QImage car_;
-  int players_amount_ = 0;
-  int laps_amount_ = 0;
+  uint32_t players_amount_ = 0;
+  uint32_t laps_amount_ = 0;
   const double kScale = 2;
 };

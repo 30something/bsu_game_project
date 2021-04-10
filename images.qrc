@@ -1,8 +1,11 @@
 <RCC>
     <qresource>
         <file>resources/images/cars/car_1.png</file>
+        <file>resources/images/cars/car_1_dead.png</file>
         <file>resources/images/maps/map_1.jpg</file>
         <file>resources/images/maps/map_2.jpg</file>
         <file>resources/images/maps/map_3.jpg</file>
+        <file>resources/images/other_stuff/mine.png</file>
+        <file>resources/images/other_stuff/shot.png</file>
     </qresource>
 </RCC>
