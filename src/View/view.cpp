@@ -2,7 +2,7 @@
 
 View::View(GameController* model, GameMode* game_mode) :
     model_(model),
-    car_(":resources/images/cars/car_1.png"),
+    car_(":resources/images/cars/car1.png"),
     players_amount_(game_mode->players_amount) {
   map_.load(map_data::image_filepaths[game_mode->map_index]);
 }
