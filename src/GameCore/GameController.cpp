@@ -20,7 +20,7 @@ void GameController::Tick(int time_millis) {
   weapon_handler_.ProceedWeapons(&cars_);
   ProceedCollisionsWithCars();
   for (auto& car : cars_) {
-    map_.Tick(&car);
+    map_.HandleCarTick(&car);
     car.Tick(time_millis);
     if (car.GetHitPoints() < Physics::kAlmostZero) {
       car.SetIsAlive(false);

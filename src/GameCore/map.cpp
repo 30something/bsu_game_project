@@ -5,13 +5,13 @@ Map::Map(std::vector<std::vector<QPoint>> borders) {
   CalculateBonusesPositions();
 }
 
-void Map::Tick(Car* car) {
+void Map::HandleCarTick(Car* car) {
   ProceedCollisions(car);
   ProceedActiveBonuses(car);
   ProceedNewBonuses();
 }
 
-void Map::CollideCar(Car* car, const Vec2f& point) {
+void Map::HandleCarCrashIntoBorder(Car* car, const Vec2f& point) {
   Vec2f position = car->GetPosition();
   car->AddHitPoints(-car->GetVelocity().GetLength() * kHPDecrease);
   Vec2f deviation
@@ -65,7 +65,7 @@ void Map::ProceedCollisions(Car* car) {
         l2.y2 = border[border_i].y();
         if (Physics::IsIntersects(lines[i], l2)) {
           Vec2f point = Physics::FindIntersectionPoint(lines[i], l2);
-          CollideCar(car, point);
+          HandleCarCrashIntoBorder(car, point);
           return;
         }
       }
@@ -75,7 +75,7 @@ void Map::ProceedCollisions(Car* car) {
 
 void Map::ProceedNewBonuses() {
   for (auto position : bonuses_positions_) {
-    int number = QRandomGenerator::global()->bounded(kBonusProbability);
+    int number = QRandomGenerator::global()->bounded(kBonusProbableUpperBound);
     if (active_bonuses_.size() < kMaxBonusesAmount && number == 42) {
       auto type(Bonus::BonusType(QRandomGenerator::global()->bounded(3)));
       active_bonuses_.emplace_back(position, type);

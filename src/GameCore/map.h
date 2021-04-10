@@ -19,7 +19,7 @@ class Map {
  public:
   Map() = default;
   explicit Map(std::vector<std::vector<QPoint>> borders);
-  void Tick(Car* car);
+  void HandleCarTick(Car* car);
   const std::vector<Bonus>& GetActiveBonuses() const;
 
  private:
@@ -33,14 +33,14 @@ class Map {
   static constexpr double kBonusBulletsAmmoPrize = 100;
   static constexpr double kBonusMinesPrize = 2;
   static constexpr int kMaxBonusesAmount = 5;
-  static constexpr int kBonusProbability = 100000;
+  static constexpr int kBonusProbableUpperBound = 100000;
+  static constexpr int kAmountOfBonuses = 3;
 
   void CalculateBonusesPositions();
   void ProceedCollisions(Car*);
   void ProceedActiveBonuses(Car* car);
   void ProceedNewBonuses();
 
- private:
   static size_t FindIndexOfMinimalDistance(QPoint, const std::vector<QPoint>&);
-  static void CollideCar(Car* car, const Vec2f& point);
+  static void HandleCarCrashIntoBorder(Car* car, const Vec2f& point);
 };

@@ -16,9 +16,9 @@ View::View(GameController* model, GameMode* game_mode) :
 void View::Repaint(QPainter* painter) {
   std::vector<QRect> frames = GetFramesVector(painter);
   painter->scale(kScale, kScale);
-  std::vector<Car> cars = model_->GetCars();
-  std::vector<QPoint> mines = model_->GetMinesCoordinates();
-  std::vector<Bonus> bonuses = model_->GetActiveBonuses();
+  const std::vector<Car>& cars = model_->GetCars();
+  const std::vector<QPoint>& mines = model_->GetMinesCoordinates();
+  const std::vector<Bonus>& bonuses = model_->GetActiveBonuses();
   for (size_t i = 0; i < frames.size(); i++) {
     DrawMap(painter, frames[i], cars[i].GetPosition());
     for (size_t j = 0; j < cars.size(); j++) {
