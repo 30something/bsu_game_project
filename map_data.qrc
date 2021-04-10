@@ -1,7 +1,11 @@
 <RCC>
     <qresource>
-        <file>resources/images/map_data/map_1.txt</file>
-        <file>resources/images/map_data/map_2.txt</file>
-        <file>resources/images/map_data/map_3.txt</file>
+        <file>resources/images/map_data/Map_1.txt</file>
+        <file>resources/images/map_data/Map_2.txt</file>
+        <file>resources/images/map_data/Map_3.txt</file>
+        <file>resources/images/map_data/Map_4.txt</file>
+        <file>resources/images/map_data/Map_5.txt</file>
+        <file>resources/images/map_data/Map_6.txt</file>
+        <file>resources/images/map_data/Map_7.txt</file>
     </qresource>
 </RCC>
