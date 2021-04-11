@@ -4,9 +4,9 @@ GameController::GameController(GameMode* game_mode) :
     game_mode_(game_mode),
     weapon_handler_() {
   JsonMapParser parser(map_data::json_filepaths[game_mode->map_index]);
-  map_ = Map(parser.GetBorders());
+  map_.SetBorders(parser.GetBorders());
   std::vector<std::pair<QPoint, double>>
-      pos_and_angles = parser.GetCarStartPositionsAndAngles();
+  pos_and_angles = parser.GetCarStartPositionsAndAngles();
   size_t cars_amount = game_mode_->players_amount + game_mode_->bots_amount;
   for (size_t i = 0; i < cars_amount; i++) {
     cars_.emplace_back(

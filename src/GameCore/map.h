@@ -6,6 +6,7 @@
 
 #include <QTextStream>
 #include <QFile>
+#include <QTimer>
 
 #include "src/helpers/vec2f.h"
 #include "src/helpers/line.h"
@@ -18,23 +19,22 @@
 class Map {
  public:
   Map() = default;
-  explicit Map(std::vector<std::vector<QPoint>> borders);
   void HandleCarTick(Car* car);
   const std::vector<Bonus>& GetActiveBonuses() const;
+  void SetBorders(const std::vector<std::vector<QPoint>>& borders);
 
  private:
   std::vector<std::vector<QPoint>> borders_;
   std::vector<QPoint> bonuses_positions_;
-  std::vector<Bonus> active_bonuses_;
+  std::vector<Bonus> bonuses_;
+  QTimer bonus_timer_;
 
   static constexpr double kVelocityDecrease = 0.75;
   static constexpr double kHPDecrease = 0.001;
-  static constexpr double kBonusHealthPrize = 20;
-  static constexpr double kBonusBulletsAmmoPrize = 100;
-  static constexpr double kBonusMinesPrize = 2;
   static constexpr int kMaxBonusesAmount = 5;
-  static constexpr int kBonusProbableUpperBound = 100000;
-  static constexpr int kAmountOfBonuses = 3;
+  static constexpr int kAmountOfBonusTypes = 3;
+  static constexpr int kMaxMilliSecondsForNewBonus = 20000;
+  static constexpr int kMinMilliSecondForNewBonus = 5000;
 
   void CalculateBonusesPositions();
   void ProceedCollisions(Car*);

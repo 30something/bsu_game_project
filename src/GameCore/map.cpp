@@ -1,10 +1,5 @@
 #include "map.h"
 
-Map::Map(std::vector<std::vector<QPoint>> borders) {
-  borders_ = std::move(borders);
-  CalculateBonusesPositions();
-}
-
 void Map::HandleCarTick(Car* car) {
   ProceedCollisions(car);
   ProceedActiveBonuses(car);
@@ -28,12 +23,8 @@ void Map::CalculateBonusesPositions() {
   for (const auto& first : borders_[0]) {
     QPoint second = borders_[1][FindIndexOfMinimalDistance(first, borders_[1])];
     Line line(first.x(), first.y(), second.x(), second.y());
-    double dx = line.x1 - line.x2;
-    double dy = line.y1 - line.y2;
-    double scalar = QRandomGenerator::global()->generateDouble();
-    dx *= scalar;
-    dy *= scalar;
-    bonuses_positions_.emplace_back(first.x() - dx, first.y() - dy);
+    QPoint point = Physics::GetRandomPointOnLine(line);
+    bonuses_positions_.push_back(point);
   }
 }
 
@@ -74,39 +65,38 @@ void Map::ProceedCollisions(Car* car) {
 }
 
 void Map::ProceedNewBonuses() {
-  for (auto position : bonuses_positions_) {
-    int number = QRandomGenerator::global()->bounded(kBonusProbableUpperBound);
-    if (active_bonuses_.size() < kMaxBonusesAmount && number == 42) {
-      auto type(Bonus::BonusType(QRandomGenerator::global()->bounded(3)));
-      active_bonuses_.emplace_back(position, type);
-    }
+  if (bonuses_.size() < kMaxBonusesAmount && !bonus_timer_.isActive()) {
+    int position_index = QRandomGenerator::global()->
+        bounded(static_cast<int>(bonuses_positions_.size()));
+    auto type(Bonus::BonusType(QRandomGenerator::global()->bounded(
+        kAmountOfBonusTypes)));
+    bonuses_.emplace_back(bonuses_positions_[position_index], type);
+    bonus_timer_.start(
+        QRandomGenerator::global()->bounded(kMaxMilliSecondsForNewBonus)
+            + kMinMilliSecondForNewBonus);
   }
 }
 
 void Map::ProceedActiveBonuses(Car* car) {
-  for (auto& bonus : active_bonuses_) {
-    if (Physics::IsInside(car->GetLines(), bonus.position)) {
-      switch (bonus.type) {
-        case Bonus::BonusType::kHealth: {
-          car->AddHitPoints(kBonusHealthPrize);
-          break;
-        }
-        case Bonus::BonusType::kBulletsAmmo: {
-          car->AddBulletsAmount(kBonusBulletsAmmoPrize);
-          break;
-        }
-        case Bonus::BonusType::kMineAmmo: {
-          car->AddMinesAmount(kBonusMinesPrize);
-          break;
-        }
-      }
-      active_bonuses_.erase(std::find(active_bonuses_.begin(),
-                                      active_bonuses_.end(),
-                                      bonus));
+  for (auto& bonus : bonuses_) {
+    if (Physics::IsInside(car->GetLines(), bonus.GetPosition())) {
+      bonus.ApplyTo(car);
+      bonuses_.erase(std::find(bonuses_.begin(),
+                               bonuses_.end(),
+                               bonus));
     }
   }
 }
 
 const std::vector<Bonus>& Map::GetActiveBonuses() const {
-  return active_bonuses_;
+  return bonuses_;
+}
+
+void Map::SetBorders(const std::vector<std::vector<QPoint>>& borders) {
+  borders_ = borders;
+  CalculateBonusesPositions();
+  bonus_timer_.setSingleShot(true);
+  bonus_timer_.start(
+      QRandomGenerator::global()->bounded(kMaxMilliSecondsForNewBonus)
+          + kMinMilliSecondForNewBonus);
 }

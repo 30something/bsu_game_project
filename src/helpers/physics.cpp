@@ -66,6 +66,14 @@ bool Physics::IsIntersects(const std::vector<Line>& lines_1,
 }
 
 double Physics::Distance(QPoint first, QPoint second) {
-  return std::sqrt((first.x() - second.x()) * (first.x() - second.x())
-                       + (first.y() - second.y()) * (first.y() - second.y()));
+  return std::hypot(first.x() - second.x(), first.y() - second.y());
+}
+
+QPoint Physics::GetRandomPointOnLine(Line line) {
+  double dx = line.x1 - line.x2;
+  double dy = line.y1 - line.y2;
+  double scalar = QRandomGenerator::global()->generateDouble();
+  dx *= scalar;
+  dy *= scalar;
+  return QPoint(line.x1 - dx, line.y1 - dy);
 }
