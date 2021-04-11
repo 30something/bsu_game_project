@@ -1,5 +1,6 @@
 #pragma once
 
+#include <set>
 #include <utility>
 #include <vector>
 
@@ -27,7 +28,7 @@ class GameController {
 
   double GetVelocity(int index) const;
   int32_t GetLapsCounter(int index) const;
-  uint32_t GetWonCar() const;
+  bool AllCarsFinished() const;
 
  private:
   void ProceedCollisionsWithCars();
@@ -47,14 +48,20 @@ class GameController {
     kNotCollide,
   };
 
+  enum class FinishStatus {
+    kFinished,
+    kNotFinished,
+  };
+
   Map map_;
   std::vector<Car> cars_;
   std::vector<int32_t> laps_counters_;
+  std::set<uint32_t> remaining_cars_;
   std::vector<double> finish_deviations_;
   std::vector<FinishCollisionStatus> finish_collision_statuses_;
+  std::vector<FinishStatus> finish_statuses_;
   GameMode* game_mode_ = nullptr;
   WeaponHandler weapon_handler_;
 
   Line finish_line_;
-  uint32_t number_of_won_car_ = 0;
 };

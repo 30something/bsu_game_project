@@ -18,8 +18,8 @@ Settings::Settings(QWidget* parent) :
 
 void Settings::SetSizes() {
   setMinimumSize(menu_sizes::kSettingsSize);
-  apply_button_->setMinimumSize(menu_sizes::kSettingsMinButtonSize);
-  back_button_->setMinimumSize(menu_sizes::kSettingsMinButtonSize);
+  apply_button_->setMinimumSize(button_sizes::kSettingsMinButtonSize);
+  back_button_->setMinimumSize(button_sizes::kSettingsMinButtonSize);
 }
 
 void Settings::SetUpLayout() {

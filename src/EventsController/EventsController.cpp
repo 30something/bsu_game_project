@@ -64,6 +64,10 @@ void EventsController::PrepareTimer() {
           &QTimer::timeout,
           this,
           &EventsController::FinishCheck);
+  connect(&finish_pause_,
+          &QTimer::timeout,
+          this,
+          &EventsController::ShowStats);
   controller_timer_.start(kMillisPerPhysicsTick);
   view_timer_.start(kMillisPerFrame);
   end_game_check_timer_.start(kMillisPerFrame);
@@ -88,10 +92,8 @@ void EventsController::StartTimer() {
 }
 
 void EventsController::FinishCheck() {
-  if (game_controller_->GetWonCar() > 0) {
-    view_timer_.stop();
-    controller_timer_.stop();
+  if (game_controller_->AllCarsFinished()) {
     end_game_check_timer_.stop();
-    emit ShowStats();
+    finish_pause_.start(kMillisInSecond);
   }
 }
