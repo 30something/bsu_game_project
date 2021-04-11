@@ -1,4 +1,5 @@
 #include "src/View/view.h"
+#include <iostream>
 
 View::View(QWidget* parent, GameController* model, GameMode* game_mode) :
     model_(model),
@@ -66,12 +67,24 @@ void View::UpdateStartLabel(const std::string& new_text) {
 
 void View::UpdateInfoDescription(QPainter* painter) {
   painter->save();
-  painter->drawText(0, 10, QString::fromStdString("Velocity: " +
-      std::to_string(model_->GetVelocity(0)) +
-      ", Laps: " +
-      std::to_string(model_->GetLapsCounter(0)) +
-      " / " +
-      std::to_string(laps_amount_)));
+  painter->drawText(0,
+                    10,
+                    QString::fromStdString("Velocity: " +
+                        std::to_string(model_->GetVelocity(0)) +
+                        ", Laps: " +
+                        std::to_string(model_->GetLapsCounter(0)) +
+                        " / " +
+                        std::to_string(laps_amount_)));
+  if (players_amount_ > 1) {
+    painter->drawText(painter->window().width() / 4,
+                      10,
+                      QString::fromStdString("Velocity: " +
+                          std::to_string(model_->GetVelocity(1)) +
+                          ", Laps: " +
+                          std::to_string(model_->GetLapsCounter(1)) +
+                          " / " +
+                          std::to_string(laps_amount_)));
+  }
   painter->restore();
 }
 

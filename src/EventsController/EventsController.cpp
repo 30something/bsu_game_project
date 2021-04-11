@@ -66,6 +66,7 @@ void EventsController::PrepareTimer() {
           &EventsController::FinishCheck);
   controller_timer_.start(kMillisPerPhysicsTick);
   view_timer_.start(kMillisPerFrame);
+  end_game_check_timer_.start(kMillisPerFrame);
 }
 
 void EventsController::StartTimer() {
@@ -89,8 +90,8 @@ void EventsController::StartTimer() {
 void EventsController::FinishCheck() {
   if (game_controller_->GetWonCar() > 0) {
     view_timer_.stop();
-    view_labels_update_timer_.stop();
     controller_timer_.stop();
+    end_game_check_timer_.stop();
     emit ShowStats();
   }
 }

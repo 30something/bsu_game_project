@@ -6,8 +6,6 @@ namespace menu_sizes {
 
 constexpr QSize kMenuSize(800, 400);
 constexpr int kMenuSpacing = 16;
-constexpr QSize
-    kMenuMinButtonSize(kMenuSize.width() * 3 / 8, kMenuSize.height() / 7);
 
 constexpr QSize kSettingsSize(800, 400);
 constexpr QSize kSettingsMinButtonSize
@@ -27,3 +25,16 @@ namespace mainwindow_sizes {
 constexpr QSize kDefaultScreenSize(800, 400);
 
 }  // mainwindow_sizes
+
+namespace button_sizes {
+
+constexpr QSize kDefaultButtonSize(300, 60);
+constexpr QSize kMapSelectorsSize(250, 60);
+
+}  // button_sizes
+
+namespace combo_boxes_sizes {
+
+constexpr QSize kComboBoxDefaultSize(200, 30);
+
+}  // combo_boxes_sizes

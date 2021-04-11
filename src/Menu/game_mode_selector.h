@@ -1,9 +1,10 @@
 #pragma once
 
-#include <QPushButton>
-#include <QHBoxLayout>
-#include <QStackedWidget>
 #include <QComboBox>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QPushButton>
+#include <QStackedWidget>
 
 #include "map_selector_tile.h"
 #include "src/helpers/map_data.h"
@@ -21,6 +22,7 @@ class GameModeSelector : public QWidget {
   void ReturnToMainMenu();
 
  private:
+  void SetSizes();
   void SetUpLayouts();
   void ConnectUI();
   void PrepareComboBoxes();
@@ -35,7 +37,13 @@ class GameModeSelector : public QWidget {
   QPushButton* right_;
   QVBoxLayout* main_layout_;
   QHBoxLayout* picture_layout_;
-  QHBoxLayout* boxes_layout_;
+  QLabel* players_label_;
+  QLabel* laps_label_;
+  QLabel* bots_label_;
+  QHBoxLayout* players_layout_;
+  QHBoxLayout* laps_layout_;
+  QHBoxLayout* bots_layout_;
+  QVBoxLayout* boxes_layout_;
   QHBoxLayout* buttons_layout_;
   QStackedWidget* stacked_widget_;
   GameMode* game_mode_ = nullptr;

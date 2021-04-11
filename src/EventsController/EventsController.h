@@ -48,7 +48,6 @@ class EventsController : public QWidget {
 
   QTimer start_timer_;
   QTimer view_timer_;
-  QTimer view_labels_update_timer_;
   QTimer controller_timer_;
   QTimer end_game_check_timer_;
   GameController* game_controller_ = nullptr;

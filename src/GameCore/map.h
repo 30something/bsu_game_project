@@ -17,9 +17,7 @@ class Map {
  public:
   Map() = default;
   explicit Map(std::vector<std::vector<QPoint>> borders);
-  static std::pair<int, int> ParseLine(const QString& line);
   void ProceedCollisions(Car* car);
-  Line GetFinishLine() const;
 
  private:
   static void CollideCar(Car* car, const Vec2f& point);
@@ -28,5 +26,4 @@ class Map {
 
   static constexpr double kVelocityDecrease = 0.75;
   static constexpr double kHPDecrease = 0.005;
-  Line finish_line_;
 };

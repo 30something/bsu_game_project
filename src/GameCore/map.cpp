@@ -41,7 +41,3 @@ void Map::CollideCar(Car* car, const Vec2f& point) {
   car->SetVelocity(velocity);
   car->SetPosition(position + deviation);
 }
-
-Line Map::GetFinishLine() const {
-  return finish_line_;
-}

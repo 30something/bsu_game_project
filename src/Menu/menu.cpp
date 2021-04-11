@@ -16,10 +16,10 @@ Menu::Menu(QWidget* parent) :
 
 void Menu::SetSizes() {
   setMinimumSize(menu_sizes::kMenuSize);
-  start_game_button_->setMinimumSize(menu_sizes::kMenuMinButtonSize);
-  settings_button_->setMinimumSize(menu_sizes::kMenuMinButtonSize);
-  credits_button_->setMinimumSize(menu_sizes::kMenuMinButtonSize);
-  exit_button_->setMinimumSize(menu_sizes::kMenuMinButtonSize);
+  start_game_button_->setMinimumSize(button_sizes::kDefaultButtonSize);
+  settings_button_->setMinimumSize(button_sizes::kDefaultButtonSize);
+  credits_button_->setMinimumSize(button_sizes::kDefaultButtonSize);
+  exit_button_->setMinimumSize(button_sizes::kDefaultButtonSize);
 }
 
 void Menu::SetUpLayout() {

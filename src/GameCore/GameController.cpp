@@ -9,6 +9,7 @@ GameController::GameController(GameMode* game_mode) :
       game_mode_->players_amount, FinishCollisionStatus::kNotCollide);
   JsonMapParser parser(map_data::json_filepaths[game_mode->map_index]);
   map_ = Map(parser.GetBorders());
+  finish_line_ = parser.GetFinishLine();
   std::vector<std::pair<QPoint, double>>
       pos_and_angles = parser.GetCarStartPositionsAndAngles();
   size_t cars_amount = game_mode_->players_amount + game_mode_->bots_amount;
@@ -25,16 +26,20 @@ void GameController::Tick(int time_millis) {
   ProceedCollisionsWithCars();
   ProceedCollisionsWithFinish();
   ProceedFinishGame();
-  for (size_t i = 0; i < game_mode_->players_amount; i++) {
-    if (finish_collision_statuses_[i] == FinishCollisionStatus::kNotCollide) {
-      finish_deviations_[i] = CalculateFinishDeviation(i);
-    }
-  }
+  RecalculateDeviations();
   for (auto& car : cars_) {
     map_.ProceedCollisions(&car);
     car.Tick(time_millis);
     if (car.GetHitPoints() < Physics::kAlmostZero) {
       car.SetIsAlive(false);
+    }
+  }
+}
+
+void GameController::RecalculateDeviations() {
+  for (size_t i = 0; i < game_mode_->players_amount; i++) {
+    if (finish_collision_statuses_[i] == FinishCollisionStatus::kNotCollide) {
+      finish_deviations_[i] = CalculateFinishDeviation(i);
     }
   }
 }
@@ -83,9 +88,9 @@ void GameController::ProceedCollisionsWithFinish() {
 }
 
 void GameController::ProceedFinishGame() {
-  for (size_t i = 0; i < game_mode_->players_amount; i++) {
-    if (laps_counters_[i] > static_cast<int>(game_mode_->laps_amount)) {
-      number_of_won_car_ = i;
+  for (uint32_t i = 0; i < game_mode_->players_amount; i++) {
+    if (laps_counters_[i] > static_cast<int32_t>(game_mode_->laps_amount)) {
+      number_of_won_car_ = i + 1;
       break;
     }
   }
@@ -220,15 +225,15 @@ const std::vector<Car>& GameController::GetCars() const {
   return cars_;
 }
 
-int GameController::GetLapsCounter(int index) const {
-  return laps_counters_[index];
-}
-
 double GameController::GetVelocity(int index) const {
   double current_velocity = cars_[index].GetVelocity().GetLength();
   return current_velocity < kMinVisibleVelocity ? 0 : current_velocity;
 }
 
-int GameController::GetWonCar() const {
-  return number_of_won_car_ + 1;
+int32_t GameController::GetLapsCounter(int index) const {
+  return laps_counters_[index];
+}
+
+uint32_t GameController::GetWonCar() const {
+  return number_of_won_car_;
 }
