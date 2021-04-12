@@ -33,8 +33,8 @@ class Map {
   static constexpr double kHPDecrease = 0.001;
   static constexpr size_t kMaxBonusesAmount = 5;
   static constexpr int kAmountOfBonusTypes = 3;
-  static constexpr int kMaxMilliSecondsForNewBonus = 20000;
-  static constexpr int kMinMilliSecondForNewBonus = 5000;
+  static constexpr int kMaxMilliSecondsForNewBonus = 10000;
+  static constexpr int kMinMilliSecondForNewBonus = 1000;
 
   void CalculateBonusesPositions();
   void ProceedCollisions(Car*);

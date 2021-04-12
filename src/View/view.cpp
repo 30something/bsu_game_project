@@ -20,18 +20,18 @@ void View::PreparePixmaps(const GameMode* game_mode) {
   pixmaps["dead_car"] = dead_car;
   pixmaps["mine"] = mine;
   pixmaps["shooting_car"] = shooting_car;
-  pixmaps["health_bonus"] = health_bonus;
-  pixmaps["bullets_ammo_bonus"] = bullets_ammo_bonus;
-  pixmaps["mines_bonus"] = mines_bonus;
+  pixmaps["bonus_health"] = health_bonus;
+  pixmaps["bonus_bullets_ammo"] = bullets_ammo_bonus;
+  pixmaps["bonus_mine_ammo"] = mines_bonus;
   pixmaps["map"] = map;
 
   offsets["car"] = QPoint(-5, -10);
   offsets["dead_car"] = QPoint(-5, -10);
   offsets["shooting_car"] = QPoint(-5, -16);
   offsets["mine"] = QPoint(-2, -2);
-  offsets["health_bonus"] = QPoint(-5, -5);
-  offsets["bullets_ammo_bonus"] = QPoint(-5, -5);
-  offsets["mines_bonus"] = QPoint(-5, -5);
+  offsets["bonus_health"] = QPoint(-5, -5);
+  offsets["bonus_bullets_ammo"] = QPoint(-5, -5);
+  offsets["bonus_mine_ammo"] = QPoint(-5, -5);
   offsets["map"] = QPoint(0, 0);
 }
 
