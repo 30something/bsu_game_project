@@ -18,8 +18,8 @@ class View {
 
  private:
   GameController* model_ = nullptr;
-  std::map<std::string, std::pair<QPixmap, QPoint>> pixmaps;
-
+  std::map<std::string, QPixmap> pixmaps;
+  std::map<std::string, QPoint> offsets;
   int players_amount_ = 0;
 
   const double kScale = 2;
@@ -33,4 +33,5 @@ class View {
                        const std::vector<const GameObject*>& game_objects);
 
   std::vector<QRect> GetFramesVector(const QPainter* painter) const;
+  void PreparePixmaps(const GameMode* game_mode);
 };

@@ -3,6 +3,10 @@
 View::View(GameController* model, GameMode* game_mode) :
     model_(model),
     players_amount_(game_mode->players_amount) {
+  PreparePixmaps(game_mode);
+}
+
+void View::PreparePixmaps(const GameMode* game_mode) {
   QPixmap car(":resources/images/cars/car_1.png");
   QPixmap dead_car(":resources/images/cars/car_1_dead.png");
   QPixmap mine(":resources/images/other_stuff/mine.png");
@@ -11,14 +15,24 @@ View::View(GameController* model, GameMode* game_mode) :
   QPixmap bullets_ammo_bonus(":resources/images/other_stuff/ammo.png");
   QPixmap mines_bonus(":resources/images/other_stuff/mines_ammo.png");
   QPixmap map(map_data::image_filepaths[game_mode->map_index]);
-  pixmaps["map"] = std::make_pair("map", std::make_pair(QPoint(0,0), map));
-  pixmaps["car"] = std::make_pair(QPoint(0,0), map);
-  pixmaps["dead_car"] = std::make_pair(QPoint(0,0), map);
-  pixmaps["mine"] = std::make_pair(QPoint(0,0), map);
-  pixmaps["shooting_car"] = std::make_pair(QPoint(0,0), map);
-  pixmaps["health_bonus"] = std::make_pair(QPoint(0,0), map);
-  pixmaps["bullets_ammo_bonus"] = std::make_pair(QPoint(0,0), map);
-  pixmaps["mines_bonus"] = std::make_pair(QPoint(0,0), map);
+
+  pixmaps["car"] = car;
+  pixmaps["dead_car"] = dead_car;
+  pixmaps["mine"] = mine;
+  pixmaps["shooting_car"] = shooting_car;
+  pixmaps["health_bonus"] = health_bonus;
+  pixmaps["bullets_ammo_bonus"] = bullets_ammo_bonus;
+  pixmaps["mines_bonus"] = mines_bonus;
+  pixmaps["map"] = map;
+
+  offsets["car"] = QPoint(-5, -10);
+  offsets["dead_car"] = QPoint(-5, -10);
+  offsets["mine"] = QPoint(-2, -2);
+  offsets["shooting_car"] = QPoint(-5, -10);
+  offsets["health_bonus"] = QPoint(-5, -5);
+  offsets["bullets_ammo_bonus"] = QPoint(-5, -5);
+  offsets["mines_bonus"] = QPoint(-5, -5);
+  offsets["map"] = QPoint(0, 0);
 }
 
 void View::Repaint(QPainter* painter) {
@@ -61,7 +75,7 @@ void View::DrawMap(QPainter* painter,
                    const Vec2f& pos) {
   painter->drawPixmap(frame.left() / kScale,
                       0,
-                      pixmaps["map"].first,
+                      pixmaps["map"],
                       pos.GetX() - frame.width() / 2 / kScale,
                       pos.GetY() - frame.height() / 2 / kScale,
                       frame.width() / kScale,
@@ -82,8 +96,10 @@ void View::DrawGameObjects(QPainter* painter,
       painter->save();
       painter->translate(x, y);
       painter->rotate(object->GetAngle());
-      std::pair<QPixmap, QPoint> image = pixmaps[object->GetPixmapId()];
-      painter->drawPixmap(image.second.x(), image.second.y(), image.first);
+      pixmaps[object->GetPixmapId()];
+      painter->drawPixmap(offsets[object->GetPixmapId()].x(),
+                          offsets[object->GetPixmapId()].y(),
+                          pixmaps[object->GetPixmapId()]);
       painter->restore();
     }
   }

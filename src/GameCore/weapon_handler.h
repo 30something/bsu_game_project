@@ -12,7 +12,7 @@ class WeaponHandler {
   ~WeaponHandler() = default;
   void PutMine(Car* car);
   void ProceedWeapons(std::vector<Car>* cars);
-  std::vector<Mine> GetMines() const;
+  const std::vector<Mine>& GetMines() const;
 
  private:
   std::vector<Mine> mines_;

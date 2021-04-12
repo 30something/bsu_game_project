@@ -69,11 +69,11 @@ double Physics::Distance(QPoint first, QPoint second) {
   return std::hypot(first.x() - second.x(), first.y() - second.y());
 }
 
-QPoint Physics::GetRandomPointOnLine(Line line) {
+Vec2f Physics::GetRandomPointOnLine(Line line) {
   double dx = line.x1 - line.x2;
   double dy = line.y1 - line.y2;
   double scalar = QRandomGenerator::global()->generateDouble();
   dx *= scalar;
   dy *= scalar;
-  return QPoint(line.x1 - dx, line.y1 - dy);
+  return Vec2f(line.x1 - dx, line.y1 - dy);
 }

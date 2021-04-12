@@ -31,7 +31,7 @@ void WeaponHandler::ProceedWeapons(std::vector<Car>* cars) {
       ShootBullet(&car, cars);
     }
   }
-  for (auto& mine : mines_) {
+  for (const auto& mine : mines_) {
     for (auto& car : *cars) {
       if (Physics::IsInside(car.GetLines(), QPoint(mine.GetPosition().GetX(), mine.GetPosition().GetY()))) {
         car.AddHitPoints(-kMineDamage);
@@ -42,6 +42,6 @@ void WeaponHandler::ProceedWeapons(std::vector<Car>* cars) {
   }
 }
 
-std::vector<Mine> WeaponHandler::GetMines() const {
+const std::vector<Mine>& WeaponHandler::GetMines() const {
   return mines_;
 }

@@ -25,7 +25,7 @@ class Map {
 
  private:
   std::vector<std::vector<QPoint>> borders_;
-  std::vector<QPoint> bonuses_positions_;
+  std::vector<Vec2f> bonuses_positions_;
   std::vector<Bonus> bonuses_;
   QTimer bonus_timer_;
 

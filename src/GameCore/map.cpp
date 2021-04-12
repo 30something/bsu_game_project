@@ -23,7 +23,7 @@ void Map::CalculateBonusesPositions() {
   for (const auto& first : borders_[0]) {
     QPoint second = borders_[1][FindIndexOfMinimalDistance(first, borders_[1])];
     Line line(first.x(), first.y(), second.x(), second.y());
-    QPoint point = Physics::GetRandomPointOnLine(line);
+    Vec2f point = Physics::GetRandomPointOnLine(line);
     bonuses_positions_.push_back(point);
   }
 }
@@ -79,7 +79,7 @@ void Map::ProceedNewBonuses() {
 
 void Map::ProceedActiveBonuses(Car* car) {
   for (auto& bonus : bonuses_) {
-    if (Physics::IsInside(car->GetLines(), bonus.GetPosition())) {
+    if (Physics::IsInside(car->GetLines(), QPoint(bonus.GetPosition().GetX(), bonus.GetPosition().GetY()))) {
       bonus.ApplyTo(car);
       bonuses_.erase(std::find(bonuses_.begin(),
                                bonuses_.end(),

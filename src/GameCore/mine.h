@@ -10,7 +10,9 @@ class Mine : public GameObject {
   double GetAngle() const override;
   std::string GetPixmapId() const override;
   std::vector<Line> GetLines() const override;
-  
+  bool operator==(const Mine& rhs) const;
+  bool operator!=(const Mine& rhs) const;
+
  private:
   Vec2f position_;
 };
