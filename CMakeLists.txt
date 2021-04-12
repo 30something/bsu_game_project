@@ -44,8 +44,9 @@ set(SOURCES main.cpp
         src/helpers/bonus.cpp
         src/GameCore/game_object.cpp
         src/GameCore/mine.cpp
-        src/GameCore/CarBehavior/behaviour.cpp
+        src/GameCore/CarBehavior/behavior.cpp
         src/GameCore/CarBehavior/first_player_behavior.cpp
+        src/GameCore/CarBehavior/second_player_behavior.cpp
         )
 
 set(RESOURCES

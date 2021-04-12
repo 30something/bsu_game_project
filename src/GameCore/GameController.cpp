@@ -7,12 +7,17 @@ GameController::GameController(GameMode* game_mode) :
   map_.SetBorders(parser.GetBorders());
   std::vector<std::pair<QPoint, double>> pos_and_angles =
       parser.GetCarStartPositionsAndAngles();
-  size_t cars_amount = game_mode_->players_amount + game_mode_->bots_amount;
-  for (size_t i = 0; i < cars_amount; i++) {
+  Behavior* first_player = new (FirstPlayerBehavior);
+  cars_.emplace_back(
+      pos_and_angles[0].first,
+      pos_and_angles[0].second,
+      first_player);
+  if(game_mode_->players_amount > 1) {
+    Behavior* second_player = new (SecondPlayerBehavior);
     cars_.emplace_back(
-        pos_and_angles[i].first.x(),
-        pos_and_angles[i].first.y(),
-        pos_and_angles[i].second);
+        pos_and_angles[1].first,
+        pos_and_angles[1].second,
+        second_player);
   }
 }
 
@@ -71,82 +76,14 @@ void GameController::CollideCars(Car* car_1, Car* car_2) {
 }
 
 void GameController::HandleKeyPressEvent(QKeyEvent* event) {
-  int key = event->key();
-  if (cars_[0].IsAlive()) {
-    if (key == Qt::Key_Up) {
-      cars_[0].SetFlagUp(true);
-    }
-    if (key == Qt::Key_Down) {
-      cars_[0].SetFlagDown(true);
-    }
-    if (key == Qt::Key_Left) {
-      cars_[0].SetFlagLeft(true);
-    }
-    if (key == Qt::Key_Right) {
-      cars_[0].SetFlagRight(true);
-    }
-    if (key == Qt::Key_Control) {
-      cars_[0].SetIsShooting(true);
-    }
-    if (key == Qt::Key_Shift) {
-      weapon_handler_.PutMine(&cars_[0]);
-    }
-  }
-  if (game_mode_->players_amount > 1 && cars_[1].IsAlive()) {
-    if (key == Qt::Key_W) {
-      cars_[1].SetFlagUp(true);
-    }
-    if (key == Qt::Key_S) {
-      cars_[1].SetFlagDown(true);
-    }
-    if (key == Qt::Key_A) {
-      cars_[1].SetFlagLeft(true);
-    }
-    if (key == Qt::Key_D) {
-      cars_[1].SetFlagRight(true);
-    }
-    if (key == Qt::Key_Alt) {
-      cars_[1].SetIsShooting(true);
-    }
-    if (key == Qt::Key_Space) {
-      weapon_handler_.PutMine(&cars_[1]);
-    }
+  for(auto& car : cars_) {
+    car.GetBehavior()->HandleKeyPressEvent(&car, event);
   }
 }
 
 void GameController::HandleKeyReleaseEvent(QKeyEvent* event) {
-  int key = event->key();
-  if (key == Qt::Key_Up) {
-    cars_[0].SetFlagUp(false);
-  }
-  if (key == Qt::Key_Down) {
-    cars_[0].SetFlagDown(false);
-  }
-  if (key == Qt::Key_Left) {
-    cars_[0].SetFlagLeft(false);
-  }
-  if (key == Qt::Key_Right) {
-    cars_[0].SetFlagRight(false);
-  }
-  if (key == Qt::Key_Control) {
-    cars_[0].SetIsShooting(false);
-  }
-  if (game_mode_->players_amount > 1) {
-    if (key == Qt::Key_W) {
-      cars_[1].SetFlagUp(false);
-    }
-    if (key == Qt::Key_S) {
-      cars_[1].SetFlagDown(false);
-    }
-    if (key == Qt::Key_A) {
-      cars_[1].SetFlagLeft(false);
-    }
-    if (key == Qt::Key_D) {
-      cars_[1].SetFlagRight(false);
-    }
-    if (key == Qt::Key_Alt) {
-      cars_[1].SetIsShooting(false);
-    }
+  for(auto& car : cars_) {
+    car.GetBehavior()->HandleKeyReleaseEvent(&car, event);
   }
 }
 

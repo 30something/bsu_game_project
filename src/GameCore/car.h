@@ -14,12 +14,13 @@
 #include "src/helpers/line.h"
 #include "src/helpers/physics.h"
 #include "game_object.h"
+#include "src/GameCore/CarBehavior/behavior.h"
 
 class Car : public GameObject {
  public:
-  Car(int x,
-      int y,
-      double angle);
+  Car(QPoint position,
+      double angle,
+      Behavior* behavior);
   ~Car() = default;
 
   void Tick(int time_millisec);
@@ -35,8 +36,9 @@ class Car : public GameObject {
   const Vec2f& GetVelocity() const;
   const Vec2f& GetPosition() const override;
   std::string GetPixmapId() const override;
-
+  Behavior* GetBehavior() const;
   const Vec2f& GetAngleVec() const;
+  bool IsPuttingMine() const;
   bool IsShooting() const;
   bool IsAlive() const;
   void SetVelocity(const Vec2f& velocity);
@@ -50,10 +52,12 @@ class Car : public GameObject {
   void SetFlagLeft(bool flag_left);
   void SetFlagRight(bool flag_right);
   void SetIsShooting(bool is_shooting);
+  void SetIsPuttingMine(bool is_putting_mine);
   void SetIsAlive(bool is_alive);
 
  private:
   std::vector<Wheel> wheels_{4};
+  Behavior* behavior_ = nullptr;
   Vec2f position_;
   Vec2f angle_vec_;
   Vec2f velocity_;
@@ -84,6 +88,7 @@ class Car : public GameObject {
   bool flag_left_ = false;
   bool flag_right_ = false;
   bool is_shooting_ = false;
+  bool is_putting_mine_ = false;
   bool is_alive_ = true;
 
   double hit_points_ = 100;

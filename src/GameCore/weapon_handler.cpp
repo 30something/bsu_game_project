@@ -30,6 +30,9 @@ void WeaponHandler::ProceedWeapons(std::vector<Car>* cars) {
     if (car.IsShooting()) {
       ShootBullet(&car, cars);
     }
+    if(car.IsPuttingMine()) {
+      PutMine(&car);
+    }
   }
   for (const auto& mine : mines_) {
     for (auto& car : *cars) {

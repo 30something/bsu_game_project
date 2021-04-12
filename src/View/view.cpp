@@ -9,8 +9,8 @@ View::View(GameController* model, GameMode* game_mode) :
 void View::PreparePixmaps(const GameMode* game_mode) {
   QPixmap car(":resources/images/cars/car_1.png");
   QPixmap dead_car(":resources/images/cars/car_1_dead.png");
+  QPixmap shooting_car(":resources/images/cars/car_1_shoot.png");
   QPixmap mine(":resources/images/other_stuff/mine.png");
-  QPixmap shooting_car(":resources/images/other_stuff/shot.png");
   QPixmap health_bonus(":resources/images/other_stuff/hp.png");
   QPixmap bullets_ammo_bonus(":resources/images/other_stuff/ammo.png");
   QPixmap mines_bonus(":resources/images/other_stuff/mines_ammo.png");
@@ -27,8 +27,8 @@ void View::PreparePixmaps(const GameMode* game_mode) {
 
   offsets["car"] = QPoint(-5, -10);
   offsets["dead_car"] = QPoint(-5, -10);
+  offsets["shooting_car"] = QPoint(-5, -16);
   offsets["mine"] = QPoint(-2, -2);
-  offsets["shooting_car"] = QPoint(-5, -10);
   offsets["health_bonus"] = QPoint(-5, -5);
   offsets["bullets_ammo_bonus"] = QPoint(-5, -5);
   offsets["mines_bonus"] = QPoint(-5, -5);

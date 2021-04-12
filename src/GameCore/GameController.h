@@ -12,6 +12,9 @@
 #include "map.h"
 #include "weapon_handler.h"
 #include "src/helpers/json_map_parser.h"
+#include "src/GameCore/CarBehavior/first_player_behavior.h"
+#include "src/GameCore/CarBehavior/second_player_behavior.h"
+
 
 class GameController {
  public:

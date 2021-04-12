@@ -1,9 +1,10 @@
 #include "car.h"
 
-Car::Car(int x,
-         int y,
-         double angle) :
-    position_(x, y) {
+Car::Car(QPoint position,
+         double angle,
+         Behavior* behavior) :
+         behavior_(behavior),
+    position_(position.x(), position.y()) {
   velocity_.Set(Physics::kAlmostZero, Physics::kAlmostZero);
   angle_vec_.Set(1.0, 0.0);
   angle_vec_.Rotate(angle);
@@ -60,6 +61,7 @@ void Car::Tick(int time_millisec) {
     flag_down_ = false;
     is_shooting_ = false;
   }
+  behavior_->HandleTick();
   ProceedInputFlags();
   AdvanceStep(time_millisec);
 }
@@ -243,6 +245,7 @@ void Car::SetIsAlive(bool is_alive) {
 }
 
 std::optional<Vec2f> Car::DropMine() {
+  is_putting_mine_ = false;
   if (mines_amount_ > 0) {
     mines_amount_--;
     return Vec2f(angle_vec_.GetX() * (kPutMineOffset) + position_.GetX(),
@@ -275,4 +278,16 @@ std::string Car::GetPixmapId() const {
   } else {
     return "dead_car";
   }
+}
+
+Behavior* Car::GetBehavior() const {
+  return behavior_;
+}
+
+bool Car::IsPuttingMine() const {
+  return is_putting_mine_;
+}
+
+void Car::SetIsPuttingMine(bool is_putting_mine) {
+  is_putting_mine_ = is_putting_mine;
 }

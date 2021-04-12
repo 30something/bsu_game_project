@@ -37,6 +37,7 @@ std::string Bonus::GetPixmapId() const {
       return "bonus_health";
     }
   }
+  return std::string();
 }
 
 std::vector<Line> Bonus::GetLines() const {
