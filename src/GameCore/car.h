@@ -6,6 +6,7 @@
 #include <cmath>
 #include <utility>
 #include <optional>
+#include <string>
 
 #include <QPoint>
 

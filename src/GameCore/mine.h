@@ -1,11 +1,14 @@
 #pragma once
 
+#include <string>
+#include <vector>
+
 #include "src/helpers/vec2f.h"
 #include "game_object.h"
 
 class Mine : public GameObject {
  public:
-  Mine(Vec2f position);
+  explicit Mine(Vec2f position);
   const Vec2f& GetPosition() const override;
   double GetAngle() const override;
   std::string GetPixmapId() const override;

@@ -1,5 +1,8 @@
 #pragma once
 
+#include <string>
+#include <vector>
+
 #include <QPixmap>
 
 #include "src/helpers/vec2f.h"

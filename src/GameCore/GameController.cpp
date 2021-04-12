@@ -12,7 +12,7 @@ GameController::GameController(GameMode* game_mode) :
       pos_and_angles[0].first,
       pos_and_angles[0].second,
       first_player);
-  if(game_mode_->players_amount > 1) {
+  if (game_mode_->players_amount > 1) {
     Behavior* second_player = new (SecondPlayerBehavior);
     cars_.emplace_back(
         pos_and_angles[1].first,
@@ -76,13 +76,13 @@ void GameController::CollideCars(Car* car_1, Car* car_2) {
 }
 
 void GameController::HandleKeyPressEvent(QKeyEvent* event) {
-  for(auto& car : cars_) {
+  for (auto& car : cars_) {
     car.GetBehavior()->HandleKeyPressEvent(&car, event);
   }
 }
 
 void GameController::HandleKeyReleaseEvent(QKeyEvent* event) {
-  for(auto& car : cars_) {
+  for (auto& car : cars_) {
     car.GetBehavior()->HandleKeyReleaseEvent(&car, event);
   }
 }

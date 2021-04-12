@@ -3,7 +3,7 @@
 Car::Car(QPoint position,
          double angle,
          Behavior* behavior) :
-         behavior_(behavior),
+    behavior_(behavior),
     position_(position.x(), position.y()) {
   velocity_.Set(Physics::kAlmostZero, Physics::kAlmostZero);
   angle_vec_.Set(1.0, 0.0);

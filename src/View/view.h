@@ -2,6 +2,8 @@
 
 #include <utility>
 #include <vector>
+#include <map>
+#include <string>
 
 #include <QPainter>
 #include <QPixmap>

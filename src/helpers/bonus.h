@@ -1,5 +1,8 @@
 #pragma once
 
+#include <string>
+#include <vector>
+
 #include "src/GameCore/car.h"
 #include "src/GameCore/game_object.h"
 
