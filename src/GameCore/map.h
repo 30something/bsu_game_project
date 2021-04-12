@@ -2,9 +2,9 @@
 
 #include <utility>
 #include <vector>
-#include <QRandomGenerator>
 
 #include <QTextStream>
+#include <QRandomGenerator>
 #include <QFile>
 #include <QTimer>
 
@@ -31,10 +31,10 @@ class Map {
 
   static constexpr double kVelocityDecrease = 0.75;
   static constexpr double kHPDecrease = 0.001;
-  static constexpr int kMaxBonusesAmount = 5;
-  static constexpr int kAmountOfBonusTypes = 3;
-  static constexpr int kMaxMilliSecondsForNewBonus = 20000;
-  static constexpr int kMinMilliSecondForNewBonus = 5000;
+  static constexpr size_t kMaxBonusesAmount = 5;
+  static constexpr size_t kAmountOfBonusTypes = 3;
+  static constexpr size_t kMaxMilliSecondsForNewBonus = 20000;
+  static constexpr size_t kMinMilliSecondForNewBonus = 5000;
 
   void CalculateBonusesPositions();
   void ProceedCollisions(Car*);
