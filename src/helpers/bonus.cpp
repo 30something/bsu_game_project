@@ -17,10 +17,28 @@ void Bonus::ApplyTo(Car* car) {
   }
 }
 
-Bonus::BonusType Bonus::GetType() const {
-  return type_;
+const Vec2f& Bonus::GetPosition() const {
+  return position_;
 }
 
-const QPoint& Bonus::GetPosition() const {
-  return position_;
+double Bonus::GetAngle() const {
+  return 0;
+}
+
+std::string Bonus::GetPixmapId() const {
+  switch (type_) {
+    case BonusType::kMineAmmo: {
+      return "bonus_mine_ammo";
+    }
+    case BonusType::kBulletsAmmo: {
+      return "bonus_bullets_ammo";
+    }
+    case BonusType::kHealth: {
+      return "bonus_health";
+    }
+  }
+}
+
+std::vector<Line> Bonus::GetLines() const {
+  return std::vector<Line>();
 }

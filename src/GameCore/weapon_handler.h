@@ -3,8 +3,7 @@
 #include <vector>
 #include <optional>
 
-#include <QPoint>
-
+#include "mine.h"
 #include "car.h"
 
 class WeaponHandler {
@@ -13,10 +12,10 @@ class WeaponHandler {
   ~WeaponHandler() = default;
   void PutMine(Car* car);
   void ProceedWeapons(std::vector<Car>* cars);
-  const std::vector<QPoint>& GetMinesCoordinates() const;
+  std::vector<Mine> GetMines() const;
 
  private:
-  std::vector<QPoint> mines_;
+  std::vector<Mine> mines_;
 
   static void ShootBullet(Car* car, std::vector<Car>* cars);
 

@@ -242,11 +242,11 @@ void Car::SetIsAlive(bool is_alive) {
   is_alive_ = is_alive;
 }
 
-std::optional<QPoint> Car::DropMine() {
+std::optional<Vec2f> Car::DropMine() {
   if (mines_amount_ > 0) {
     mines_amount_--;
-    return QPoint(angle_vec_.GetX() * (kPutMineOffset) + position_.GetX(),
-                  angle_vec_.GetY() * (kPutMineOffset) + position_.GetY());
+    return Vec2f(angle_vec_.GetX() * (kPutMineOffset) + position_.GetX(),
+                 angle_vec_.GetY() * (kPutMineOffset) + position_.GetY());
   } else {
     return std::nullopt;
   }
@@ -262,5 +262,17 @@ std::optional<Line> Car::ShootBullet() {
         angle_vec_.GetY() * kShootingRange + position_.GetY());
   } else {
     return std::nullopt;
+  }
+}
+
+std::string Car::GetPixmapId() const {
+  if (is_alive_) {
+    if (is_shooting_) {
+      return "shooting_car";
+    } else {
+      return "car";
+    }
+  } else {
+    return "dead_car";
   }
 }

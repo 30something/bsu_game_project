@@ -150,14 +150,28 @@ void GameController::HandleKeyReleaseEvent(QKeyEvent* event) {
   }
 }
 
-const std::vector<QPoint>& GameController::GetMinesCoordinates() const {
-  return weapon_handler_.GetMinesCoordinates();
+std::vector<const GameObject*> GameController::GetMines() const {
+  auto mines = weapon_handler_.GetMines();
+  std::vector<const GameObject*> result;
+  for (auto& mine : mines) {
+    result.push_back(&mine);
+  }
+  return result;
 }
 
-const std::vector<Car>& GameController::GetCars() const {
-  return cars_;
+std::vector<const GameObject*> GameController::GetCars() const {
+  std::vector<const GameObject*> result;
+  for (auto& car : cars_) {
+    result.push_back(&car);
+  }
+  return result;
 }
 
-const std::vector<Bonus>& GameController::GetActiveBonuses() const {
-  return map_.GetActiveBonuses();
+std::vector<const GameObject*> GameController::GetBonuses() const {
+  std::vector<const GameObject*> result;
+  auto bonuses = map_.GetActiveBonuses();
+  for (auto& bonus : bonuses) {
+    result.push_back(&bonus);
+  }
+  return result;
 }

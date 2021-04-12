@@ -13,8 +13,9 @@
 #include "wheel.h"
 #include "src/helpers/line.h"
 #include "src/helpers/physics.h"
+#include "game_object.h"
 
-class Car {
+class Car : public GameObject {
  public:
   Car(int x,
       int y,
@@ -23,16 +24,18 @@ class Car {
 
   void Tick(int time_millisec);
 
-  std::optional<QPoint> DropMine();
+  std::optional<Vec2f> DropMine();
   std::optional<Line> ShootBullet();
 
   double GetHitPoints() const;
   double GetBulletsAmount() const;
   double GetMinesAmount() const;
-  double GetAngle() const;
-  std::vector<Line> GetLines() const;
+  double GetAngle() const override;
+  std::vector<Line> GetLines() const override;
   const Vec2f& GetVelocity() const;
-  const Vec2f& GetPosition() const;
+  const Vec2f& GetPosition() const override;
+  std::string GetPixmapId() const override;
+
   const Vec2f& GetAngleVec() const;
   bool IsShooting() const;
   bool IsAlive() const;

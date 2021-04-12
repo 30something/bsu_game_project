@@ -2,80 +2,37 @@
 
 View::View(GameController* model, GameMode* game_mode) :
     model_(model),
-    car_(":resources/images/cars/car_1.png"),
-    dead_car_(":resources/images/cars/car_1_dead.png"),
-    mine_(":resources/images/other_stuff/mine.png"),
-    shot_(":resources/images/other_stuff/shot.png"),
-    health_bonus_(":resources/images/other_stuff/hp.png"),
-    bullets_ammo_bonus_(":resources/images/other_stuff/ammo.png"),
-    mines_bonus_(":resources/images/other_stuff/mines_ammo.png"),
     players_amount_(game_mode->players_amount) {
-  map_.load(map_data::image_filepaths[game_mode->map_index]);
+  QPixmap car(":resources/images/cars/car_1.png");
+  QPixmap dead_car(":resources/images/cars/car_1_dead.png");
+  QPixmap mine(":resources/images/other_stuff/mine.png");
+  QPixmap shooting_car(":resources/images/other_stuff/shot.png");
+  QPixmap health_bonus(":resources/images/other_stuff/hp.png");
+  QPixmap bullets_ammo_bonus(":resources/images/other_stuff/ammo.png");
+  QPixmap mines_bonus(":resources/images/other_stuff/mines_ammo.png");
+  QPixmap map(map_data::image_filepaths[game_mode->map_index]);
+  pixmaps["map"] = std::make_pair("map", std::make_pair(QPoint(0,0), map));
+  pixmaps["car"] = std::make_pair(QPoint(0,0), map);
+  pixmaps["dead_car"] = std::make_pair(QPoint(0,0), map);
+  pixmaps["mine"] = std::make_pair(QPoint(0,0), map);
+  pixmaps["shooting_car"] = std::make_pair(QPoint(0,0), map);
+  pixmaps["health_bonus"] = std::make_pair(QPoint(0,0), map);
+  pixmaps["bullets_ammo_bonus"] = std::make_pair(QPoint(0,0), map);
+  pixmaps["mines_bonus"] = std::make_pair(QPoint(0,0), map);
 }
 
 void View::Repaint(QPainter* painter) {
   std::vector<QRect> frames = GetFramesVector(painter);
   painter->scale(kScale, kScale);
   const auto& cars = model_->GetCars();
-  const auto& mines = model_->GetMinesCoordinates();
-  const auto& bonuses = model_->GetActiveBonuses();
+  const auto& mines = model_->GetMines();
+  const auto& bonuses = model_->GetBonuses();
+
   for (size_t i = 0; i < frames.size(); i++) {
-    DrawMap(painter, frames[i], cars[i].GetPosition());
-    for (size_t j = 0; j < cars.size(); j++) {
-      DrawPicture(
-          painter,
-          frames[i],
-          cars[i].GetPosition(),
-          cars[j].GetPosition(),
-          cars[j].GetAngle(),
-          (cars[j].IsAlive() ? car_ : dead_car_),
-          QPoint(-5, -10));
-      if (cars[j].IsShooting()) {
-        DrawPicture(
-            painter,
-            frames[i],
-            cars[i].GetPosition(),
-            cars[j].GetPosition(),
-            cars[j].GetAngle(),
-            shot_,
-            QPoint(-2, -20));
-      }
-    }
-    for (const auto& mine : mines) {
-      DrawPicture(
-          painter,
-          frames[i],
-          cars[i].GetPosition(),
-          Vec2f(mine.x(), mine.y()),
-          0,
-          mine_,
-          QPoint(-2, -2));
-    }
-    for (const auto& bonus : bonuses) {
-      QPixmap bonus_pixmap;
-      switch (bonus.GetType()) {
-        case Bonus::BonusType::kHealth: {
-          bonus_pixmap = health_bonus_;
-          break;
-        }
-        case Bonus::BonusType::kBulletsAmmo: {
-          bonus_pixmap = bullets_ammo_bonus_;
-          break;
-        }
-        case Bonus::BonusType::kMineAmmo: {
-          bonus_pixmap = mines_bonus_;
-          break;
-        }
-      }
-      DrawPicture(
-          painter,
-          frames[i],
-          cars[i].GetPosition(),
-          Vec2f(bonus.GetPosition().x(), bonus.GetPosition().y()),
-          0,
-          bonus_pixmap,
-          QPoint(-5, -5));
-    }
+    DrawMap(painter, frames[i], cars[i]->GetPosition());
+    DrawGameObjects(painter, frames[i], cars[i]->GetPosition(), cars);
+    DrawGameObjects(painter, frames[i], cars[i]->GetPosition(), mines);
+    DrawGameObjects(painter, frames[i], cars[i]->GetPosition(), bonuses);
   }
 }
 
@@ -104,29 +61,30 @@ void View::DrawMap(QPainter* painter,
                    const Vec2f& pos) {
   painter->drawPixmap(frame.left() / kScale,
                       0,
-                      map_,
+                      pixmaps["map"].first,
                       pos.GetX() - frame.width() / 2 / kScale,
                       pos.GetY() - frame.height() / 2 / kScale,
                       frame.width() / kScale,
                       frame.height() / kScale);
 }
 
-void View::DrawPicture(QPainter* painter,
-                       const QRect& frame,
-                       const Vec2f& frame_center,
-                       const Vec2f& coords,
-                       double angle,
-                       const QPixmap& pixmap,
-                       const QPoint& offset) const {
-  double x = frame.left() / kScale + coords.GetX() - frame_center.GetX()
-      + frame.width() / kScale / 2;
-  double y = coords.GetY() - frame_center.GetY()
-      + frame.height() / kScale / 2;
-  if (frame.contains(x * kScale, y * kScale)) {
-    painter->save();
-    painter->translate(x, y);
-    painter->rotate(angle);
-    painter->drawPixmap(offset.x(), offset.y(), pixmap);
-    painter->restore();
+void View::DrawGameObjects(QPainter* painter,
+                           const QRect& frame,
+                           const Vec2f& frame_center,
+                           const std::vector<const GameObject*>& game_objects) {
+  for (const auto& object : game_objects) {
+    double x = frame.left() / kScale + object->GetPosition().GetX()
+        - frame_center.GetX()
+        + frame.width() / kScale / 2;
+    double y = object->GetPosition().GetY() - frame_center.GetY()
+        + frame.height() / kScale / 2;
+    if (frame.contains(x * kScale, y * kScale)) {
+      painter->save();
+      painter->translate(x, y);
+      painter->rotate(object->GetAngle());
+      std::pair<QPixmap, QPoint> image = pixmaps[object->GetPixmapId()];
+      painter->drawPixmap(image.second.x(), image.second.y(), image.first);
+      painter->restore();
+    }
   }
 }

@@ -1,10 +1,9 @@
 #pragma once
 
-#include <QPoint>
-
 #include "src/GameCore/car.h"
+#include "src/GameCore/game_object.h"
 
-class Bonus {
+class Bonus : public GameObject {
  public:
   enum class BonusType {
     kHealth = 0,
@@ -12,14 +11,16 @@ class Bonus {
     kMineAmmo = 2
   };
 
-  Bonus(QPoint point, BonusType _type) :
+  Bonus(Vec2f point, BonusType _type) :
       type_(_type),
       position_(point) {
   }
 
   void ApplyTo(Car* car);
-  BonusType GetType() const;
-  const QPoint& GetPosition() const;
+  const Vec2f& GetPosition() const override;
+  double GetAngle() const override;
+  std::string GetPixmapId() const override;
+  std::vector<Line> GetLines() const override;
 
   bool operator==(const Bonus& rhs) const {
     return type_ == rhs.type_ &&
@@ -32,7 +33,7 @@ class Bonus {
 
  private:
   BonusType type_;
-  QPoint position_;
+  Vec2f position_;
 
   static constexpr double kBonusHealthPrize = 20;
   static constexpr double kBonusBulletsAmmoPrize = 100;

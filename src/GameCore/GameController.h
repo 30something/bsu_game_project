@@ -22,9 +22,9 @@ class GameController {
 
   void HandleKeyPressEvent(QKeyEvent* event);
   void HandleKeyReleaseEvent(QKeyEvent* event);
-  const std::vector<Car>& GetCars() const;
-  const std::vector<QPoint>& GetMinesCoordinates() const;
-  const std::vector<Bonus>& GetActiveBonuses() const;
+  std::vector<const GameObject*> GetCars() const;
+  std::vector<const GameObject*> GetMines() const;
+  std::vector<const GameObject*> GetBonuses() const;
 
  private:
   Map map_;
