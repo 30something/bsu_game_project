@@ -41,7 +41,7 @@ void Car::ProceedInputFlags() {
   if (!flag_up_ && !flag_down_) {
     Vec2f coef = angle_vec_ * kFrictionFactor;
     if (velocity_.GetLength() < (coef).GetLength()) {
-      velocity_.SetLen(Physics::kAlmostZero);
+      velocity_.SetLen(physics::kAlmostZero);
     } else {
       if (std::abs(velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees())
           > 90) {

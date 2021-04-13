@@ -22,6 +22,7 @@ class View {
   GameController* model_ = nullptr;
   std::map<std::string, QPixmap> pixmaps;
   std::map<std::string, QPoint> offsets;
+  
   int players_amount_ = 0;
 
   const double kScale = 2;

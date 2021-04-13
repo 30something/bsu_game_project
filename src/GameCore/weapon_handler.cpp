@@ -9,7 +9,7 @@ void WeaponHandler::ShootBullet(Car* car, std::vector<Car>* cars) {
       }
       std::vector<Line> car_lines = second_car.GetLines();
       for (const auto& line : car_lines) {
-        if (Physics::IsIntersects(*shoot_trajectory, line)) {
+        if (physics::IsIntersects(*shoot_trajectory, line)) {
           second_car.AddHitPoints(-kBulletDamage);
           break;
         }
@@ -36,7 +36,7 @@ void WeaponHandler::ProceedWeapons(std::vector<Car>* cars) {
   }
   for (const auto& mine : mines_) {
     for (auto& car : *cars) {
-      if (Physics::IsInside(car.GetLines(),
+      if (physics::IsInside(car.GetLines(),
                             QPoint(mine.GetPosition().GetX(),
                                    mine.GetPosition().GetY()))) {
         car.AddHitPoints(-kMineDamage);

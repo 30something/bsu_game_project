@@ -27,7 +27,7 @@ void GameController::Tick(int time_millis) {
   for (auto& car : cars_) {
     map_.HandleCarTick(&car);
     car.Tick(time_millis);
-    if (car.GetHitPoints() < Physics::kAlmostZero) {
+    if (car.GetHitPoints() < physics::kAlmostZero) {
       car.SetIsAlive(false);
     }
   }
@@ -41,7 +41,7 @@ void GameController::ProceedCollisionsWithCars() {
       }
       auto lines1 = cars_[i].GetLines();
       auto lines2 = cars_[j].GetLines();
-      if (Physics::IsIntersects(lines1, lines2)) {
+      if (physics::IsIntersects(lines1, lines2)) {
         CollideCars(&cars_[i], &cars_[j]);
         return;
       }
@@ -60,9 +60,9 @@ void GameController::CollideCars(Car* car_1, Car* car_2) {
       (pos_1.GetX() - pos_2.GetX(), pos_1.GetY() - pos_2.GetY());
   deviation.Normalize();
   Vec2f vel_1 =
-      car_1->GetVelocity() + deviation * Physics::kCollisionDeviationScalar;
+      car_1->GetVelocity() + deviation * physics::kCollisionDeviationScalar;
   Vec2f vel_2 =
-      car_2->GetVelocity() - deviation * Physics::kCollisionDeviationScalar;
+      car_2->GetVelocity() - deviation * physics::kCollisionDeviationScalar;
   vel_1 *= kVelocityDecrease;
   vel_2 *= kVelocityDecrease;
 
@@ -111,4 +111,8 @@ std::vector<const GameObject*> GameController::GetBonuses() const {
     result.push_back(&bonus);
   }
   return result;
+}
+
+const std::vector<Bonus>& GameController::GetActiveBonuses() const {
+  return map_.GetActiveBonuses();
 }
