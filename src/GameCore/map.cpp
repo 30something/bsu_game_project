@@ -23,7 +23,6 @@ void Map::CalculateBonusesPositions() {
   for (const auto& first : borders_[0]) {
     QPoint second = borders_[1][FindIndexOfMinimalDistance(first, borders_[1])];
     Line line(first.x(), first.y(), second.x(), second.y());
-    Vec2f point = Physics::GetRandomPointOnLine(line);
     Vec2f point = physics::GetRandomPointOnLine(line);
     bonuses_positions_.push_back(point);
   }

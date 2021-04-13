@@ -5,7 +5,7 @@ Car::Car(QPoint position,
          Behavior* behavior) :
     behavior_(behavior),
     position_(position.x(), position.y()) {
-  velocity_.Set(Physics::kAlmostZero, Physics::kAlmostZero);
+  velocity_.Set(physics::kAlmostZero, physics::kAlmostZero);
   angle_vec_.Set(1.0, 0.0);
   angle_vec_.Rotate(angle);
   UpdateWheelsPosAndOrientation();

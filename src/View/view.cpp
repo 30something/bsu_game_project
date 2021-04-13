@@ -16,23 +16,23 @@ void View::PreparePixmaps(const GameMode* game_mode) {
   QPixmap mines_bonus(":resources/images/other_stuff/mines_ammo.png");
   QPixmap map(map_data::image_filepaths[game_mode->map_index]);
 
-  pixmaps["car"] = car;
-  pixmaps["dead_car"] = dead_car;
-  pixmaps["mine"] = mine;
-  pixmaps["shooting_car"] = shooting_car;
-  pixmaps["bonus_health"] = health_bonus;
-  pixmaps["bonus_bullets_ammo"] = bullets_ammo_bonus;
-  pixmaps["bonus_mine_ammo"] = mines_bonus;
-  pixmaps["map"] = map;
+  pixmaps_["car"] = car;
+  pixmaps_["dead_car"] = dead_car;
+  pixmaps_["mine"] = mine;
+  pixmaps_["shooting_car"] = shooting_car;
+  pixmaps_["bonus_health"] = health_bonus;
+  pixmaps_["bonus_bullets_ammo"] = bullets_ammo_bonus;
+  pixmaps_["bonus_mine_ammo"] = mines_bonus;
+  pixmaps_["map"] = map;
 
-  offsets["car"] = QPoint(-5, -10);
-  offsets["dead_car"] = QPoint(-5, -10);
-  offsets["shooting_car"] = QPoint(-5, -16);
-  offsets["mine"] = QPoint(-2, -2);
-  offsets["bonus_health"] = QPoint(-5, -5);
-  offsets["bonus_bullets_ammo"] = QPoint(-5, -5);
-  offsets["bonus_mine_ammo"] = QPoint(-5, -5);
-  offsets["map"] = QPoint(0, 0);
+  offsets_["car"] = QPoint(-5, -10);
+  offsets_["dead_car"] = QPoint(-5, -10);
+  offsets_["shooting_car"] = QPoint(-5, -16);
+  offsets_["mine"] = QPoint(-2, -2);
+  offsets_["bonus_health"] = QPoint(-5, -5);
+  offsets_["bonus_bullets_ammo"] = QPoint(-5, -5);
+  offsets_["bonus_mine_ammo"] = QPoint(-5, -5);
+  offsets_["map"] = QPoint(0, 0);
 }
 
 void View::Repaint(QPainter* painter) {
@@ -75,7 +75,7 @@ void View::DrawMap(QPainter* painter,
                    const Vec2f& pos) {
   painter->drawPixmap(frame.left() / kScale,
                       0,
-                      pixmaps["map"],
+                      pixmaps_["map"],
                       pos.GetX() - frame.width() / 2 / kScale,
                       pos.GetY() - frame.height() / 2 / kScale,
                       frame.width() / kScale,
@@ -96,10 +96,10 @@ void View::DrawGameObjects(QPainter* painter,
       painter->save();
       painter->translate(x, y);
       painter->rotate(object->GetAngle());
-      pixmaps[object->GetPixmapId()];
-      painter->drawPixmap(offsets[object->GetPixmapId()].x(),
-                          offsets[object->GetPixmapId()].y(),
-                          pixmaps[object->GetPixmapId()]);
+      pixmaps_[object->GetPixmapId()];
+      painter->drawPixmap(offsets_[object->GetPixmapId()].x(),
+                          offsets_[object->GetPixmapId()].y(),
+                          pixmaps_[object->GetPixmapId()]);
       painter->restore();
     }
   }

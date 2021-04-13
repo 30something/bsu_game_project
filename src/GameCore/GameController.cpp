@@ -112,7 +112,3 @@ std::vector<const GameObject*> GameController::GetBonuses() const {
   }
   return result;
 }
-
-const std::vector<Bonus>& GameController::GetActiveBonuses() const {
-  return map_.GetActiveBonuses();
-}
