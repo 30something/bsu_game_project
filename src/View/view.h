@@ -23,6 +23,10 @@ class View {
   QPixmap dead_car_;
   QPixmap mine_;
   QPixmap shot_;
+  QPixmap health_bonus_;
+  QPixmap bullets_ammo_bonus_;
+  QPixmap mines_bonus_;
+
   int players_amount_ = 0;
 
   const double kScale = 2;
