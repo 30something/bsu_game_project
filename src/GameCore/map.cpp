@@ -13,7 +13,7 @@ void Map::HandleCarCrashIntoBorder(Car* car, const Vec2f& point) {
       (position.GetX() - point.GetX(), position.GetY() - point.GetY());
   deviation.Normalize();
   Vec2f velocity = car->GetVelocity()
-      + deviation * Physics::kCollisionDeviationScalar;
+      + deviation * physics::kCollisionDeviationScalar;
   velocity *= kVelocityDecrease;
   car->SetVelocity(velocity);
   car->SetPosition(position + deviation);
@@ -23,18 +23,18 @@ void Map::CalculateBonusesPositions() {
   for (const auto& first : borders_[0]) {
     QPoint second = borders_[1][FindIndexOfMinimalDistance(first, borders_[1])];
     Line line(first.x(), first.y(), second.x(), second.y());
-    QPoint point = Physics::GetRandomPointOnLine(line);
+    QPoint point = physics::GetRandomPointOnLine(line);
     bonuses_positions_.push_back(point);
   }
 }
 
 size_t Map::FindIndexOfMinimalDistance(QPoint first,
                                        const std::vector<QPoint>& second) {
-  double min_distance = Physics::Distance(first, second[0]);
+  double min_distance = physics::Distance(first, second[0]);
   int minimal_index = 0;
   for (size_t i = 0; i < second.size(); i++) {
-    if (Physics::Distance(first, second[i]) < min_distance) {
-      min_distance = Physics::Distance(first, second[i]);
+    if (physics::Distance(first, second[i]) < min_distance) {
+      min_distance = physics::Distance(first, second[i]);
       minimal_index = i;
     }
   }
@@ -54,8 +54,8 @@ void Map::ProceedCollisions(Car* car) {
         l2.y1 = border[j].y();
         l2.x2 = border[border_i].x();
         l2.y2 = border[border_i].y();
-        if (Physics::IsIntersects(lines[i], l2)) {
-          Vec2f point = Physics::FindIntersectionPoint(lines[i], l2);
+        if (physics::IsIntersects(lines[i], l2)) {
+          Vec2f point = physics::FindIntersectionPoint(lines[i], l2);
           HandleCarCrashIntoBorder(car, point);
           return;
         }
@@ -79,7 +79,7 @@ void Map::ProceedNewBonuses() {
 
 void Map::ProceedActiveBonuses(Car* car) {
   for (auto& bonus : bonuses_) {
-    if (Physics::IsInside(car->GetLines(), bonus.GetPosition())) {
+    if (physics::IsInside(car->GetLines(), bonus.GetPosition())) {
       bonus.ApplyTo(car);
       bonuses_.erase(std::find(bonuses_.begin(),
                                bonuses_.end(),

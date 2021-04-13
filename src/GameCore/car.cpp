@@ -4,7 +4,7 @@ Car::Car(int x,
          int y,
          double angle) :
     position_(x, y) {
-  velocity_.Set(Physics::kAlmostZero, Physics::kAlmostZero);
+  velocity_.Set(physics::kAlmostZero, physics::kAlmostZero);
   angle_vec_.Set(1.0, 0.0);
   angle_vec_.Rotate(angle);
   UpdateWheelsPosAndOrientation();
@@ -40,7 +40,7 @@ void Car::ProceedInputFlags() {
   if (!flag_up_ && !flag_down_) {
     Vec2f coef = angle_vec_ * kFrictionFactor;
     if (velocity_.GetLength() < (coef).GetLength()) {
-      velocity_.SetLen(Physics::kAlmostZero);
+      velocity_.SetLen(physics::kAlmostZero);
     } else {
       if (std::abs(velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees())
           > 90) {

@@ -1,11 +1,11 @@
 #include "physics.h"
 
-int Physics::Product(const QPoint& m, const QPoint& p1, const QPoint& p2) {
+int physics::Product(const QPoint& m, const QPoint& p1, const QPoint& p2) {
   return (p2.x() - p1.x()) * (m.y() - p1.y())
       - (p2.y() - p1.y()) * (m.x() - p1.x());
 }
 
-bool Physics::IsInside(const std::vector<Line>& rect, const QPoint& point) {
+bool physics::IsInside(const std::vector<Line>& rect, const QPoint& point) {
   int p1 = Product(point,
                    QPoint(rect[0].x1, rect[0].y1),
                    QPoint(rect[0].x2, rect[0].y2));
@@ -22,7 +22,7 @@ bool Physics::IsInside(const std::vector<Line>& rect, const QPoint& point) {
       (p1 > 0 && p2 > 0 && p3 > 0 && p4 > 0));
 }
 
-bool Physics::IsIntersects(Line l1, Line l2) {
+bool physics::IsIntersects(Line l1, Line l2) {
   double v1 =
       (l2.x2 - l2.x1) * (l1.y1 - l2.y1) - (l2.y2 - l2.y1) * (l1.x1 - l2.x1);
   double v2 =
@@ -43,7 +43,7 @@ bool Physics::IsIntersects(Line l1, Line l2) {
   return left && right;
 }
 
-Vec2f Physics::FindIntersectionPoint(Line l1, Line l2) {
+Vec2f physics::FindIntersectionPoint(Line l1, Line l2) {
   double k1 = (l1.y1 - l1.y2) / (l1.x1 - l1.x2);
   double k2 = (l2.y1 - l2.y2) / (l2.x1 - l2.x2);
   double b1 = l1.y1 - k1 * l1.x1;
@@ -53,7 +53,7 @@ Vec2f Physics::FindIntersectionPoint(Line l1, Line l2) {
   return Vec2f(result_x, result_y);
 }
 
-bool Physics::IsIntersects(const std::vector<Line>& lines_1,
+bool physics::IsIntersects(const std::vector<Line>& lines_1,
                            const std::vector<Line>& lines_2) {
   for (const auto& line1 : lines_1) {
     for (const auto& line2 : lines_2) {
@@ -65,11 +65,11 @@ bool Physics::IsIntersects(const std::vector<Line>& lines_1,
   return false;
 }
 
-double Physics::Distance(QPoint first, QPoint second) {
+double physics::Distance(QPoint first, QPoint second) {
   return std::hypot(first.x() - second.x(), first.y() - second.y());
 }
 
-QPoint Physics::GetRandomPointOnLine(Line line) {
+QPoint physics::GetRandomPointOnLine(Line line) {
   double dx = line.x1 - line.x2;
   double dy = line.y1 - line.y2;
   double scalar = QRandomGenerator::global()->generateDouble();
