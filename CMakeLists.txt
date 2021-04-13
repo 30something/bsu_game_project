@@ -41,6 +41,7 @@ set(SOURCES main.cpp
         src/GameCore/weapon_handler.cpp
         src/helpers/json_map_parser.cpp
         src/helpers/physics.cpp
+        src/helpers/bonus.cpp
         src/Menu/end_game_stats.cpp
         )
 

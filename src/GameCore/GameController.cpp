@@ -13,10 +13,10 @@ GameController::GameController(GameMode* game_mode) :
   finish_statuses_.resize(
       game_mode_->players_amount, FinishStatus::kNotFinished);
   JsonMapParser parser(map_data::json_filepaths[game_mode->map_index]);
-  map_ = Map(parser.GetBorders());
+  map_.SetBorders(parser.GetBorders());
   finish_line_ = parser.GetFinishLine();
-  std::vector<std::pair<QPoint, double>>
-      pos_and_angles = parser.GetCarStartPositionsAndAngles();
+  std::vector<std::pair<QPoint, double>> pos_and_angles =
+      parser.GetCarStartPositionsAndAngles();
   size_t cars_amount = game_mode_->players_amount + game_mode_->bots_amount;
   for (size_t i = 0; i < cars_amount; i++) {
     cars_.emplace_back(
@@ -35,7 +35,7 @@ void GameController::Tick(int time_millis) {
   for (uint32_t index = 0; index < cars_.size(); index++) {
     map_.ProceedCollisions(&cars_[index]);
     cars_[index].Tick(time_millis);
-    if (cars_[index].GetHitPoints() < Physics::kAlmostZero) {
+    if (cars_[index].GetHitPoints() < physics::kAlmostZero) {
       cars_[index].SetIsAlive(false);
       remaining_cars_.erase(index);
     }
@@ -58,7 +58,7 @@ void GameController::ProceedCollisionsWithCars() {
       }
       auto lines1 = cars_[i].GetLines();
       auto lines2 = cars_[j].GetLines();
-      if (Physics::IsIntersects(lines1, lines2)) {
+      if (physics::IsIntersects(lines1, lines2)) {
         CollideCars(&cars_[i], &cars_[j]);
         return;
       }
@@ -70,7 +70,7 @@ void GameController::ProceedCollisionsWithFinish() {
   for (auto index : remaining_cars_) {
     bool collision_exists = false;
     for (const auto& line : cars_[index].GetLines()) {
-      if (Physics::IsIntersects(line, finish_line_)) {
+      if (physics::IsIntersects(line, finish_line_)) {
         collision_exists = true;
         break;
       }
@@ -133,9 +133,9 @@ void GameController::CollideCars(Car* car_1, Car* car_2) {
       (pos_1.GetX() - pos_2.GetX(), pos_1.GetY() - pos_2.GetY());
   deviation.Normalize();
   Vec2f vel_1 =
-      car_1->GetVelocity() + deviation * Physics::kCollisionDeviationScalar;
+      car_1->GetVelocity() + deviation * physics::kCollisionDeviationScalar;
   Vec2f vel_2 =
-      car_2->GetVelocity() - deviation * Physics::kCollisionDeviationScalar;
+      car_2->GetVelocity() - deviation * physics::kCollisionDeviationScalar;
   vel_1 *= kVelocityDecrease;
   vel_2 *= kVelocityDecrease;
 
@@ -237,6 +237,10 @@ const std::vector<QPoint>& GameController::GetMinesCoordinates() const {
 
 const std::vector<Car>& GameController::GetCars() const {
   return cars_;
+}
+
+const std::vector<Bonus>& GameController::GetActiveBonuses() const {
+  return map_.GetActiveBonuses();
 }
 
 double GameController::GetVelocity(int index) const {

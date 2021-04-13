@@ -64,7 +64,7 @@ void EventsController::PrepareTimer() {
           &QTimer::timeout,
           this,
           &EventsController::FinishCheck);
-  connect(&finish_pause_,
+  connect(&finish_pause_timer_,
           &QTimer::timeout,
           this,
           &EventsController::ShowStats);
@@ -94,6 +94,6 @@ void EventsController::StartTimer() {
 void EventsController::FinishCheck() {
   if (game_controller_->AllCarsFinished()) {
     end_game_check_timer_.stop();
-    finish_pause_.start(kMillisInSecond);
+    finish_pause_timer_.start(kMillisInSecond);
   }
 }

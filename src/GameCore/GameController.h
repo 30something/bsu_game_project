@@ -25,6 +25,7 @@ class GameController {
   void HandleKeyReleaseEvent(QKeyEvent* event);
   const std::vector<Car>& GetCars() const;
   const std::vector<QPoint>& GetMinesCoordinates() const;
+  const std::vector<Bonus>& GetActiveBonuses() const;
 
   double GetVelocity(int index) const;
   int32_t GetLapsCounter(int index) const;

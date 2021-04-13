@@ -50,7 +50,7 @@ class EventsController : public QWidget {
   QTimer view_timer_;
   QTimer controller_timer_;
   QTimer end_game_check_timer_;
-  QTimer finish_pause_;
+  QTimer finish_pause_timer_;
   GameController* game_controller_ = nullptr;
   View* view_ = nullptr;
   GameStatus game_status_ = GameStatus::kRunning;

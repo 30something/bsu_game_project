@@ -1,5 +1,4 @@
 #include "src/View/view.h"
-#include <iostream>
 
 View::View(QWidget* parent, GameController* model, GameMode* game_mode) :
     model_(model),
@@ -7,6 +6,9 @@ View::View(QWidget* parent, GameController* model, GameMode* game_mode) :
     dead_car_(":resources/images/cars/car_1_dead.png"),
     mine_(":resources/images/other_stuff/mine.png"),
     shot_(":resources/images/other_stuff/shot.png"),
+    health_bonus_(":resources/images/other_stuff/hp.png"),
+    bullets_ammo_bonus_(":resources/images/other_stuff/ammo.png"),
+    mines_bonus_(":resources/images/other_stuff/mines_ammo.png"),
     start_label_(new QLabel("Get ready!", parent)),
     players_amount_(game_mode->players_amount),
     laps_amount_(game_mode->laps_amount) {
@@ -21,9 +23,9 @@ void View::Repaint(QPainter* painter) {
                             painter->window().height());
   std::vector<QRect> frames = GetFramesVector(painter);
   painter->scale(kScale, kScale);
-  std::vector<Car> cars = model_->GetCars();
-  std::vector<QPoint> mines = model_->GetMinesCoordinates();
-
+  const auto& cars = model_->GetCars();
+  const auto& mines = model_->GetMinesCoordinates();
+  const auto& bonuses = model_->GetActiveBonuses();
   for (size_t i = 0; i < frames.size(); i++) {
     DrawMap(painter, frames[i], cars[i].GetPosition());
     for (size_t j = 0; j < cars.size(); j++) {
@@ -46,7 +48,7 @@ void View::Repaint(QPainter* painter) {
             QPoint(-2, -20));
       }
     }
-    for (auto& mine : mines) {
+    for (const auto& mine : mines) {
       DrawPicture(
           painter,
           frames[i],
@@ -56,8 +58,32 @@ void View::Repaint(QPainter* painter) {
           mine_,
           QPoint(-2, -2));
     }
+    for (const auto& bonus : bonuses) {
+      QPixmap bonus_pixmap;
+      switch (bonus.GetType()) {
+        case Bonus::BonusType::kHealth: {
+          bonus_pixmap = health_bonus_;
+          break;
+        }
+        case Bonus::BonusType::kBulletsAmmo: {
+          bonus_pixmap = bullets_ammo_bonus_;
+          break;
+        }
+        case Bonus::BonusType::kMineAmmo: {
+          bonus_pixmap = mines_bonus_;
+          break;
+        }
+      }
+      DrawPicture(
+          painter,
+          frames[i],
+          cars[i].GetPosition(),
+          Vec2f(bonus.GetPosition().x(), bonus.GetPosition().y()),
+          0,
+          bonus_pixmap,
+          QPoint(-5, -5));
+    }
   }
-
   UpdateInfoDescription(painter);
 }
 
@@ -127,9 +153,9 @@ void View::DrawPicture(QPainter* painter,
                        double angle,
                        const QPixmap& pixmap,
                        const QPoint& offset) const {
-  int x = frame.left() / kScale + coords.GetX() - frame_center.GetX()
+  double x = frame.left() / kScale + coords.GetX() - frame_center.GetX()
       + frame.width() / kScale / 2;
-  int y = coords.GetY() - frame_center.GetY()
+  double y = coords.GetY() - frame_center.GetY()
       + frame.height() / kScale / 2;
   if (frame.contains(x * kScale, y * kScale)) {
     painter->save();
