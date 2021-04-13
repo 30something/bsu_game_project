@@ -6,15 +6,15 @@
 
 namespace map_data {
 
-// First is data, second is image
-static const std::vector<QString> borders_filepaths{
-    {":resources/images/map_data/map1.txt"},
-    {":resources/images/map_data/map2.txt"},
-    {":resources/images/map_data/map3.txt"},
-    {":resources/images/map_data/map4.txt"},
-    {":resources/images/map_data/map5.txt"},
-    {":resources/images/map_data/map6.txt"},
-    {":resources/images/map_data/map7.txt"}
+static const std::vector<QString> json_filepaths{
+    {":resources/Jsons/map_1_data.json"},
+    {":resources/Jsons/map_2_data.json"},
+    {":resources/Jsons/map_3_data.json"},
+    {":resources/Jsons/map_4_data.json"},
+    {":resources/Jsons/map_5_data.json"},
+    {":resources/Jsons/map_6_data.json"},
+    {":resources/Jsons/map_7_data.json"},
+
 };
 
 static const std::vector<QString> image_filepaths{

@@ -3,6 +3,9 @@
 View::View(GameController* model, GameMode* game_mode) :
     model_(model),
     car_(":resources/images/cars/car1.png"),
+    dead_car_(":resources/images/cars/car_1_dead.png"),
+    mine_(":resources/images/other_stuff/mine.png"),
+    shot_(":resources/images/other_stuff/shot.png"),
     players_amount_(game_mode->players_amount) {
   map_.load(map_data::image_filepaths[game_mode->map_index]);
 }
@@ -10,15 +13,39 @@ View::View(GameController* model, GameMode* game_mode) :
 void View::Repaint(QPainter* painter) {
   std::vector<QRect> frames = GetFramesVector(painter);
   painter->scale(kScale, kScale);
-  std::vector<QPoint> coordinates = model_->GetCarCoordinates();
-  std::vector<double> angles = model_->GetCarAngles();
-
+  std::vector<Car> cars = model_->GetCars();
+  std::vector<QPoint> mines = model_->GetMinesCoordinates();
   for (size_t i = 0; i < frames.size(); i++) {
-    DrawMap(painter, frames[i], coordinates[i]);
-  }
-  for (size_t i = 0; i < frames.size(); i++) {
-    for (size_t j = 0; j < coordinates.size(); j++) {
-      DrawCar(painter, frames[i], coordinates[i], coordinates[j], angles[j]);
+    DrawMap(painter, frames[i], cars[i].GetPosition());
+    for (size_t j = 0; j < cars.size(); j++) {
+      DrawPicture(
+          painter,
+          frames[i],
+          cars[i].GetPosition(),
+          cars[j].GetPosition(),
+          cars[j].GetAngle(),
+          (cars[j].IsAlive() ? car_ : dead_car_),
+          QPoint(-5, -10));
+      if (cars[j].IsShooting()) {
+        DrawPicture(
+            painter,
+            frames[i],
+            cars[i].GetPosition(),
+            cars[j].GetPosition(),
+            cars[j].GetAngle(),
+            shot_,
+            QPoint(-2, -20));
+      }
+    }
+    for (auto& mine : mines) {
+      DrawPicture(
+          painter,
+          frames[i],
+          cars[i].GetPosition(),
+          Vec2f(mine.x(), mine.y()),
+          0,
+          mine_,
+          QPoint(-2, -2));
     }
   }
 }
@@ -45,30 +72,32 @@ std::vector<QRect> View::GetFramesVector(const QPainter* painter) const {
 
 void View::DrawMap(QPainter* painter,
                    const QRect& frame,
-                   const QPoint& pos) {
-  painter->drawImage(frame.left() / kScale,
-                     0,
-                     map_,
-                     pos.x() - frame.width() / 2 / kScale,
-                     pos.y() - frame.height() / 2 / kScale,
-                     frame.width() / kScale,
-                     frame.height() / kScale);
+                   const Vec2f& pos) {
+  painter->drawPixmap(frame.left() / kScale,
+                      0,
+                      map_,
+                      pos.GetX() - frame.width() / 2 / kScale,
+                      pos.GetY() - frame.height() / 2 / kScale,
+                      frame.width() / kScale,
+                      frame.height() / kScale);
 }
 
-void View::DrawCar(QPainter* painter,
-                   const QRect& frame,
-                   const QPoint& center,
-                   const QPoint& frame_center,
-                   double angle) {
-  int x_coord = frame.left() / kScale + frame_center.x() - center.x()
+void View::DrawPicture(QPainter* painter,
+                       const QRect& frame,
+                       const Vec2f& frame_center,
+                       const Vec2f& coords,
+                       double angle,
+                       const QPixmap& pixmap,
+                       const QPoint& offset) const {
+  int x = frame.left() / kScale + coords.GetX() - frame_center.GetX()
       + frame.width() / kScale / 2;
-  int y_coord = frame_center.y() - center.y()
+  int y = coords.GetY() - frame_center.GetY()
       + frame.height() / kScale / 2;
-  if (frame.contains(x_coord * kScale, y_coord * kScale)) {
+  if (frame.contains(x * kScale, y * kScale)) {
     painter->save();
-    painter->translate(x_coord, y_coord);
+    painter->translate(x, y);
     painter->rotate(angle);
-    painter->drawImage(-5, -10, car_);
+    painter->drawPixmap(offset.x(), offset.y(), pixmap);
     painter->restore();
   }
 }

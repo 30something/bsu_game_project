@@ -6,8 +6,7 @@
 PrepareImage::PrepareImage(QWidget* parent) : QWidget(parent) {
   setStyleSheet("background-color:black;");
   resize(800, 800);
-  image_.load("map_3.jpg");
-
+  image_.load("map1.jpg");
 }
 
 void PrepareImage::paintEvent(QPaintEvent* e) {
@@ -84,7 +83,8 @@ void PrepareImage::WriteToFile() {
   std::cout << "processing a file" << std::endl;
   QTextStream out(stdout);
   QString filename =
-      "c:/Dima/mama i am programmer/coords.txt";
+      //"c:/Dima/mama i am programmer/"
+      "coords.txt";
   QFile file(filename);
   if (file.open(QIODevice::WriteOnly)) {
     QTextStream out(&file);
