@@ -19,6 +19,13 @@ GameController::GameController(GameMode* game_mode) :
         pos_and_angles[1].second,
         second_player);
   }
+  for(size_t i = 0; i < game_mode_->bots_amount; i++) {
+    Behavior* bot = new BotBehavior(parser.GetBorders());
+    cars_.emplace_back(
+        pos_and_angles[1].first,
+        pos_and_angles[1].second,
+        bot);
+  }
 }
 
 void GameController::Tick(int time_millis) {

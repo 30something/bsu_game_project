@@ -1,6 +1,6 @@
 #include "first_player_behavior.h"
 
-void FirstPlayerBehavior::HandleTick() {}
+void FirstPlayerBehavior::HandleTick(GameObject*) {}
 
 void FirstPlayerBehavior::HandleKeyPressEvent(GameObject* object,
                                               QKeyEvent* event) {

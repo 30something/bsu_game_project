@@ -6,7 +6,7 @@
 
 class Behavior {
  public:
-  virtual void HandleTick() = 0;
+  virtual void HandleTick(GameObject*) = 0;
   virtual void HandleKeyPressEvent(GameObject*, QKeyEvent*) = 0;
   virtual void HandleKeyReleaseEvent(GameObject*, QKeyEvent*) = 0;
 };

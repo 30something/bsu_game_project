@@ -54,32 +54,37 @@ void Car::ProceedInputFlags() {
 }
 
 void Car::Tick(int time_millisec) {
-  if (!is_alive_) {
-    flag_right_ = false;
-    flag_left_ = false;
-    flag_up_ = false;
-    flag_down_ = false;
-    is_shooting_ = false;
-  }
-  behavior_->HandleTick();
+  behavior_->HandleTick(this);
   ProceedInputFlags();
   AdvanceStep(time_millisec);
 }
 
 void Car::SetFlagUp(bool flag_up) {
   flag_up_ = flag_up;
+  if(!is_alive_) {
+    flag_up_ = false;
+  }
 }
 
 void Car::SetFlagDown(bool flag_down) {
   flag_down_ = flag_down;
+  if(!is_alive_) {
+    flag_down_ = false;
+  }
 }
 
 void Car::SetFlagLeft(bool flag_left) {
   flag_left_ = flag_left;
+  if(!is_alive_) {
+    flag_left_ = false;
+  }
 }
 
 void Car::SetFlagRight(bool flag_right) {
   flag_right_ = flag_right;
+  if(!is_alive_) {
+    flag_right_ = false;
+  }
 }
 
 void Car::AdvanceStep(int time_millisec) {
@@ -229,7 +234,7 @@ bool Car::IsShooting() const {
 }
 
 void Car::SetIsShooting(bool is_shooting) {
-  if (bullets_amount_ <= 0) {
+  if (bullets_amount_ <= 0 || !is_alive_) {
     is_shooting_ = false;
   } else {
     is_shooting_ = is_shooting;
@@ -290,4 +295,7 @@ bool Car::IsPuttingMine() const {
 
 void Car::SetIsPuttingMine(bool is_putting_mine) {
   is_putting_mine_ = is_putting_mine;
+  if(!is_alive_) {
+    is_putting_mine_ = false;
+  }
 }

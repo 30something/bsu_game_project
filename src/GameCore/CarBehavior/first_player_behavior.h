@@ -6,7 +6,7 @@
 
 class FirstPlayerBehavior : public Behavior {
  public:
-  void HandleTick() override;
+  void HandleTick(GameObject*) override;
   void HandleKeyPressEvent(GameObject*, QKeyEvent*) override;
-  void HandleKeyReleaseEvent(GameObject* object, QKeyEvent*) override;
+  void HandleKeyReleaseEvent(GameObject*, QKeyEvent*) override;
 };

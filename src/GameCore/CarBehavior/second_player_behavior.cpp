@@ -1,6 +1,6 @@
 #include "second_player_behavior.h"
 
-void SecondPlayerBehavior::HandleTick() {}
+void SecondPlayerBehavior::HandleTick(GameObject*) {}
 
 void SecondPlayerBehavior::HandleKeyPressEvent(GameObject* object,
                                               QKeyEvent* event) {
