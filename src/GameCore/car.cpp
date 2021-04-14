@@ -57,32 +57,33 @@ void Car::Tick(int time_millisec) {
   behavior_->HandleTick(this);
   ProceedInputFlags();
   AdvanceStep(time_millisec);
+  mines_tick_timer_++;
 }
 
 void Car::SetFlagUp(bool flag_up) {
   flag_up_ = flag_up;
-  if(!is_alive_) {
+  if (!is_alive_) {
     flag_up_ = false;
   }
 }
 
 void Car::SetFlagDown(bool flag_down) {
   flag_down_ = flag_down;
-  if(!is_alive_) {
+  if (!is_alive_) {
     flag_down_ = false;
   }
 }
 
 void Car::SetFlagLeft(bool flag_left) {
   flag_left_ = flag_left;
-  if(!is_alive_) {
+  if (!is_alive_) {
     flag_left_ = false;
   }
 }
 
 void Car::SetFlagRight(bool flag_right) {
   flag_right_ = flag_right;
-  if(!is_alive_) {
+  if (!is_alive_) {
     flag_right_ = false;
   }
 }
@@ -251,10 +252,11 @@ void Car::SetIsAlive(bool is_alive) {
 
 std::optional<Vec2f> Car::DropMine() {
   is_putting_mine_ = false;
-  if (mines_amount_ > 0) {
-    mines_amount_--;
-    return Vec2f(angle_vec_.GetX() * (kPutMineOffset) + position_.GetX(),
-                 angle_vec_.GetY() * (kPutMineOffset) + position_.GetY());
+  if (mines_amount_ > 0 && mines_tick_timer_ > kMineDelayTicks) {
+      mines_amount_--;
+      mines_tick_timer_ = 0;
+      return Vec2f(angle_vec_.GetX() * (kPutMineOffset) + position_.GetX(),
+                   angle_vec_.GetY() * (kPutMineOffset) + position_.GetY());
   } else {
     return std::nullopt;
   }
@@ -295,7 +297,7 @@ bool Car::IsPuttingMine() const {
 
 void Car::SetIsPuttingMine(bool is_putting_mine) {
   is_putting_mine_ = is_putting_mine;
-  if(!is_alive_) {
+  if (!is_alive_) {
     is_putting_mine_ = false;
   }
 }

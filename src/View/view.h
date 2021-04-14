@@ -24,7 +24,7 @@ class View {
   std::map<std::string, QPoint> offsets_;
   int players_amount_ = 0;
 
-  static constexpr double kScale = 2;
+  static constexpr double kScale = 1;
 
   void DrawMap(QPainter* painter,
                const QRect& frame,

@@ -83,6 +83,7 @@ class Car : public GameObject {
   static constexpr double kMaxSlipAngleRadians = 0.07;
   static constexpr double kMinVelocityThreshold = 5;
   static constexpr double kMinAngularVelocityThreshold = 0.1;
+  static constexpr double kMineDelayTicks = 100;
 
   bool flag_up_ = false;
   bool flag_down_ = false;
@@ -95,6 +96,7 @@ class Car : public GameObject {
   double hit_points_ = 100;
   size_t bullets_amount_ = 1000;
   size_t mines_amount_ = 20;
+  size_t mines_tick_timer_ = 0;
 
   void UpdateWheelsPosAndOrientation();
   void AdvanceStep(int time_millisec);

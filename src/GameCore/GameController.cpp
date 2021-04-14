@@ -20,7 +20,10 @@ GameController::GameController(GameMode* game_mode) :
         second_player);
   }
   for(size_t i = 0; i < game_mode_->bots_amount; i++) {
-    Behavior* bot = new BotBehavior(parser.GetBorders());
+    Behavior* bot = new BotBehavior(parser.GetBorders(),
+                                    &cars_,
+                                    &map_.GetActiveBonuses(),
+                                    &weapon_handler_.GetMines());
     cars_.emplace_back(
         pos_and_angles[1].first,
         pos_and_angles[1].second,

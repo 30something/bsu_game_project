@@ -1,13 +1,23 @@
 #include "bot_behavior.h"
 
-BotBehavior::BotBehavior(std::vector<std::vector<QPoint>> borders) :
-    borders_(std::move(borders)) {}
+BotBehavior::BotBehavior(std::vector<std::vector<QPoint>> borders,
+                         const std::vector<Car>* cars,
+                         const std::vector<Bonus>* bonuses,
+                         const std::vector<Mine>* mines) :
+    borders_(std::move(borders)),
+    cars_(cars),
+    bonuses_(bonuses),
+    mines_(mines) {}
 
 void BotBehavior::HandleTick(GameObject* object) {
   Car* car = dynamic_cast<Car*>(object);
   ProceedDistancesToBorders(car);
+  ProceedCarFlags(car);
+}
+
+void BotBehavior::ProceedCarFlags(Car* car) const {
   car->SetFlagUp(true);
-  if(front_distance_ > left_distance_ && front_distance_ > right_distance_) {
+  if (front_distance_ > left_distance_ && front_distance_ > right_distance_) {
     car->SetFlagRight(false);
     car->SetFlagLeft(false);
   } else if (left_distance_ < right_distance_) {
@@ -16,6 +26,14 @@ void BotBehavior::HandleTick(GameObject* object) {
   } else {
     car->SetFlagLeft(true);
     car->SetFlagRight(false);
+  }
+  if(AnyCarInFront(car)) {
+    car->SetIsShooting(true);
+  } else {
+    car->SetIsShooting(false);
+  }
+  if(AnyCarInBack(car)) {
+    car->SetIsPuttingMine(true);
   }
 }
 
@@ -66,11 +84,48 @@ double BotBehavior::FindMinDistanceToBorder(Vec2f angle_vec,
       }
     }
   }
-  double min = distances.at(0);
-  for(double distance : distances) {
-    if(distance < min) {
-      min = distance;
+  if (distances.empty()) {
+    return kDistanceRange;
+  }
+  return *std::min_element(distances.begin(), distances.end());
+}
+
+bool BotBehavior::AnyCarInFront(Car* our_car) const {
+  for(const auto& car : *cars_) {
+    if(car.GetPosition() == our_car->GetPosition()) {
+      continue;
+    }
+    auto car_lines = car.GetLines();
+    Line shooting_trajectory(
+        our_car->GetPosition().GetX(),
+        our_car->GetPosition().GetY(),
+        our_car->GetAngleVec().GetX() * kShootingRange + our_car->GetPosition().GetX(),
+        our_car->GetAngleVec().GetY() * kShootingRange + our_car->GetPosition().GetY());
+    for(const auto& line : car_lines) {
+      if(physics::IsIntersects(line, shooting_trajectory)) {
+        return true;
+      }
     }
   }
-  return min;
+  return false;
+}
+
+bool BotBehavior::AnyCarInBack(Car* our_car) const {
+  for(const auto& car : *cars_) {
+    if(car.GetPosition() == our_car->GetPosition()) {
+      continue;
+    }
+    auto car_lines = car.GetLines();
+    Line shooting_trajectory(
+        our_car->GetPosition().GetX(),
+        our_car->GetPosition().GetY(),
+        -our_car->GetAngleVec().GetX() * kMineRange + our_car->GetPosition().GetX(),
+        -our_car->GetAngleVec().GetY() * kMineRange + our_car->GetPosition().GetY());
+    for(const auto& line : car_lines) {
+      if(physics::IsIntersects(line, shooting_trajectory)) {
+        return true;
+      }
+    }
+  }
+  return false;
 }
