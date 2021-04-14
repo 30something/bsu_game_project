@@ -14,7 +14,7 @@
 #include "src/helpers/json_map_parser.h"
 #include "src/GameCore/CarBehavior/first_player_behavior.h"
 #include "src/GameCore/CarBehavior/second_player_behavior.h"
-
+#include "src/GameCore/CarBehavior/input_controller.h"
 
 class GameController {
  public:
@@ -34,6 +34,7 @@ class GameController {
   std::vector<Car> cars_;
   GameMode* game_mode_ = nullptr;
   WeaponHandler weapon_handler_;
+  InputController input_controller;
 
   static constexpr double kVelocityDecrease = 0.5;
   static constexpr double kDeviationDecrease = 0.5;

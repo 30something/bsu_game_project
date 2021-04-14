@@ -280,10 +280,6 @@ PixmapID Car::GetPixmapId() const {
   }
 }
 
-Behavior* Car::GetBehavior() const {
-  return behavior_;
-}
-
 bool Car::IsPuttingMine() const {
   return is_putting_mine_;
 }

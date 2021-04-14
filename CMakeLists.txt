@@ -47,6 +47,7 @@ set(SOURCES main.cpp
         src/GameCore/CarBehavior/behavior.cpp
         src/GameCore/CarBehavior/first_player_behavior.cpp
         src/GameCore/CarBehavior/second_player_behavior.cpp
+        src/GameCore/CarBehavior/input_controller.cpp
         )
 
 set(RESOURCES

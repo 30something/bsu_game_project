@@ -36,7 +36,6 @@ class Car : public GameObject {
   const Vec2f& GetVelocity() const;
   Vec2f GetPosition() const override;
   PixmapID GetPixmapId() const override;
-  Behavior* GetBehavior() const;
   const Vec2f& GetAngleVec() const;
   bool IsPuttingMine() const;
   bool IsShooting() const;
