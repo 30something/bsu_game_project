@@ -1,7 +1,6 @@
 #pragma once
 
 
-#include <string>
 #include <vector>
 
 #include "src/GameCore/car.h"
@@ -21,10 +20,8 @@ class Bonus : public GameObject {
   }
 
   void ApplyTo(Car* car);
-  const Vec2f& GetPosition() const override;
-  double GetAngle() const override;
-  std::string GetPixmapId() const override;
-  std::vector<Line> GetLines() const override;
+  Vec2f GetPosition() const override;
+  PixmapID GetPixmapId() const override;
 
   bool operator==(const Bonus& rhs) const {
     return type_ == rhs.type_ &&

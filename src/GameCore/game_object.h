@@ -7,11 +7,12 @@
 
 #include "src/helpers/vec2f.h"
 #include "src/helpers/line.h"
+#include "src/helpers/pixmapIDs.h"
 
 class GameObject {
  public:
-  virtual const Vec2f& GetPosition() const = 0;
-  virtual double GetAngle() const = 0;
-  virtual std::string GetPixmapId() const = 0;
-  virtual std::vector<Line> GetLines() const = 0;
+  virtual Vec2f GetPosition() const = 0;
+  virtual double GetAngle() const;
+  virtual PixmapID GetPixmapId() const = 0;
+  virtual std::vector<Line> GetCollisionLines() const;
 };

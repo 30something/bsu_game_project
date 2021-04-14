@@ -6,7 +6,6 @@
 #include <cmath>
 #include <utility>
 #include <optional>
-#include <string>
 
 #include <QPoint>
 
@@ -33,10 +32,10 @@ class Car : public GameObject {
   double GetBulletsAmount() const;
   double GetMinesAmount() const;
   double GetAngle() const override;
-  std::vector<Line> GetLines() const override;
+  std::vector<Line> GetCollisionLines() const override;
   const Vec2f& GetVelocity() const;
-  const Vec2f& GetPosition() const override;
-  std::string GetPixmapId() const override;
+  Vec2f GetPosition() const override;
+  PixmapID GetPixmapId() const override;
   Behavior* GetBehavior() const;
   const Vec2f& GetAngleVec() const;
   bool IsPuttingMine() const;

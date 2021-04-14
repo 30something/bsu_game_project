@@ -7,17 +7,17 @@ GameController::GameController(GameMode* game_mode) :
   map_.SetBorders(parser.GetBorders());
   std::vector<std::pair<QPoint, double>> pos_and_angles =
       parser.GetCarStartPositionsAndAngles();
-  Behavior* first_player = new (FirstPlayerBehavior);
+  Behavior* first_player_behavior = new FirstPlayerBehavior;
   cars_.emplace_back(
       pos_and_angles[0].first,
       pos_and_angles[0].second,
-      first_player);
+      first_player_behavior);
   if (game_mode_->players_amount > 1) {
-    Behavior* second_player = new (SecondPlayerBehavior);
+    Behavior* second_player_behavior = new SecondPlayerBehavior;
     cars_.emplace_back(
         pos_and_angles[1].first,
         pos_and_angles[1].second,
-        second_player);
+        second_player_behavior);
   }
 }
 
@@ -39,8 +39,8 @@ void GameController::ProceedCollisionsWithCars() {
       if (i == j) {
         continue;
       }
-      auto lines1 = cars_[i].GetLines();
-      auto lines2 = cars_[j].GetLines();
+      auto lines1 = cars_[i].GetCollisionLines();
+      auto lines2 = cars_[j].GetCollisionLines();
       if (physics::IsIntersects(lines1, lines2)) {
         CollideCars(&cars_[i], &cars_[j]);
         return;

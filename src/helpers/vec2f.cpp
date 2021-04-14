@@ -114,8 +114,7 @@ void Vec2f::Set(double _x, double _y) {
 }
 
 bool Vec2f::operator==(const Vec2f& rhs) const {
-  return x_ == rhs.x_ &&
-      y_ == rhs.y_;
+  return x_ == rhs.x_ && y_ == rhs.y_;
 }
 
 bool Vec2f::operator!=(const Vec2f& rhs) const {

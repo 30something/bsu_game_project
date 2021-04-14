@@ -132,7 +132,7 @@ void Car::CalcLateralForces() {
                               kRearCoefFriction);
 }
 
-std::vector<Line> Car::GetLines() const {
+std::vector<Line> Car::GetCollisionLines() const {
   Line l1(wheels_[0].GetPosition(), wheels_[1].GetPosition());
   Line l2(wheels_[0].GetPosition(), wheels_[2].GetPosition());
   Line l3(wheels_[1].GetPosition(), wheels_[3].GetPosition());
@@ -177,7 +177,7 @@ double Car::GetAngle() const {
   return angle_vec_.GetAngleDegrees() + 90;
 }
 
-const Vec2f& Car::GetPosition() const {
+Vec2f Car::GetPosition() const {
   return position_;
 }
 
@@ -268,15 +268,15 @@ std::optional<Line> Car::ShootBullet() {
   }
 }
 
-std::string Car::GetPixmapId() const {
+PixmapID Car::GetPixmapId() const {
   if (is_alive_) {
     if (is_shooting_) {
-      return "shooting_car";
+      return PixmapID::kShootingCar;
     } else {
-      return "car";
+      return PixmapID::kCar;
     }
   } else {
-    return "dead_car";
+    return PixmapID::kDeadCar;
   }
 }
 

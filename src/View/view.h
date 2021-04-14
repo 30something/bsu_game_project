@@ -3,13 +3,13 @@
 #include <utility>
 #include <vector>
 #include <map>
-#include <string>
 
 #include <QPainter>
 #include <QPixmap>
 
 #include "src/GameCore/GameController.h"
 #include "src/helpers/sizes.h"
+#include "src/helpers/pixmapIDs.h"
 
 class View {
  public:
@@ -20,8 +20,8 @@ class View {
 
  private:
   GameController* model_ = nullptr;
-  std::map<std::string, QPixmap> pixmaps_;
-  std::map<std::string, QPoint> offsets_;
+  std::map<PixmapID, QPixmap> pixmaps_;
+  std::map<PixmapID, QPoint> offsets_;
   int players_amount_ = 0;
 
   static constexpr double kScale = 2;

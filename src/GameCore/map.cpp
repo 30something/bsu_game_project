@@ -44,7 +44,7 @@ size_t Map::FindIndexOfMinimalDistance(QPoint first,
 void Map::ProceedCollisions(Car* car) {
   // For every line of the car find the interceptions
   // with every line of the borders
-  auto lines = car->GetLines();
+  auto lines = car->GetCollisionLines();
   for (int i = 0; i < 4; i++) {
     for (const auto& border : borders_) {
       for (size_t j = 0; j < border.size(); j++) {
@@ -79,7 +79,7 @@ void Map::ProceedNewBonuses() {
 
 void Map::ProceedActiveBonuses(Car* car) {
   for (auto& bonus : bonuses_) {
-    if (physics::IsInside(car->GetLines(),
+    if (physics::IsInside(car->GetCollisionLines(),
                           QPoint(bonus.GetPosition().GetX(),
                                  bonus.GetPosition().GetY()))) {
       bonus.ApplyTo(car);

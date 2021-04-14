@@ -9,10 +9,8 @@
 class Mine : public GameObject {
  public:
   explicit Mine(Vec2f position);
-  const Vec2f& GetPosition() const override;
-  double GetAngle() const override;
-  std::string GetPixmapId() const override;
-  std::vector<Line> GetLines() const override;
+  Vec2f GetPosition() const override;
+  PixmapID GetPixmapId() const override;
   bool operator==(const Mine& rhs) const;
   bool operator!=(const Mine& rhs) const;
 
