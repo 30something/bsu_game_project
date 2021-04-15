@@ -5,9 +5,9 @@
 
 class SecondPlayerBehavior : public Behavior {
  public:
-  explicit SecondPlayerBehavior(InputController* input_controller);
+  explicit SecondPlayerBehavior(const InputController* input_controller);
   void HandleTick() override;
 
  private:
-  InputController* input_controller_ = nullptr;
+  const InputController* input_controller_ = nullptr;
 };

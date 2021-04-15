@@ -1,6 +1,6 @@
 #include "second_player_behavior.h"
 
-SecondPlayerBehavior::SecondPlayerBehavior(InputController* input_controller) :
+SecondPlayerBehavior::SecondPlayerBehavior(const InputController* input_controller) :
     input_controller_(input_controller) {}
 
 void SecondPlayerBehavior::HandleTick() {

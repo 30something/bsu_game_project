@@ -20,9 +20,8 @@ class View {
 
  private:
   GameController* model_ = nullptr;
-  std::map<PixmapID, QPixmap> pixmaps_;
-  std::map<PixmapID, QPoint> offsets_;
   int players_amount_ = 0;
+  PixmapLoader pixmap_loader_;
 
   static constexpr double kScale = 2;
 

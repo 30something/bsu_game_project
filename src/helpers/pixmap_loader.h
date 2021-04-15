@@ -11,9 +11,13 @@
 class PixmapLoader {
  public:
   explicit PixmapLoader(const QString& filepath);
-  std::map<PixmapID, QPixmap> GetPixmaps();
-  std::map<PixmapID, QPoint> GetOffsets();
+  const QPixmap& GetPixmap(PixmapID id);
+  const QPoint& GetOffset(PixmapID id);
 
  private:
+  void GetPixmaps();
+  void GetOffsets();
   QString map_filepath_;
+  std::map<PixmapID, QPixmap> pixmaps_;
+  std::map<PixmapID, QPoint> offsets_;
 };

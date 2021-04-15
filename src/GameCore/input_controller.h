@@ -28,4 +28,5 @@ class InputController {
 
  private:
   std::map<KeyID, bool> keys_condition_;
+  void SetKeyConditions(QKeyEvent* event, bool value);
 };

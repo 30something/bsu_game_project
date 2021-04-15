@@ -15,20 +15,22 @@ Car::Car(QPoint position,
 }
 
 void Car::ProceedInputFlags() {
-  if (behavior_->IsFlagLeft() && is_alive_) {
-    steering_angle_ = -kMaxSteeringLock;
-  }
-  if (behavior_->IsFlagRight() && is_alive_) {
-    steering_angle_ = kMaxSteeringLock;
+  if(is_alive_) {
+    if (behavior_->IsFlagLeft()) {
+      steering_angle_ = -kMaxSteeringLock;
+    }
+    if (behavior_->IsFlagRight()) {
+      steering_angle_ = kMaxSteeringLock;
+    }
+    if (behavior_->IsFlagUp()) {
+      velocity_ += angle_vec_ * kAccelFactor;
+      if (velocity_.GetLength() > kMaxSpeedForward) {
+        velocity_.SetLen(kMaxSpeedForward);
+      }
+    }
   }
   if ((!behavior_->IsFlagRight() && !behavior_->IsFlagLeft()) || !is_alive_) {
     steering_angle_ = 0;
-  }
-  if (behavior_->IsFlagUp() && is_alive_) {
-    velocity_ += angle_vec_ * kAccelFactor;
-    if (velocity_.GetLength() > kMaxSpeedForward) {
-      velocity_.SetLen(kMaxSpeedForward);
-    }
   }
   if (behavior_->IsFlagDown() && is_alive_) {
     velocity_ -= angle_vec_ * kAccelFactor;
