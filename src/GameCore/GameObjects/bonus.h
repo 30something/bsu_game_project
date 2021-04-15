@@ -9,9 +9,9 @@
 class Bonus : public GameObject {
  public:
   enum class BonusType {
-    kHealth = 0,
-    kBulletsAmmo = 1,
-    kMineAmmo = 2
+    kHealth,
+    kBulletsAmmo,
+    kMineAmmo
   };
 
   Bonus(Vec2f point, BonusType _type) :

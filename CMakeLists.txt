@@ -35,7 +35,7 @@ set(SOURCES main.cpp
         src/Menu/small_exit_window.cpp
         src/Menu/settings.cpp
         src/Menu/small_exit_window.cpp
-        src/GameCore/map.cpp
+        src/GameCore/game_map.cpp
         src/Menu/game_mode_selector.cpp
         src/Menu/map_selector_tile.cpp
         src/GameCore/weapon_handler.cpp

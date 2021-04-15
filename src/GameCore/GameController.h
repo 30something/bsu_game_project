@@ -9,7 +9,7 @@
 #include <QPoint>
 
 #include "src/GameCore/GameObjects/car.h"
-#include "map.h"
+#include "game_map.h"
 #include "weapon_handler.h"
 #include "src/helpers/json_map_parser.h"
 #include "src/GameCore/Behaviors/first_player_behavior.h"

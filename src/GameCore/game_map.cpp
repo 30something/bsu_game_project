@@ -1,4 +1,4 @@
-#include "map.h"
+#include "game_map.h"
 
 void Map::HandleCarTick(Car* car) {
   ProceedCollisions(car);
