@@ -6,13 +6,14 @@ PixmapLoader::PixmapLoader(const QString& filepath) : map_filepath_(filepath) {
 }
 
 void PixmapLoader::GetPixmaps() {
-  QPixmap car(":resources/images/cars/car_1.png");
-  QPixmap dead_car(":resources/images/cars/car_1_dead.png");
-  QPixmap shooting_car(":resources/images/cars/car_1_shoot.png");
-  QPixmap mine(":resources/images/other_stuff/mine.png");
-  QPixmap health_bonus(":resources/images/other_stuff/hp.png");
-  QPixmap bullets_ammo_bonus(":resources/images/other_stuff/ammo.png");
-  QPixmap mines_bonus(":resources/images/other_stuff/mines_ammo.png");
+  QString basic_path = ":resources/images/";
+  QPixmap car(basic_path + "cars/car_1.png");
+  QPixmap dead_car(basic_path + "cars/car_1_dead.png");
+  QPixmap shooting_car(basic_path + "cars/car_1_shoot.png");
+  QPixmap mine(basic_path + "other_stuff/mine.png");
+  QPixmap health_bonus(basic_path + "other_stuff/hp.png");
+  QPixmap bullets_ammo_bonus(basic_path + "other_stuff/ammo.png");
+  QPixmap mines_bonus(basic_path + "other_stuff/mines_ammo.png");
   QPixmap map(map_filepath_);
 
   pixmaps_[PixmapID::kCar] = car;
