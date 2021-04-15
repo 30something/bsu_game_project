@@ -7,13 +7,13 @@
 namespace map_data {
 
 static const std::vector<QString> json_filepaths{
-    {":resources/Jsons/map_1_data.json"},
-    {":resources/Jsons/map_2_data.json"},
-    {":resources/Jsons/map_3_data.json"},
-    {":resources/Jsons/map_4_data.json"},
-    {":resources/Jsons/map_5_data.json"},
-    {":resources/Jsons/map_6_data.json"},
-    {":resources/Jsons/map_7_data.json"},
+    {":resources/Jsons/map1_data.json"},
+    {":resources/Jsons/map2_data.json"},
+    {":resources/Jsons/map3_data.json"},
+    {":resources/Jsons/map4_data.json"},
+    {":resources/Jsons/map5_data.json"},
+    {":resources/Jsons/map6_data.json"},
+    {":resources/Jsons/map7_data.json"},
 
 };
 

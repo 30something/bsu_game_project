@@ -3,7 +3,7 @@
 View::View(GameController* model, GameMode* game_mode) :
     model_(model),
     car_(":resources/images/cars/car1.png"),
-    dead_car_(":resources/images/cars/car_1_dead.png"),
+    dead_car_(":resources/images/cars/car1_dead.png"),
     mine_(":resources/images/other_stuff/mine.png"),
     shot_(":resources/images/other_stuff/shot.png"),
     players_amount_(game_mode->players_amount) {

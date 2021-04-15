@@ -38,13 +38,13 @@ void PrepareImage::paintEvent(QPaintEvent* e) {
   }
   QString phase = "phase: ";
   phase += (step_now == step::left) ? ("left") : ("right");
-  qp.drawText(10,10, phase);
+  qp.drawText(10, 10, phase);
 }
 
 void PrepareImage::keyPressEvent(QKeyEvent* e) {
   int key = e->key();
-  if(key == Qt::Key_Backspace) {
-    if(step_now == step::left) {
+  if (key == Qt::Key_Backspace) {
+    if (step_now == step::left) {
       coordinates_left_.pop_back();
     } else {
       coordinates_right_.pop_back();
@@ -70,11 +70,13 @@ void PrepareImage::keyPressEvent(QKeyEvent* e) {
 }
 void PrepareImage::mousePressEvent(QMouseEvent* event) {
   if (step_now == step::left) {
-    coordinates_left_.emplace_back(event->x() / image_scale_ + image_offset_x_,
-                                   event->y() / image_scale_ + image_offset_y_);
+    coordinates_left_.emplace_back(
+        event->x() / image_scale_ + image_offset_x_,
+        event->y() / image_scale_ + image_offset_y_);
   } else {
-    coordinates_right_.emplace_back(event->x() / image_scale_ + image_offset_x_,
-                                    event->y() / image_scale_ + image_offset_y_);
+    coordinates_right_.emplace_back(
+        event->x() / image_scale_ + image_offset_x_,
+        event->y() / image_scale_ + image_offset_y_);
   }
   repaint();
 }
