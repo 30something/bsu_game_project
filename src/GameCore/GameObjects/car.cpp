@@ -15,7 +15,7 @@ Car::Car(QPoint position,
 }
 
 void Car::ProceedInputFlags() {
-  if(is_alive_) {
+  if (is_alive_) {
     if (behavior_->IsFlagLeft()) {
       steering_angle_ = -kMaxSteeringLock;
     }

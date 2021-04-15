@@ -1,7 +1,8 @@
 #include "first_player_behavior.h"
 
-FirstPlayerBehavior::FirstPlayerBehavior(const InputController* input_controller) :
-input_controller_(input_controller) {}
+FirstPlayerBehavior::FirstPlayerBehavior(
+    const InputController* input_controller) :
+    input_controller_(input_controller) {}
 
 void FirstPlayerBehavior::HandleTick() {
   const auto& keys_condition = input_controller_->GetKeysCondition();
