@@ -24,6 +24,7 @@ class GameController {
   void HandleKeyReleaseEvent(QKeyEvent* event);
   const std::vector<Car>& GetCars() const;
   const std::vector<QPoint>& GetMinesCoordinates() const;
+  const std::vector<Bonus>& GetActiveBonuses() const;
 
  private:
   Map map_;

@@ -11,5 +11,8 @@
         <file>resources/images/maps/map7.jpg</file>
         <file>resources/images/other_stuff/mine.png</file>
         <file>resources/images/other_stuff/shot.png</file>
+        <file>resources/images/other_stuff/hp.png</file>
+        <file>resources/images/other_stuff/ammo.png</file>
+        <file>resources/images/other_stuff/mines_ammo.png</file>
     </qresource>
 </RCC>
