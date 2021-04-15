@@ -9,7 +9,7 @@
 
 #include "src/GameCore/GameController.h"
 #include "src/helpers/sizes.h"
-#include "src/helpers/pixmapIDs.h"
+#include "src/helpers/pixmap_loader.h"
 
 class View {
  public:
@@ -34,5 +34,4 @@ class View {
                        const Vec2f& frame_center,
                        const std::vector<const GameObject*>& game_objects);
   std::vector<QRect> GetFramesVector(const QPainter* painter) const;
-  void PreparePixmaps(const GameMode* game_mode);
 };

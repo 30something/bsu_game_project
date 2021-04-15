@@ -3,36 +3,9 @@
 View::View(GameController* model, GameMode* game_mode) :
     model_(model),
     players_amount_(game_mode->players_amount) {
-  PreparePixmaps(game_mode);
-}
-
-void View::PreparePixmaps(const GameMode* game_mode) {
-  QPixmap car(":resources/images/cars/car_1.png");
-  QPixmap dead_car(":resources/images/cars/car_1_dead.png");
-  QPixmap shooting_car(":resources/images/cars/car_1_shoot.png");
-  QPixmap mine(":resources/images/other_stuff/mine.png");
-  QPixmap health_bonus(":resources/images/other_stuff/hp.png");
-  QPixmap bullets_ammo_bonus(":resources/images/other_stuff/ammo.png");
-  QPixmap mines_bonus(":resources/images/other_stuff/mines_ammo.png");
-  QPixmap map(map_data::image_filepaths[game_mode->map_index]);
-
-  pixmaps_[PixmapID::kCar] = car;
-  pixmaps_[PixmapID::kDeadCar] = dead_car;
-  pixmaps_[PixmapID::kMine] = mine;
-  pixmaps_[PixmapID::kShootingCar] = shooting_car;
-  pixmaps_[PixmapID::kBonusHealth] = health_bonus;
-  pixmaps_[PixmapID::kBonusBulletsAmmo] = bullets_ammo_bonus;
-  pixmaps_[PixmapID::kBonusMineAmmo] = mines_bonus;
-  pixmaps_[PixmapID::kMap] = map;
-
-  offsets_[PixmapID::kCar] = QPoint(-5, -10);
-  offsets_[PixmapID::kDeadCar] = QPoint(-5, -10);
-  offsets_[PixmapID::kShootingCar] = QPoint(-5, -16);
-  offsets_[PixmapID::kMine] = QPoint(-2, -2);
-  offsets_[PixmapID::kBonusHealth] = QPoint(-5, -5);
-  offsets_[PixmapID::kBonusBulletsAmmo] = QPoint(-5, -5);
-  offsets_[PixmapID::kBonusMineAmmo] = QPoint(-5, -5);
-  offsets_[PixmapID::kMap] = QPoint(0, 0);
+  PixmapLoader pixmap_loader(map_data::image_filepaths[game_mode->map_index]);
+  pixmaps_ = pixmap_loader.GetPixmaps();
+  offsets_ = pixmap_loader.GetOffsets();
 }
 
 void View::Repaint(QPainter* painter) {

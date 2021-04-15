@@ -1,5 +1,7 @@
 #pragma once
 
+#include <map>
+
 #include <QKeyEvent>
 
 enum class KeyID {

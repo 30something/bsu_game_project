@@ -29,7 +29,7 @@ PixmapID Bonus::GetPixmapId() const {
     case BonusType::kBulletsAmmo: {
       return PixmapID::kBonusBulletsAmmo;
     }
-    case BonusType::kHealth: {
+    default: {
       return PixmapID::kBonusHealth;
     }
   }

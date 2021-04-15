@@ -48,6 +48,7 @@ set(SOURCES main.cpp
         src/GameCore/CarBehavior/first_player_behavior.cpp
         src/GameCore/CarBehavior/second_player_behavior.cpp
         src/GameCore/CarBehavior/input_controller.cpp
+        src/helpers/pixmap_loader.cpp
         )
 
 set(RESOURCES
