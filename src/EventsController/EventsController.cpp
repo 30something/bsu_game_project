@@ -2,8 +2,9 @@
 
 EventsController::EventsController(QWidget* parent, GameMode* game_mode) :
     QWidget(parent),
-    game_controller_(new GameController(game_mode)),
-    view_(new View(game_controller_, game_mode)) {
+    input_controller_(),
+  game_controller_(new GameController(game_mode, &input_controller_)),
+  view_(new View(game_controller_, game_mode)) {
   PrepareTimer();
 }
 
@@ -25,14 +26,14 @@ void EventsController::paintEvent(QPaintEvent*) {
 }
 
 void EventsController::keyPressEvent(QKeyEvent* event) {
-  game_controller_->HandleKeyPressEvent(event);
+  input_controller_.HandleKeyPressEvent(event);
   if (event->key() == static_cast<int>(Actions::kOpenOrCloseMenu)) {
     SetUnsetPause();
   }
 }
 
 void EventsController::keyReleaseEvent(QKeyEvent* event) {
-  game_controller_->HandleKeyReleaseEvent(event);
+  input_controller_.HandleKeyReleaseEvent(event);
 }
 
 void EventsController::SetUnsetPause() {

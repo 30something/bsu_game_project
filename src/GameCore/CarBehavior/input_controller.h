@@ -2,15 +2,28 @@
 
 #include <QKeyEvent>
 
-#include "src/GameCore/car.h"
+enum class KeyID {
+  kFirstUp,
+  kFirstDown,
+  kFirstLeft,
+  kFirstRight,
+  kFirstShoot,
+  kFirstMine,
+  kSecondUp,
+  kSecondDown,
+  kSecondLeft,
+  kSecondRight,
+  kSecondShoot,
+  kSecondMine
+};
 
 class InputController {
  public:
-  InputController() = default;
-  void HandleKeyPressEvent(QKeyEvent* event,
-                           Car* first_car,
-                           Car* second_car = nullptr);
-  void HandleKeyReleaseEvent(QKeyEvent* event,
-                             Car* first_car,
-                             Car* second_car = nullptr);
+  InputController();
+  void HandleKeyPressEvent(QKeyEvent* event);
+  void HandleKeyReleaseEvent(QKeyEvent* event);
+  const std::map<KeyID, bool>& GetKeysCondition() const;
+
+ private:
+  std::map<KeyID, bool> keys_condition_;
 };

@@ -1,20 +1,22 @@
 #include "GameController.h"
 
-GameController::GameController(GameMode* game_mode) :
+GameController::GameController(GameMode* game_mode,
+                               InputController* input_controller) :
     game_mode_(game_mode),
-    weapon_handler_(),
-    input_controller() {
+    weapon_handler_() {
   JsonMapParser parser(map_data::json_filepaths[game_mode->map_index]);
   map_.SetBorders(parser.GetBorders());
   std::vector<std::pair<QPoint, double>> pos_and_angles =
       parser.GetCarStartPositionsAndAngles();
-  Behavior* first_player_behavior = new FirstPlayerBehavior;
+  Behavior* first_player_behavior =
+        new FirstPlayerBehavior(input_controller);
   cars_.emplace_back(
       pos_and_angles[0].first,
       pos_and_angles[0].second,
       first_player_behavior);
   if (game_mode_->players_amount > 1) {
-    Behavior* second_player_behavior = new SecondPlayerBehavior;
+    Behavior* second_player_behavior =
+        new SecondPlayerBehavior(input_controller);
     cars_.emplace_back(
         pos_and_angles[1].first,
         pos_and_angles[1].second,
@@ -74,22 +76,6 @@ void GameController::CollideCars(Car* car_1, Car* car_2) {
 
   car_1->SetPosition(pos_1 + deviation);
   car_2->SetPosition(pos_2 - deviation);
-}
-
-void GameController::HandleKeyPressEvent(QKeyEvent* event) {
-  if (game_mode_->players_amount == 1) {
-    input_controller.HandleKeyPressEvent(event, &cars_[0], nullptr);
-  } else {
-    input_controller.HandleKeyPressEvent(event, &cars_[0], &cars_[1]);
-  }
-}
-
-void GameController::HandleKeyReleaseEvent(QKeyEvent* event) {
-  if (game_mode_->players_amount == 1) {
-    input_controller.HandleKeyReleaseEvent(event, &cars_[0], nullptr);
-  } else {
-    input_controller.HandleKeyReleaseEvent(event, &cars_[0], &cars_[1]);
-  }
 }
 
 std::vector<const GameObject*> GameController::GetMines() const {

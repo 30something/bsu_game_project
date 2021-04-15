@@ -18,13 +18,11 @@
 
 class GameController {
  public:
-  explicit GameController(GameMode* game_mode);
+  explicit GameController(GameMode* game_mode, InputController*);
   ~GameController() = default;
 
   void Tick(int time_millis);
 
-  void HandleKeyPressEvent(QKeyEvent* event);
-  void HandleKeyReleaseEvent(QKeyEvent* event);
   std::vector<const GameObject*> GetCars() const;
   std::vector<const GameObject*> GetMines() const;
   std::vector<const GameObject*> GetBonuses() const;
@@ -34,7 +32,6 @@ class GameController {
   std::vector<Car> cars_;
   GameMode* game_mode_ = nullptr;
   WeaponHandler weapon_handler_;
-  InputController input_controller;
 
   static constexpr double kVelocityDecrease = 0.5;
   static constexpr double kDeviationDecrease = 0.5;

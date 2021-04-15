@@ -1,87 +1,100 @@
 #include "input_controller.h"
 
-void InputController::HandleKeyPressEvent(QKeyEvent* event,
-                                          Car* first_car,
-                                          Car* second_car) {
+void InputController::HandleKeyPressEvent(QKeyEvent* event) {
   int key = event->key();
-  if (first_car->IsAlive()) {
-    if (key == Qt::Key_Up) {
-      first_car->SetFlagUp(true);
-    }
-    if (key == Qt::Key_Down) {
-      first_car->SetFlagDown(true);
-    }
-    if (key == Qt::Key_Left) {
-      first_car->SetFlagLeft(true);
-    }
-    if (key == Qt::Key_Right) {
-      first_car->SetFlagRight(true);
-    }
-    if (key == Qt::Key_Control) {
-      first_car->SetIsShooting(true);
-    }
-    if (key == Qt::Key_Shift) {
-      first_car->SetIsPuttingMine(true);
-    }
+  if (key == Qt::Key_Up) {
+    keys_condition_[KeyID::kFirstUp] = true;
   }
-  if (second_car != nullptr && second_car->IsAlive()) {
-    if (key == Qt::Key_W) {
-      second_car->SetFlagUp(true);
-    }
-    if (key == Qt::Key_S) {
-      second_car->SetFlagDown(true);
-    }
-    if (key == Qt::Key_A) {
-      second_car->SetFlagLeft(true);
-    }
-    if (key == Qt::Key_D) {
-      second_car->SetFlagRight(true);
-    }
-    if (key == Qt::Key_Alt) {
-      second_car->SetIsShooting(true);
-    }
-    if (key == Qt::Key_Space) {
-      second_car->SetIsPuttingMine(true);
-    }
+  if (key == Qt::Key_Down) {
+    keys_condition_[KeyID::kFirstDown] = true;
+  }
+  if (key == Qt::Key_Left) {
+    keys_condition_[KeyID::kFirstLeft] = true;
+  }
+  if (key == Qt::Key_Right) {
+    keys_condition_[KeyID::kFirstRight] = true;
+  }
+  if (key == Qt::Key_Control) {
+    keys_condition_[KeyID::kFirstShoot] = true;
+  }
+  if (key == Qt::Key_Shift) {
+    keys_condition_[KeyID::kFirstMine] = true;
+  }
+  if (key == Qt::Key_W) {
+    keys_condition_[KeyID::kSecondUp] = true;
+  }
+  if (key == Qt::Key_S) {
+    keys_condition_[KeyID::kSecondDown] = true;
+  }
+  if (key == Qt::Key_A) {
+    keys_condition_[KeyID::kSecondLeft] = true;
+  }
+  if (key == Qt::Key_D) {
+    keys_condition_[KeyID::kSecondRight] = true;
+  }
+  if (key == Qt::Key_Alt) {
+    keys_condition_[KeyID::kSecondShoot] = true;
+  }
+  if (key == Qt::Key_Space) {
+    keys_condition_[KeyID::kSecondMine] = true;
   }
 }
 
-void InputController::HandleKeyReleaseEvent(QKeyEvent* event,
-                                            Car* first_car,
-                                            Car* second_car) {
+void InputController::HandleKeyReleaseEvent(QKeyEvent* event) {
   int key = event->key();
-  if (first_car->IsAlive()) {
-    if (key == Qt::Key_Up) {
-      first_car->SetFlagUp(false);
-    }
-    if (key == Qt::Key_Down) {
-      first_car->SetFlagDown(false);
-    }
-    if (key == Qt::Key_Left) {
-      first_car->SetFlagLeft(false);
-    }
-    if (key == Qt::Key_Right) {
-      first_car->SetFlagRight(false);
-    }
-    if (key == Qt::Key_Control) {
-      first_car->SetIsShooting(false);
-    }
+  if (key == Qt::Key_Up) {
+    keys_condition_[KeyID::kFirstUp] = false;
   }
-  if (second_car != nullptr && second_car->IsAlive()) {
-    if (key == Qt::Key_W) {
-      second_car->SetFlagUp(false);
-    }
-    if (key == Qt::Key_S) {
-      second_car->SetFlagDown(false);
-    }
-    if (key == Qt::Key_A) {
-      second_car->SetFlagLeft(false);
-    }
-    if (key == Qt::Key_D) {
-      second_car->SetFlagRight(false);
-    }
-    if (key == Qt::Key_Alt) {
-      second_car->SetIsShooting(false);
-    }
+  if (key == Qt::Key_Down) {
+    keys_condition_[KeyID::kFirstDown] = false;
   }
+  if (key == Qt::Key_Left) {
+    keys_condition_[KeyID::kFirstLeft] = false;
+  }
+  if (key == Qt::Key_Right) {
+    keys_condition_[KeyID::kFirstRight] = false;
+  }
+  if (key == Qt::Key_Control) {
+    keys_condition_[KeyID::kFirstShoot] = false;
+  }
+  if (key == Qt::Key_Shift) {
+    keys_condition_[KeyID::kFirstMine] = false;
+  }
+  if (key == Qt::Key_W) {
+    keys_condition_[KeyID::kSecondUp] = false;
+  }
+  if (key == Qt::Key_S) {
+    keys_condition_[KeyID::kSecondDown] = false;
+  }
+  if (key == Qt::Key_A) {
+    keys_condition_[KeyID::kSecondLeft] = false;
+  }
+  if (key == Qt::Key_D) {
+    keys_condition_[KeyID::kSecondRight] = false;
+  }
+  if (key == Qt::Key_Alt) {
+    keys_condition_[KeyID::kSecondShoot] = false;
+  }
+  if (key == Qt::Key_Space) {
+    keys_condition_[KeyID::kSecondMine] = false;
+  }
+}
+
+const std::map<KeyID, bool>& InputController::GetKeysCondition() const {
+  return keys_condition_;
+}
+
+InputController::InputController() {
+  keys_condition_[KeyID::kFirstUp] = false;
+  keys_condition_[KeyID::kFirstDown] = false;
+  keys_condition_[KeyID::kFirstLeft] = false;
+  keys_condition_[KeyID::kFirstRight] = false;
+  keys_condition_[KeyID::kFirstShoot] = false;
+  keys_condition_[KeyID::kFirstMine] = false;
+  keys_condition_[KeyID::kSecondUp] = false;
+  keys_condition_[KeyID::kSecondDown] = false;
+  keys_condition_[KeyID::kSecondLeft] = false;
+  keys_condition_[KeyID::kSecondRight] = false;
+  keys_condition_[KeyID::kSecondShoot] = false;
+  keys_condition_[KeyID::kSecondMine] = false;
 }

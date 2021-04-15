@@ -15,22 +15,22 @@ Car::Car(QPoint position,
 }
 
 void Car::ProceedInputFlags() {
-  if (flag_left_) {
+  if (behavior_->IsFlagLeft() && is_alive_) {
     steering_angle_ = -kMaxSteeringLock;
   }
-  if (flag_right_) {
+  if (behavior_->IsFlagRight() && is_alive_) {
     steering_angle_ = kMaxSteeringLock;
   }
-  if (!flag_right_ && !flag_left_) {
+  if ((!behavior_->IsFlagRight() && !behavior_->IsFlagLeft()) || !is_alive_) {
     steering_angle_ = 0;
   }
-  if (flag_up_) {
+  if (behavior_->IsFlagUp() && is_alive_) {
     velocity_ += angle_vec_ * kAccelFactor;
     if (velocity_.GetLength() > kMaxSpeedForward) {
       velocity_.SetLen(kMaxSpeedForward);
     }
   }
-  if (flag_down_) {
+  if (behavior_->IsFlagDown() && is_alive_) {
     velocity_ -= angle_vec_ * kAccelFactor;
     if (velocity_.GetLength() > kMaxSpeedBackward &&
         std::abs(velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees())
@@ -38,7 +38,7 @@ void Car::ProceedInputFlags() {
       velocity_.SetLen(kMaxSpeedBackward);
     }
   }
-  if (!flag_up_ && !flag_down_) {
+  if ((!behavior_->IsFlagUp() && !behavior_->IsFlagDown()) || !is_alive_) {
     Vec2f coef = angle_vec_ * kFrictionFactor;
     if (velocity_.GetLength() < (coef).GetLength()) {
       velocity_.SetLen(physics::kAlmostZero);
@@ -54,32 +54,10 @@ void Car::ProceedInputFlags() {
 }
 
 void Car::Tick(int time_millisec) {
-  if (!is_alive_) {
-    flag_right_ = false;
-    flag_left_ = false;
-    flag_up_ = false;
-    flag_down_ = false;
-    is_shooting_ = false;
-  }
   behavior_->HandleTick();
   ProceedInputFlags();
   AdvanceStep(time_millisec);
-}
-
-void Car::SetFlagUp(bool flag_up) {
-  flag_up_ = flag_up;
-}
-
-void Car::SetFlagDown(bool flag_down) {
-  flag_down_ = flag_down;
-}
-
-void Car::SetFlagLeft(bool flag_left) {
-  flag_left_ = flag_left;
-}
-
-void Car::SetFlagRight(bool flag_right) {
-  flag_right_ = flag_right;
+  mines_tick_timer_++;
 }
 
 void Car::AdvanceStep(int time_millisec) {
@@ -225,15 +203,7 @@ bool Car::IsShooting() const {
   if (bullets_amount_ <= 0) {
     return false;
   }
-  return is_shooting_;
-}
-
-void Car::SetIsShooting(bool is_shooting) {
-  if (bullets_amount_ <= 0) {
-    is_shooting_ = false;
-  } else {
-    is_shooting_ = is_shooting;
-  }
+  return behavior_->IsFlagShoot();
 }
 
 bool Car::IsAlive() const {
@@ -245,9 +215,9 @@ void Car::SetIsAlive(bool is_alive) {
 }
 
 std::optional<Vec2f> Car::DropMine() {
-  is_putting_mine_ = false;
-  if (mines_amount_ > 0) {
+  if (mines_amount_ > 0 && is_alive_ && mines_tick_timer_ > kMineDelayTicks) {
     mines_amount_--;
+    mines_tick_timer_ = 0;
     return Vec2f(angle_vec_.GetX() * (kPutMineOffset) + position_.GetX(),
                  angle_vec_.GetY() * (kPutMineOffset) + position_.GetY());
   } else {
@@ -256,7 +226,7 @@ std::optional<Vec2f> Car::DropMine() {
 }
 
 std::optional<Line> Car::ShootBullet() {
-  if (bullets_amount_ > 0) {
+  if (bullets_amount_ > 0 && is_alive_) {
     bullets_amount_--;
     return Line(
         position_.GetX(),
@@ -270,7 +240,7 @@ std::optional<Line> Car::ShootBullet() {
 
 PixmapID Car::GetPixmapId() const {
   if (is_alive_) {
-    if (is_shooting_) {
+    if (behavior_->IsFlagShoot()) {
       return PixmapID::kShootingCar;
     } else {
       return PixmapID::kCar;
@@ -281,9 +251,5 @@ PixmapID Car::GetPixmapId() const {
 }
 
 bool Car::IsPuttingMine() const {
-  return is_putting_mine_;
-}
-
-void Car::SetIsPuttingMine(bool is_putting_mine) {
-  is_putting_mine_ = is_putting_mine;
+  return behavior_->IsFlagMine();
 }
