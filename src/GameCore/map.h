@@ -10,11 +10,11 @@
 
 #include "src/helpers/vec2f.h"
 #include "src/helpers/line.h"
-#include "car.h"
+#include "src/GameCore/GameObjects/car.h"
 #include "src/helpers/map_data.h"
 #include "src/helpers/game_mode.h"
 #include "src/helpers/json_map_parser.h"
-#include "src/helpers/bonus.h"
+#include "src/GameCore/GameObjects/bonus.h"
 
 class Map {
  public:

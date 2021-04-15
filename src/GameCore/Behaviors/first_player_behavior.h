@@ -1,7 +1,7 @@
 #pragma once
 
 #include "behavior.h"
-#include "src/GameCore/CarBehavior/input_controller.h"
+#include "src/GameCore/input_controller.h"
 
 class FirstPlayerBehavior : public Behavior {
  public:

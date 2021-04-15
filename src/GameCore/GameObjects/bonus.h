@@ -3,8 +3,8 @@
 
 #include <vector>
 
-#include "src/GameCore/car.h"
-#include "src/GameCore/game_object.h"
+#include "src/GameCore/GameObjects/car.h"
+#include "src/GameCore/GameObjects/game_object.h"
 
 class Bonus : public GameObject {
  public:

@@ -8,7 +8,7 @@
 #include "src/Menu/pause_menu.h"
 #include "src/GameCore/GameController.h"
 #include "src/View/view.h"
-#include "src/GameCore/CarBehavior/input_controller.h"
+#include "src/GameCore/input_controller.h"
 
 class EventsController : public QWidget {
   Q_OBJECT

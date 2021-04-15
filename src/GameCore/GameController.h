@@ -8,13 +8,13 @@
 #include <QFile>
 #include <QPoint>
 
-#include "car.h"
+#include "src/GameCore/GameObjects/car.h"
 #include "map.h"
 #include "weapon_handler.h"
 #include "src/helpers/json_map_parser.h"
-#include "src/GameCore/CarBehavior/first_player_behavior.h"
-#include "src/GameCore/CarBehavior/second_player_behavior.h"
-#include "src/GameCore/CarBehavior/input_controller.h"
+#include "src/GameCore/Behaviors/first_player_behavior.h"
+#include "src/GameCore/Behaviors/second_player_behavior.h"
+#include "input_controller.h"
 
 class GameController {
  public:

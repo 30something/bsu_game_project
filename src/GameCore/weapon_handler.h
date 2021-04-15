@@ -3,8 +3,8 @@
 #include <vector>
 #include <optional>
 
-#include "mine.h"
-#include "car.h"
+#include "src/GameCore/GameObjects/mine.h"
+#include "src/GameCore/GameObjects/car.h"
 
 class WeaponHandler {
  public:

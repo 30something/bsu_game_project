@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "src/helpers/vec2f.h"
-#include "game_object.h"
+#include "src/GameCore/GameObjects/game_object.h"
 
 class Mine : public GameObject {
  public:

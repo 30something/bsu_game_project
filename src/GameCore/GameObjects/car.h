@@ -14,7 +14,7 @@
 #include "src/helpers/line.h"
 #include "src/helpers/physics.h"
 #include "game_object.h"
-#include "src/GameCore/CarBehavior/behavior.h"
+#include "src/GameCore/Behaviors/behavior.h"
 
 class Car : public GameObject {
  public:
