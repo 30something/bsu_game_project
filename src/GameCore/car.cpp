@@ -193,17 +193,45 @@ void Car::SetPosition(const Vec2f& position) {
   position_ = position;
 }
 
-double Car::GetCoefficientForEngineSound() {
-//    if (!flag_up_ && !flag_down_) {
-//
-//    }
-    return velocity_.GetLength() / kMaxSpeedForward;
+std::pair<double, int> Car::GetParametersForEngineSound() {
+    double coefficient = velocity_.GetLength() / kMaxSpeedForward;
+    int without_motion = 0;
+    int forward_motion = 1;
+    int backward_motion = -1;
+
+    if (flag_down_ && std::abs(velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees())
+                             > 90) {
+        coefficient = velocity_.GetLength() / kMaxSpeedBackward;
+        return std::pair<double, int>(coefficient, backward_motion);
+    }
+    if (!flag_up_) {
+        return std::pair<double, int>(coefficient, without_motion);
+    }
+    return std::pair<double, int>(coefficient, forward_motion);
 }
 
 double Car::GetCoefficientForDriftSound() {
-    double kDriftSpeed = 80;
+    double kDriftSpeed = 15;
+    double relative_velocity = velocity_.GetLength() / kMaxSpeedForward;
     if ((flag_right_ || flag_left_) && velocity_.GetLength() > kDriftSpeed) {
-        return velocity_.GetLength() / kMaxSpeedForward;
+        if (relative_velocity < 0.1) {
+            return 0.1;
+        }
+        return relative_velocity;
+    }
+    return 0;
+}
+
+double Car::GetCoefficientForBrakeSound() {
+    double kSpeedForBrake = 20;
+    double relative_velocity = velocity_.GetLength() / kMaxSpeedForward;
+    if (flag_down_ && !flag_up_ && velocity_.GetLength() > kSpeedForBrake &&
+    std::abs(velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees())
+                                                    <= 90) {
+        if (relative_velocity < 0.1) {
+            return 0.1;
+        }
+        return relative_velocity;
     }
     return 0;
 }

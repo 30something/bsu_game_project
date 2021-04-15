@@ -26,8 +26,9 @@ class Car {
   std::vector<Line> GetLines();
   const Vec2f& GetVelocity() const;
   const Vec2f& GetPosition() const;
-  double GetCoefficientForEngineSound();
+  std::pair<double, int> GetParametersForEngineSound();
   double GetCoefficientForDriftSound();
+  double GetCoefficientForBrakeSound();
 
 
   void SetVelocity(const Vec2f& velocity);
@@ -49,7 +50,7 @@ class Car {
 
   static constexpr double kAccelFactor = 2;
   static constexpr double kFrictionFactor = 0.5;
-  static constexpr double kMaxSpeedForward = 200;
+  static constexpr double kMaxSpeedForward = 300;
   static constexpr double kMaxSpeedBackward = 100;
 
   static constexpr double kHalfFrontTrack_ = 5.5;

@@ -21,8 +21,9 @@ class GameController {
   void HandleKeyPressEvent(QKeyEvent* event);
   void HandleKeyReleaseEvent(QKeyEvent* event);
 
-  double GetCoefficientForEngineSound();
+  std::pair<double, int> GetParametersForEngineSound();
   double GetCoefficientForDriftSound();
+  double GetCoefficientForBrakeSound();
   std::vector<QPoint> GetCarCoordinates() const;
   std::vector<double> GetCarAngles() const;
 

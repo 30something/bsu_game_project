@@ -17,8 +17,10 @@ void EventsController::ViewTimerEvent() {
   if (game_status_ == GameStatus::kRunning) {
     repaint();
 
-    view_->ChangeEngineVolume(game_controller_->GetCoefficientForEngineSound());
+    view_->PlayEngine(game_controller_->GetParametersForEngineSound().first,
+                      game_controller_->GetParametersForEngineSound().second);
     view_->PlayDrift(game_controller_->GetCoefficientForDriftSound());
+    view_->PlayBrake(game_controller_->GetCoefficientForBrakeSound());
   }
 }
 

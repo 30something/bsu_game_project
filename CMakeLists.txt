@@ -49,7 +49,7 @@ set(SOURCES main.cpp
 set(RESOURCES
         images.qrc
         map_data.qrc
-        sounds.qrc)
+        sounds.qrc src/View/BrakeSound.h src/View/BrakeSound.cpp)
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 target_link_libraries(${PROJECT_NAME} ${REQUIRED_LIBS_QUALIFIED})

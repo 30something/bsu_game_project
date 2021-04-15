@@ -5,7 +5,8 @@ View::View(QWidget* events_controller, GameController* model, GameMode* game_mod
     car_(":resources/images/cars/car_1.png"),
     players_amount_(game_mode->players_amount),
     engine_(new Engine(events_controller)),
-    drift_(new Drift(events_controller)) {
+    drift_(new Drift(events_controller)),
+    brake_(new Brake(events_controller)) {
   map_.load(map_data::image_filepaths[game_mode->map_index]);
 }
 
@@ -75,10 +76,14 @@ void View::DrawCar(QPainter* painter,
   }
 }
 
-void View::ChangeEngineVolume(double coefficient) {
-    engine_->ChangeVolume(coefficient);
+void View::PlayEngine(double coefficient, int direction) {
+    engine_->Play(coefficient, direction);
 }
 
 void View::PlayDrift(double coefficient) {
     drift_->Play(coefficient);
+}
+
+void View::PlayBrake(double coefficient) {
+    brake_->Play(coefficient);
 }

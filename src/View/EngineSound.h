@@ -12,10 +12,14 @@ class Engine : public QWidget {
     explicit Engine(QWidget* parent = nullptr);
     ~Engine() override = default;
 
-    void ChangeVolume(double coefficient);
+    void Play(double coefficient, int direction);
+    void PlayIdleSpeed();
+    void PlayReversedEngine();
+    void PlayEngine();
+
  private:
     QMediaPlaylist* sound_playlist_;
     QMediaPlayer* sound_player_;
-    static constexpr int kDefaultVolume = 10;
+    static constexpr int kDefaultVolume = 30;
     int volume_;
 };

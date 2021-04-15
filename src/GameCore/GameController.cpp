@@ -141,10 +141,14 @@ std::vector<double> GameController::GetCarAngles() const {
   return result;
 }
 
-double GameController::GetCoefficientForEngineSound() {
-    return cars_[0].GetCoefficientForEngineSound();
+std::pair<double, int> GameController::GetParametersForEngineSound() {
+    return cars_[0].GetParametersForEngineSound();
 }
 
 double GameController::GetCoefficientForDriftSound() {
     return cars_[0].GetCoefficientForDriftSound();
+}
+
+double GameController::GetCoefficientForBrakeSound() {
+    return cars_[0].GetCoefficientForBrakeSound();
 }

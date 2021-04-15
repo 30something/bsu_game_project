@@ -9,6 +9,7 @@
 #include "src/GameCore/GameController.h"
 #include "EngineSound.h"
 #include "DriftSound.h"
+#include "BrakeSound.h"
 #include "src/helpers/sizes.h"
 
 class View {
@@ -18,8 +19,9 @@ class View {
 
   void Repaint(QPainter* painter);
 
-  void ChangeEngineVolume(double coefficient);
+  void PlayEngine(double coefficient, int direction);
   void PlayDrift(double coefficient);
+  void PlayBrake(double coefficient);
 
  private:
   GameController* model_ = nullptr;
@@ -38,4 +40,5 @@ class View {
   std::vector<QRect> GetFramesVector(const QPainter* painter) const;
   Engine* engine_;
   Drift* drift_;
+  Brake* brake_;
 };
