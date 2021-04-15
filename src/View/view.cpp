@@ -13,7 +13,7 @@ void View::Repaint(const std::vector<WrapperBase<GameObject>*>& objects,
   for (size_t i = 0; i < frames.size(); i++) {
     Vec2f position = cars_positions[i];
     DrawMap(painter, frames[i], position);
-    DrawGameObjects(painter, frames[i], position, objects);
+    DrawObjects(painter, frames[i], position, objects);
   }
 }
 
@@ -49,10 +49,10 @@ void View::DrawMap(QPainter* painter,
                       frame.height() / kScale);
 }
 
-void View::DrawGameObjects(QPainter* painter,
-                           const QRect& frame,
-                           const Vec2f& frame_center,
-                           const std::vector<WrapperBase<GameObject>*>& objects) {
+void View::DrawObjects(QPainter* painter,
+                       const QRect& frame,
+                       const Vec2f& frame_center,
+                       const std::vector<WrapperBase<GameObject>*>& objects) {
   for (const auto& object : objects) {
     for (size_t i = 0; i < object->size(); i++) {
       double x = frame.left() / kScale + (*object)[i].GetPosition().GetX()

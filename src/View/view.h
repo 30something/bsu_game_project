@@ -13,7 +13,7 @@
 
 class View {
  public:
-  View(GameMode* game_mode);
+  explicit View(GameMode* game_mode);
   ~View() = default;
 
   void Repaint(const std::vector<WrapperBase<GameObject>*>& objects,
@@ -21,7 +21,6 @@ class View {
                QPainter* painter);
 
  private:
-  GameController* model_ = nullptr;
   int players_amount_ = 0;
   PixmapLoader pixmap_loader_;
 
@@ -30,9 +29,9 @@ class View {
   void DrawMap(QPainter* painter,
                const QRect& frame,
                const Vec2f& pos);
-  void DrawGameObjects(QPainter* painter,
-                       const QRect& frame,
-                       const Vec2f& frame_center,
-                       const std::vector<WrapperBase<GameObject>*>& game_objects);
+  void DrawObjects(QPainter* painter,
+                   const QRect& frame,
+                   const Vec2f& frame_center,
+                   const std::vector<WrapperBase<GameObject>*>& objects);
   std::vector<QRect> GetFramesVector(const QPainter* painter) const;
 };

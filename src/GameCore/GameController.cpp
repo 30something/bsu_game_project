@@ -91,7 +91,7 @@ std::vector<WrapperBase<GameObject>*> GameController::GetGameObjects() const {
 
 std::vector<Vec2f> GameController::GetPlayersCarPositions() const {
   std::vector<Vec2f> result;
-  for(size_t i = 0; i < game_mode_->players_amount; i++) {
+  for (size_t i = 0; i < game_mode_->players_amount; i++) {
     result.push_back(cars_[i].GetPosition());
   }
   return result;
