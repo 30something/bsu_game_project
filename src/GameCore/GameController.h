@@ -15,6 +15,7 @@
 #include "src/GameCore/Behaviors/first_player_behavior.h"
 #include "src/GameCore/Behaviors/second_player_behavior.h"
 #include "input_controller.h"
+#include "src/helpers/wrapper_template.h"
 
 class GameController {
  public:
@@ -23,9 +24,8 @@ class GameController {
 
   void Tick(int time_millis);
 
-  std::vector<const GameObject*> GetCars() const;
-  std::vector<const GameObject*> GetMines() const;
-  std::vector<const GameObject*> GetBonuses() const;
+  std::vector<WrapperBase<GameObject>*> GetGameObjects() const;
+  std::vector<Vec2f> GetPlayersCarPositions() const;
 
  private:
   Map map_;

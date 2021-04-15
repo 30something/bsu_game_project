@@ -4,7 +4,7 @@ EventsController::EventsController(QWidget* parent, GameMode* game_mode) :
     QWidget(parent),
     input_controller_(),
   game_controller_(new GameController(game_mode, &input_controller_)),
-  view_(new View(game_controller_, game_mode)) {
+  view_(new View(game_mode)) {
   PrepareTimer();
 }
 
@@ -22,7 +22,9 @@ void EventsController::ViewTimerEvent() {
 
 void EventsController::paintEvent(QPaintEvent*) {
   QPainter main_painter(this);
-  view_->Repaint(&main_painter);
+  view_->Repaint(game_controller_->GetGameObjects(),
+                 game_controller_->GetPlayersCarPositions(),
+                 &main_painter);
 }
 
 void EventsController::keyPressEvent(QKeyEvent* event) {

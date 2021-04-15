@@ -9,7 +9,7 @@ GameController::GameController(GameMode* game_mode,
   std::vector<std::pair<QPoint, double>> pos_and_angles =
       parser.GetCarStartPositionsAndAngles();
   Behavior* first_player_behavior =
-        new FirstPlayerBehavior(input_controller);
+      new FirstPlayerBehavior(input_controller);
   cars_.emplace_back(
       pos_and_angles[0].first,
       pos_and_angles[0].second,
@@ -78,28 +78,21 @@ void GameController::CollideCars(Car* car_1, Car* car_2) {
   car_2->SetPosition(pos_2 - deviation);
 }
 
-std::vector<const GameObject*> GameController::GetMines() const {
-  const std::vector<Mine>& mines = weapon_handler_.GetMines();
-  std::vector<const GameObject*> result;
-  for (const auto& mine : mines) {
-    result.push_back(&mine);
-  }
-  return result;
+std::vector<WrapperBase<GameObject>*> GameController::GetGameObjects() const {
+  std::vector<WrapperBase<GameObject>*> view_vector;
+  view_vector.push_back(new WrapperTemplate<GameObject,
+                                            Car>(cars_));
+  view_vector.push_back(new WrapperTemplate<GameObject,
+                                            Mine>(weapon_handler_.GetMines()));
+  view_vector.push_back(new WrapperTemplate<GameObject,
+                                            Bonus>(map_.GetActiveBonuses()));
+  return view_vector;
 }
 
-std::vector<const GameObject*> GameController::GetCars() const {
-  std::vector<const GameObject*> result;
-  for (const auto& car : cars_) {
-    result.push_back(&car);
-  }
-  return result;
-}
-
-std::vector<const GameObject*> GameController::GetBonuses() const {
-  std::vector<const GameObject*> result;
-  const std::vector<Bonus>& bonuses = map_.GetActiveBonuses();
-  for (const auto& bonus : bonuses) {
-    result.push_back(&bonus);
+std::vector<Vec2f> GameController::GetPlayersCarPositions() const {
+  std::vector<Vec2f> result;
+  for(size_t i = 0; i < game_mode_->players_amount; i++) {
+    result.push_back(cars_[i].GetPosition());
   }
   return result;
 }

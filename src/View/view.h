@@ -13,10 +13,12 @@
 
 class View {
  public:
-  View(GameController* model, GameMode* game_mode);
+  View(GameMode* game_mode);
   ~View() = default;
 
-  void Repaint(QPainter* painter);
+  void Repaint(const std::vector<WrapperBase<GameObject>*>& objects,
+               const std::vector<Vec2f>& players_cars_positions,
+               QPainter* painter);
 
  private:
   GameController* model_ = nullptr;
@@ -31,6 +33,6 @@ class View {
   void DrawGameObjects(QPainter* painter,
                        const QRect& frame,
                        const Vec2f& frame_center,
-                       const std::vector<const GameObject*>& game_objects);
+                       const std::vector<WrapperBase<GameObject>*>& game_objects);
   std::vector<QRect> GetFramesVector(const QPainter* painter) const;
 };

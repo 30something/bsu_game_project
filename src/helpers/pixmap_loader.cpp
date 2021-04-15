@@ -1,11 +1,11 @@
 #include "pixmap_loader.h"
 
 PixmapLoader::PixmapLoader(const QString& filepath) : map_filepath_(filepath) {
-  GetPixmaps();
-  GetOffsets();
+  InitPixmaps();
+  InitOffsets();
 }
 
-void PixmapLoader::GetPixmaps() {
+void PixmapLoader::InitPixmaps() {
   QString basic_path = ":resources/images/";
   QPixmap car(basic_path + "cars/car_1.png");
   QPixmap dead_car(basic_path + "cars/car_1_dead.png");
@@ -26,8 +26,7 @@ void PixmapLoader::GetPixmaps() {
   pixmaps_[PixmapID::kMap] = map;
 }
 
-void PixmapLoader::GetOffsets() {
-  std::map<PixmapID, QPoint> offsets;
+void PixmapLoader::InitOffsets() {
   offsets_[PixmapID::kCar] = QPoint(-5, -10);
   offsets_[PixmapID::kDeadCar] = QPoint(-5, -10);
   offsets_[PixmapID::kShootingCar] = QPoint(-5, -16);
