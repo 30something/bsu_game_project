@@ -13,8 +13,7 @@ static const std::vector<QString> json_filepaths{
     {":resources/Jsons/map4_data.json"},
     {":resources/Jsons/map5_data.json"},
     {":resources/Jsons/map6_data.json"},
-    {":resources/Jsons/map7_data.json"},
-
+    {":resources/Jsons/map7_data.json"}
 };
 
 static const std::vector<QString> image_filepaths{
