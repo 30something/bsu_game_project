@@ -5,7 +5,7 @@
 template<typename B>
 class WrapperBase {
  public:
-  virtual size_t size() const = 0;
+  virtual size_t Size() const = 0;
   virtual const B& operator[](int) const = 0;
 };
 
@@ -18,7 +18,7 @@ class WrapperTemplate : public WrapperBase<B> {
     return vector_[i];
   }
 
-  size_t size() const override {
+  size_t Size() const override {
     return vector_.size();
   }
 

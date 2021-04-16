@@ -22,12 +22,12 @@ GameController::GameController(GameMode* game_mode,
         pos_and_angles[1].second,
         second_player_behavior);
   }
-  game_objects_.push_back(new WrapperTemplate<GameObject,
-                                              Car>(cars_));
-  game_objects_.push_back(new WrapperTemplate<GameObject,
-                                              Mine>(weapon_handler_.GetMines()));
-  game_objects_.push_back(new WrapperTemplate<GameObject,
-                                              Bonus>(map_.GetActiveBonuses()));
+  game_objects_.push_back(
+      new WrapperTemplate<GameObject, Car>(cars_));
+  game_objects_.push_back(
+      new WrapperTemplate<GameObject, Mine>(weapon_handler_.GetMines()));
+  game_objects_.push_back(
+      new WrapperTemplate<GameObject, Bonus>(map_.GetActiveBonuses()));
 }
 
 void GameController::Tick(int time_millis) {

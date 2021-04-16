@@ -54,7 +54,7 @@ void View::DrawObjects(QPainter* painter,
                        const Vec2f& frame_center,
                        const std::vector<WrapperBase<GameObject>*>& objects) {
   for (const auto& object : objects) {
-    for (size_t i = 0; i < object->size(); i++) {
+    for (size_t i = 0; i < object->Size(); i++) {
       double x = frame.left() / kScale + (*object)[i].GetPosition().GetX()
           - frame_center.GetX()
           + frame.width() / kScale / 2;
