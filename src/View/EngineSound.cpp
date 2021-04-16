@@ -21,6 +21,8 @@ Engine::Engine(QWidget* parent) : QWidget(parent),
     sound_player_->play();
 }
 
+//TODO fix engine sound
+
 void Engine::Play(double coefficient1, int direction) {
     int coefficient = (int)(100 * coefficient1);
 
