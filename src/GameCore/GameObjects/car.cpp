@@ -3,8 +3,8 @@
 Car::Car(QPoint position,
          double angle,
          Behavior* behavior) :
+         GameObject(Vec2f(position.x(), position.y())),
     behavior_(behavior) {
-  position_ = Vec2f(position.x(), position.y());
   velocity_.Set(physics::kAlmostZero, physics::kAlmostZero);
   angle_vec_.Set(1.0, 0.0);
   angle_vec_.Rotate(angle);

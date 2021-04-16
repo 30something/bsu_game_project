@@ -11,6 +11,7 @@
 
 class GameObject {
  public:
+  explicit GameObject(const Vec2f& position);
   Vec2f GetPosition() const;
   virtual double GetAngle() const;
   virtual PixmapID GetPixmapId() const = 0;
