@@ -1,12 +1,15 @@
 #pragma once
 
-#include <QWidget>
-#include <QKeyEvent>
+#include <iostream>
+#include <vector>
+
 #include <QApplication>
 #include <QFile>
+#include <QKeyEvent>
 #include <QTextStream>
-
-#include <vector>
+#include <QTime>
+#include <QPainter>
+#include <QWidget>
 
 class PrepareImage : public QWidget {
 

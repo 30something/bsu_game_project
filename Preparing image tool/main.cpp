@@ -1,6 +1,5 @@
-#include "uploaded_image.h"
-
 #include <QApplication>
+#include "uploaded_image.h"
 
 int main(int argc, char *argv[]) {
   QApplication app(argc, argv);

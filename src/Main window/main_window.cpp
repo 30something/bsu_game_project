@@ -24,10 +24,8 @@ void MainWindow::resizeEvent(QResizeEvent*) {
 void MainWindow::StartGame() {
   is_game_in_main_menu_ = false;
   events_controller_ = new EventsController(this, game_mode_);
-  end_game_stats_ = new EndGameStats(this);
   ConnectGameSignals();
   stacked_widget_->addWidget(events_controller_);
-  stacked_widget_->addWidget(end_game_stats_);
   stacked_widget_->setCurrentWidget(events_controller_);
 }
 
@@ -45,24 +43,17 @@ void MainWindow::HideSettings() {
   }
 }
 
-void MainWindow::ShowEndGameStats() {
-  stacked_widget_->setCurrentWidget(end_game_stats_);
-}
-
 void MainWindow::ReturnToMainMenu() {
   is_game_in_main_menu_ = true;
   pause_menu_->Close();
   stacked_widget_->removeWidget(events_controller_);
-  stacked_widget_->removeWidget(end_game_stats_);
   stacked_widget_->setCurrentWidget(menu_);
   disconnect(pause_menu_, &PauseMenu::ContinueGame, events_controller_,
              &EventsController::SetUnsetPause);
   disconnect(pause_menu_, &PauseMenu::ReturnToMainMenu, this,
              &MainWindow::ReturnToMainMenu);
   delete events_controller_;
-  delete end_game_stats_;
   events_controller_ = nullptr;
-  end_game_stats_ = nullptr;
 }
 
 void MainWindow::OpenMapSelector() {
@@ -125,9 +116,9 @@ void MainWindow::ConnectGameSignals() {
           pause_menu_,
           &PauseMenu::Close);
   connect(events_controller_,
-          &EventsController::ShowStats,
+          &EventsController::ReturnToMainMenu,
           this,
-          &MainWindow::ShowEndGameStats);
+          &MainWindow::ReturnToMainMenu);
   connect(pause_menu_,
           &PauseMenu::ContinueGame,
           events_controller_,
@@ -144,8 +135,4 @@ void MainWindow::ConnectGameSignals() {
           &Settings::BackButtonPressed,
           this,
           &MainWindow::HideSettings);
-  connect(end_game_stats_,
-          &EndGameStats::ReturnToMainMenu,
-          this,
-          &MainWindow::ReturnToMainMenu);
 }

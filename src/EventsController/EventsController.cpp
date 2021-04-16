@@ -3,8 +3,10 @@
 EventsController::EventsController(QWidget* parent, GameMode* game_mode) :
     QWidget(parent),
     game_controller_(new GameController(game_mode)),
-    view_(new View(this, game_controller_, game_mode)) {
+    view_(new View(this, game_controller_, game_mode)),
+    end_game_stats_(new EndGameStats(this)) {
   PrepareStartCountdownTimer();
+  PrepareEndGameStats();
 }
 
 void EventsController::PhysicsTimerEvent() {
@@ -22,6 +24,10 @@ void EventsController::ViewTimerEvent() {
 void EventsController::paintEvent(QPaintEvent*) {
   QPainter main_painter(this);
   view_->Repaint(&main_painter);
+}
+
+void EventsController::resizeEvent(QResizeEvent*) {
+  end_game_stats_->setGeometry(0, 0, width(), height());
 }
 
 void EventsController::keyPressEvent(QKeyEvent* event) {
@@ -55,6 +61,14 @@ void EventsController::PrepareStartCountdownTimer() {
   start_countdown_timer_.start(kMillisInSecond);
 }
 
+void EventsController::PrepareEndGameStats() {
+  connect(end_game_stats_,
+          &EndGameStats::ReturnToMainMenu,
+          this,
+          &EventsController::ReturnToMainMenu);
+  end_game_stats_->close();
+}
+
 void EventsController::PrepareGameTimers() {
   connect(&controller_timer_,
           &QTimer::timeout,
@@ -70,8 +84,8 @@ void EventsController::PrepareGameTimers() {
           &EventsController::CheckFinish);
   connect(&finish_pause_timer_,
           &QTimer::timeout,
-          this,
-          &EventsController::ShowStats);
+          end_game_stats_,
+          &EndGameStats::show);
   controller_timer_.start(kMillisPerPhysicsTick);
   view_timer_.start(kMillisPerFrame);
   end_game_check_timer_.start(kMillisPerFrame);

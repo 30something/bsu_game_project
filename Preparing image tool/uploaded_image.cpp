@@ -1,10 +1,5 @@
 #include "uploaded_image.h"
 
-#include <QPainter>
-#include <QTime>
-
-#include <iostream>
-
 PrepareImage::PrepareImage(QWidget* parent) : QWidget(parent) {
   setStyleSheet("background-color:black;");
   setFixedSize(800, 800);
