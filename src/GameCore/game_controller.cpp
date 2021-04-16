@@ -1,4 +1,4 @@
-#include "GameController.h"
+#include "game_controller.h"
 
 GameController::GameController(GameMode* game_mode) :
     game_mode_(game_mode),
@@ -6,12 +6,7 @@ GameController::GameController(GameMode* game_mode) :
   for (uint32_t i = 0; i < game_mode_->players_amount; i++) {
     remaining_cars_.insert(i);
   }
-  laps_counters_.resize(game_mode_->players_amount, 0);
-  finish_deviations_.resize(game_mode_->players_amount, 0);
-  finish_collision_statuses_.resize(
-      game_mode_->players_amount, FinishCollisionStatus::kNotCollide);
-  finish_statuses_.resize(
-      game_mode_->players_amount, FinishStatus::kNotFinished);
+  car_achievements_.resize(game_mode_->players_amount);
   JsonMapParser parser(map_data::json_filepaths[game_mode->map_index]);
   map_.SetBorders(parser.GetBorders());
   finish_line_ = parser.GetFinishLine();
@@ -44,8 +39,8 @@ void GameController::Tick(int time_millis) {
 
 void GameController::RecalculateDeviations() {
   for (uint32_t i = 0; i < game_mode_->players_amount; i++) {
-    if (finish_collision_statuses_[i] == FinishCollisionStatus::kNotCollide) {
-      finish_deviations_[i] =
+    if (!car_achievements_[i].is_collide_with_finish) {
+      car_achievements_[i].finish_deviation =
           physics::CalculateLineDeviation(cars_[i].GetPosition().GetX(),
                                           cars_[i].GetPosition().GetY(),
                                           finish_line_);
@@ -71,31 +66,23 @@ void GameController::ProceedCollisionsWithCars() {
 
 void GameController::ProceedCollisionsWithFinish() {
   for (auto index : remaining_cars_) {
-    bool collision_exists = false;
-    for (const auto& line : cars_[index].GetLines()) {
-      if (physics::IsIntersects(line, finish_line_)) {
-        collision_exists = true;
-        break;
-      }
-    }
-    if (collision_exists) {
-      finish_collision_statuses_[index] = FinishCollisionStatus::kCollide;
+    if (physics::IsIntersects(cars_[index].GetLines(), {finish_line_})) {
+      car_achievements_[index].is_collide_with_finish = true;
     } else {
-      if (finish_collision_statuses_[index]
-          == FinishCollisionStatus::kCollide) {
-        double past_deviation = finish_deviations_[index];
+      if (car_achievements_[index].is_collide_with_finish) {
+        double past_deviation = car_achievements_[index].finish_deviation;
         double current_deviation =
             physics::CalculateLineDeviation(cars_[index].GetPosition().GetX(),
                                             cars_[index].GetPosition().GetY(),
                                             finish_line_);
         // Variability - depends on finish line location
         if (past_deviation < 0 && current_deviation > 0) {
-          laps_counters_[index]--;
+          car_achievements_[index].laps_counter--;
         } else if (past_deviation > 0 && current_deviation < 0) {
-          laps_counters_[index]++;
+          car_achievements_[index].laps_counter++;
         }
       }
-      finish_collision_statuses_[index] = FinishCollisionStatus::kNotCollide;
+      car_achievements_[index].is_collide_with_finish = false;
     }
   }
 }
@@ -103,12 +90,12 @@ void GameController::ProceedCollisionsWithFinish() {
 void GameController::ProceedFinishGame() {
   std::vector<uint32_t> finished_cars;
   for (auto index : remaining_cars_) {
-    if (laps_counters_[index] > game_mode_->laps_amount) {
+    if (car_achievements_[index].laps_counter > game_mode_->laps_amount) {
       finished_cars.push_back(index);
     }
   }
   for (auto index : finished_cars) {
-    finish_statuses_[index] = FinishStatus::kFinished;
+    car_achievements_[index].is_finished = true;
     remaining_cars_.erase(index);
   }
 }
@@ -141,7 +128,7 @@ void GameController::CollideCars(Car* car_1, Car* car_2) {
 
 void GameController::HandleKeyPressEvent(QKeyEvent* event) {
   int key = event->key();
-  if (finish_statuses_[0] == FinishStatus::kNotFinished
+  if (!car_achievements_[0].is_finished
       && cars_[0].IsAlive()) {
     if (key == Qt::Key_Up) {
       cars_[0].SetFlagUp(true);
@@ -163,7 +150,7 @@ void GameController::HandleKeyPressEvent(QKeyEvent* event) {
     }
   }
   if (game_mode_->players_amount > 1
-      && finish_statuses_[1] == FinishStatus::kNotFinished
+      && !car_achievements_[1].is_finished
       && cars_[1].IsAlive()) {
     if (key == Qt::Key_W) {
       cars_[1].SetFlagUp(true);
@@ -240,7 +227,7 @@ double GameController::GetVelocity(int index) const {
 }
 
 int32_t GameController::GetLapsCounter(int index) const {
-  return laps_counters_[index];
+  return car_achievements_[index].laps_counter;
 }
 
 bool GameController::AllCarsFinished() const {

@@ -26,8 +26,8 @@ set(SOURCES main.cpp
         src/View/view.cpp
         "src/Main window/main_window.cpp"
         src/Menu/menu.cpp
-        src/GameCore/GameController.cpp
-        src/EventsController/EventsController.cpp
+        src/GameCore/game_controller.cpp
+        src/EventsController/events_controller.cpp
         src/GameCore/car.cpp
         src/helpers/vec2f.cpp
         src/GameCore/wheel.cpp

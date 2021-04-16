@@ -1,4 +1,4 @@
-#include "EventsController.h"
+#include "events_controller.h"
 
 EventsController::EventsController(QWidget* parent, GameMode* game_mode) :
     QWidget(parent),

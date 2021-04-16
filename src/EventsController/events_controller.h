@@ -8,7 +8,7 @@
 
 #include "src/Menu/pause_menu.h"
 #include "src/Menu/end_game_stats.h"
-#include "src/GameCore/GameController.h"
+#include "src/GameCore/game_controller.h"
 #include "src/View/view.h"
 
 class EventsController : public QWidget {

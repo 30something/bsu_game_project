@@ -13,6 +13,7 @@
 #include "map.h"
 #include "weapon_handler.h"
 #include "src/helpers/json_map_parser.h"
+#include "src/GameCore/car_achievements.h"
 
 class GameController {
  public:
@@ -43,23 +44,10 @@ class GameController {
   static constexpr double kHPDecrease = 0.005;
   static constexpr double kMinVisibleVelocity = 5;
 
-  enum class FinishCollisionStatus {
-    kCollide,
-    kNotCollide,
-  };
-
-  enum class FinishStatus {
-    kFinished,
-    kNotFinished,
-  };
-
   Map map_;
   std::vector<Car> cars_;
-  std::vector<int32_t> laps_counters_;
+  std::vector<CarAchievements> car_achievements_;
   std::set<uint32_t> remaining_cars_;
-  std::vector<double> finish_deviations_;
-  std::vector<FinishCollisionStatus> finish_collision_statuses_;
-  std::vector<FinishStatus> finish_statuses_;
   GameMode* game_mode_ = nullptr;
   WeaponHandler weapon_handler_;
   Line finish_line_;

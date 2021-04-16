@@ -10,7 +10,7 @@
 #include <QPixmap>
 #include <QWidget>
 
-#include "src/GameCore/GameController.h"
+#include "src/GameCore/game_controller.h"
 #include "src/helpers/sizes.h"
 
 class View {

@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QStackedWidget>
 
-#include "src/EventsController/EventsController.h"
+#include "src/EventsController/events_controller.h"
 #include "src/Menu/menu.h"
 #include "src/Menu/pause_menu.h"
 #include "src/Menu/game_mode_selector.h"
