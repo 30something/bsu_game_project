@@ -3,8 +3,8 @@
 Car::Car(QPoint position,
          double angle,
          Behavior* behavior) :
-    behavior_(behavior),
-    position_(position.x(), position.y()) {
+    behavior_(behavior) {
+  position_ = Vec2f(position.x(), position.y());
   velocity_.Set(physics::kAlmostZero, physics::kAlmostZero);
   angle_vec_.Set(1.0, 0.0);
   angle_vec_.Rotate(angle);
@@ -155,10 +155,6 @@ void Car::UpdateWheelsPosAndOrientation() {
 
 double Car::GetAngle() const {
   return angle_vec_.GetAngleDegrees() + 90;
-}
-
-Vec2f Car::GetPosition() const {
-  return position_;
 }
 
 const Vec2f& Car::GetVelocity() const {

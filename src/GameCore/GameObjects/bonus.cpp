@@ -17,10 +17,6 @@ void Bonus::ApplyTo(Car* car) {
   }
 }
 
-Vec2f Bonus::GetPosition() const {
-  return position_;
-}
-
 PixmapID Bonus::GetPixmapId() const {
   switch (type_) {
     case BonusType::kMineAmmo: {

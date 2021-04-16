@@ -34,7 +34,6 @@ class Car : public GameObject {
   double GetAngle() const override;
   std::vector<Line> GetCollisionLines() const override;
   const Vec2f& GetVelocity() const;
-  Vec2f GetPosition() const override;
   PixmapID GetPixmapId() const override;
   const Vec2f& GetAngleVec() const;
   bool IsPuttingMine() const;
@@ -51,7 +50,6 @@ class Car : public GameObject {
  private:
   std::vector<Wheel> wheels_{4};
   Behavior* behavior_ = nullptr;
-  Vec2f position_;
   Vec2f angle_vec_;
   Vec2f velocity_;
 

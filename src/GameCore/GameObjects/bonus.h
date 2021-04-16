@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include <vector>
 
 #include "src/GameCore/GameObjects/car.h"
@@ -15,12 +14,11 @@ class Bonus : public GameObject {
   };
 
   Bonus(Vec2f point, BonusType _type) :
-      type_(_type),
-      position_(point) {
+      type_(_type) {
+    position_ = point;
   }
 
   void ApplyTo(Car* car);
-  Vec2f GetPosition() const override;
   PixmapID GetPixmapId() const override;
 
   bool operator==(const Bonus& rhs) const {

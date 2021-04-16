@@ -7,3 +7,7 @@ std::vector<Line> GameObject::GetCollisionLines() const {
 double GameObject::GetAngle() const {
   return 0;
 }
+
+Vec2f GameObject::GetPosition() const {
+  return position_;
+}

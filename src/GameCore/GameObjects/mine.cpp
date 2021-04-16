@@ -1,9 +1,7 @@
 #include "mine.h"
 
-Mine::Mine(Vec2f position) : position_(position) {}
-
-Vec2f Mine::GetPosition() const {
-  return position_;
+Mine::Mine(Vec2f position) {
+  position_ = position;
 }
 
 PixmapID Mine::GetPixmapId() const {
