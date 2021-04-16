@@ -4,11 +4,7 @@ EventsController::EventsController(QWidget* parent, GameMode* game_mode) :
     QWidget(parent),
     game_controller_(new GameController(game_mode)),
     view_(new View(this, game_controller_, game_mode)) {
-  connect(&start_timer_,
-          &QTimer::timeout,
-          this,
-          &EventsController::StartTimer);
-  start_timer_.start(kMillisInSecond);
+  PrepareStartCountdownTimer();
 }
 
 void EventsController::PhysicsTimerEvent() {
@@ -51,7 +47,15 @@ void EventsController::SetUnsetPause() {
   }
 }
 
-void EventsController::PrepareTimer() {
+void EventsController::PrepareStartCountdownTimer() {
+  connect(&start_countdown_timer_,
+          &QTimer::timeout,
+          this,
+          &EventsController::CheckStartCountdownTimer);
+  start_countdown_timer_.start(kMillisInSecond);
+}
+
+void EventsController::PrepareGameTimers() {
   connect(&controller_timer_,
           &QTimer::timeout,
           this,
@@ -63,7 +67,7 @@ void EventsController::PrepareTimer() {
   connect(&end_game_check_timer_,
           &QTimer::timeout,
           this,
-          &EventsController::FinishCheck);
+          &EventsController::CheckFinish);
   connect(&finish_pause_timer_,
           &QTimer::timeout,
           this,
@@ -73,14 +77,14 @@ void EventsController::PrepareTimer() {
   end_game_check_timer_.start(kMillisPerFrame);
 }
 
-void EventsController::StartTimer() {
+void EventsController::CheckStartCountdownTimer() {
   if (game_status_ == GameStatus::kPaused) {
     return;
   }
   if (seconds_before_start_ == 0) {
-    start_timer_.stop();
+    start_countdown_timer_.stop();
     view_->UpdateStartLabel("");
-    PrepareTimer();
+    PrepareGameTimers();
   } else {
     seconds_before_start_--;
     if (seconds_before_start_ == 0) {
@@ -91,7 +95,7 @@ void EventsController::StartTimer() {
   }
 }
 
-void EventsController::FinishCheck() {
+void EventsController::CheckFinish() {
   if (game_controller_->AllCarsFinished()) {
     end_game_check_timer_.stop();
     finish_pause_timer_.start(kMillisInSecond);

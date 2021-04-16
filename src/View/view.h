@@ -20,20 +20,23 @@ class View {
 
   void Repaint(QPainter* painter);
   void UpdateStartLabel(const std::string& new_text);
-  void UpdateInfoDescription(QPainter* painter);
 
  private:
   void DrawMap(QPainter* painter,
                const QRect& frame,
                const Vec2f& pos);
-  void DrawPicture(
-      QPainter* painter,
-      const QRect& frame,
-      const Vec2f& frame_center,
-      const Vec2f& coords,
-      double angle,
-      const QPixmap& car,
-      const QPoint& offset) const;
+  void DrawPicture(QPainter* painter,
+                   const QRect& frame,
+                   const Vec2f& frame_center,
+                   const Vec2f& coords,
+                   double angle,
+                   const QPixmap& car,
+                   const QPoint& offset) const;
+  void UpdatePlayerInfoDescription(QPainter* painter,
+                                   int x_pos,
+                                   int y_pos,
+                                   int index);
+  void UpdateAllInfoDescription(QPainter* painter);
   std::vector<QRect> GetFramesVector(const QPainter* painter) const;
 
   GameController* model_ = nullptr;

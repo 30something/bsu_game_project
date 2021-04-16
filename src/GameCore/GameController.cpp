@@ -43,9 +43,12 @@ void GameController::Tick(int time_millis) {
 }
 
 void GameController::RecalculateDeviations() {
-  for (size_t i = 0; i < game_mode_->players_amount; i++) {
+  for (uint32_t i = 0; i < game_mode_->players_amount; i++) {
     if (finish_collision_statuses_[i] == FinishCollisionStatus::kNotCollide) {
-      finish_deviations_[i] = CalculateFinishDeviation(i);
+      finish_deviations_[i] =
+          physics::CalculateLineDeviation(cars_[i].GetPosition().GetX(),
+                                          cars_[i].GetPosition().GetY(),
+                                          finish_line_);
     }
   }
 }
@@ -81,7 +84,10 @@ void GameController::ProceedCollisionsWithFinish() {
       if (finish_collision_statuses_[index]
           == FinishCollisionStatus::kCollide) {
         double past_deviation = finish_deviations_[index];
-        double current_deviation = CalculateFinishDeviation(index);
+        double current_deviation =
+            physics::CalculateLineDeviation(cars_[index].GetPosition().GetX(),
+                                            cars_[index].GetPosition().GetY(),
+                                            finish_line_);
         // Variability - depends on finish line location
         if (past_deviation < 0 && current_deviation > 0) {
           laps_counters_[index]--;
@@ -97,7 +103,7 @@ void GameController::ProceedCollisionsWithFinish() {
 void GameController::ProceedFinishGame() {
   std::vector<uint32_t> finished_cars;
   for (auto index : remaining_cars_) {
-    if (laps_counters_[index] > static_cast<int32_t>(game_mode_->laps_amount)) {
+    if (laps_counters_[index] > game_mode_->laps_amount) {
       finished_cars.push_back(index);
     }
   }
@@ -105,21 +111,6 @@ void GameController::ProceedFinishGame() {
     finish_statuses_[index] = FinishStatus::kFinished;
     remaining_cars_.erase(index);
   }
-}
-
-double GameController::CalculateFinishDeviation(size_t index) {
-  // Using general form of line equation
-  double xc = cars_[index].GetPosition().GetX();
-  double yc = cars_[index].GetPosition().GetY();
-  double A = finish_line_.y1 - finish_line_.y2;
-  double B = finish_line_.x2 - finish_line_.x1;
-  double C = finish_line_.x1 * finish_line_.y2 -
-      finish_line_.x2 * finish_line_.y1;
-  double d = (A * xc + B * yc + C) / sqrt(A * A + B * B);
-  if (C > 0) {
-    d *= -1;
-  }
-  return d;
 }
 
 void GameController::CollideCars(Car* car_1, Car* car_2) {

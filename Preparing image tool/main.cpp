@@ -1,14 +1,10 @@
-#include <QApplication>
 #include "uploaded_image.h"
 
+#include <QApplication>
+
 int main(int argc, char *argv[]) {
-
   QApplication app(argc, argv);
-
   PrepareImage window;
-
-  window.setWindowTitle("blahblahblah");
   window.show();
-
   return QApplication::exec();
 }

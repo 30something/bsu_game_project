@@ -36,7 +36,6 @@ class GameController {
   void ProceedCollisionsWithFinish();
   void ProceedFinishGame();
   void RecalculateDeviations();
-  double CalculateFinishDeviation(size_t index);
   static void CollideCars(Car* car_1, Car* car_2);
 
   static constexpr double kVelocityDecrease = 0.5;
@@ -63,6 +62,5 @@ class GameController {
   std::vector<FinishStatus> finish_statuses_;
   GameMode* game_mode_ = nullptr;
   WeaponHandler weapon_handler_;
-
   Line finish_line_;
 };

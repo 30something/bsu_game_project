@@ -26,7 +26,7 @@ class EventsController : public QWidget {
   void PhysicsTimerEvent();
   void ViewTimerEvent();
 
-  void FinishCheck();
+  void CheckFinish();
 
  signals:
   void SetGamePause();
@@ -34,8 +34,9 @@ class EventsController : public QWidget {
   void ShowStats();
 
  private:
-  void PrepareTimer();
-  void StartTimer();
+  void PrepareGameTimers();
+  void PrepareStartCountdownTimer();
+  void CheckStartCountdownTimer();
 
   enum class Actions {
     kOpenOrCloseMenu = Qt::Key_Escape,
@@ -46,7 +47,7 @@ class EventsController : public QWidget {
     kRunning,
   };
 
-  QTimer start_timer_;
+  QTimer start_countdown_timer_;
   QTimer view_timer_;
   QTimer controller_timer_;
   QTimer end_game_check_timer_;

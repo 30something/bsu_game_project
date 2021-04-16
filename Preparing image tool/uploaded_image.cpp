@@ -1,16 +1,42 @@
 #include "uploaded_image.h"
+
 #include <QPainter>
 #include <QTime>
+
 #include <iostream>
 
 PrepareImage::PrepareImage(QWidget* parent) : QWidget(parent) {
   setStyleSheet("background-color:black;");
-  resize(800, 800);
-  image_.load("");
+  setFixedSize(800, 800);
+  RequestPhotoPath();
+  RequestCoordsPath();
+  std::cerr << "File opened to process..." << '\n';
 }
 
-void PrepareImage::paintEvent(QPaintEvent* e) {
-  Q_UNUSED(e);
+void PrepareImage::RequestPhotoPath() {
+  std::cerr << "Enter the absolute file path of the image\n";
+  std::cerr << R"(For example: "C:\Users\User\Desktop\map.jpg")" << '\n';
+  getline(std::cin, picture_path_);
+  if (!image_.load(QString::fromStdString(picture_path_))) {
+    std::cerr << "Unable to open file\n";
+    std::cerr << "You should reopen tool and edit the file path\n";
+    std::exit(0);
+  }
+}
+
+void PrepareImage::RequestCoordsPath() {
+  std::cerr << "Enter the absolute file path of the txt file to put coords\n";
+  std::cerr << R"(For example: "C:\Users\User\Desktop\coords.txt")" << '\n';
+  getline(std::cin, coords_path_);
+  output_file_.setFileName(QString::fromStdString(coords_path_));
+  if (!output_file_.open(QIODevice::WriteOnly)) {
+    std::cerr << "Unable to open file\n";
+    std::cerr << "You should reopen tool and edit the file path\n";
+    std::exit(0);
+  }
+}
+
+void PrepareImage::paintEvent(QPaintEvent*) {
   QPainter qp(this);
   qp.scale(image_scale_, image_scale_);
   qp.drawImage(0,
@@ -22,29 +48,28 @@ void PrepareImage::paintEvent(QPaintEvent* e) {
                scaled_image_size_);
   qp.scale(1, 1);
   qp.setPen(QColor("red"));
-  for (int i = 1; i < coordinates_left_.size(); i++) {
+  for (size_t i = 1; i < coordinates_left_.size(); i++) {
     qp.drawLine(
         coordinates_left_[i - 1].first - image_offset_x_,
         coordinates_left_[i - 1].second - image_offset_y_,
         coordinates_left_[i].first - image_offset_x_,
         coordinates_left_[i].second - image_offset_y_);
   }
-
-  for (int i = 1; i < coordinates_right_.size(); i++) {
+  for (size_t i = 1; i < coordinates_right_.size(); i++) {
     qp.drawLine(coordinates_right_[i - 1].first - image_offset_x_,
                 coordinates_right_[i - 1].second - image_offset_y_,
                 coordinates_right_[i].first - image_offset_x_,
                 coordinates_right_[i].second - image_offset_y_);
   }
-  QString phase = "phase: ";
+  QString phase = "Phase: ";
   phase += (step_now == step::left) ? ("left") : ("right");
-  qp.drawText(10,10, phase);
+  qp.drawText(0, 10, phase);
 }
 
 void PrepareImage::keyPressEvent(QKeyEvent* e) {
   int key = e->key();
-  if(key == Qt::Key_Backspace) {
-    if(step_now == step::left) {
+  if (key == Qt::Key_Backspace) {
+    if (step_now == step::left) {
       coordinates_left_.pop_back();
     } else {
       coordinates_right_.pop_back();
@@ -74,30 +99,22 @@ void PrepareImage::mousePressEvent(QMouseEvent* event) {
                                    event->y() / image_scale_ + image_offset_y_);
   } else {
     coordinates_right_.emplace_back(event->x() / image_scale_ + image_offset_x_,
-                                    event->y() / image_scale_ + image_offset_y_);
+                                    event->y() / image_scale_
+                                        + image_offset_y_);
   }
   repaint();
 }
 
 void PrepareImage::WriteToFile() {
-  std::cout << "processing a file" << std::endl;
-  QTextStream out(stdout);
-  QString filename = "";
-  QFile file(filename);
-  if (file.open(QIODevice::WriteOnly)) {
-    QTextStream out(&file);
-    out << "x | y\n";
-    for (auto i : coordinates_left_) {
-      out << i.first << ' ' << i.second << '\n';
-    }
-    out << "---" << '\n';
-    for (auto i : coordinates_right_) {
-      out << i.first << ' ' << i.second << '\n';
-    }
-    out << "end_file";
-  } else {
-    qWarning("Could not open file");
+  QTextStream out(&output_file_);
+  out << "x | y\n";
+  for (const auto& pair : coordinates_left_) {
+    out << pair.first << ' ' << pair.second << '\n';
   }
-  file.close();
+  out << "---" << '\n';
+  for (const auto& pair : coordinates_right_) {
+    out << pair.first << ' ' << pair.second << '\n';
+  }
+  std::cerr << "Data successfully was written to file";
+  output_file_.close();
 }
-

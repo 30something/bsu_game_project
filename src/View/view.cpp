@@ -84,32 +84,32 @@ void View::Repaint(QPainter* painter) {
           QPoint(-5, -5));
     }
   }
-  UpdateInfoDescription(painter);
+  UpdateAllInfoDescription(painter);
 }
 
 void View::UpdateStartLabel(const std::string& new_text) {
   start_label_->setText(QString::fromStdString(new_text));
 }
 
-void View::UpdateInfoDescription(QPainter* painter) {
-  painter->save();
-  painter->drawText(0,
-                    10,
+void View::UpdatePlayerInfoDescription(QPainter* painter,
+                                       int x_pos,
+                                       int y_pos,
+                                       int index) {
+  painter->drawText(x_pos,
+                    y_pos,
                     QString::fromStdString("Velocity: " +
-                        std::to_string(model_->GetVelocity(0)) +
+                        std::to_string(model_->GetVelocity(index)) +
                         ", Laps: " +
-                        std::to_string(model_->GetLapsCounter(0)) +
+                        std::to_string(model_->GetLapsCounter(index)) +
                         " / " +
                         std::to_string(laps_amount_)));
+}
+
+void View::UpdateAllInfoDescription(QPainter* painter) {
+  painter->save();
+  UpdatePlayerInfoDescription(painter, 0, 10, 0);
   if (players_amount_ > 1) {
-    painter->drawText(painter->window().width() / 4,
-                      10,
-                      QString::fromStdString("Velocity: " +
-                          std::to_string(model_->GetVelocity(1)) +
-                          ", Laps: " +
-                          std::to_string(model_->GetLapsCounter(1)) +
-                          " / " +
-                          std::to_string(laps_amount_)));
+    UpdatePlayerInfoDescription(painter, painter->window().width() / 4, 10, 1);
   }
   painter->restore();
 }
