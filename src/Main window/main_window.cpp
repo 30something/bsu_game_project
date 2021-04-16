@@ -27,8 +27,7 @@ void MainWindow::StartGame() {
   ConnectGameSignals();
   stacked_widget_->addWidget(events_controller_);
   stacked_widget_->setCurrentWidget(events_controller_);
-    stacked_widget_->addWidget(events_controller_);
-  stacked_widget_->setCurrentWidget(events_controller_);}
+}
 
 void MainWindow::ShowSettings() {
   stacked_widget_->setCurrentWidget(settings_);

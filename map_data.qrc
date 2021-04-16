@@ -1,7 +1,7 @@
 <RCC>
     <qresource>
-        <file>resources/images/map_data/map_1.txt</file>
-        <file>resources/images/map_data/map_2.txt</file>
-        <file>resources/images/map_data/map_3.txt</file>
+        <file>resources/Jsons/map_1_data.json</file>
+        <file>resources/Jsons/map_2_data.json</file>
+        <file>resources/Jsons/map_3_data.json</file>
     </qresource>
 </RCC>

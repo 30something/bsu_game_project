@@ -4,24 +4,43 @@
 #include <vector>
 
 #include <QTextStream>
+#include <QRandomGenerator>
 #include <QFile>
+#include <QTimer>
 
 #include "src/helpers/vec2f.h"
 #include "src/helpers/line.h"
 #include "car.h"
 #include "src/helpers/map_data.h"
 #include "src/helpers/game_mode.h"
+#include "src/helpers/json_map_parser.h"
+#include "src/helpers/bonus.h"
 
 class Map {
  public:
-  explicit Map(GameMode* game_mode);
-  void ParseMapBorders();
-  static std::pair<int, int> ParseLine(const QString& line);
-  void ProceedCollisions(Car* car);
+  Map() = default;
+  void HandleCarTick(Car* car);
+  const std::vector<Bonus>& GetActiveBonuses() const;
+  void SetBorders(const std::vector<std::vector<QPoint>>& borders);
 
  private:
-  uint map_index_ = 0;
+  std::vector<std::vector<QPoint>> borders_;
+  std::vector<QPoint> bonuses_positions_;
+  std::vector<Bonus> bonuses_;
+  QTimer bonus_timer_;
+
   static constexpr double kVelocityDecrease = 0.75;
-  std::vector<std::vector<std::pair<int, int>>> borders_;
-  static void CollideCar(Car* car, const Vec2f& point);
+  static constexpr double kHPDecrease = 0.001;
+  static constexpr size_t kMaxBonusesAmount = 5;
+  static constexpr int kAmountOfBonusTypes = 3;
+  static constexpr int kMaxMilliSecondsForNewBonus = 20000;
+  static constexpr int kMinMilliSecondForNewBonus = 5000;
+
+  void CalculateBonusesPositions();
+  void ProceedCollisions(Car*);
+  void ProceedActiveBonuses(Car* car);
+  void ProceedNewBonuses();
+
+  static size_t FindIndexOfMinimalDistance(QPoint, const std::vector<QPoint>&);
+  static void HandleCarCrashIntoBorder(Car* car, const Vec2f& point);
 };

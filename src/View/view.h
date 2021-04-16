@@ -4,7 +4,7 @@
 #include <vector>
 
 #include <QPainter>
-#include <QImage>
+#include <QPixmap>
 
 #include "src/GameCore/GameController.h"
 #include "EngineSound.h"
@@ -25,18 +25,30 @@ class View {
 
  private:
   GameController* model_ = nullptr;
-  QImage map_;
-  QImage car_;
+  QPixmap map_;
+  QPixmap car_;
+  QPixmap dead_car_;
+  QPixmap mine_;
+  QPixmap shot_;
+  QPixmap health_bonus_;
+  QPixmap bullets_ammo_bonus_;
+  QPixmap mines_bonus_;
+
   int players_amount_ = 0;
+
   const double kScale = 2;
+
   void DrawMap(QPainter* painter,
                const QRect& frame,
-               const QPoint& pos);
-  void DrawCar(QPainter* painter,
-               const QRect& frame,
-               const QPoint& center,
-               const QPoint& frame_center,
-               double angle);
+               const Vec2f& pos);
+  void DrawPicture(
+      QPainter* painter,
+      const QRect& frame,
+      const Vec2f& frame_center,
+      const Vec2f& coords,
+      double angle,
+      const QPixmap& car,
+      const QPoint& offset) const;
   std::vector<QRect> GetFramesVector(const QPainter* painter) const;
   Engine* engine_;
   Drift* drift_;

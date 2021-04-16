@@ -78,7 +78,7 @@ void Engine::Play(double coefficient1, int direction) {
 }
 
 void Engine::PlayIdleSpeed() {
-    if (sound_playlist_->currentIndex() == 2) {
+    if (sound_playlist_->currentIndex() != 0) {
         sound_player_->stop();
         sound_playlist_->setCurrentIndex(0);
         sound_player_->play();

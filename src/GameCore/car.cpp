@@ -23,7 +23,6 @@ void Car::ProceedInputFlags() {
   if (!flag_right_ && !flag_left_) {
     steering_angle_ = 0;
   }
-  // TODO(dima_makarov): fix keyboard controls
   if (flag_up_) {
     velocity_ += angle_vec_ * kAccelFactor;
     if (velocity_.GetLength() > kMaxSpeedForward) {
@@ -54,6 +53,13 @@ void Car::ProceedInputFlags() {
 }
 
 void Car::Tick(int time_millisec) {
+  if (!is_alive_) {
+    flag_right_ = false;
+    flag_left_ = false;
+    flag_up_ = false;
+    flag_down_ = false;
+    is_shooting_ = false;
+  }
   ProceedInputFlags();
   AdvanceStep(time_millisec);
 }
@@ -124,7 +130,7 @@ void Car::CalcLateralForces() {
                               kRearCoefFriction);
 }
 
-std::vector<Line> Car::GetLines() {
+std::vector<Line> Car::GetLines() const {
   Line l1(wheels_[0].GetPosition(), wheels_[1].GetPosition());
   Line l2(wheels_[0].GetPosition(), wheels_[2].GetPosition());
   Line l3(wheels_[1].GetPosition(), wheels_[3].GetPosition());
@@ -165,14 +171,6 @@ void Car::UpdateWheelsPosAndOrientation() {
   }
 }
 
-int Car::GetX() const {
-  return static_cast<int>(position_.GetX());
-}
-
-int Car::GetY() const {
-  return static_cast<int>(position_.GetY());
-}
-
 double Car::GetAngle() const {
   return angle_vec_.GetAngleDegrees() + 90;
 }
@@ -193,6 +191,80 @@ void Car::SetPosition(const Vec2f& position) {
   position_ = position;
 }
 
+double Car::GetHitPoints() const {
+  return hit_points_;
+}
+
+double Car::GetBulletsAmount() const {
+  return bullets_amount_;
+}
+
+double Car::GetMinesAmount() const {
+  return mines_amount_;
+}
+
+void Car::AddHitPoints(double hit_points) {
+  hit_points_ += hit_points;
+}
+
+void Car::AddBulletsAmount(double bullets_amount) {
+  bullets_amount_ += bullets_amount;
+}
+
+void Car::AddMinesAmount(double mines_amount) {
+  mines_amount_ += mines_amount;
+}
+
+const Vec2f& Car::GetAngleVec() const {
+  return angle_vec_;
+}
+
+bool Car::IsShooting() const {
+  if (bullets_amount_ <= 0) {
+    return false;
+  }
+  return is_shooting_;
+}
+
+void Car::SetIsShooting(bool is_shooting) {
+  if (bullets_amount_ <= 0) {
+    is_shooting_ = false;
+  } else {
+    is_shooting_ = is_shooting;
+  }
+}
+
+bool Car::IsAlive() const {
+  return is_alive_;
+}
+
+void Car::SetIsAlive(bool is_alive) {
+  is_alive_ = is_alive;
+}
+
+std::optional<QPoint> Car::DropMine() {
+  if (mines_amount_ > 0) {
+    mines_amount_--;
+    return QPoint(angle_vec_.GetX() * (kPutMineOffset) + position_.GetX(),
+                  angle_vec_.GetY() * (kPutMineOffset) + position_.GetY());
+  } else {
+    return std::nullopt;
+  }
+}
+
+std::optional<Line> Car::ShootBullet() {
+  if (bullets_amount_ > 0) {
+    bullets_amount_--;
+    return Line(
+        position_.GetX(),
+        position_.GetY(),
+        angle_vec_.GetX() * kShootingRange + position_.GetX(),
+        angle_vec_.GetY() * kShootingRange + position_.GetY());
+  } else {
+    return std::nullopt;
+  }
+}
+
 std::pair<double, int> Car::GetParametersForEngineSound() {
     double coefficient = velocity_.GetLength() / kMaxSpeedForward;
     int without_motion = 0;
@@ -200,7 +272,7 @@ std::pair<double, int> Car::GetParametersForEngineSound() {
     int backward_motion = -1;
 
     if (flag_down_ && std::abs(velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees())
-                             > 90) {
+                      > 90) {
         coefficient = velocity_.GetLength() / kMaxSpeedBackward;
         return std::pair<double, int>(coefficient, backward_motion);
     }
@@ -226,8 +298,8 @@ double Car::GetCoefficientForBrakeSound() {
     double kSpeedForBrake = 20;
     double relative_velocity = velocity_.GetLength() / kMaxSpeedForward;
     if (flag_down_ && !flag_up_ && velocity_.GetLength() > kSpeedForBrake &&
-    std::abs(velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees())
-                                                    <= 90) {
+        std::abs(velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees())
+        <= 90) {
         if (relative_velocity < 0.1) {
             return 0.1;
         }

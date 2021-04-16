@@ -36,7 +36,6 @@ set(SOURCES main.cpp
         src/Menu/small_exit_window.cpp
         src/Menu/settings.cpp
         src/Menu/small_exit_window.cpp
-        src/helpers/line.cpp
         src/GameCore/map.cpp
         src/View/EngineSound.cpp
         src/View/EngineSound.h
@@ -44,6 +43,10 @@ set(SOURCES main.cpp
         src/View/DriftSound.cpp
         src/Menu/game_mode_selector.cpp
         src/Menu/map_selector_tile.cpp
+        src/GameCore/weapon_handler.cpp
+        src/helpers/json_map_parser.cpp
+        src/helpers/physics.cpp
+        src/helpers/bonus.cpp
         )
 
 set(RESOURCES
