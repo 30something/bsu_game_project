@@ -87,8 +87,17 @@ void View::Repaint(QPainter* painter) {
   UpdateAllInfoDescription(painter);
 }
 
-void View::UpdateStartLabel(const std::string& new_text) {
-  start_label_->setText(QString::fromStdString(new_text));
+void View::UpdateStartLabel(int seconds_before_start) {
+  if (seconds_before_start == 0) {
+    start_label_->setText("Go!");
+  } else {
+    start_label_->setText(
+        QString::fromStdString(std::to_string(seconds_before_start)));
+  }
+}
+
+void View::ClearStartLabel() {
+  start_label_->clear();
 }
 
 void View::UpdatePlayerInfoDescription(QPainter* painter,

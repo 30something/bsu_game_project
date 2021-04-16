@@ -19,7 +19,8 @@ class View {
   ~View() = default;
 
   void Repaint(QPainter* painter);
-  void UpdateStartLabel(const std::string& new_text);
+  void UpdateStartLabel(int seconds_before_start);
+  void ClearStartLabel();
 
  private:
   void DrawMap(QPainter* painter,

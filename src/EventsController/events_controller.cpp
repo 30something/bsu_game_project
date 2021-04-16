@@ -97,15 +97,10 @@ void EventsController::CheckStartCountdownTimer() {
   }
   if (seconds_before_start_ == 0) {
     start_countdown_timer_.stop();
-    view_->UpdateStartLabel("");
+    view_->ClearStartLabel();
     PrepareGameTimers();
   } else {
-    seconds_before_start_--;
-    if (seconds_before_start_ == 0) {
-      view_->UpdateStartLabel("Go!");
-    } else {
-      view_->UpdateStartLabel(std::to_string(seconds_before_start_));
-    }
+    view_->UpdateStartLabel(--seconds_before_start_);
   }
 }
 
