@@ -32,6 +32,7 @@ class GameController {
   std::vector<Car> cars_;
   GameMode* game_mode_ = nullptr;
   WeaponHandler weapon_handler_;
+  std::vector<WrapperBase<GameObject>*> game_objects_;
 
   static constexpr double kVelocityDecrease = 0.5;
   static constexpr double kDeviationDecrease = 0.5;

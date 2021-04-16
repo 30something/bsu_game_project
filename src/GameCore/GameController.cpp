@@ -22,6 +22,12 @@ GameController::GameController(GameMode* game_mode,
         pos_and_angles[1].second,
         second_player_behavior);
   }
+  game_objects_.push_back(new WrapperTemplate<GameObject,
+                                              Car>(cars_));
+  game_objects_.push_back(new WrapperTemplate<GameObject,
+                                              Mine>(weapon_handler_.GetMines()));
+  game_objects_.push_back(new WrapperTemplate<GameObject,
+                                              Bonus>(map_.GetActiveBonuses()));
 }
 
 void GameController::Tick(int time_millis) {
@@ -79,14 +85,7 @@ void GameController::CollideCars(Car* car_1, Car* car_2) {
 }
 
 std::vector<WrapperBase<GameObject>*> GameController::GetGameObjects() const {
-  std::vector<WrapperBase<GameObject>*> view_vector;
-  view_vector.push_back(new WrapperTemplate<GameObject,
-                                            Car>(cars_));
-  view_vector.push_back(new WrapperTemplate<GameObject,
-                                            Mine>(weapon_handler_.GetMines()));
-  view_vector.push_back(new WrapperTemplate<GameObject,
-                                            Bonus>(map_.GetActiveBonuses()));
-  return view_vector;
+  return game_objects_;
 }
 
 std::vector<Vec2f> GameController::GetPlayersCarPositions() const {
