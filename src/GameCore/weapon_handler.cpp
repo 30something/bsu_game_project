@@ -7,7 +7,7 @@ void WeaponHandler::ShootBullet(Car* car, std::vector<Car>* cars) {
       if (&second_car == car) {
         continue;
       }
-      std::vector<Line> car_lines = second_car.GetLines();
+      std::vector<Line> car_lines = second_car.GetCollisionLines();
       for (const auto& line : car_lines) {
         if (physics::IsIntersects(*shoot_trajectory, line)) {
           second_car.AddHitPoints(-kBulletDamage);
@@ -19,7 +19,7 @@ void WeaponHandler::ShootBullet(Car* car, std::vector<Car>* cars) {
 }
 
 void WeaponHandler::PutMine(Car* car) {
-  std::optional<QPoint> position = car->DropMine();
+  std::optional<Vec2f> position = car->DropMine();
   if (position) {
     mines_.emplace_back(*position);
   }
@@ -30,10 +30,15 @@ void WeaponHandler::ProceedWeapons(std::vector<Car>* cars) {
     if (car.IsShooting()) {
       ShootBullet(&car, cars);
     }
+    if (car.IsPuttingMine()) {
+      PutMine(&car);
+    }
   }
-  for (auto& mine : mines_) {
+  for (const auto& mine : mines_) {
     for (auto& car : *cars) {
-      if (physics::IsInside(car.GetLines(), mine)) {
+      if (physics::IsInside(car.GetCollisionLines(),
+                            QPoint(mine.GetPosition().GetX(),
+                                   mine.GetPosition().GetY()))) {
         car.AddHitPoints(-kMineDamage);
         car.SetVelocity(Vec2f(car.GetVelocity()).Normalize() * -kMineSplash);
         mines_.erase(std::find(mines_.begin(), mines_.end(), mine));
@@ -42,6 +47,6 @@ void WeaponHandler::ProceedWeapons(std::vector<Car>* cars) {
   }
 }
 
-const std::vector<QPoint>& WeaponHandler::GetMinesCoordinates() const {
+const std::vector<Mine>& WeaponHandler::GetMines() const {
   return mines_;
 }

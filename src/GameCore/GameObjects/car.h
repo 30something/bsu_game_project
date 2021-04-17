@@ -13,27 +13,30 @@
 #include "wheel.h"
 #include "src/helpers/line.h"
 #include "src/helpers/physics.h"
+#include "game_object.h"
+#include "src/GameCore/Behaviors/behavior.h"
 
-class Car {
+class Car : public GameObject {
  public:
-  Car(int x,
-      int y,
-      double angle);
+  Car(QPoint position,
+      double angle,
+      Behavior* behavior);
   ~Car() = default;
 
   void Tick(int time_millisec);
 
-  std::optional<QPoint> DropMine();
+  std::optional<Vec2f> DropMine();
   std::optional<Line> ShootBullet();
 
   double GetHitPoints() const;
   double GetBulletsAmount() const;
   double GetMinesAmount() const;
-  double GetAngle() const;
-  std::vector<Line> GetLines() const;
+  double GetAngle() const override;
+  std::vector<Line> GetCollisionLines() const override;
   const Vec2f& GetVelocity() const;
-  const Vec2f& GetPosition() const;
+  PixmapID GetPixmapId() const override;
   const Vec2f& GetAngleVec() const;
+  bool IsPuttingMine() const;
   bool IsShooting() const;
   bool IsAlive() const;
   void SetVelocity(const Vec2f& velocity);
@@ -42,16 +45,11 @@ class Car {
   void AddBulletsAmount(double bullets_amount_);
   void AddMinesAmount(double mines_amount_);
 
-  void SetFlagUp(bool flag_up);
-  void SetFlagDown(bool flag_down);
-  void SetFlagLeft(bool flag_left);
-  void SetFlagRight(bool flag_right);
-  void SetIsShooting(bool is_shooting);
   void SetIsAlive(bool is_alive);
 
  private:
   std::vector<Wheel> wheels_{4};
-  Vec2f position_;
+  Behavior* behavior_ = nullptr;
   Vec2f angle_vec_;
   Vec2f velocity_;
 
@@ -75,17 +73,14 @@ class Car {
   static constexpr double kMaxSlipAngleRadians = 0.07;
   static constexpr double kMinVelocityThreshold = 5;
   static constexpr double kMinAngularVelocityThreshold = 0.1;
+  static constexpr double kMineDelayTicks = 100;
 
-  bool flag_up_ = false;
-  bool flag_down_ = false;
-  bool flag_left_ = false;
-  bool flag_right_ = false;
-  bool is_shooting_ = false;
   bool is_alive_ = true;
 
   double hit_points_ = 100;
   size_t bullets_amount_ = 1000;
   size_t mines_amount_ = 20;
+  size_t mines_tick_timer_ = 0;
 
   void UpdateWheelsPosAndOrientation();
   void AdvanceStep(int time_millisec);
