@@ -2,45 +2,36 @@
 
 #include <utility>
 #include <vector>
+#include <map>
 
 #include <QPainter>
 #include <QPixmap>
 
 #include "src/GameCore/GameController.h"
 #include "src/helpers/sizes.h"
+#include "src/helpers/pixmap_loader.h"
 
 class View {
  public:
-  View(GameController* model, GameMode* game_mode);
+  explicit View(GameMode* game_mode);
   ~View() = default;
 
-  void Repaint(QPainter* painter);
+  void Repaint(const std::vector<WrapperBase<GameObject>*>& objects,
+               const std::vector<Vec2f>& players_cars_positions,
+               QPainter* painter);
 
  private:
-  GameController* model_ = nullptr;
-  QPixmap map_;
-  QPixmap car_;
-  QPixmap dead_car_;
-  QPixmap mine_;
-  QPixmap shot_;
-  QPixmap health_bonus_;
-  QPixmap bullets_ammo_bonus_;
-  QPixmap mines_bonus_;
-
   int players_amount_ = 0;
+  PixmapLoader pixmap_loader_;
 
-  const double kScale = 2;
+  static constexpr double kScale = 2;
 
   void DrawMap(QPainter* painter,
                const QRect& frame,
                const Vec2f& pos);
-  void DrawPicture(
-      QPainter* painter,
-      const QRect& frame,
-      const Vec2f& frame_center,
-      const Vec2f& coords,
-      double angle,
-      const QPixmap& car,
-      const QPoint& offset) const;
+  void DrawObjects(QPainter* painter,
+                   const QRect& frame,
+                   const Vec2f& frame_center,
+                   const std::vector<WrapperBase<GameObject>*>& objects);
   std::vector<QRect> GetFramesVector(const QPainter* painter) const;
 };

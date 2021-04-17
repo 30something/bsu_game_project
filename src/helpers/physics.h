@@ -18,6 +18,6 @@ namespace physics {
                     const std::vector<Line>& lines_2);
   int Product(const QPoint& m, const QPoint& p1, const QPoint& p2);
   double Distance(QPoint first, QPoint second);
-  QPoint GetRandomPointOnLine(Line line);
+  Vec2f GetRandomPointOnLine(Line line);
 
 }  // namespace physics

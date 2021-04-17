@@ -10,11 +10,11 @@
 
 #include "src/helpers/vec2f.h"
 #include "src/helpers/line.h"
-#include "car.h"
+#include "src/GameCore/GameObjects/car.h"
 #include "src/helpers/map_data.h"
 #include "src/helpers/game_mode.h"
 #include "src/helpers/json_map_parser.h"
-#include "src/helpers/bonus.h"
+#include "src/GameCore/GameObjects/bonus.h"
 
 class Map {
  public:
@@ -25,7 +25,7 @@ class Map {
 
  private:
   std::vector<std::vector<QPoint>> borders_;
-  std::vector<QPoint> bonuses_positions_;
+  std::vector<Vec2f> bonuses_positions_;
   std::vector<Bonus> bonuses_;
   QTimer bonus_timer_;
 
@@ -33,8 +33,8 @@ class Map {
   static constexpr double kHPDecrease = 0.001;
   static constexpr size_t kMaxBonusesAmount = 5;
   static constexpr int kAmountOfBonusTypes = 3;
-  static constexpr int kMaxMilliSecondsForNewBonus = 20000;
-  static constexpr int kMinMilliSecondForNewBonus = 5000;
+  static constexpr int kMaxMilliSecondsForNewBonus = 10000;
+  static constexpr int kMinMilliSecondForNewBonus = 1000;
 
   void CalculateBonusesPositions();
   void ProceedCollisions(Car*);

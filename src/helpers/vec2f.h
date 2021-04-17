@@ -39,6 +39,9 @@ class Vec2f {
 
   Vec2f& operator/=(const Vec2f& b);
 
+  bool operator==(const Vec2f& rhs) const;
+  bool operator!=(const Vec2f& rhs) const;
+
   Vec2f const& Normalize();
   void SetLen(double len);
   void Rotate(double radians);
