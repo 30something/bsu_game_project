@@ -62,6 +62,10 @@ void Car::Tick(int time_millisec) {
   mines_tick_timer_++;
 }
 
+void Car::EnableInput(bool flag) {
+  behavior_->EnableInput(flag);
+}
+
 void Car::AdvanceStep(int time_millisec) {
   double time_sec = time_millisec / 1000.0;
 

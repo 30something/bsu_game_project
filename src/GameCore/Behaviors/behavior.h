@@ -10,8 +10,10 @@ class Behavior {
   bool IsFlagRight() const;
   bool IsFlagShoot() const;
   bool IsFlagMine() const;
+  void EnableInput(bool enable);
 
  protected:
+  bool enable_input_ = true;
   bool flag_up_ = false;
   bool flag_down_ = false;
   bool flag_left_ = false;

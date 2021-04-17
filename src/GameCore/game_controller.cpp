@@ -45,12 +45,12 @@ void GameController::Tick(int time_millis) {
 }
 
 void GameController::UpdateCarsInfoAndCollisions(int time_millis) {
-  for (uint32_t index = 0; index < cars_.size(); index++) {
-    map_.ProceedCollisions(&cars_[index]);
-    cars_[index].Tick(time_millis);
-    if (cars_[index].GetHitPoints() < physics::kAlmostZero) {
-      cars_[index].SetIsAlive(false);
-      remaining_cars_.erase(index);
+  for (uint32_t i = 0; i < cars_.size(); i++) {
+    map_.ProceedCollisions(&cars_[i]);
+    cars_[i].Tick(time_millis);
+    if (cars_[i].GetHitPoints() < physics::kAlmostZero) {
+      cars_[i].SetIsAlive(false);
+      remaining_cars_.erase(i);
     }
   }
 }

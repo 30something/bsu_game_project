@@ -44,7 +44,7 @@ class Car : public GameObject {
   void AddHitPoints(double hit_points_);
   void AddBulletsAmount(double bullets_amount_);
   void AddMinesAmount(double mines_amount_);
-
+  void EnableInput(bool flag);
   void SetIsAlive(bool is_alive);
 
  private:
