@@ -1,6 +1,7 @@
 #include "game_controller.h"
 
-GameController::GameController(GameMode* game_mode) :
+GameController::GameController(GameMode* game_mode,
+                               InputController* input_controller) :
     game_mode_(game_mode),
     weapon_handler_() {
   for (uint32_t i = 0; i < game_mode_->players_amount; i++) {
@@ -12,13 +13,26 @@ GameController::GameController(GameMode* game_mode) :
   finish_line_ = parser.GetFinishLine();
   std::vector<std::pair<QPoint, double>> pos_and_angles =
       parser.GetCarStartPositionsAndAngles();
-  size_t cars_amount = game_mode_->players_amount + game_mode_->bots_amount;
-  for (size_t i = 0; i < cars_amount; i++) {
+  Behavior* first_player_behavior =
+      new FirstPlayerBehavior(input_controller);
+  cars_.emplace_back(
+      pos_and_angles[0].first,
+      pos_and_angles[0].second,
+      first_player_behavior);
+  if (game_mode_->players_amount > 1) {
+    Behavior* second_player_behavior =
+        new SecondPlayerBehavior(input_controller);
     cars_.emplace_back(
-        pos_and_angles[i].first.x(),
-        pos_and_angles[i].first.y(),
-        pos_and_angles[i].second);
+        pos_and_angles[1].first,
+        pos_and_angles[1].second,
+        second_player_behavior);
   }
+  game_objects_.push_back(
+      new WrapperTemplate<GameObject, Car>(cars_));
+  game_objects_.push_back(
+      new WrapperTemplate<GameObject, Mine>(weapon_handler_.GetMines()));
+  game_objects_.push_back(
+      new WrapperTemplate<GameObject, Bonus>(map_.GetActiveBonuses()));
 }
 
 void GameController::Tick(int time_millis) {
@@ -54,8 +68,8 @@ void GameController::ProceedCollisionsWithCars() {
       if (i == j) {
         continue;
       }
-      auto lines1 = cars_[i].GetLines();
-      auto lines2 = cars_[j].GetLines();
+      auto lines1 = cars_[i].GetCollisionLines();
+      auto lines2 = cars_[j].GetCollisionLines();
       if (physics::IsIntersects(lines1, lines2)) {
         CollideCars(&cars_[i], &cars_[j]);
         return;
@@ -126,99 +140,16 @@ void GameController::CollideCars(Car* car_1, Car* car_2) {
   car_2->SetPosition(pos_2 - deviation);
 }
 
-void GameController::HandleKeyPressEvent(QKeyEvent* event) {
-  int key = event->key();
-  if (!car_achievements_[0].is_finished
-      && cars_[0].IsAlive()) {
-    if (key == Qt::Key_Up) {
-      cars_[0].SetFlagUp(true);
-    }
-    if (key == Qt::Key_Down) {
-      cars_[0].SetFlagDown(true);
-    }
-    if (key == Qt::Key_Left) {
-      cars_[0].SetFlagLeft(true);
-    }
-    if (key == Qt::Key_Right) {
-      cars_[0].SetFlagRight(true);
-    }
-    if (key == Qt::Key_Control) {
-      cars_[0].SetIsShooting(true);
-    }
-    if (key == Qt::Key_Shift) {
-      weapon_handler_.PutMine(&cars_[0]);
-    }
-  }
-  if (game_mode_->players_amount > 1
-      && !car_achievements_[1].is_finished
-      && cars_[1].IsAlive()) {
-    if (key == Qt::Key_W) {
-      cars_[1].SetFlagUp(true);
-    }
-    if (key == Qt::Key_S) {
-      cars_[1].SetFlagDown(true);
-    }
-    if (key == Qt::Key_A) {
-      cars_[1].SetFlagLeft(true);
-    }
-    if (key == Qt::Key_D) {
-      cars_[1].SetFlagRight(true);
-    }
-    if (key == Qt::Key_Alt) {
-      cars_[1].SetIsShooting(true);
-    }
-    if (key == Qt::Key_Space) {
-      weapon_handler_.PutMine(&cars_[1]);
-    }
-  }
+std::vector<WrapperBase<GameObject>*> GameController::GetGameObjects() const {
+  return game_objects_;
 }
 
-void GameController::HandleKeyReleaseEvent(QKeyEvent* event) {
-  int key = event->key();
-  if (key == Qt::Key_Up) {
-    cars_[0].SetFlagUp(false);
+std::vector<Vec2f> GameController::GetPlayersCarPositions() const {
+  std::vector<Vec2f> result;
+  for (size_t i = 0; i < game_mode_->players_amount; i++) {
+    result.push_back(cars_[i].GetPosition());
   }
-  if (key == Qt::Key_Down) {
-    cars_[0].SetFlagDown(false);
-  }
-  if (key == Qt::Key_Left) {
-    cars_[0].SetFlagLeft(false);
-  }
-  if (key == Qt::Key_Right) {
-    cars_[0].SetFlagRight(false);
-  }
-  if (key == Qt::Key_Control) {
-    cars_[0].SetIsShooting(false);
-  }
-  if (game_mode_->players_amount > 1) {
-    if (key == Qt::Key_W) {
-      cars_[1].SetFlagUp(false);
-    }
-    if (key == Qt::Key_S) {
-      cars_[1].SetFlagDown(false);
-    }
-    if (key == Qt::Key_A) {
-      cars_[1].SetFlagLeft(false);
-    }
-    if (key == Qt::Key_D) {
-      cars_[1].SetFlagRight(false);
-    }
-    if (key == Qt::Key_Alt) {
-      cars_[1].SetIsShooting(false);
-    }
-  }
-}
-
-const std::vector<QPoint>& GameController::GetMinesCoordinates() const {
-  return weapon_handler_.GetMinesCoordinates();
-}
-
-const std::vector<Car>& GameController::GetCars() const {
-  return cars_;
-}
-
-const std::vector<Bonus>& GameController::GetActiveBonuses() const {
-  return map_.GetActiveBonuses();
+  return result;
 }
 
 double GameController::GetVelocity(int index) const {

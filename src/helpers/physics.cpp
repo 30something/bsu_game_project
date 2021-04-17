@@ -81,11 +81,11 @@ double physics::CalculateLineDeviation(double x_pos, double y_pos, Line line) {
   return d;
 }
 
-QPoint physics::GetRandomPointOnLine(Line line) {
+Vec2f physics::GetRandomPointOnLine(Line line) {
   double dx = line.x1 - line.x2;
   double dy = line.y1 - line.y2;
   double scalar = QRandomGenerator::global()->generateDouble();
   dx *= scalar;
   dy *= scalar;
-  return QPoint(line.x1 - dx, line.y1 - dy);
+  return Vec2f(line.x1 - dx, line.y1 - dy);
 }

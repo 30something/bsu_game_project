@@ -10,6 +10,7 @@
 #include "src/Menu/end_game_stats.h"
 #include "src/GameCore/game_controller.h"
 #include "src/View/view.h"
+#include "src/GameCore/input_controller.h"
 
 class EventsController : public QWidget {
   Q_OBJECT
@@ -55,6 +56,7 @@ class EventsController : public QWidget {
   QTimer controller_timer_;
   QTimer end_game_check_timer_;
   QTimer finish_pause_timer_;
+  InputController input_controller_;
   GameController* game_controller_ = nullptr;
   View* view_ = nullptr;
   EndGameStats* end_game_stats_ = nullptr;

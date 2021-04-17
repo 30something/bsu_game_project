@@ -9,24 +9,25 @@
 #include <QFile>
 #include <QPoint>
 
-#include "car.h"
-#include "map.h"
+#include "src/GameCore/GameObjects/car.h"
+#include "game_map.h"
 #include "weapon_handler.h"
 #include "src/helpers/json_map_parser.h"
 #include "src/GameCore/car_achievements.h"
+#include "src/GameCore/Behaviors/first_player_behavior.h"
+#include "src/GameCore/Behaviors/second_player_behavior.h"
+#include "input_controller.h"
+#include "src/helpers/wrapper_template.h"
 
 class GameController {
  public:
-  explicit GameController(GameMode* game_mode);
+  explicit GameController(GameMode* game_mode, InputController*);
   ~GameController() = default;
 
   void Tick(int time_millis);
 
-  void HandleKeyPressEvent(QKeyEvent* event);
-  void HandleKeyReleaseEvent(QKeyEvent* event);
-  const std::vector<Car>& GetCars() const;
-  const std::vector<QPoint>& GetMinesCoordinates() const;
-  const std::vector<Bonus>& GetActiveBonuses() const;
+  std::vector<WrapperBase<GameObject>*> GetGameObjects() const;
+  std::vector<Vec2f> GetPlayersCarPositions() const;
 
   double GetVelocity(int index) const;
   int32_t GetLapsCounter(int index) const;
@@ -50,5 +51,6 @@ class GameController {
   std::set<uint32_t> remaining_cars_;
   GameMode* game_mode_ = nullptr;
   WeaponHandler weapon_handler_;
+  std::vector<WrapperBase<GameObject>*> game_objects_;
   Line finish_line_;
 };

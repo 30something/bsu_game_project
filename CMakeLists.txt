@@ -28,20 +28,27 @@ set(SOURCES main.cpp
         src/Menu/menu.cpp
         src/GameCore/game_controller.cpp
         src/EventsController/events_controller.cpp
-        src/GameCore/car.cpp
+        src/GameCore/GameObjects/car.cpp
         src/helpers/vec2f.cpp
-        src/GameCore/wheel.cpp
+        src/GameCore/GameObjects/wheel.cpp
         src/Menu/pause_menu.cpp
         src/Menu/small_exit_window.cpp
         src/Menu/settings.cpp
         src/Menu/small_exit_window.cpp
-        src/GameCore/map.cpp
+        src/GameCore/game_map.cpp
         src/Menu/game_mode_selector.cpp
         src/Menu/map_selector_tile.cpp
         src/GameCore/weapon_handler.cpp
         src/helpers/json_map_parser.cpp
         src/helpers/physics.cpp
-        src/helpers/bonus.cpp
+        src/GameCore/GameObjects/bonus.cpp
+        src/GameCore/GameObjects/game_object.cpp
+        src/GameCore/GameObjects/mine.cpp
+        src/GameCore/Behaviors/behavior.cpp
+        src/GameCore/Behaviors/first_player_behavior.cpp
+        src/GameCore/Behaviors/second_player_behavior.cpp
+        src/GameCore/input_controller.cpp
+        src/helpers/pixmap_loader.cpp
         src/Menu/end_game_stats.cpp
         )
 

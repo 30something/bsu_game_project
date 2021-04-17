@@ -17,10 +17,16 @@ void Bonus::ApplyTo(Car* car) {
   }
 }
 
-Bonus::BonusType Bonus::GetType() const {
-  return type_;
-}
-
-const QPoint& Bonus::GetPosition() const {
-  return position_;
+PixmapID Bonus::GetPixmapId() const {
+  switch (type_) {
+    case BonusType::kMineAmmo: {
+      return PixmapID::kBonusMineAmmo;
+    }
+    case BonusType::kBulletsAmmo: {
+      return PixmapID::kBonusBulletsAmmo;
+    }
+    default: {
+      return PixmapID::kBonusHealth;
+    }
+  }
 }
