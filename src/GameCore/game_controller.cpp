@@ -41,6 +41,10 @@ void GameController::Tick(int time_millis) {
   ProceedCollisionsWithFinish();
   ProceedFinishGame();
   RecalculateDeviations();
+  UpdateCarsInfoAndCollisions(time_millis);
+}
+
+void GameController::UpdateCarsInfoAndCollisions(int time_millis) {
   for (uint32_t index = 0; index < cars_.size(); index++) {
     map_.ProceedCollisions(&cars_[index]);
     cars_[index].Tick(time_millis);
@@ -80,7 +84,8 @@ void GameController::ProceedCollisionsWithCars() {
 
 void GameController::ProceedCollisionsWithFinish() {
   for (auto index : remaining_cars_) {
-    if (physics::IsIntersects(cars_[index].GetLines(), {finish_line_})) {
+    if (physics::IsIntersects(
+        cars_[index].GetCollisionLines(), {finish_line_})) {
       car_achievements_[index].is_collide_with_finish = true;
     } else {
       if (car_achievements_[index].is_collide_with_finish) {
@@ -102,15 +107,11 @@ void GameController::ProceedCollisionsWithFinish() {
 }
 
 void GameController::ProceedFinishGame() {
-  std::vector<uint32_t> finished_cars;
   for (auto index : remaining_cars_) {
     if (car_achievements_[index].laps_counter > game_mode_->laps_amount) {
-      finished_cars.push_back(index);
+      car_achievements_[index].is_finished = true;
+      remaining_cars_.erase(index);
     }
-  }
-  for (auto index : finished_cars) {
-    car_achievements_[index].is_finished = true;
-    remaining_cars_.erase(index);
   }
 }
 

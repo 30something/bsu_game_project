@@ -38,6 +38,7 @@ class GameController {
   void ProceedCollisionsWithFinish();
   void ProceedFinishGame();
   void RecalculateDeviations();
+  void UpdateCarsInfoAndCollisions(int time_millis);
   static void CollideCars(Car* car_1, Car* car_2);
 
   static constexpr double kVelocityDecrease = 0.5;

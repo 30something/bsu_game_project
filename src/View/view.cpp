@@ -1,13 +1,11 @@
 #include "src/View/view.h"
 
 View::View(GameMode* game_mode) :
-    players_amount_(game_mode->players_amount),
+    start_label_(new QLabel("Get ready!")),
     pixmap_loader_(map_data::image_filepaths[game_mode->map_index]),
-    start_label_(new QLabel("Get ready!", parent)),
     players_amount_(game_mode->players_amount),
     laps_amount_(game_mode->laps_amount) {
   start_label_->setAlignment(Qt::AlignCenter);
-
 }
 
 void View::Repaint(const std::vector<WrapperBase<GameObject>*>& objects,
@@ -25,7 +23,7 @@ void View::Repaint(const std::vector<WrapperBase<GameObject>*>& objects,
     DrawMap(painter, frames[i], position);
     DrawObjects(painter, frames[i], position, objects);
   }
-  UpdateAllInfoDescription(painter);
+  //UpdateAllInfoDescription(painter);
 }
 
 void View::UpdateStartLabel(int seconds_before_start) {
@@ -41,28 +39,28 @@ void View::ClearStartLabel() {
   start_label_->clear();
 }
 
-void View::UpdatePlayerInfoDescription(QPainter* painter,
-                                       int x_pos,
-                                       int y_pos,
-                                       int index) {
-  painter->drawText(x_pos,
-                    y_pos,
-                    QString::fromStdString("Velocity: " +
-                        std::to_string(model_->GetVelocity(index)) +
-                        ", Laps: " +
-                        std::to_string(model_->GetLapsCounter(index)) +
-                        " / " +
-                        std::to_string(laps_amount_)));
-}
+//void View::UpdatePlayerInfoDescription(QPainter* painter,
+//                                       int x_pos,
+//                                       int y_pos,
+//                                       int index) {
+//  painter->drawText(x_pos,
+//                    y_pos,
+//                    QString::fromStdString("Velocity: " +
+//                        std::to_string(model_->GetVelocity(index)) +
+//                        ", Laps: " +
+//                        std::to_string(model_->GetLapsCounter(index)) +
+//                        " / " +
+//                        std::to_string(laps_amount_)));
+//}
 
-void View::UpdateAllInfoDescription(QPainter* painter) {
-  painter->save();
-  UpdatePlayerInfoDescription(painter, 0, 10, 0);
-  if (players_amount_ > 1) {
-    UpdatePlayerInfoDescription(painter, painter->window().width() / 4, 10, 1);
-  }
-  painter->restore();
-}
+//void View::UpdateAllInfoDescription(QPainter* painter) {
+//  painter->save();
+//  UpdatePlayerInfoDescription(painter, 0, 10, 0);
+//  if (players_amount_ > 1) {
+//    UpdatePlayerInfoDescription(painter, painter->window().width() / 4, 10, 1);
+//  }
+//  painter->restore();
+//}
 
 std::vector<QRect> View::GetFramesVector(const QPainter* painter) const {
   std::vector<QRect> frames;

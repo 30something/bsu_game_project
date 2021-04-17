@@ -26,7 +26,6 @@ class Map {
 
  private:
   void CalculateBonusesPositions();
-  void ProceedCollisions(Car*);
   void ProceedActiveBonuses(Car* car);
   void ProceedNewBonuses();
 
