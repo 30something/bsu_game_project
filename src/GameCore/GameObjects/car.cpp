@@ -56,7 +56,7 @@ void Car::ProceedInputFlags() {
 }
 
 void Car::Tick(int time_millisec) {
-  behavior_->HandleTick();
+  behavior_->HandleTick(this);
   ProceedInputFlags();
   AdvanceStep(time_millisec);
   mines_tick_timer_++;
@@ -213,7 +213,7 @@ void Car::SetIsAlive(bool is_alive) {
 }
 
 std::optional<Vec2f> Car::DropMine() {
-  if (mines_amount_ > 0 && is_alive_ && mines_tick_timer_ > kMineDelayTicks) {
+  if (mines_amount_ > 0 && is_alive_ && ++mines_tick_timer_ > kMineDelayTicks) {
     mines_amount_--;
     mines_tick_timer_ = 0;
     return Vec2f(angle_vec_.GetX() * (kPutMineOffset) + position_.GetX(),

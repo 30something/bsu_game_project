@@ -7,10 +7,10 @@ BotBehavior::BotBehavior(std::vector<std::vector<QPoint>> borders,
     borders_(std::move(borders)),
     cars_(cars),
     bonuses_(bonuses),
-    mines_(mines),
-    car_(nullptr){}
+    mines_(mines) {}
 
-void BotBehavior::HandleTick() {
+void BotBehavior::HandleTick(const GameObject* car) {
+  car_ = dynamic_cast<const Car*>(car);
   ProceedDistancesToBorders();
   ProceedCarFlags();
 }
@@ -27,16 +27,15 @@ void BotBehavior::ProceedCarFlags() {
     flag_left_ = false;
   } else {
     flag_right_ = false;
-    flag_left_ = true;  }
-  if(AnyCarInFront()) {
+    flag_left_ = true;
+  }
+  if (AnyCarInFront()) {
     flag_shoot_ = true;
   }
-  if(AnyCarInBack()) {
-  flag_mine_ = true;
+  if (AnyCarInBack()) {
+    flag_mine_ = true;
   }
 }
-
-
 
 void BotBehavior::ProceedDistancesToBorders() {
   Vec2f front_angle_vec = car_->GetAngleVec();
@@ -88,18 +87,20 @@ double BotBehavior::FindMinDistanceToBorder(Vec2f angle_vec,
 }
 
 bool BotBehavior::AnyCarInFront() const {
-  for(const auto& car : *cars_) {
-    if(car.GetPosition() == car_->GetPosition()) {
+  for (const auto& car : *cars_) {
+    if (car.GetPosition() == car_->GetPosition()) {
       continue;
     }
     auto car_lines = car.GetCollisionLines();
     Line shooting_trajectory(
         car_->GetPosition().GetX(),
         car_->GetPosition().GetY(),
-        car_->GetAngleVec().GetX() * kShootingRange + car_->GetPosition().GetX(),
-        car_->GetAngleVec().GetY() * kShootingRange + car_->GetPosition().GetY());
-    for(const auto& line : car_lines) {
-      if(physics::IsIntersects(line, shooting_trajectory)) {
+        car_->GetAngleVec().GetX() * kShootingRange
+            + car_->GetPosition().GetX(),
+        car_->GetAngleVec().GetY() * kShootingRange
+            + car_->GetPosition().GetY());
+    for (const auto& line : car_lines) {
+      if (physics::IsIntersects(line, shooting_trajectory)) {
         return true;
       }
     }
@@ -108,8 +109,8 @@ bool BotBehavior::AnyCarInFront() const {
 }
 
 bool BotBehavior::AnyCarInBack() const {
-  for(const auto& car : *cars_) {
-    if(car.GetPosition() == car_->GetPosition()) {
+  for (const auto& car : *cars_) {
+    if (car.GetPosition() == car_->GetPosition()) {
       continue;
     }
     auto car_lines = car.GetCollisionLines();
@@ -118,15 +119,11 @@ bool BotBehavior::AnyCarInBack() const {
         car_->GetPosition().GetY(),
         -car_->GetAngleVec().GetX() * kMineRange + car_->GetPosition().GetX(),
         -car_->GetAngleVec().GetY() * kMineRange + car_->GetPosition().GetY());
-    for(const auto& line : car_lines) {
-      if(physics::IsIntersects(line, shooting_trajectory)) {
+    for (const auto& line : car_lines) {
+      if (physics::IsIntersects(line, shooting_trajectory)) {
         return true;
       }
     }
   }
   return false;
-}
-
-void BotBehavior::SetCar(const Car* our_car) {
-  car_ = our_car;
 }

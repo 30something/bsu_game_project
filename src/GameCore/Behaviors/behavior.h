@@ -1,8 +1,10 @@
 #pragma once
 
+#include "src/GameCore/GameObjects/game_object.h"
+
 class Behavior {
  public:
-  virtual void HandleTick() = 0;
+  virtual void HandleTick(const GameObject*) = 0;
 
   bool IsFlagUp() const;
   bool IsFlagDown() const;

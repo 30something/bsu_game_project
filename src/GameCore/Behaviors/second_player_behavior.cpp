@@ -4,7 +4,7 @@ SecondPlayerBehavior::SecondPlayerBehavior(
     const InputController* input_controller) :
     input_controller_(input_controller) {}
 
-void SecondPlayerBehavior::HandleTick() {
+void SecondPlayerBehavior::HandleTick(const GameObject*) {
   auto keys_condition = input_controller_->GetKeysCondition();
   flag_up_ = keys_condition.at(KeyID::kSecondUp);
   flag_down_ = keys_condition.at(KeyID::kSecondDown);

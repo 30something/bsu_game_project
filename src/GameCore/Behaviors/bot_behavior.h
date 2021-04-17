@@ -15,15 +15,14 @@ class BotBehavior : public Behavior {
                        const std::vector<Car>* cars,
                        const std::vector<Bonus>* bonuses,
                        const std::vector<Mine>* mines);
-  void HandleTick() override;
-  void SetCar(const Car* our_car);
+  void HandleTick(const GameObject* our_car) override;
 
  private:
   std::vector<std::vector<QPoint>> borders_;
   const std::vector<Car>* cars_;
   const std::vector<Bonus>* bonuses_;
   const std::vector<Mine>* mines_;
-  const Car* car_;
+  const Car* car_ = nullptr;
   double front_distance_ = 0;
   double back_distance_ = 0;
   double left_distance_ = 0;

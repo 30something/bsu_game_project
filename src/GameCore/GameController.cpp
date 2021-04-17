@@ -22,16 +22,15 @@ GameController::GameController(GameMode* game_mode,
         pos_and_angles[1].second,
         second_player_behavior);
   }
-  for(size_t i = 0; i < game_mode_->bots_amount; i++) {
+  for (size_t i = 0; i < game_mode_->bots_amount; i++) {
     auto* bot = new BotBehavior(parser.GetBorders(),
-                                    &cars_,
-                                    &map_.GetActiveBonuses(),
-                                    &weapon_handler_.GetMines());
-      cars_.emplace_back(
-        pos_and_angles[1].first,
-        pos_and_angles[1].second,
-        bot);
-      bot->SetCar(&cars_[game_mode_->players_amount + i]);
+                                       &cars_,
+                                       &map_.GetActiveBonuses(),
+                                       &weapon_handler_.GetMines());
+    cars_.emplace_back(
+                  pos_and_angles[game_mode_->players_amount + i].first,
+                  pos_and_angles[game_mode_->players_amount + i].second,
+                  bot);
   }
   game_objects_.push_back(
       new WrapperTemplate<GameObject, Car>(cars_));
