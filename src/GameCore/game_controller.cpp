@@ -107,10 +107,11 @@ void GameController::ProceedCollisionsWithFinish() {
 }
 
 void GameController::ProceedFinishGame() {
-  for (auto index : remaining_cars_) {
-    if (car_achievements_[index].laps_counter > game_mode_->laps_amount) {
-      car_achievements_[index].is_finished = true;
-      remaining_cars_.erase(index);
+  for (auto i : remaining_cars_) {
+    if (car_achievements_[i].laps_counter > game_mode_->laps_amount) {
+      car_achievements_[i].is_finished = true;
+      cars_[i].EnableInput(false);
+      remaining_cars_.erase(i);
     }
   }
 }

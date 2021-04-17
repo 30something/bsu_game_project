@@ -23,8 +23,7 @@ class View {
   void Repaint(const std::vector<WrapperBase<GameObject>*>& objects,
                const std::vector<Vec2f>& players_cars_positions,
                QPainter* painter);
-  void UpdateStartLabel(int seconds_before_start);
-  void ClearStartLabel();
+  std::vector<QRect> GetFramesVector(const QPainter* painter) const;
 
  private:
   void DrawMap(QPainter* painter,
@@ -34,10 +33,7 @@ class View {
                    const QRect& frame,
                    const Vec2f& frame_center,
                    const std::vector<WrapperBase<GameObject>*>& objects);
-  void UpdateAllInfoDescription(QPainter* painter);
-  std::vector<QRect> GetFramesVector(const QPainter* painter) const;
 
-  QLabel* start_label_ = nullptr;
   PixmapLoader pixmap_loader_;
 
   uint32_t players_amount_ = 0;

@@ -2,15 +2,15 @@
 
 #include <QKeyEvent>
 #include <QPainter>
-#include <QResizeEvent>
 #include <QWidget>
 #include <QTimer>
 
 #include "src/Menu/pause_menu.h"
 #include "src/Menu/end_game_stats.h"
-#include "src/GameCore/game_controller.h"
 #include "src/View/view.h"
+#include "src/View/view_info_updater.h"
 #include "src/GameCore/input_controller.h"
+#include "src/GameCore/game_controller.h"
 
 class EventsController : public QWidget {
   Q_OBJECT
@@ -29,7 +29,8 @@ class EventsController : public QWidget {
   void PhysicsTimerEvent();
   void ViewTimerEvent();
 
-  void CheckFinish();
+  void UpdateStartInfo();
+  void ShowEndGameStats();
 
  signals:
   void SetGamePause();
@@ -37,10 +38,10 @@ class EventsController : public QWidget {
   void ReturnToMainMenu();
 
  private:
-  void PrepareGameTimers();
   void PrepareStartCountdownTimer();
+  void PrepareGameTimers();
   void PrepareEndGameStats();
-  void CheckStartCountdownTimer();
+  void PrepareFinishTimer();
 
   enum class Actions {
     kOpenOrCloseMenu = Qt::Key_Escape,
@@ -51,19 +52,24 @@ class EventsController : public QWidget {
     kRunning,
   };
 
+  enum class FinishStatus {
+    kNotFinished,
+    kFinished,
+  };
+
   QTimer start_countdown_timer_;
   QTimer view_timer_;
   QTimer controller_timer_;
-  QTimer end_game_check_timer_;
   QTimer finish_pause_timer_;
   InputController input_controller_;
   GameController* game_controller_ = nullptr;
   View* view_ = nullptr;
+  ViewInfoUpdater* view_info_updater_ = nullptr;
   EndGameStats* end_game_stats_ = nullptr;
   GameStatus game_status_ = GameStatus::kRunning;
+  FinishStatus finish_status_ = FinishStatus::kNotFinished;
 
+  static constexpr int kMillisInSecond = 1000;
   static constexpr int kMillisPerFrame = 15;
   static constexpr int kMillisPerPhysicsTick = 5;
-  static constexpr int kMillisInSecond = 1000;
-  int seconds_before_start_ = 4;
 };

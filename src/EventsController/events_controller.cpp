@@ -5,6 +5,10 @@ EventsController::EventsController(QWidget* parent, GameMode* game_mode) :
     input_controller_(),
     game_controller_(new GameController(game_mode, &input_controller_)),
     view_(new View(game_mode)),
+    view_info_updater_(new ViewInfoUpdater(this,
+                                           game_controller_,
+                                           view_,
+                                           game_mode)),
     end_game_stats_(new EndGameStats(this)) {
   PrepareStartCountdownTimer();
   PrepareEndGameStats();
@@ -13,6 +17,11 @@ EventsController::EventsController(QWidget* parent, GameMode* game_mode) :
 void EventsController::PhysicsTimerEvent() {
   if (game_status_ == GameStatus::kRunning) {
     game_controller_->Tick(kMillisPerPhysicsTick);
+    if (game_controller_->AllCarsFinished()
+        && finish_status_ == FinishStatus::kNotFinished) {
+      finish_status_ = FinishStatus::kFinished;
+      PrepareFinishTimer();
+    }
   }
 }
 
@@ -27,6 +36,7 @@ void EventsController::paintEvent(QPaintEvent*) {
   view_->Repaint(game_controller_->GetGameObjects(),
                  game_controller_->GetPlayersCarPositions(),
                  &main_painter);
+  view_info_updater_->Repaint(&main_painter);
 }
 
 void EventsController::resizeEvent(QResizeEvent*) {
@@ -56,20 +66,27 @@ void EventsController::SetUnsetPause() {
   }
 }
 
+void EventsController::UpdateStartInfo() {
+  if (game_status_ == GameStatus::kRunning) {
+    view_info_updater_->UpdateStartInfo();
+    if (view_info_updater_->GetStartState()) {
+      start_countdown_timer_.stop();
+      PrepareGameTimers();
+    }
+  }
+}
+
+void EventsController::ShowEndGameStats() {
+  finish_pause_timer_.stop();
+  end_game_stats_->show();
+}
+
 void EventsController::PrepareStartCountdownTimer() {
   connect(&start_countdown_timer_,
           &QTimer::timeout,
           this,
-          &EventsController::CheckStartCountdownTimer);
+          &EventsController::UpdateStartInfo);
   start_countdown_timer_.start(kMillisInSecond);
-}
-
-void EventsController::PrepareEndGameStats() {
-  connect(end_game_stats_,
-          &EndGameStats::ReturnToMainMenu,
-          this,
-          &EventsController::ReturnToMainMenu);
-  end_game_stats_->close();
 }
 
 void EventsController::PrepareGameTimers() {
@@ -81,35 +98,22 @@ void EventsController::PrepareGameTimers() {
           &QTimer::timeout,
           this,
           &EventsController::ViewTimerEvent);
-  connect(&end_game_check_timer_,
-          &QTimer::timeout,
-          this,
-          &EventsController::CheckFinish);
-  connect(&finish_pause_timer_,
-          &QTimer::timeout,
-          end_game_stats_,
-          &EndGameStats::show);
   controller_timer_.start(kMillisPerPhysicsTick);
   view_timer_.start(kMillisPerFrame);
-  end_game_check_timer_.start(kMillisPerFrame);
 }
 
-void EventsController::CheckStartCountdownTimer() {
-  if (game_status_ == GameStatus::kPaused) {
-    return;
-  }
-  if (seconds_before_start_ == 0) {
-    start_countdown_timer_.stop();
-    view_->ClearStartLabel();
-    PrepareGameTimers();
-  } else {
-    view_->UpdateStartLabel(--seconds_before_start_);
-  }
+void EventsController::PrepareEndGameStats() {
+  connect(end_game_stats_,
+          &EndGameStats::ReturnToMainMenu,
+          this,
+          &EventsController::ReturnToMainMenu);
+  end_game_stats_->close();
 }
 
-void EventsController::CheckFinish() {
-  if (game_controller_->AllCarsFinished()) {
-    end_game_check_timer_.stop();
-    finish_pause_timer_.start(kMillisInSecond);
-  }
+void EventsController::PrepareFinishTimer() {
+  connect(&finish_pause_timer_,
+          &QTimer::timeout,
+          this,
+          &EventsController::ShowEndGameStats);
+  finish_pause_timer_.start(kMillisInSecond);
 }

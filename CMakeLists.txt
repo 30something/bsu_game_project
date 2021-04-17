@@ -50,6 +50,7 @@ set(SOURCES main.cpp
         src/GameCore/input_controller.cpp
         src/helpers/pixmap_loader.cpp
         src/Menu/end_game_stats.cpp
+        src/View/view_info_updater.cpp
         )
 
 set(RESOURCES
