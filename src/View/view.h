@@ -3,36 +3,35 @@
 #include <utility>
 #include <vector>
 #include <map>
-#include <string>
 
 #include <QPainter>
 #include <QPixmap>
 
 #include "src/GameCore/GameController.h"
 #include "src/helpers/sizes.h"
+#include "src/helpers/pixmap_loader.h"
 
 class View {
  public:
-  View(GameController* model, GameMode* game_mode);
+  explicit View(GameMode* game_mode);
   ~View() = default;
 
-  void Repaint(QPainter* painter);
+  void Repaint(const std::vector<WrapperBase<GameObject>*>& objects,
+               const std::vector<Vec2f>& players_cars_positions,
+               QPainter* painter);
 
  private:
-  GameController* model_ = nullptr;
-  std::map<std::string, QPixmap> pixmaps_;
-  std::map<std::string, QPoint> offsets_;
   int players_amount_ = 0;
+  PixmapLoader pixmap_loader_;
 
-  static constexpr double kScale = 1;
+  static constexpr double kScale = 2;
 
   void DrawMap(QPainter* painter,
                const QRect& frame,
                const Vec2f& pos);
-  void DrawGameObjects(QPainter* painter,
-                       const QRect& frame,
-                       const Vec2f& frame_center,
-                       const std::vector<const GameObject*>& game_objects);
+  void DrawObjects(QPainter* painter,
+                   const QRect& frame,
+                   const Vec2f& frame_center,
+                   const std::vector<WrapperBase<GameObject>*>& objects);
   std::vector<QRect> GetFramesVector(const QPainter* painter) const;
-  void PreparePixmaps(const GameMode* game_mode);
 };

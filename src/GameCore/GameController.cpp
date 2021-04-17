@@ -1,34 +1,43 @@
 #include "GameController.h"
 
-GameController::GameController(GameMode* game_mode) :
+GameController::GameController(GameMode* game_mode,
+                               InputController* input_controller) :
     game_mode_(game_mode),
     weapon_handler_() {
   JsonMapParser parser(map_data::json_filepaths[game_mode->map_index]);
   map_.SetBorders(parser.GetBorders());
   std::vector<std::pair<QPoint, double>> pos_and_angles =
       parser.GetCarStartPositionsAndAngles();
-  Behavior* first_player = new (FirstPlayerBehavior);
+  Behavior* first_player_behavior =
+      new FirstPlayerBehavior(input_controller);
   cars_.emplace_back(
       pos_and_angles[0].first,
       pos_and_angles[0].second,
-      first_player);
+      first_player_behavior);
   if (game_mode_->players_amount > 1) {
-    Behavior* second_player = new (SecondPlayerBehavior);
+    Behavior* second_player_behavior =
+        new SecondPlayerBehavior(input_controller);
     cars_.emplace_back(
         pos_and_angles[1].first,
         pos_and_angles[1].second,
-        second_player);
+        second_player_behavior);
   }
   for(size_t i = 0; i < game_mode_->bots_amount; i++) {
     Behavior* bot = new BotBehavior(parser.GetBorders(),
                                     &cars_,
                                     &map_.GetActiveBonuses(),
                                     &weapon_handler_.GetMines());
-    cars_.emplace_back(
+      cars_.emplace_back(
         pos_and_angles[1].first,
         pos_and_angles[1].second,
         bot);
   }
+  game_objects_.push_back(
+      new WrapperTemplate<GameObject, Car>(cars_));
+  game_objects_.push_back(
+      new WrapperTemplate<GameObject, Mine>(weapon_handler_.GetMines()));
+  game_objects_.push_back(
+      new WrapperTemplate<GameObject, Bonus>(map_.GetActiveBonuses()));
 }
 
 void GameController::Tick(int time_millis) {
@@ -49,8 +58,8 @@ void GameController::ProceedCollisionsWithCars() {
       if (i == j) {
         continue;
       }
-      auto lines1 = cars_[i].GetLines();
-      auto lines2 = cars_[j].GetLines();
+      auto lines1 = cars_[i].GetCollisionLines();
+      auto lines2 = cars_[j].GetCollisionLines();
       if (physics::IsIntersects(lines1, lines2)) {
         CollideCars(&cars_[i], &cars_[j]);
         return;
@@ -85,40 +94,14 @@ void GameController::CollideCars(Car* car_1, Car* car_2) {
   car_2->SetPosition(pos_2 - deviation);
 }
 
-void GameController::HandleKeyPressEvent(QKeyEvent* event) {
-  for (auto& car : cars_) {
-    car.GetBehavior()->HandleKeyPressEvent(&car, event);
-  }
+std::vector<WrapperBase<GameObject>*> GameController::GetGameObjects() const {
+  return game_objects_;
 }
 
-void GameController::HandleKeyReleaseEvent(QKeyEvent* event) {
-  for (auto& car : cars_) {
-    car.GetBehavior()->HandleKeyReleaseEvent(&car, event);
-  }
-}
-
-std::vector<const GameObject*> GameController::GetMines() const {
-  const std::vector<Mine>& mines = weapon_handler_.GetMines();
-  std::vector<const GameObject*> result;
-  for (const auto& mine : mines) {
-    result.push_back(&mine);
-  }
-  return result;
-}
-
-std::vector<const GameObject*> GameController::GetCars() const {
-  std::vector<const GameObject*> result;
-  for (const auto& car : cars_) {
-    result.push_back(&car);
-  }
-  return result;
-}
-
-std::vector<const GameObject*> GameController::GetBonuses() const {
-  std::vector<const GameObject*> result;
-  const std::vector<Bonus>& bonuses = map_.GetActiveBonuses();
-  for (const auto& bonus : bonuses) {
-    result.push_back(&bonus);
+std::vector<Vec2f> GameController::GetPlayersCarPositions() const {
+  std::vector<Vec2f> result;
+  for (size_t i = 0; i < game_mode_->players_amount; i++) {
+    result.push_back(cars_[i].GetPosition());
   }
   return result;
 }
