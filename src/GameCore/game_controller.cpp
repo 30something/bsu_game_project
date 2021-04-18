@@ -48,6 +48,8 @@ void GameController::UpdateCarsInfoAndCollisions(int time_millis) {
   for (uint32_t i = 0; i < cars_.size(); i++) {
     map_.ProceedCollisions(&cars_[i]);
     cars_[i].Tick(time_millis);
+    car_achievements_[i].current_showed_velocity =
+        cars_[i].GetVelocity().GetLength();
     if (cars_[i].GetHitPoints() < physics::kAlmostZero) {
       cars_[i].SetIsAlive(false);
       remaining_cars_.erase(i);
@@ -157,15 +159,10 @@ std::vector<Vec2f> GameController::GetPlayersCarPositions() const {
   return result;
 }
 
-double GameController::GetVelocity(int index) const {
-  double current_velocity = cars_[index].GetVelocity().GetLength();
-  return current_velocity < kMinVisibleVelocity ? 0 : current_velocity;
-}
-
-int32_t GameController::GetLapsCounter(int index) const {
-  return car_achievements_[index].laps_counter;
-}
-
 bool GameController::AllCarsFinished() const {
   return remaining_cars_.empty();
+}
+
+std::vector<CarAchievements> GameController::GetCarsData() const {
+  return car_achievements_;
 }

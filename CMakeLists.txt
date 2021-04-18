@@ -51,6 +51,7 @@ set(SOURCES main.cpp
         src/helpers/pixmap_loader.cpp
         src/Menu/end_game_stats.cpp
         src/View/view_info_updater.cpp
+        src/helpers/cars_data.cpp
         )
 
 set(RESOURCES

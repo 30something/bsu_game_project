@@ -7,15 +7,15 @@
 #include <QVBoxLayout>
 #include <QWidget>
 
-#include "src/GameCore/game_controller.h"
 #include "src/View/view.h"
 #include "src/helpers/game_mode.h"
+#include "src/helpers/cars_data.h"
 
 class ViewInfoUpdater {
  public:
   explicit ViewInfoUpdater(QWidget* parent = nullptr,
-                           GameController* game_controller = nullptr,
                            View* view = nullptr,
+                           CarsData* cars_data = nullptr,
                            GameMode* game_mode = nullptr);
   ~ViewInfoUpdater() = default;
 
@@ -31,9 +31,9 @@ class ViewInfoUpdater {
   bool GetStartState() const;
 
  private:
-  GameController* game_controller_ = nullptr;
   GameMode* game_mode_ = nullptr;
   View* view_ = nullptr;
+  CarsData* cars_data_ = nullptr;
   QWidget* parent_ = nullptr;
   QLabel* start_label_ = nullptr;
   QLayout* layout_ = nullptr;
@@ -43,4 +43,5 @@ class ViewInfoUpdater {
   bool is_game_started_ = false;
 
   static constexpr double kScale = 2;
+  static constexpr int kDescriptionOffset = 10;
 };

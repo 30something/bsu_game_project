@@ -1,15 +1,11 @@
 #pragma once
 
-#include <string>
 #include <utility>
 #include <vector>
 #include <map>
 
-#include <QImage>
-#include <QLabel>
 #include <QPainter>
 #include <QPixmap>
-#include <QWidget>
 
 #include "src/GameCore/game_controller.h"
 #include "src/helpers/sizes.h"

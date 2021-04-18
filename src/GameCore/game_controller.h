@@ -13,7 +13,7 @@
 #include "game_map.h"
 #include "weapon_handler.h"
 #include "src/helpers/json_map_parser.h"
-#include "src/GameCore/car_achievements.h"
+#include "src/helpers/car_achievements.h"
 #include "src/GameCore/Behaviors/first_player_behavior.h"
 #include "src/GameCore/Behaviors/second_player_behavior.h"
 #include "input_controller.h"
@@ -29,9 +29,8 @@ class GameController {
   std::vector<WrapperBase<GameObject>*> GetGameObjects() const;
   std::vector<Vec2f> GetPlayersCarPositions() const;
 
-  double GetVelocity(int index) const;
-  int32_t GetLapsCounter(int index) const;
   bool AllCarsFinished() const;
+  std::vector<CarAchievements> GetCarsData() const;
 
  private:
   void ProceedCollisionsWithCars();
@@ -44,7 +43,6 @@ class GameController {
   static constexpr double kVelocityDecrease = 0.5;
   static constexpr double kDeviationDecrease = 0.5;
   static constexpr double kHPDecrease = 0.005;
-  static constexpr double kMinVisibleVelocity = 5;
 
   Map map_;
   std::vector<Car> cars_;

@@ -1,12 +1,12 @@
 #include "view_info_updater.h"
 
 ViewInfoUpdater::ViewInfoUpdater(QWidget* parent,
-                                 GameController* game_controller,
                                  View* view,
+                                 CarsData* cars_data,
                                  GameMode* game_mode) :
-    game_controller_(game_controller),
     game_mode_(game_mode),
     view_(view),
+    cars_data_(cars_data),
     parent_(parent),
     start_label_(new QLabel("Get ready!", parent)),
     layout_(new QVBoxLayout(parent)),
@@ -40,9 +40,9 @@ void ViewInfoUpdater::UpdatePlayerInfoDescription(QPainter* painter,
   painter->drawText(x_pos,
                     y_pos,
                     QString::fromStdString("Velocity: " +
-                        std::to_string(game_controller_->GetVelocity(index)) +
+                        std::to_string(cars_data_->GetVelocity(index)) +
                         ", Laps: " +
-                        std::to_string(game_controller_->GetLapsCounter(index))
+                        std::to_string(cars_data_->GetLapsCounter(index))
                         + " / " +
                         std::to_string(laps_amount_)));
 }
@@ -52,7 +52,7 @@ void ViewInfoUpdater::UpdateAllInfoDescription(QPainter* painter) {
   for (int i = 0; i < static_cast<int>(frames.size()); i++) {
     UpdatePlayerInfoDescription(painter,
                                 frames[i].left() / kScale,
-                                frames[i].top() / kScale + 10,
+                                frames[i].top() / kScale + kDescriptionOffset,
                                 i);
   }
 }
