@@ -7,9 +7,9 @@ PixmapLoader::PixmapLoader(const QString& filepath) : map_filepath_(filepath) {
 
 void PixmapLoader::InitPixmaps() {
   QString basic_path = ":resources/images/";
-  QPixmap car(basic_path + "cars/car_1.png");
-  QPixmap dead_car(basic_path + "cars/car_1_dead.png");
-  QPixmap shooting_car(basic_path + "cars/car_1_shoot.png");
+  QPixmap car(basic_path + "cars/car1.png");
+  QPixmap dead_car(basic_path + "cars/car1_dead.png");
+  QPixmap shooting_car(basic_path + "cars/car1_shoot.png");
   QPixmap mine(basic_path + "other_stuff/mine.png");
   QPixmap health_bonus(basic_path + "other_stuff/hp.png");
   QPixmap bullets_ammo_bonus(basic_path + "other_stuff/ammo.png");
