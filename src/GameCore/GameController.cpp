@@ -4,7 +4,8 @@ GameController::GameController(GameMode* game_mode,
                                InputController* input_controller) :
     game_mode_(game_mode),
     weapon_handler_() {
-  JsonMapParser parser(map_data::json_filepaths[game_mode->map_index]);
+  JsonMapParser
+      parser(map_data::json_file_paths.file_paths[game_mode->map_index]);
   map_.SetBorders(parser.GetBorders());
   std::vector<std::pair<QPoint, double>> pos_and_angles =
       parser.GetCarStartPositionsAndAngles();

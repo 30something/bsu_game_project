@@ -6,8 +6,7 @@
 PrepareImage::PrepareImage(QWidget* parent) : QWidget(parent) {
   setStyleSheet("background-color:black;");
   resize(800, 800);
-  image_.load("map_3.jpg");
-
+  image_.load("map1.jpg");
 }
 
 void PrepareImage::paintEvent(QPaintEvent* e) {
@@ -39,13 +38,13 @@ void PrepareImage::paintEvent(QPaintEvent* e) {
   }
   QString phase = "phase: ";
   phase += (step_now == step::left) ? ("left") : ("right");
-  qp.drawText(10,10, phase);
+  qp.drawText(10, 10, phase);
 }
 
 void PrepareImage::keyPressEvent(QKeyEvent* e) {
   int key = e->key();
-  if(key == Qt::Key_Backspace) {
-    if(step_now == step::left) {
+  if (key == Qt::Key_Backspace) {
+    if (step_now == step::left) {
       coordinates_left_.pop_back();
     } else {
       coordinates_right_.pop_back();
@@ -71,11 +70,13 @@ void PrepareImage::keyPressEvent(QKeyEvent* e) {
 }
 void PrepareImage::mousePressEvent(QMouseEvent* event) {
   if (step_now == step::left) {
-    coordinates_left_.emplace_back(event->x() / image_scale_ + image_offset_x_,
-                                   event->y() / image_scale_ + image_offset_y_);
+    coordinates_left_.emplace_back(
+        event->x() / image_scale_ + image_offset_x_,
+        event->y() / image_scale_ + image_offset_y_);
   } else {
-    coordinates_right_.emplace_back(event->x() / image_scale_ + image_offset_x_,
-                                    event->y() / image_scale_ + image_offset_y_);
+    coordinates_right_.emplace_back(
+        event->x() / image_scale_ + image_offset_x_,
+        event->y() / image_scale_ + image_offset_y_);
   }
   repaint();
 }
@@ -84,7 +85,8 @@ void PrepareImage::WriteToFile() {
   std::cout << "processing a file" << std::endl;
   QTextStream out(stdout);
   QString filename =
-      "c:/Dima/mama i am programmer/coords.txt";
+      //"c:/Dima/mama i am programmer/"
+      "coords.txt";
   QFile file(filename);
   if (file.open(QIODevice::WriteOnly)) {
     QTextStream out(&file);

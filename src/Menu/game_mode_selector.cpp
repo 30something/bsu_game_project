@@ -11,7 +11,7 @@ GameModeSelector::GameModeSelector(QWidget* parent, GameMode* game_mode) :
     game_mode_(game_mode),
     number_of_players_(new QComboBox(this)),
     number_of_bots_(new QComboBox(this)) {
-  for (const auto& image : map_data::image_filepaths) {
+  for (const auto& image : map_data::image_file_paths.file_paths) {
     stacked_widget_->addWidget(new MapSelectorTile(this, image));
   }
   PrepareComboBoxes();
@@ -30,7 +30,8 @@ void GameModeSelector::PrepareComboBoxes() {
 }
 
 void GameModeSelector::SwitchRight() {
-  if (game_mode_->map_index >= map_data::image_filepaths.size() - 1) {
+  if (game_mode_->map_index
+      >= map_data::image_file_paths.file_paths.size() - 1) {
     game_mode_->map_index = 0;
   } else {
     game_mode_->map_index++;
@@ -41,7 +42,7 @@ void GameModeSelector::SwitchRight() {
 
 void GameModeSelector::SwitchLeft() {
   if (game_mode_->map_index <= 0) {
-    game_mode_->map_index = map_data::image_filepaths.size() - 1;
+    game_mode_->map_index = map_data::image_file_paths.file_paths.size() - 1;
   } else {
     game_mode_->map_index--;
   }
