@@ -54,7 +54,7 @@ set(SOURCES main.cpp
 set(RESOURCES
         images.qrc
         map_data.qrc
-        )
+        src/helpers/map_data.cpp)
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 target_link_libraries(${PROJECT_NAME} ${REQUIRED_LIBS_QUALIFIED})

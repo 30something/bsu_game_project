@@ -2,7 +2,8 @@
 
 View::View(GameMode* game_mode) :
     players_amount_(game_mode->players_amount),
-    pixmap_loader_(map_data::image_filepaths[game_mode->map_index]) {}
+    pixmap_loader_(
+        map_data::image_file_paths.file_paths[game_mode->map_index]) {}
 
 void View::Repaint(const std::vector<WrapperBase<GameObject>*>& objects,
                    const std::vector<Vec2f>& cars_positions,
@@ -65,7 +66,7 @@ void View::DrawObjects(QPainter* painter,
         painter->translate(x, y);
         painter->rotate((*object)[i].GetAngle());
         painter->drawPixmap(pixmap_loader_.GetOffset(
-                                (*object)[i].GetPixmapId()).x(),
+            (*object)[i].GetPixmapId()).x(),
                             pixmap_loader_.GetOffset(
                                 (*object)[i].GetPixmapId()).y(),
                             pixmap_loader_.GetPixmap(
