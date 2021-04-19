@@ -29,7 +29,7 @@ class Map {
   std::vector<Bonus> bonuses_;
   QTimer bonus_timer_;
 
-  static constexpr double kVelocityDecrease = 0.75;
+  static constexpr double kVelocityDecrease = 0.9;
   static constexpr double kHPDecrease = 0.001;
   static constexpr size_t kMaxBonusesAmount = 5;
   static constexpr int kAmountOfBonusTypes = 3;

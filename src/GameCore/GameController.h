@@ -35,7 +35,7 @@ class GameController {
   WeaponHandler weapon_handler_;
   std::vector<WrapperBase<GameObject>*> game_objects_;
 
-  static constexpr double kVelocityDecrease = 0.5;
+  static constexpr double kVelocityDecrease = 1;
   static constexpr double kDeviationDecrease = 0.5;
   static constexpr double kHPDecrease = 0.005;
 

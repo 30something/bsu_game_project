@@ -45,10 +45,10 @@ void BotBehavior::ProceedDistancesToBorders() {
   back_angle_vec.Rotate(M_PI);
   back_distance_ = FindMinDistanceToBorder(back_angle_vec, car_->GetPosition());
   Vec2f left_angle_vec = car_->GetAngleVec();
-  left_angle_vec.Rotate(-M_PI / 4);
+  left_angle_vec.Rotate(-M_PI / 6);
   left_distance_ = FindMinDistanceToBorder(left_angle_vec, car_->GetPosition());
   Vec2f right_angle_vec = car_->GetAngleVec();
-  right_angle_vec.Rotate(M_PI / 4);
+  right_angle_vec.Rotate(M_PI / 6);
   right_distance_ =
       FindMinDistanceToBorder(right_angle_vec, car_->GetPosition());
 }

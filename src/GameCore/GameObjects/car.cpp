@@ -238,7 +238,7 @@ std::optional<Line> Car::ShootBullet() {
 
 PixmapID Car::GetPixmapId() const {
   if (is_alive_) {
-    if (behavior_->IsFlagShoot()) {
+    if (bullets_amount_ > 0 && behavior_->IsFlagShoot()) {
       return PixmapID::kShootingCar;
     } else {
       return PixmapID::kCar;
