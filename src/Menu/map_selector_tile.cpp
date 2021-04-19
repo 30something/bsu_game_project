@@ -11,5 +11,5 @@ MapSelectorTile::MapSelectorTile(QWidget* parent,
 void MapSelectorTile::paintEvent(QPaintEvent*) {
   QPainter qp(this);
   qp.scale(0.5, 0.5);
-  qp.drawPixmap(0, 0, *pixmap_, 0, 0, 800, 800);
+  qp.drawPixmap(0, 0, *pixmap_, 800, 800, 1000, 1000);
 }

@@ -8,7 +8,8 @@ GameController::GameController(GameMode* game_mode,
     remaining_cars_.insert(i);
   }
   car_achievements_.resize(game_mode_->players_amount);
-  JsonMapParser parser(map_data::json_filepaths[game_mode->map_index]);
+  JsonMapParser
+      parser(map_data::json_file_paths.file_paths[game_mode->map_index]);
   map_.SetBorders(parser.GetBorders());
   finish_line_ = parser.GetFinishLine();
   std::vector<std::pair<QPoint, double>> pos_and_angles =
