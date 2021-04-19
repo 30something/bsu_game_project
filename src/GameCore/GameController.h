@@ -23,10 +23,18 @@ class GameController {
   void HandleKeyPressEvent(QKeyEvent* event);
   void HandleKeyReleaseEvent(QKeyEvent* event);
 
-  std::pair<double, int> GetParametersForEngineSound();
-  double GetCoefficientForDriftSound();
-  double GetCoefficientForBrakeSound();
-//  std::vector<QPoint> GetCarCoordinates() const;
+  void SetNoBonusIsApplied();
+
+  std::pair<double, int> GetParametersForEngineSound() const;
+  std::pair<bool, bool> GetParametersForShootingSound() const;
+  double GetCoefficientForDriftSound() const;
+  double GetCoefficientForBrakeSound() const;
+  bool GetWhetherBonusIsApplied() const;
+  bool GetWhetherMineIsExploded() const;
+  bool CarIsExploded() const;
+  bool FirstCarIsAlive() const;
+
+    //  std::vector<QPoint> GetCarCoordinates() const;
 //  std::vector<double> GetCarAngles() const;
   const std::vector<Car>& GetCars() const;
   const std::vector<QPoint>& GetMinesCoordinates() const;
@@ -44,4 +52,6 @@ class GameController {
 
   void ProceedCollisionsWithCars();
   static void CollideCars(Car* car_1, Car* car_2);
+
+  bool car_is_exploded_ = false;
 };

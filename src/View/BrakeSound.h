@@ -14,7 +14,7 @@ class Brake : public QWidget {
 
     void Play(double coefficient);
  private:
-    QMediaPlayer* sound_player_;
     QMediaPlaylist* sound_playlist_;
+    QMediaPlayer* sound_player_;
     int volume_;
 };

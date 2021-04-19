@@ -31,17 +31,27 @@ void WeaponHandler::ProceedWeapons(std::vector<Car>* cars) {
       ShootBullet(&car, cars);
     }
   }
+  mine_is_exploded_ = false;
   for (auto& mine : mines_) {
+    int index_of_car = 0;
     for (auto& car : *cars) {
       if (physics::IsInside(car.GetLines(), mine)) {
         car.AddHitPoints(-kMineDamage);
         car.SetVelocity(Vec2f(car.GetVelocity()).Normalize() * -kMineSplash);
         mines_.erase(std::find(mines_.begin(), mines_.end(), mine));
+        if (index_of_car == 0) {
+            mine_is_exploded_ = true;
+        }
       }
+      index_of_car++;
     }
   }
 }
 
 const std::vector<QPoint>& WeaponHandler::GetMinesCoordinates() const {
   return mines_;
+}
+
+bool WeaponHandler::MineIsExploded() const {
+    return mine_is_exploded_;
 }

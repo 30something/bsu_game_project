@@ -84,6 +84,7 @@ void Map::ProceedActiveBonuses(Car* car) {
       bonuses_.erase(std::find(bonuses_.begin(),
                                bonuses_.end(),
                                bonus));
+        bonus_is_applied_ = true;
     }
   }
 }
@@ -99,4 +100,12 @@ void Map::SetBorders(const std::vector<std::vector<QPoint>>& borders) {
   bonus_timer_.start(
       QRandomGenerator::global()->bounded(kMaxMilliSecondsForNewBonus)
           + kMinMilliSecondForNewBonus);
+}
+
+bool Map::GetWhetherBonusIsApplied() const {
+    return bonus_is_applied_;
+}
+
+void Map::SetNoBonusIsApplied() {
+    bonus_is_applied_ = false;
 }

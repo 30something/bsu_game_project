@@ -1,4 +1,5 @@
 #include "GameController.h"
+#include <QDebug>
 
 GameController::GameController(GameMode* game_mode) :
     game_mode_(game_mode),
@@ -19,12 +20,29 @@ GameController::GameController(GameMode* game_mode) :
 void GameController::Tick(int time_millis) {
   weapon_handler_.ProceedWeapons(&cars_);
   ProceedCollisionsWithCars();
+
+  int index_of_car = 0;
+  bool first_car_bonus = false;
+  car_is_exploded_ = false;
   for (auto& car : cars_) {
     map_.HandleCarTick(&car);
+
+    if (index_of_car == 0 && GetWhetherBonusIsApplied()) {
+        first_car_bonus = true;
+    }
+    index_of_car++;
+
     car.Tick(time_millis);
     if (car.GetHitPoints() < physics::kAlmostZero) {
+      if (car.IsAlive()) {
+          car_is_exploded_ = true;
+      }
       car.SetIsAlive(false);
     }
+  }
+
+  if (!first_car_bonus) {
+      SetNoBonusIsApplied();
   }
 }
 
@@ -162,14 +180,41 @@ const std::vector<Bonus>& GameController::GetActiveBonuses() const {
   return map_.GetActiveBonuses();
 }
 
-std::pair<double, int> GameController::GetParametersForEngineSound() {
+std::pair<double, int> GameController::GetParametersForEngineSound() const {
     return cars_[0].GetParametersForEngineSound();
 }
 
-double GameController::GetCoefficientForDriftSound() {
+double GameController::GetCoefficientForDriftSound() const {
     return cars_[0].GetCoefficientForDriftSound();
 }
 
-double GameController::GetCoefficientForBrakeSound() {
+double GameController::GetCoefficientForBrakeSound() const {
     return cars_[0].GetCoefficientForBrakeSound();
 }
+
+bool GameController::GetWhetherBonusIsApplied() const {
+    return map_.GetWhetherBonusIsApplied();
+}
+
+void GameController::SetNoBonusIsApplied() {
+    map_.SetNoBonusIsApplied();
+}
+
+std::pair<bool, bool> GameController::GetParametersForShootingSound() const {
+    return std::pair(cars_[0].UsingGun(), cars_[0].GetBulletsAmount());
+}
+
+bool GameController::GetWhetherMineIsExploded() const {
+    return weapon_handler_.MineIsExploded();
+}
+
+bool GameController::CarIsExploded() const {
+    return car_is_exploded_;
+}
+
+bool GameController::FirstCarIsAlive() const {
+    return cars_[0].IsAlive();
+}
+
+
+

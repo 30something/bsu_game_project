@@ -12,7 +12,7 @@ class Engine : public QWidget {
     explicit Engine(QWidget* parent = nullptr);
     ~Engine() override = default;
 
-    void Play(double coefficient, int direction);
+    void Play(double coefficient, int direction, bool car_is_alive);
     void PlayIdleSpeed();
     void PlayReversedEngine();
     void PlayEngine();

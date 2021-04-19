@@ -10,6 +10,7 @@
 #include "EngineSound.h"
 #include "DriftSound.h"
 #include "BrakeSound.h"
+#include "SoundsOfEffects.h"
 #include "src/helpers/sizes.h"
 
 class View {
@@ -19,9 +20,13 @@ class View {
 
   void Repaint(QPainter* painter);
 
-  void PlayEngine(double coefficient, int direction);
+  void PlayEngine(double coefficient, int direction, bool car_is_alive);
   void PlayDrift(double coefficient);
   void PlayBrake(double coefficient);
+  void PlayBonus(bool play_bonus);
+  void PlayShooting(bool using_gun, bool bullets);
+  void PlayMine(bool play_mine);
+  void PlayCarExplosion(bool play_car_explosion);
 
  private:
   GameController* model_ = nullptr;
@@ -53,4 +58,5 @@ class View {
   Engine* engine_;
   Drift* drift_;
   Brake* brake_;
+  Effects* effects_;
 };

@@ -22,6 +22,9 @@ class Map {
   void HandleCarTick(Car* car);
   const std::vector<Bonus>& GetActiveBonuses() const;
   void SetBorders(const std::vector<std::vector<QPoint>>& borders);
+  void SetNoBonusIsApplied();
+
+  bool GetWhetherBonusIsApplied() const;
 
  private:
   std::vector<std::vector<QPoint>> borders_;
@@ -43,4 +46,6 @@ class Map {
 
   static size_t FindIndexOfMinimalDistance(QPoint, const std::vector<QPoint>&);
   static void HandleCarCrashIntoBorder(Car* car, const Vec2f& point);
+
+  bool bonus_is_applied_ = false;
 };

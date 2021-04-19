@@ -2,8 +2,8 @@
 #include <QDebug>
 
 Brake::Brake(QWidget* parent) :  QWidget(parent),
-                                 sound_player_(new QMediaPlayer(this)),
                                  sound_playlist_(new QMediaPlaylist(this)),
+                                 sound_player_(new QMediaPlayer(this)),
                                  volume_(0) {
     sound_player_->setPlaylist(sound_playlist_);
     sound_playlist_->

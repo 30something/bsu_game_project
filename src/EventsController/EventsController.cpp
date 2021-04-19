@@ -10,17 +10,24 @@ EventsController::EventsController(QWidget* parent, GameMode* game_mode) :
 void EventsController::PhysicsTimerEvent() {
   if (game_status_ == GameStatus::kRunning) {
     game_controller_->Tick(kMillisPerPhysicsTick);
+
+    view_->PlayEngine(game_controller_->GetParametersForEngineSound().first,
+                      game_controller_->GetParametersForEngineSound().second,
+                      game_controller_->FirstCarIsAlive());
+    view_->PlayDrift(game_controller_->GetCoefficientForDriftSound());
+    view_->PlayBrake(game_controller_->GetCoefficientForBrakeSound());
+
+    view_->PlayBonus(game_controller_->GetWhetherBonusIsApplied());
+    view_->PlayShooting(game_controller_->GetParametersForShootingSound().first,
+                      game_controller_->GetParametersForShootingSound().second);
+    view_->PlayMine(game_controller_->GetWhetherMineIsExploded());
+    view_->PlayCarExplosion(game_controller_->CarIsExploded());
   }
 }
 
 void EventsController::ViewTimerEvent() {
   if (game_status_ == GameStatus::kRunning) {
     repaint();
-
-    view_->PlayEngine(game_controller_->GetParametersForEngineSound().first,
-                      game_controller_->GetParametersForEngineSound().second);
-    view_->PlayDrift(game_controller_->GetCoefficientForDriftSound());
-    view_->PlayBrake(game_controller_->GetCoefficientForBrakeSound());
   }
 }
 

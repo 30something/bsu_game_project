@@ -15,6 +15,8 @@ class WeaponHandler {
   void ProceedWeapons(std::vector<Car>* cars);
   const std::vector<QPoint>& GetMinesCoordinates() const;
 
+  bool MineIsExploded() const;
+
  private:
   std::vector<QPoint> mines_;
 
@@ -23,4 +25,6 @@ class WeaponHandler {
   static constexpr int kMineSplash = 100;
   static constexpr double kBulletDamage = 0.1;
   static constexpr double kMineDamage = 20;
+
+  bool mine_is_exploded_ = false;
 };

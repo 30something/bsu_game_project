@@ -35,12 +35,13 @@ class Car {
   const Vec2f& GetPosition() const;
   const Vec2f& GetAngleVec() const;
 
-  std::pair<double, int> GetParametersForEngineSound();
-  double GetCoefficientForDriftSound();
-  double GetCoefficientForBrakeSound();
+  std::pair<double, int> GetParametersForEngineSound() const;
+  double GetCoefficientForDriftSound() const;
+  double GetCoefficientForBrakeSound() const;
 
   bool IsShooting() const;
   bool IsAlive() const;
+  bool UsingGun() const;
 
   void SetVelocity(const Vec2f& velocity);
   void SetPosition(const Vec2f& position);
@@ -90,6 +91,7 @@ class Car {
   bool flag_right_ = false;
   bool is_shooting_ = false;
   bool is_alive_ = true;
+  bool using_gun_ = false;
 
   double hit_points_ = 100;
   size_t bullets_amount_ = 1000;

@@ -23,7 +23,12 @@ Engine::Engine(QWidget* parent) : QWidget(parent),
 
 //TODO fix engine sound
 
-void Engine::Play(double coefficient1, int direction) {
+void Engine::Play(double coefficient1, int direction, bool car_is_alive) {
+    if (!car_is_alive) {
+        sound_player_->stop();
+        return;
+    }
+
     int coefficient = (int)(100 * coefficient1);
 
 //    bool reversed_playing = false;
@@ -40,9 +45,9 @@ void Engine::Play(double coefficient1, int direction) {
 
     if (coefficient <= 5) {
         PlayIdleSpeed();
-    } else if (direction == 0) {
+    } else if (coefficient >= 10 && direction == 0) {
         PlayReversedEngine();
-    } else if (sound_playlist_->currentIndex() != 1) {
+    } else if (coefficient >= 10 && sound_playlist_->currentIndex() != 1) {
         PlayEngine();
     }
 

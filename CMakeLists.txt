@@ -38,9 +38,9 @@ set(SOURCES main.cpp
         src/Menu/small_exit_window.cpp
         src/GameCore/map.cpp
         src/View/EngineSound.cpp
-        src/View/EngineSound.h
-        src/View/DriftSound.h
         src/View/DriftSound.cpp
+        src/View/BrakeSound.cpp
+        src/View/SoundsOfEffects.cpp
         src/Menu/game_mode_selector.cpp
         src/Menu/map_selector_tile.cpp
         src/GameCore/weapon_handler.cpp
@@ -52,7 +52,7 @@ set(SOURCES main.cpp
 set(RESOURCES
         images.qrc
         map_data.qrc
-        sounds.qrc src/View/BrakeSound.h src/View/BrakeSound.cpp)
+        sounds.qrc)
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 target_link_libraries(${PROJECT_NAME} ${REQUIRED_LIBS_QUALIFIED})

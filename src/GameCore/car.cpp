@@ -1,4 +1,5 @@
 #include "car.h"
+#include <QDebug>
 
 Car::Car(int x,
          int y,
@@ -227,6 +228,7 @@ bool Car::IsShooting() const {
 }
 
 void Car::SetIsShooting(bool is_shooting) {
+  using_gun_ = is_shooting;
   if (bullets_amount_ <= 0) {
     is_shooting_ = false;
   } else {
@@ -255,6 +257,7 @@ std::optional<QPoint> Car::DropMine() {
 std::optional<Line> Car::ShootBullet() {
   if (bullets_amount_ > 0) {
     bullets_amount_--;
+    qDebug() << bullets_amount_ << "\n";
     return Line(
         position_.GetX(),
         position_.GetY(),
@@ -265,7 +268,7 @@ std::optional<Line> Car::ShootBullet() {
   }
 }
 
-std::pair<double, int> Car::GetParametersForEngineSound() {
+std::pair<double, int> Car::GetParametersForEngineSound() const {
     double coefficient = velocity_.GetLength() / kMaxSpeedForward;
     int without_motion = 0;
     int forward_motion = 1;
@@ -282,7 +285,7 @@ std::pair<double, int> Car::GetParametersForEngineSound() {
     return std::pair<double, int>(coefficient, forward_motion);
 }
 
-double Car::GetCoefficientForDriftSound() {
+double Car::GetCoefficientForDriftSound() const {
     double kDriftSpeed = 15;
     double relative_velocity = velocity_.GetLength() / kMaxSpeedForward;
     if ((flag_right_ || flag_left_) && velocity_.GetLength() > kDriftSpeed) {
@@ -294,8 +297,8 @@ double Car::GetCoefficientForDriftSound() {
     return 0;
 }
 
-double Car::GetCoefficientForBrakeSound() {
-    double kSpeedForBrake = 20;
+double Car::GetCoefficientForBrakeSound() const {
+    double kSpeedForBrake = 80;
     double relative_velocity = velocity_.GetLength() / kMaxSpeedForward;
     if (flag_down_ && !flag_up_ && velocity_.GetLength() > kSpeedForBrake &&
         std::abs(velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees())
@@ -307,3 +310,8 @@ double Car::GetCoefficientForBrakeSound() {
     }
     return 0;
 }
+
+bool Car::UsingGun() const {
+    return using_gun_;
+}
+
