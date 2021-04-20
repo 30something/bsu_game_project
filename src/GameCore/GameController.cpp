@@ -27,7 +27,9 @@ GameController::GameController(GameMode* game_mode,
     auto* bot = new BotBehavior(parser.GetBorders(),
                                        &cars_,
                                        &map_.GetActiveBonuses(),
-                                       &weapon_handler_.GetMines());
+                                       &weapon_handler_.GetMines(),
+                                       parser.GetWaypoints(),
+                                       parser.GetNoGoLines());
     cars_.emplace_back(
                   pos_and_angles[game_mode_->players_amount + i].first,
                   pos_and_angles[game_mode_->players_amount + i].second,
