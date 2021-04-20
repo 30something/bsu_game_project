@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QKeyEvent>
+#include <QResizeEvent>
 #include <QPainter>
 #include <QWidget>
 #include <QTimer>
@@ -18,6 +19,7 @@ class EventsController : public QWidget {
   ~EventsController() override = default;
 
   void paintEvent(QPaintEvent*) override;
+  void resizeEvent(QResizeEvent*) override;
   void keyPressEvent(QKeyEvent*) override;
   void keyReleaseEvent(QKeyEvent*) override;
 

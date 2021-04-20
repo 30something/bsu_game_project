@@ -3,8 +3,8 @@
 EventsController::EventsController(QWidget* parent, GameMode* game_mode) :
     QWidget(parent),
     input_controller_(),
-  game_controller_(new GameController(game_mode, &input_controller_)),
-  view_(new View(game_mode)) {
+    game_controller_(new GameController(game_mode, &input_controller_)),
+    view_(new View(game_mode)) {
   PrepareTimer();
 }
 
@@ -61,4 +61,8 @@ void EventsController::PrepareTimer() {
           &EventsController::ViewTimerEvent);
   controller_timer_.start(kMillisPerPhysicsTick);
   view_timer_.start(kMillisPerFrame);
+}
+
+void EventsController::resizeEvent(QResizeEvent*) {
+  view_->resizeEvent(width(), height());
 }

@@ -27,3 +27,10 @@ namespace mainwindow_sizes {
 constexpr QSize kDefaultScreenSize(800, 400);
 
 }  // mainwindow_sizes
+
+namespace car_sizes {
+
+constexpr int kPercentageOfCarSizeOnSceeen = 3;
+constexpr int kCarDiagonalInPixels = 20;
+
+}  // car_sizes
