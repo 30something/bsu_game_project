@@ -19,9 +19,11 @@ class View {
   void Repaint(const std::vector<WrapperBase<GameObject>*>& objects,
                const std::vector<Vec2f>& players_cars_positions,
                QPainter* painter);
+  void resizeEvent(int width, int height);
   std::vector<QRect> GetFramesVector(const QPainter* painter) const;
 
  private:
+  void CalculateScale(int window_width, int window_height);
   void DrawMap(QPainter* painter,
                const QRect& frame,
                const Vec2f& pos);
@@ -34,6 +36,5 @@ class View {
 
   uint32_t players_amount_ = 0;
   uint32_t laps_amount_ = 0;
-
-  static constexpr double kScale = 2;
+  double scale_ = 0;
 };

@@ -35,3 +35,10 @@ namespace combo_boxes_sizes {
 constexpr QSize kComboBoxDefaultSize(200, 30);
 
 }  // combo_boxes_sizes
+
+namespace car_sizes {
+
+constexpr int kPercentageOfCarSizeOnSceeen = 3;
+constexpr int kCarDiagonalInPixels = 20;
+
+}  // car_sizes

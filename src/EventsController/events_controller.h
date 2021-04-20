@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QKeyEvent>
+#include <QResizeEvent>
 #include <QPainter>
 #include <QWidget>
 #include <QTimer>
