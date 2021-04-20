@@ -43,6 +43,7 @@ void EventsController::paintEvent(QPaintEvent*) {
 
 void EventsController::resizeEvent(QResizeEvent*) {
   end_game_stats_->setGeometry(0, 0, width(), height());
+  view_->resizeEvent(width(), height());
 }
 
 void EventsController::keyPressEvent(QKeyEvent* event) {
