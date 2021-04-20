@@ -4,9 +4,6 @@ GameController::GameController(GameMode* game_mode,
                                InputController* input_controller) :
     game_mode_(game_mode),
     weapon_handler_() {
-  for (uint32_t i = 0; i < game_mode_->players_amount; i++) {
-    remaining_cars_.insert(i);
-  }
   car_achievements_.resize(game_mode_->players_amount);
   JsonMapParser
       parser(map_data::json_file_paths.file_paths[game_mode->map_index]);
@@ -27,6 +24,13 @@ GameController::GameController(GameMode* game_mode,
         pos_and_angles[1].first,
         pos_and_angles[1].second,
         second_player_behavior);
+  }
+  for (uint32_t i = 0; i < game_mode_->players_amount; i++) {
+    remaining_cars_.insert(i);
+    car_achievements_[i].launched_finish_deviation =
+        physics::CalculateLineDeviation(cars_[i].GetPosition().GetX(),
+                                        cars_[i].GetPosition().GetY(),
+                                        finish_line_);
   }
   game_objects_.push_back(
       new WrapperTemplate<GameObject, Car>(cars_));
@@ -86,25 +90,35 @@ void GameController::ProceedCollisionsWithCars() {
 }
 
 void GameController::ProceedCollisionsWithFinish() {
-  for (auto index : remaining_cars_) {
+  for (auto i : remaining_cars_) {
     if (physics::IsIntersects(
-        cars_[index].GetCollisionLines(), {finish_line_})) {
-      car_achievements_[index].is_collide_with_finish = true;
+        cars_[i].GetCollisionLines(), {finish_line_})) {
+      car_achievements_[i].is_collide_with_finish = true;
     } else {
-      if (car_achievements_[index].is_collide_with_finish) {
-        double past_deviation = car_achievements_[index].finish_deviation;
+      if (car_achievements_[i].is_collide_with_finish) {
+        double start_deviation =
+            car_achievements_[i].launched_finish_deviation;
+        double past_deviation =
+            car_achievements_[i].finish_deviation;
         double current_deviation =
-            physics::CalculateLineDeviation(cars_[index].GetPosition().GetX(),
-                                            cars_[index].GetPosition().GetY(),
+            physics::CalculateLineDeviation(cars_[i].GetPosition().GetX(),
+                                            cars_[i].GetPosition().GetY(),
                                             finish_line_);
-        // Variability - depends on finish line location
         if (past_deviation < 0 && current_deviation > 0) {
-          car_achievements_[index].laps_counter--;
+          if (start_deviation > 0) {
+            car_achievements_[i].laps_counter--;
+          } else {
+            car_achievements_[i].laps_counter++;
+          }
         } else if (past_deviation > 0 && current_deviation < 0) {
-          car_achievements_[index].laps_counter++;
+          if (start_deviation < 0) {
+            car_achievements_[i].laps_counter--;
+          } else {
+            car_achievements_[i].laps_counter++;
+          }
         }
       }
-      car_achievements_[index].is_collide_with_finish = false;
+      car_achievements_[i].is_collide_with_finish = false;
     }
   }
 }

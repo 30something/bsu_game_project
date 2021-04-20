@@ -29,7 +29,7 @@ void ViewInfoUpdater::UpdateStartInfo() {
     start_label_->setText("Go!");
   } else {
     start_label_->setText(
-        QString::fromStdString(std::to_string(seconds_before_start_)));
+        QString::fromStdString(std::to_string(seconds_before_start_ - 1)));
   }
 }
 
