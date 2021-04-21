@@ -1,11 +1,9 @@
 #include "bot_behavior.h"
-#include <iostream>
-#include <utility>
 
-BotBehavior::BotBehavior(const std::vector<std::vector<QPoint>>* borders,
-                         const std::vector<Car>* cars,
-                         const std::vector<Vec2f>* waypoints,
-                         const std::vector<Line>* no_go_lines) :
+BotBehavior::BotBehavior(const std::vector<std::vector<QPoint>>& borders,
+                         const std::vector<Car>& cars,
+                         const std::vector<Vec2f>& waypoints,
+                         const std::vector<Line>& no_go_lines) :
     borders_(borders),
     cars_(cars),
     waypoints_(waypoints),
@@ -22,10 +20,10 @@ void BotBehavior::HandleTick(const GameObject* car) {
 void BotBehavior::ProceedCarFlags() {
   flag_up_ = true;
   if (front_distance_ > left_distance_ && front_distance_ > right_distance_) {
-    if (left_distance_ < 10) {
+    if (left_distance_ < kMinDistanceToTurn) {
       flag_right_ = true;
       flag_left_ = false;
-    } else if (right_distance_ < 10) {
+    } else if (right_distance_ < kMinDistanceToTurn) {
       flag_right_ = false;
       flag_left_ = true;
     } else {
@@ -58,10 +56,10 @@ void BotBehavior::ProceedCarFlags() {
 void BotBehavior::ProceedIfCorrectDirection() {
   closest_index_ = FindIndexOfClosestWaypoint(*car_);
   size_t next_index =
-      (closest_index_ == waypoints_->size() - 1 ? 0 : closest_index_ + 1);
+      (closest_index_ == waypoints_.size() - 1 ? 0 : closest_index_ + 1);
   Vec2f vec_to_next(
-      (*waypoints_)[next_index].GetX() - car_->GetPosition().GetX(),
-      (*waypoints_)[next_index].GetY() - car_->GetPosition().GetY());
+      waypoints_[next_index].GetX() - car_->GetPosition().GetX(),
+      waypoints_[next_index].GetY() - car_->GetPosition().GetY());
   if (std::abs(vec_to_next.GetAngleDegrees()
                    - car_->GetAngleVec().GetAngleDegrees()) > 90) {
     vec_to_next.Rotate(M_PI);
@@ -104,14 +102,13 @@ double BotBehavior::FindMinDistanceToBorder(Vec2f angle_vec,
       car_position.GetY(),
       car_position.GetX() + kDistanceRange * angle_vec.GetX(),
       car_position.GetY() + kDistanceRange * angle_vec.GetY());
-  for (const auto& border : *borders_) {
+  for (const auto& border : borders_) {
     for (size_t j = 0; j < border.size(); j++) {
       size_t border_i = (j == (border.size()) - 1 ? 0 : j + 1);
-      Line border_line(
-          border[j].x(),
-          border[j].y(),
-          border[border_i].x(),
-          border[border_i].y());
+      Line border_line(border[j].x(),
+                       border[j].y(),
+                       border[border_i].x(),
+                       border[border_i].y());
       if (physics::IsIntersects(search_line, border_line)) {
         Vec2f point = physics::FindIntersectionPoint(search_line, border_line);
         distances.push_back(physics::Distance(QPoint(point.GetX(),
@@ -121,7 +118,7 @@ double BotBehavior::FindMinDistanceToBorder(Vec2f angle_vec,
       }
     }
   }
-  for (auto line : *no_go_lines_) {
+  for (auto line : no_go_lines_) {
     if (physics::IsIntersects(search_line, line)) {
       Vec2f point = physics::FindIntersectionPoint(search_line, line);
       distances.push_back(physics::Distance(QPoint(point.GetX(),
@@ -139,28 +136,19 @@ double BotBehavior::FindMinDistanceToBorder(Vec2f angle_vec,
 bool BotBehavior::AnyCarInFront() const {
   Vec2f position = car_->GetPosition();
   Vec2f angle_vec = car_->GetAngleVec();
-  Line shooting_trajectory(
-      position.GetX(),
-      position.GetY(),
-      angle_vec.GetX() * kWeaponsRange + position.GetX(),
-      angle_vec.GetY() * kWeaponsRange + position.GetY());
-  return CheckCarInDirection(shooting_trajectory);
+  return CheckCarInDirection(position, angle_vec);
 }
 
 bool BotBehavior::AnyCarInBack() const {
   Vec2f position = car_->GetPosition();
   Vec2f angle_vec = car_->GetAngleVec();
-  Line shooting_trajectory(
-      position.GetX(),
-      position.GetY(),
-      -angle_vec.GetX() * kWeaponsRange + position.GetX(),
-      -angle_vec.GetY() * kWeaponsRange + position.GetY());
-  return CheckCarInDirection(shooting_trajectory);
+  angle_vec.Rotate(M_PI);
+  return CheckCarInDirection(position, angle_vec);
 }
 
 size_t BotBehavior::FindIndexOfClosestWaypoint(const Car& car) const {
   std::vector<double> distances;
-  for (auto waypoint : *waypoints_) {
+  for (auto waypoint : waypoints_) {
     distances.push_back(physics::Distance(QPoint(waypoint.GetX(),
                                                  waypoint.GetY()),
                                           QPoint(car.GetPosition().GetX(),
@@ -175,27 +163,29 @@ size_t BotBehavior::FindIndexOfClosestWaypoint(const Car& car) const {
   return minimal_index;
 }
 
-bool BotBehavior::CheckCarInDirection(Line shooting_trajectory) const {
-  for (const auto& car : *cars_) {
+bool BotBehavior::CheckCarInDirection(Vec2f position, Vec2f angle_vec) const {
+  Line shooting_trajectory(
+      position.GetX(),
+      position.GetY(),
+      angle_vec.GetX() * kWeaponsRange + position.GetX(),
+      angle_vec.GetY() * kWeaponsRange + position.GetY());
+  for (const auto& car : cars_) {
     if (car.GetPosition() == car_->GetPosition()) {
       continue;
     }
-    auto car_lines = car.GetCollisionLines();
-    for (const auto& line : car_lines) {
-      if (physics::IsIntersects(line, shooting_trajectory)) {
-        return true;
-      }
+    if (physics::IsIntersects(car.GetCollisionLines(), {shooting_trajectory})) {
+      return true;
     }
   }
   return false;
 }
 
 void BotBehavior::ProceedDistanceToPlayerCar() {
-  size_t car_closest_index = FindIndexOfClosestWaypoint((*cars_)[0]);
+  size_t car_closest_index = FindIndexOfClosestWaypoint(cars_[0]);
   size_t speed_coefficient =
       std::abs(static_cast<int64_t>(closest_index_ - car_closest_index));
-  if (speed_coefficient > waypoints_->size() - 2) {
-    speed_coefficient -= waypoints_->size();
+  if (speed_coefficient > waypoints_.size() - 2) {
+    speed_coefficient -= waypoints_.size();
   }
   speed_coefficient *= kSpeedCoefficientMultiplier;
   if (closest_index_ > car_closest_index) {

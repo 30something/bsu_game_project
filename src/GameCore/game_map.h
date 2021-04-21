@@ -18,13 +18,19 @@
 
 class Map {
  public:
-  Map() = default;
+  explicit Map(const QString& json_filepath);
   void HandleCarTick(Car* car);
   const std::vector<Bonus>& GetActiveBonuses() const;
-  void SetBorders(const std::vector<std::vector<QPoint>>& borders);
+  const std::vector<std::vector<QPoint>>& GetBorders() const;
+  const std::vector<Vec2f>& GetWaypoints() const;
+  const std::vector<Line>& GetNoGoLines() const;
+  const std::vector<std::pair<QPoint, double>>& GetPosAndAngles() const;
 
  private:
   std::vector<std::vector<QPoint>> borders_;
+  std::vector<Vec2f> waypoints_;
+  std::vector<Line> no_go_lines_;
+  std::vector<std::pair<QPoint, double>> pos_and_angles_;
   std::vector<Vec2f> bonuses_positions_;
   std::vector<Bonus> bonuses_;
   QTimer bonus_timer_;
