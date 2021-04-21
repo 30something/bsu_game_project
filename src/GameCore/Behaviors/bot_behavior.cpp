@@ -1,16 +1,13 @@
 #include "bot_behavior.h"
 #include <iostream>
+#include <utility>
 
-BotBehavior::BotBehavior(std::vector<std::vector<QPoint>> borders,
+BotBehavior::BotBehavior(const std::vector<std::vector<QPoint>>* borders,
                          const std::vector<Car>* cars,
-                         const std::vector<Bonus>* bonuses,
-                         const std::vector<Mine>* mines,
-                         const std::vector<Vec2f>& waypoints,
-                         const std::vector<Line>& no_go_lines) :
-    borders_(std::move(borders)),
+                         const std::vector<Vec2f>*  waypoints,
+                         const std::vector<Line>*  no_go_lines) :
+    borders_(borders),
     cars_(cars),
-    bonuses_(bonuses),
-    mines_(mines),
     waypoints_(waypoints),
     no_go_lines_(no_go_lines) {
 }
@@ -61,10 +58,10 @@ void BotBehavior::ProceedCarFlags() {
 void BotBehavior::ProceedIfCorrectDirection() {
   closest_index_ = FindIndexOfClosestWaypoint(*car_);
   size_t next_index =
-      (closest_index_ == waypoints_.size() - 1 ? 0 : closest_index_ + 1);
+      (closest_index_ == waypoints_->size() - 1 ? 0 : closest_index_ + 1);
   Vec2f vec_to_next(
-      waypoints_.at(next_index).GetX() - car_->GetPosition().GetX(),
-      waypoints_.at(next_index).GetY() - car_->GetPosition().GetY());
+      (*waypoints_)[next_index].GetX() - car_->GetPosition().GetX(),
+      (*waypoints_)[next_index].GetY() - car_->GetPosition().GetY());
   if (std::abs(vec_to_next.GetAngleDegrees()
                    - car_->GetAngleVec().GetAngleDegrees()) > 90) {
     vec_to_next.Rotate(M_PI);
@@ -81,16 +78,22 @@ void BotBehavior::ProceedIfCorrectDirection() {
 }
 
 void BotBehavior::ProceedDistancesToBorders() {
-  Vec2f front_angle_vec = car_->GetAngleVec();
+  Vec2f car_angle_vec = car_->GetAngleVec();
+  Vec2f car_position = car_->GetPosition();
+
+  Vec2f front_angle_vec = car_angle_vec;
   front_distance_ =
-      FindMinDistanceToBorder(front_angle_vec, car_->GetPosition());
-  Vec2f left_angle_vec = car_->GetAngleVec();
+      FindMinDistanceToBorder(front_angle_vec,car_position);
+
+  Vec2f left_angle_vec = car_angle_vec;
   left_angle_vec.Rotate(-M_PI / 4);
-  left_distance_ = FindMinDistanceToBorder(left_angle_vec, car_->GetPosition());
-  Vec2f right_angle_vec = car_->GetAngleVec();
+  left_distance_ =
+      FindMinDistanceToBorder(left_angle_vec, car_position);
+
+  Vec2f right_angle_vec = car_angle_vec;
   right_angle_vec.Rotate(M_PI / 4);
   right_distance_ =
-      FindMinDistanceToBorder(right_angle_vec, car_->GetPosition());
+      FindMinDistanceToBorder(right_angle_vec,car_position);
 }
 
 double BotBehavior::FindMinDistanceToBorder(Vec2f angle_vec,
@@ -102,7 +105,7 @@ double BotBehavior::FindMinDistanceToBorder(Vec2f angle_vec,
       car_position.GetX() + kDistanceRange * angle_vec.GetX(),
       car_position.GetY() + kDistanceRange * angle_vec.GetY()
   );
-  for (const auto& border : borders_) {
+  for (const auto& border : *borders_) {
     for (size_t j = 0; j < border.size(); j++) {
       size_t border_i = (j == (border.size()) - 1 ? 0 : j + 1);
       Line border_line(
@@ -120,7 +123,7 @@ double BotBehavior::FindMinDistanceToBorder(Vec2f angle_vec,
       }
     }
   }
-  for (auto line : no_go_lines_) {
+  for (auto line : *no_go_lines_) {
     if (physics::IsIntersects(search_line, line)) {
       Vec2f point = physics::FindIntersectionPoint(search_line, line);
       distances.push_back(physics::Distance(QPoint(point.GetX(),
@@ -159,7 +162,7 @@ bool BotBehavior::AnyCarInBack() const {
 
 size_t BotBehavior::FindIndexOfClosestWaypoint(const Car& car) const {
   std::vector<double> distances;
-  for (auto waypoint : waypoints_) {
+  for (auto waypoint : *waypoints_) {
     distances.push_back(physics::Distance(QPoint(waypoint.GetX(),
                                                  waypoint.GetY()),
                                           QPoint(car.GetPosition().GetX(),
@@ -193,8 +196,8 @@ void BotBehavior::ProceedDistanceToPlayerCar() {
   size_t car_closest_index = FindIndexOfClosestWaypoint((*cars_)[0]);
   size_t speed_coefficient =
       std::abs(static_cast<int64_t>(closest_index_ - car_closest_index));
-  if(speed_coefficient > waypoints_.size() - 2) {
-    speed_coefficient -= waypoints_.size();
+  if(speed_coefficient > waypoints_->size() - 2) {
+    speed_coefficient -= waypoints_->size();
   }
   speed_coefficient *= kSpeedCoefficientMultiplier;
   if (closest_index_ > car_closest_index) {

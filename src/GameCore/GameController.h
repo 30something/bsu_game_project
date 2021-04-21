@@ -31,6 +31,9 @@ class GameController {
  private:
   Map map_;
   std::vector<Car> cars_;
+  std::vector<std::vector<QPoint>> borders_;
+  std::vector<Vec2f> waypoints_;
+  std::vector<Line> no_go_lines_;
   GameMode* game_mode_ = nullptr;
   WeaponHandler weapon_handler_;
   std::vector<WrapperBase<GameObject>*> game_objects_;

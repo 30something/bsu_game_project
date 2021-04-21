@@ -6,6 +6,9 @@ GameController::GameController(GameMode* game_mode,
     weapon_handler_() {
   JsonMapParser
       parser(map_data::json_file_paths.file_paths[game_mode->map_index]);
+  borders_ = parser.GetBorders();
+  waypoints_ = parser.GetWaypoints();
+  no_go_lines_ = parser.GetNoGoLines();
   map_.SetBorders(parser.GetBorders());
   std::vector<std::pair<QPoint, double>> pos_and_angles =
       parser.GetCarStartPositionsAndAngles();
@@ -24,12 +27,10 @@ GameController::GameController(GameMode* game_mode,
         second_player_behavior);
   }
   for (size_t i = 0; i < game_mode_->bots_amount; i++) {
-    auto* bot = new BotBehavior(parser.GetBorders(),
-                                       &cars_,
-                                       &map_.GetActiveBonuses(),
-                                       &weapon_handler_.GetMines(),
-                                       parser.GetWaypoints(),
-                                       parser.GetNoGoLines());
+    auto* bot = new BotBehavior(&borders_,
+                                &cars_,
+                                &waypoints_,
+                                &no_go_lines_);
     cars_.emplace_back(
                   pos_and_angles[game_mode_->players_amount + i].first,
                   pos_and_angles[game_mode_->players_amount + i].second,

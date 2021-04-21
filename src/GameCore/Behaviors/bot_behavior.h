@@ -11,26 +11,22 @@
 
 class BotBehavior : public Behavior {
  public:
-  explicit BotBehavior(std::vector<std::vector<QPoint>> borders,
+  explicit BotBehavior(const std::vector<std::vector<QPoint>>* borders,
                        const std::vector<Car>* cars,
-                       const std::vector<Bonus>* bonuses,
-                       const std::vector<Mine>* mines,
-                       const std::vector<Vec2f>& waypoints,
-                       const std::vector<Line>& no_go_lines);
+                       const std::vector<Vec2f>*  waypoints,
+                       const std::vector<Line>*  no_go_lines);
   void HandleTick(const GameObject* our_car) override;
 
  private:
-  std::vector<std::vector<QPoint>> borders_;
+  const std::vector<std::vector<QPoint>>* borders_;
   const std::vector<Car>* cars_;
-  const std::vector<Bonus>* bonuses_;
-  const std::vector<Mine>* mines_;
-  std::vector<Vec2f> waypoints_;
-  std::vector<Line> no_go_lines_;
+  const std::vector<Vec2f>* waypoints_;
+  const std::vector<Line>* no_go_lines_;
   const Car* car_ = nullptr;
   double front_distance_ = 0;
   double left_distance_ = 0;
   double right_distance_ = 0;
-  size_t closest_index_;
+  size_t closest_index_ = 0;
   void ProceedDistancesToBorders();
   double FindMinDistanceToBorder(Vec2f angle_vec, Vec2f car_position);
   size_t FindIndexOfClosestWaypoint(const Car& car) const;
