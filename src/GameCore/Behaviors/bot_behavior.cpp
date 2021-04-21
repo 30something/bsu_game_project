@@ -4,8 +4,8 @@
 
 BotBehavior::BotBehavior(const std::vector<std::vector<QPoint>>* borders,
                          const std::vector<Car>* cars,
-                         const std::vector<Vec2f>*  waypoints,
-                         const std::vector<Line>*  no_go_lines) :
+                         const std::vector<Vec2f>* waypoints,
+                         const std::vector<Line>* no_go_lines) :
     borders_(borders),
     cars_(cars),
     waypoints_(waypoints),
@@ -83,7 +83,7 @@ void BotBehavior::ProceedDistancesToBorders() {
 
   Vec2f front_angle_vec = car_angle_vec;
   front_distance_ =
-      FindMinDistanceToBorder(front_angle_vec,car_position);
+      FindMinDistanceToBorder(front_angle_vec, car_position);
 
   Vec2f left_angle_vec = car_angle_vec;
   left_angle_vec.Rotate(-M_PI / 4);
@@ -93,7 +93,7 @@ void BotBehavior::ProceedDistancesToBorders() {
   Vec2f right_angle_vec = car_angle_vec;
   right_angle_vec.Rotate(M_PI / 4);
   right_distance_ =
-      FindMinDistanceToBorder(right_angle_vec,car_position);
+      FindMinDistanceToBorder(right_angle_vec, car_position);
 }
 
 double BotBehavior::FindMinDistanceToBorder(Vec2f angle_vec,
@@ -196,7 +196,7 @@ void BotBehavior::ProceedDistanceToPlayerCar() {
   size_t car_closest_index = FindIndexOfClosestWaypoint((*cars_)[0]);
   size_t speed_coefficient =
       std::abs(static_cast<int64_t>(closest_index_ - car_closest_index));
-  if(speed_coefficient > waypoints_->size() - 2) {
+  if (speed_coefficient > waypoints_->size() - 2) {
     speed_coefficient -= waypoints_->size();
   }
   speed_coefficient *= kSpeedCoefficientMultiplier;

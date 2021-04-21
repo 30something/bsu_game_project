@@ -1,6 +1,8 @@
 #pragma once
 
 #include <utility>
+#include <algorithm>
+#include <vector>
 
 #include "behavior.h"
 #include "src/GameCore/GameObjects/game_object.h"
