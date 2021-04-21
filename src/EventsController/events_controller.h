@@ -63,7 +63,6 @@ class EventsController : public QWidget {
   InputController input_controller_;
   GameController* game_controller_ = nullptr;
   View* view_ = nullptr;
-  CarsData* cars_data = nullptr;
   ViewInfoUpdater* view_info_updater_ = nullptr;
   EndGameStats* end_game_stats_ = nullptr;
   GameStatus game_status_ = GameStatus::kRunning;

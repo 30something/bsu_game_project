@@ -15,11 +15,11 @@ class ViewInfoUpdater {
  public:
   explicit ViewInfoUpdater(QWidget* parent = nullptr,
                            View* view = nullptr,
-                           CarsData* cars_data = nullptr,
                            GameMode* game_mode = nullptr);
   ~ViewInfoUpdater() = default;
 
-  void Repaint(QPainter* painter);
+  void Repaint(QPainter* painter,
+               const CarsData& cars_data);
 
   void UpdateStartInfo();
   void UpdateAllInfoDescription(QPainter* painter);
@@ -33,7 +33,6 @@ class ViewInfoUpdater {
  private:
   GameMode* game_mode_ = nullptr;
   View* view_ = nullptr;
-  CarsData* cars_data_ = nullptr;
   QWidget* parent_ = nullptr;
   QLabel* start_label_ = nullptr;
   QLayout* layout_ = nullptr;
@@ -41,6 +40,7 @@ class ViewInfoUpdater {
   uint32_t laps_amount_ = 0;
   int seconds_before_start_ = 5;
   bool is_game_started_ = false;
+  CarsData cars_data_;
 
   static constexpr double kScale = 2;
   static constexpr int kDescriptionOffset = 10;
