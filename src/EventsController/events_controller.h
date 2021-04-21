@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include <QKeyEvent>
 #include <QResizeEvent>
 #include <QPainter>
