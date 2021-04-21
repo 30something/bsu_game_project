@@ -18,9 +18,12 @@ class View {
 
   void Repaint(const std::vector<WrapperBase<GameObject>*>& objects,
                const std::vector<Vec2f>& players_cars_positions,
-               QPainter* painter);
+               QPainter* painter,
+               std::vector<QRect>* frames);
   void resizeEvent(int width, int height);
-  std::vector<QRect> GetFramesVector(const QPainter* painter) const;
+  void FillFramesVector(std::vector<QRect>* frames,
+                        const QPainter* painter) const;
+  double GetScale() const;
 
  private:
   void CalculateScale(int window_width, int window_height);

@@ -8,34 +8,38 @@ View::View(GameMode* game_mode) :
 
 void View::Repaint(const std::vector<WrapperBase<GameObject>*>& objects,
                    const std::vector<Vec2f>& cars_positions,
-                   QPainter* painter) {
-  std::vector<QRect> frames = GetFramesVector(painter);
+                   QPainter* painter,
+                   std::vector<QRect>* frames) {
+  FillFramesVector(frames, painter);
   painter->scale(scale_, scale_);
-  for (size_t i = 0; i < frames.size(); i++) {
+  for (size_t i = 0; i < frames->size(); i++) {
     Vec2f position = cars_positions[i];
-    DrawMap(painter, frames[i], position);
-    DrawObjects(painter, frames[i], position, objects);
+    DrawMap(painter, (*frames)[i], position);
+    DrawObjects(painter, (*frames)[i], position, objects);
   }
 }
 
-std::vector<QRect> View::GetFramesVector(const QPainter* painter) const {
-  std::vector<QRect> frames;
+void View::FillFramesVector(std::vector<QRect>* frames,
+                            const QPainter* painter) const {
   if (players_amount_ == 1) {
-    frames.emplace_back(0,
-                        0,
-                        painter->window().width(),
-                        painter->window().height());
+    frames->emplace_back(0,
+                         0,
+                         painter->window().width(),
+                         painter->window().height());
   } else {
-    frames.emplace_back(0,
-                        0,
-                        painter->window().width() / 2,
-                        painter->window().height());
-    frames.emplace_back(painter->window().width() / 2,
-                        0,
-                        painter->window().width() / 2,
-                        painter->window().height());
+    frames->emplace_back(0,
+                         0,
+                         painter->window().width() / 2,
+                         painter->window().height());
+    frames->emplace_back(painter->window().width() / 2,
+                         0,
+                         painter->window().width() / 2,
+                         painter->window().height());
   }
-  return frames;
+}
+
+double View::GetScale() const {
+  return scale_;
 }
 
 void View::CalculateScale(int window_width, int window_height) {

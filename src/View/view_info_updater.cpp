@@ -1,10 +1,8 @@
 #include "view_info_updater.h"
 
 ViewInfoUpdater::ViewInfoUpdater(QWidget* parent,
-                                 View* view,
                                  GameMode* game_mode) :
     game_mode_(game_mode),
-    view_(view),
     parent_(parent),
     start_label_(new QLabel("Get ready!", parent)),
     layout_(new QVBoxLayout(parent)),
@@ -15,9 +13,13 @@ ViewInfoUpdater::ViewInfoUpdater(QWidget* parent,
 }
 
 void ViewInfoUpdater::Repaint(QPainter* painter,
-                              const CarsData& cars_data) {
+                              const std::vector<QRect>* frames,
+                              const CarsData& cars_data,
+                              double scale) {
   cars_data_ = cars_data;
-  UpdateAllInfoDescription(painter);
+  UpdateAllInfoDescription(painter,
+                           frames,
+                           scale);
 }
 
 void ViewInfoUpdater::UpdateStartInfo() {
@@ -47,13 +49,15 @@ void ViewInfoUpdater::UpdatePlayerInfoDescription(QPainter* painter,
                         std::to_string(laps_amount_)));
 }
 
-void ViewInfoUpdater::UpdateAllInfoDescription(QPainter* painter) {
-  std::vector<QRect> frames = view_->GetFramesVector(painter);
-  for (int i = 0; i < static_cast<int>(frames.size()); i++) {
-    UpdatePlayerInfoDescription(painter,
-                                frames[i].left() / kScale,
-                                frames[i].top() / kScale + kDescriptionOffset,
-                                i);
+void ViewInfoUpdater::UpdateAllInfoDescription(QPainter* painter,
+                                               const std::vector<QRect>* frames,
+                                               double scale) {
+  for (int i = 0; i < static_cast<int>(frames->size()); i++) {
+    UpdatePlayerInfoDescription(
+        painter,
+        (*frames)[i].left() / scale,
+        (*frames)[i].top() / scale + kDescriptionOffset,
+        i);
   }
 }
 
