@@ -103,8 +103,7 @@ double BotBehavior::FindMinDistanceToBorder(Vec2f angle_vec,
       car_position.GetX(),
       car_position.GetY(),
       car_position.GetX() + kDistanceRange * angle_vec.GetX(),
-      car_position.GetY() + kDistanceRange * angle_vec.GetY()
-  );
+      car_position.GetY() + kDistanceRange * angle_vec.GetY());
   for (const auto& border : *borders_) {
     for (size_t j = 0; j < border.size(); j++) {
       size_t border_i = (j == (border.size()) - 1 ? 0 : j + 1);
@@ -112,8 +111,7 @@ double BotBehavior::FindMinDistanceToBorder(Vec2f angle_vec,
           border[j].x(),
           border[j].y(),
           border[border_i].x(),
-          border[border_i].y()
-      );
+          border[border_i].y());
       if (physics::IsIntersects(search_line, border_line)) {
         Vec2f point = physics::FindIntersectionPoint(search_line, border_line);
         distances.push_back(physics::Distance(QPoint(point.GetX(),
