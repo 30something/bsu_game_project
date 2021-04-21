@@ -28,16 +28,20 @@ class BotBehavior : public Behavior {
   std::vector<Line> no_go_lines_;
   const Car* car_ = nullptr;
   double front_distance_ = 0;
-  double back_distance_ = 0;
   double left_distance_ = 0;
   double right_distance_ = 0;
+  size_t closest_index_;
   void ProceedDistancesToBorders();
   double FindMinDistanceToBorder(Vec2f angle_vec, Vec2f car_position);
-  size_t FindIndexOfClosestWaypoint();
+  size_t FindIndexOfClosestWaypoint(const Car& car) const;
+  void ProceedDistanceToPlayerCar();
+  bool CheckCarInDirection(Line shooting_trajectory) const;
   bool AnyCarInFront() const;
   bool AnyCarInBack() const;
   void ProceedCarFlags();
   static constexpr double kDistanceRange = 100000;
-  static constexpr double kShootingRange = 300;
-  static constexpr double kMineRange = 100;
+  static constexpr double kWeaponsRange = 100;
+  static constexpr double kSpeedIncrease = 20;
+
+  void ProceedIfCorrectDirection();
 };

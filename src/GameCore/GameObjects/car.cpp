@@ -24,8 +24,8 @@ void Car::ProceedInputFlags() {
     }
     if (behavior_->IsFlagUp()) {
       velocity_ += angle_vec_ * kAccelFactor;
-      if (velocity_.GetLength() > kMaxSpeedForward) {
-        velocity_.SetLen(kMaxSpeedForward);
+      if (velocity_.GetLength() > behavior_->GetMaxSpeed()) {
+        velocity_.SetLen(behavior_->GetMaxSpeed());
       }
     }
   }

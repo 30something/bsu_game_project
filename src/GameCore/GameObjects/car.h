@@ -59,7 +59,6 @@ class Car : public GameObject {
   static constexpr double kShootingRange = 100;
   static constexpr double kAccelFactor = 2.0;
   static constexpr double kFrictionFactor = 0.5;
-  static constexpr double kMaxSpeedForward = 200;
   static constexpr double kMaxSpeedBackward = 100;
   static constexpr double kHalfFrontTrack_ = 5.5;
   static constexpr double kMaxSteeringLock = 0.7;

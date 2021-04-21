@@ -1,12 +1,12 @@
 #include "bot_behavior.h"
 #include <iostream>
 
-BotBehavior::BotBehavior(std::vector <std::vector<QPoint>> borders,
-                         const std::vector <Car>* cars,
-                         const std::vector <Bonus>* bonuses,
-                         const std::vector <Mine>* mines,
-                         const std::vector <Vec2f>& waypoints,
-                         const std::vector <Line>& no_go_lines) :
+BotBehavior::BotBehavior(std::vector<std::vector<QPoint>> borders,
+                         const std::vector<Car>* cars,
+                         const std::vector<Bonus>* bonuses,
+                         const std::vector<Mine>* mines,
+                         const std::vector<Vec2f>& waypoints,
+                         const std::vector<Line>& no_go_lines) :
     borders_(std::move(borders)),
     cars_(cars),
     bonuses_(bonuses),
@@ -17,6 +17,7 @@ BotBehavior::BotBehavior(std::vector <std::vector<QPoint>> borders,
 
 void BotBehavior::HandleTick(const GameObject* car) {
   car_ = dynamic_cast<const Car*>(car);
+  closest_index_ = FindIndexOfClosestWaypoint(*car_);
   ProceedDistancesToBorders();
   ProceedCarFlags();
 }
@@ -42,16 +43,30 @@ void BotBehavior::ProceedCarFlags() {
     flag_left_ = true;
   }
 
-  size_t closest_index = FindIndexOfClosestWaypoint();
+  ProceedIfCorrectDirection();
+
+  if (AnyCarInFront()) {
+    flag_shoot_ = true;
+  } else {
+    flag_shoot_ = false;
+  }
+  if (AnyCarInBack()) {
+    flag_mine_ = true;
+  } else {
+    flag_mine_ = false;
+  }
+  ProceedDistanceToPlayerCar();
+}
+
+void BotBehavior::ProceedIfCorrectDirection() {
+  closest_index_ = FindIndexOfClosestWaypoint(*car_);
   size_t next_index =
-      (closest_index == waypoints_.size() - 1 ? 0 : closest_index + 1);
-  Vec2f
-      vec_to_next(waypoints_.at(next_index).GetX() - car_->GetPosition().GetX(),
-                  waypoints_.at(next_index).GetY()
-                      - car_->GetPosition().GetY());
-  if (std::abs(
-        vec_to_next.GetAngleDegrees() - car_->GetAngleVec().GetAngleDegrees())
-        > 90) {
+      (closest_index_ == waypoints_.size() - 1 ? 0 : closest_index_ + 1);
+  Vec2f vec_to_next(
+      waypoints_.at(next_index).GetX() - car_->GetPosition().GetX(),
+      waypoints_.at(next_index).GetY() - car_->GetPosition().GetY());
+  if (std::abs(vec_to_next.GetAngleDegrees()
+                   - car_->GetAngleVec().GetAngleDegrees()) > 90) {
     vec_to_next.Rotate(M_PI);
     // we need to rotate
     // now we need to determine in what direction to rotate
@@ -63,25 +78,12 @@ void BotBehavior::ProceedCarFlags() {
       flag_left_ = false;
     }
   }
-  if (AnyCarInFront()) {
-    flag_shoot_ = true;
-  } else {
-    flag_shoot_ = false;
-  }
-  if (AnyCarInBack()) {
-    flag_mine_ = true;
-  } else {
-    flag_mine_ = false;
-  }
 }
 
 void BotBehavior::ProceedDistancesToBorders() {
   Vec2f front_angle_vec = car_->GetAngleVec();
   front_distance_ =
       FindMinDistanceToBorder(front_angle_vec, car_->GetPosition());
-  Vec2f back_angle_vec = car_->GetAngleVec();
-  back_angle_vec.Rotate(M_PI);
-  back_distance_ = FindMinDistanceToBorder(back_angle_vec, car_->GetPosition());
   Vec2f left_angle_vec = car_->GetAngleVec();
   left_angle_vec.Rotate(-M_PI / 4);
   left_distance_ = FindMinDistanceToBorder(left_angle_vec, car_->GetPosition());
@@ -134,54 +136,34 @@ double BotBehavior::FindMinDistanceToBorder(Vec2f angle_vec,
 }
 
 bool BotBehavior::AnyCarInFront() const {
-  for (const auto& car : *cars_) {
-    if (car.GetPosition() == car_->GetPosition()) {
-      continue;
-    }
-    auto car_lines = car.GetCollisionLines();
-    Line shooting_trajectory(
-        car_->GetPosition().GetX(),
-        car_->GetPosition().GetY(),
-        car_->GetAngleVec().GetX() * kShootingRange
-            + car_->GetPosition().GetX(),
-        car_->GetAngleVec().GetY() * kShootingRange
-            + car_->GetPosition().GetY());
-    for (const auto& line : car_lines) {
-      if (physics::IsIntersects(line, shooting_trajectory)) {
-        return true;
-      }
-    }
-  }
-  return false;
+  Vec2f position = car_->GetPosition();
+  Vec2f angle_vec = car_->GetAngleVec();
+  Line shooting_trajectory(
+      position.GetX(),
+      position.GetY(),
+      angle_vec.GetX() * kWeaponsRange + position.GetX(),
+      angle_vec.GetY() * kWeaponsRange + position.GetY());
+  return CheckCarInDirection(shooting_trajectory);
 }
 
 bool BotBehavior::AnyCarInBack() const {
-  for (const auto& car : *cars_) {
-    if (car.GetPosition() == car_->GetPosition()) {
-      continue;
-    }
-    auto car_lines = car.GetCollisionLines();
-    Line shooting_trajectory(
-        car_->GetPosition().GetX(),
-        car_->GetPosition().GetY(),
-        -car_->GetAngleVec().GetX() * kMineRange + car_->GetPosition().GetX(),
-        -car_->GetAngleVec().GetY() * kMineRange + car_->GetPosition().GetY());
-    for (const auto& line : car_lines) {
-      if (physics::IsIntersects(line, shooting_trajectory)) {
-        return true;
-      }
-    }
-  }
-  return false;
+  Vec2f position = car_->GetPosition();
+  Vec2f angle_vec = car_->GetAngleVec();
+  Line shooting_trajectory(
+      position.GetX(),
+      position.GetY(),
+      -angle_vec.GetX() * kWeaponsRange + position.GetX(),
+      -angle_vec.GetY() * kWeaponsRange + position.GetY());
+  return CheckCarInDirection(shooting_trajectory);
 }
 
-size_t BotBehavior::FindIndexOfClosestWaypoint() {
+size_t BotBehavior::FindIndexOfClosestWaypoint(const Car& car) const {
   std::vector<double> distances;
   for (auto waypoint : waypoints_) {
     distances.push_back(physics::Distance(QPoint(waypoint.GetX(),
                                                  waypoint.GetY()),
-                                          QPoint(car_->GetPosition().GetX(),
-                                                 car_->GetPosition().GetY())));
+                                          QPoint(car.GetPosition().GetX(),
+                                                 car.GetPosition().GetY())));
   }
   size_t minimal_index = 0;
   for (size_t i = 0; i < distances.size(); i++) {
@@ -190,4 +172,32 @@ size_t BotBehavior::FindIndexOfClosestWaypoint() {
     }
   }
   return minimal_index;
+}
+
+bool BotBehavior::CheckCarInDirection(Line shooting_trajectory) const {
+  for (const auto& car : *cars_) {
+    if (car.GetPosition() == car_->GetPosition()) {
+      continue;
+    }
+    auto car_lines = car.GetCollisionLines();
+    for (const auto& line : car_lines) {
+      if (physics::IsIntersects(line, shooting_trajectory)) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+void BotBehavior::ProceedDistanceToPlayerCar() {
+  size_t car_closest_index = FindIndexOfClosestWaypoint((*cars_)[0]);
+  if(closest_index_ > car_closest_index) {
+    max_speed_ = kMaxSpeed - kSpeedIncrease;
+  }
+  if(closest_index_ < car_closest_index) {
+    max_speed_ = kMaxSpeed + kSpeedIncrease;
+  }
+  if(closest_index_ == car_closest_index) {
+    max_speed_ = kMaxSpeed;
+  }
 }
