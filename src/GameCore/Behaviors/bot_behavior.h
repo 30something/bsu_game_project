@@ -41,7 +41,7 @@ class BotBehavior : public Behavior {
   void ProceedCarFlags();
   static constexpr double kDistanceRange = 100000;
   static constexpr double kWeaponsRange = 100;
-  static constexpr double kSpeedIncrease = 20;
+  static constexpr double kSpeedCoefficientMultiplier = 2;
 
   void ProceedIfCorrectDirection();
 };

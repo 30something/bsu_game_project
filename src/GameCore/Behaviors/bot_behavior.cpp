@@ -191,13 +191,19 @@ bool BotBehavior::CheckCarInDirection(Line shooting_trajectory) const {
 
 void BotBehavior::ProceedDistanceToPlayerCar() {
   size_t car_closest_index = FindIndexOfClosestWaypoint((*cars_)[0]);
-  if(closest_index_ > car_closest_index) {
-    max_speed_ = kMaxSpeed - kSpeedIncrease;
+  size_t speed_coefficient =
+      std::abs(static_cast<int64_t>(closest_index_ - car_closest_index));
+  if(speed_coefficient > waypoints_.size() - 2) {
+    speed_coefficient -= waypoints_.size();
   }
-  if(closest_index_ < car_closest_index) {
-    max_speed_ = kMaxSpeed + kSpeedIncrease;
+  speed_coefficient *= kSpeedCoefficientMultiplier;
+  if (closest_index_ > car_closest_index) {
+    max_speed_ = kMaxSpeed - speed_coefficient;
   }
-  if(closest_index_ == car_closest_index) {
+  if (closest_index_ < car_closest_index) {
+    max_speed_ = kMaxSpeed + speed_coefficient;
+  }
+  if (closest_index_ == car_closest_index) {
     max_speed_ = kMaxSpeed;
   }
 }
