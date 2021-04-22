@@ -34,13 +34,14 @@ class GameController {
   std::vector<CarAchievements> GetCarsData() const;
 
  private:
+  void SetUpCars(const InputController* input_controller);
+  void SetUpBots();
+  void SetUpCarsAchievements();
   void ProceedCollisionsWithCars();
   void ProceedCollisionsWithFinish();
   void ProceedFinishGame();
   void RecalculateDeviations();
   void UpdateCarsInfoAndCollisions(int time_millis);
-  void SetUpCars(const InputController* input_controller);
-  void SetUpBots();
   static void CollideCars(Car* car_1, Car* car_2);
 
   static constexpr double kVelocityDecrease = 0.5;
@@ -48,11 +49,11 @@ class GameController {
   static constexpr double kHPDecrease = 0.005;
 
   Map map_;
+  Line finish_line_;
   std::vector<Car> cars_;
   std::vector<CarAchievements> car_achievements_;
   std::set<uint32_t> remaining_cars_;
   GameMode* game_mode_ = nullptr;
   WeaponHandler weapon_handler_;
   std::vector<WrapperBase<GameObject>*> game_objects_;
-  Line finish_line_;
 };

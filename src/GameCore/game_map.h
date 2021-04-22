@@ -25,7 +25,7 @@ class Map {
   const std::vector<Vec2f>& GetWaypoints() const;
   const std::vector<Line>& GetNoGoLines() const;
   const std::vector<std::pair<QPoint, double>>& GetPosAndAngles() const;
-  void SetBorders(const std::vector<std::vector<QPoint>>& borders);
+  const Line& GetFinishLine() const;
 
  private:
   void CalculateBonusesPositions();
@@ -49,5 +49,6 @@ class Map {
   std::vector<std::pair<QPoint, double>> pos_and_angles_;
   std::vector<Vec2f> bonuses_positions_;
   std::vector<Bonus> bonuses_;
+  Line finish_line_;
   QTimer bonus_timer_;
 };
