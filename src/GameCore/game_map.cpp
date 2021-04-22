@@ -11,6 +11,7 @@ Map::Map(const QString& json_filepath) {
   bonus_timer_.start(
       QRandomGenerator::global()->bounded(kMaxMilliSecondsForNewBonus)
           + kMinMilliSecondForNewBonus);
+  finish_line_ = parser.GetFinishLine();
 }
 
 void Map::HandleCarTick(Car* car) {
@@ -122,4 +123,8 @@ const std::vector<Line>& Map::GetNoGoLines() const {
 
 const std::vector<std::pair<QPoint, double>>& Map::GetPosAndAngles() const {
   return pos_and_angles_;
+}
+
+const Line& Map::GetFinishLine() const {
+  return finish_line_;
 }

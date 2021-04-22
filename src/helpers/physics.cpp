@@ -76,6 +76,18 @@ double physics::Distance(QPoint first, QPoint second) {
   return std::hypot(first.x() - second.x(), first.y() - second.y());
 }
 
+double physics::CalculateLineDeviation(double x_pos, double y_pos, Line line) {
+  // Using general form of line equation
+  double A = line.y1 - line.y2;
+  double B = line.x2 - line.x1;
+  double C = line.x1 * line.y2 - line.x2 * line.y1;
+  double d = (A * x_pos + B * y_pos + C) / sqrt(A * A + B * B);
+  if (C > 0) {
+    d *= -1;
+  }
+  return d;
+}
+
 Vec2f physics::GetRandomPointOnLine(Line line, double lower, double upper) {
   double dx = line.x1 - line.x2;
   double dy = line.y1 - line.y2;

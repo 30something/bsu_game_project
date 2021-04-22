@@ -38,9 +38,9 @@ void PauseMenu::Close() {
 
 void PauseMenu::SetSizes() {
   resize(menu_sizes::kPauseMenuSize);
-  settings_button_->setMinimumSize(menu_sizes::kPauseMenuMinButtonSize);
-  continue_button_->setMinimumSize(menu_sizes::kPauseMenuMinButtonSize);
-  exit_button_->setMinimumSize(menu_sizes::kPauseMenuMinButtonSize);
+  settings_button_->setMinimumSize(button_sizes::kPauseMenuMinButtonSize);
+  continue_button_->setMinimumSize(button_sizes::kPauseMenuMinButtonSize);
+  exit_button_->setMinimumSize(button_sizes::kPauseMenuMinButtonSize);
 }
 
 void PauseMenu::SetUpLayout() {

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <set>
 #include <utility>
 #include <vector>
 
@@ -12,6 +13,7 @@
 #include "game_map.h"
 #include "weapon_handler.h"
 #include "src/helpers/json_map_parser.h"
+#include "src/helpers/car_achievements.h"
 #include "src/GameCore/Behaviors/first_player_behavior.h"
 #include "src/GameCore/Behaviors/second_player_behavior.h"
 #include "src/GameCore/Behaviors/bot_behavior.h"
@@ -28,19 +30,30 @@ class GameController {
   std::vector<WrapperBase<GameObject>*> GetGameObjects() const;
   std::vector<Vec2f> GetPlayersCarPositions() const;
 
- private:
-  Map map_;
-  std::vector<Car> cars_;
-  GameMode* game_mode_ = nullptr;
-  WeaponHandler weapon_handler_;
-  std::vector<WrapperBase<GameObject>*> game_objects_;
+  bool AllCarsFinished() const;
+  std::vector<CarAchievements> GetCarsData() const;
 
-  static constexpr double kVelocityDecrease = 1;
+ private:
+  void SetUpCars(const InputController* input_controller);
+  void SetUpBots();
+  void SetUpCarsAchievements();
+  void ProceedCollisionsWithCars();
+  void ProceedCollisionsWithFinish();
+  void ProceedFinishGame();
+  void RecalculateDeviations();
+  void UpdateCarsInfoAndCollisions(int time_millis);
+  static void CollideCars(Car* car_1, Car* car_2);
+
+  static constexpr double kVelocityDecrease = 0.5;
   static constexpr double kDeviationDecrease = 0.5;
   static constexpr double kHPDecrease = 0.005;
 
-  void ProceedCollisionsWithCars();
-  static void CollideCars(Car* car_1, Car* car_2);
-  void SetUpCars(const InputController* input_controller);
-  void SetUpBots();
+  Map map_;
+  Line finish_line_;
+  std::vector<Car> cars_;
+  std::vector<CarAchievements> car_achievements_;
+  std::set<uint32_t> remaining_cars_;
+  GameMode* game_mode_ = nullptr;
+  WeaponHandler weapon_handler_;
+  std::vector<WrapperBase<GameObject>*> game_objects_;
 };

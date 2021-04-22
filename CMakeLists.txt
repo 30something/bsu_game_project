@@ -26,8 +26,8 @@ set(SOURCES main.cpp
         src/View/view.cpp
         "src/Main window/main_window.cpp"
         src/Menu/menu.cpp
-        src/GameCore/GameController.cpp
-        src/EventsController/EventsController.cpp
+        src/GameCore/game_controller.cpp
+        src/EventsController/events_controller.cpp
         src/GameCore/GameObjects/car.cpp
         src/helpers/vec2f.cpp
         src/GameCore/GameObjects/wheel.cpp
@@ -50,6 +50,9 @@ set(SOURCES main.cpp
         src/GameCore/Behaviors/bot_behavior.cpp
         src/GameCore/input_controller.cpp
         src/helpers/pixmap_loader.cpp
+        src/Menu/end_game_stats.cpp
+        src/View/view_info_updater.cpp
+        src/helpers/cars_data.cpp
         )
 
 set(RESOURCES
