@@ -25,15 +25,16 @@ class Map {
   const std::vector<Vec2f>& GetWaypoints() const;
   const std::vector<Line>& GetNoGoLines() const;
   const std::vector<std::pair<QPoint, double>>& GetPosAndAngles() const;
+  const Line& GetFinishLine() const;
 
  private:
-  std::vector<std::vector<QPoint>> borders_;
-  std::vector<Vec2f> waypoints_;
-  std::vector<Line> no_go_lines_;
-  std::vector<std::pair<QPoint, double>> pos_and_angles_;
-  std::vector<Vec2f> bonuses_positions_;
-  std::vector<Bonus> bonuses_;
-  QTimer bonus_timer_;
+  void CalculateBonusesPositions();
+  void ProceedActiveBonuses(Car* car);
+  void ProceedNewBonuses();
+  void ProceedCollisions(Car*);
+
+  static size_t FindIndexOfMinimalDistance(QPoint, const std::vector<QPoint>&);
+  static void HandleCarCrashIntoBorder(Car* car, const Vec2f& point);
 
   static constexpr double kVelocityDecrease = 0.9;
   static constexpr double kHPDecrease = 0.001;
@@ -42,11 +43,12 @@ class Map {
   static constexpr int kMaxMilliSecondsForNewBonus = 10000;
   static constexpr int kMinMilliSecondForNewBonus = 1000;
 
-  void CalculateBonusesPositions();
-  void ProceedCollisions(Car*);
-  void ProceedActiveBonuses(Car* car);
-  void ProceedNewBonuses();
-
-  static size_t FindIndexOfMinimalDistance(QPoint, const std::vector<QPoint>&);
-  static void HandleCarCrashIntoBorder(Car* car, const Vec2f& point);
+  std::vector<std::vector<QPoint>> borders_;
+  std::vector<Vec2f> waypoints_;
+  std::vector<Line> no_go_lines_;
+  std::vector<std::pair<QPoint, double>> pos_and_angles_;
+  std::vector<Vec2f> bonuses_positions_;
+  std::vector<Bonus> bonuses_;
+  Line finish_line_;
+  QTimer bonus_timer_;
 };

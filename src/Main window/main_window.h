@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QStackedWidget>
 
-#include "src/EventsController/EventsController.h"
+#include "src/EventsController/events_controller.h"
 #include "src/Menu/menu.h"
 #include "src/Menu/pause_menu.h"
 #include "src/Menu/game_mode_selector.h"
@@ -40,5 +40,5 @@ class MainWindow : public QMainWindow {
   GameMode* game_mode_ = nullptr;
   GameModeSelector* game_mode_selector_ = nullptr;
   Settings* settings_ = nullptr;
-  bool is_game_in_main_menu = true;
+  bool is_game_in_main_menu_ = true;
 };

@@ -1,4 +1,4 @@
-#include "GameController.h"
+#include "game_controller.h"
 
 GameController::GameController(GameMode* game_mode,
                                InputController* input_controller) :
@@ -7,6 +7,8 @@ GameController::GameController(GameMode* game_mode,
     weapon_handler_() {
   SetUpCars(input_controller);
   SetUpBots();
+  SetUpCarsAchievements();
+  finish_line_ = map_.GetFinishLine();
   game_objects_.push_back(
       new WrapperTemplate<GameObject, Car>(cars_));
   game_objects_.push_back(
@@ -45,14 +47,46 @@ void GameController::SetUpCars(const InputController* input_controller) {
   }
 }
 
+void GameController::SetUpCarsAchievements() {
+  car_achievements_.resize(cars_.size());
+  for (uint32_t i = 0; i < cars_.size(); i++) {
+    remaining_cars_.insert(i);
+    car_achievements_[i].launched_finish_deviation =
+        physics::CalculateLineDeviation(cars_[i].GetPosition().GetX(),
+                                        cars_[i].GetPosition().GetY(),
+                                        finish_line_);
+  }
+}
+
 void GameController::Tick(int time_millis) {
   weapon_handler_.ProceedWeapons(&cars_);
   ProceedCollisionsWithCars();
-  for (auto& car : cars_) {
-    map_.HandleCarTick(&car);
-    car.Tick(time_millis);
-    if (car.GetHitPoints() < physics::kAlmostZero) {
-      car.SetIsAlive(false);
+  ProceedCollisionsWithFinish();
+  ProceedFinishGame();
+  RecalculateDeviations();
+  UpdateCarsInfoAndCollisions(time_millis);
+}
+
+void GameController::UpdateCarsInfoAndCollisions(int time_millis) {
+  for (uint32_t i = 0; i < cars_.size(); i++) {
+    map_.HandleCarTick(&cars_[i]);
+    cars_[i].Tick(time_millis);
+    car_achievements_[i].current_showed_velocity =
+        cars_[i].GetVelocity().GetLength();
+    if (cars_[i].GetHitPoints() < physics::kAlmostZero) {
+      cars_[i].SetIsAlive(false);
+      remaining_cars_.erase(i);
+    }
+  }
+}
+
+void GameController::RecalculateDeviations() {
+  for (uint32_t i = 0; i < cars_.size(); i++) {
+    if (!car_achievements_[i].is_collide_with_finish) {
+      car_achievements_[i].finish_deviation =
+          physics::CalculateLineDeviation(cars_[i].GetPosition().GetX(),
+                                          cars_[i].GetPosition().GetY(),
+                                          finish_line_);
     }
   }
 }
@@ -70,6 +104,53 @@ void GameController::ProceedCollisionsWithCars() {
         return;
       }
     }
+  }
+}
+
+void GameController::ProceedCollisionsWithFinish() {
+  for (auto i : remaining_cars_) {
+    if (physics::IsIntersects(
+        cars_[i].GetCollisionLines(), {finish_line_})) {
+      car_achievements_[i].is_collide_with_finish = true;
+    } else {
+      if (car_achievements_[i].is_collide_with_finish) {
+        double start_deviation =
+            car_achievements_[i].launched_finish_deviation;
+        double past_deviation =
+            car_achievements_[i].finish_deviation;
+        double current_deviation =
+            physics::CalculateLineDeviation(cars_[i].GetPosition().GetX(),
+                                            cars_[i].GetPosition().GetY(),
+                                            finish_line_);
+        if (past_deviation < 0 && current_deviation > 0) {
+          if (start_deviation > 0) {
+            car_achievements_[i].laps_counter--;
+          } else {
+            car_achievements_[i].laps_counter++;
+          }
+        } else if (past_deviation > 0 && current_deviation < 0) {
+          if (start_deviation < 0) {
+            car_achievements_[i].laps_counter--;
+          } else {
+            car_achievements_[i].laps_counter++;
+          }
+        }
+      }
+      car_achievements_[i].is_collide_with_finish = false;
+    }
+  }
+}
+
+void GameController::ProceedFinishGame() {
+  std::vector<uint32_t> deleted_cars;
+  for (auto i : remaining_cars_) {
+    if (car_achievements_[i].laps_counter > game_mode_->laps_amount) {
+      cars_[i].EnableInput(false);
+      deleted_cars.push_back(i);
+    }
+  }
+  for (auto i : deleted_cars) {
+    remaining_cars_.erase(i);
   }
 }
 
@@ -109,4 +190,12 @@ std::vector<Vec2f> GameController::GetPlayersCarPositions() const {
     result.push_back(cars_[i].GetPosition());
   }
   return result;
+}
+
+bool GameController::AllCarsFinished() const {
+  return remaining_cars_.empty();
+}
+
+std::vector<CarAchievements> GameController::GetCarsData() const {
+  return car_achievements_;
 }

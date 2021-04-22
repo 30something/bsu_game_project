@@ -19,5 +19,6 @@ namespace physics {
   int Product(const QPoint& m, const QPoint& p1, const QPoint& p2);
   double Distance(QPoint first, QPoint second);
   Vec2f GetRandomPointOnLine(Line line);
+  double CalculateLineDeviation(double x_pos, double y_pos, Line line);
 
 }  // namespace physics
