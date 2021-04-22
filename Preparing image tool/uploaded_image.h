@@ -36,9 +36,9 @@ class PrepareImage : public QWidget {
   step step_now = step::left;
   int image_offset_x_ = 0;
   int image_offset_y_ = 0;
-  int scaled_image_size_ = 400;
+  int scaled_image_size_ = 1000;
   int speed_scale_factor_ = 10;
-  double image_scale_ = 2.5;
+  double image_scale_ = 1;
   std::string picture_path_;
   std::string coords_path_;
   std::vector<std::pair<int, int>> coordinates_left_;

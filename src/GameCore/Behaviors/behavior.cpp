@@ -27,3 +27,7 @@ bool Behavior::IsFlagMine() const {
 void Behavior::EnableInput(bool enable) {
   enable_input_ = enable;
 }
+
+double Behavior::GetMaxSpeed() const {
+  return max_speed_;
+}

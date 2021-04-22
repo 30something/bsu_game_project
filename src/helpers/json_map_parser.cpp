@@ -49,3 +49,27 @@ Line JsonMapParser::GetFinishLine() {
       finish_line["x2"].toInt(),
       finish_line["y2"].toInt());
 }
+
+std::vector<Vec2f> JsonMapParser::GetWaypoints() {
+  std::vector<Vec2f> result;
+  QJsonArray waypoints_array = json_["bot_waypoints"].toArray();
+  for (const auto& waypoint : waypoints_array) {
+    QJsonObject waypoint_obj = waypoint.toObject();
+    result.emplace_back(Vec2f(waypoint_obj["x"].toInt(),
+                              waypoint_obj["y"].toInt()));
+  }
+  return result;
+}
+
+std::vector<Line> JsonMapParser::GetNoGoLines() {
+  std::vector<Line> result;
+  QJsonArray lines_array = json_["bot_no_go_lines"].toArray();
+  for (const auto& line : lines_array) {
+    QJsonObject line_obj = line.toObject();
+    result.emplace_back(line_obj["x1"].toInt(),
+                        line_obj["y1"].toInt(),
+                        line_obj["x2"].toInt(),
+                        line_obj["y2"].toInt());
+  }
+  return result;
+}

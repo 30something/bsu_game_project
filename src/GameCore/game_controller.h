@@ -16,6 +16,7 @@
 #include "src/helpers/car_achievements.h"
 #include "src/GameCore/Behaviors/first_player_behavior.h"
 #include "src/GameCore/Behaviors/second_player_behavior.h"
+#include "src/GameCore/Behaviors/bot_behavior.h"
 #include "input_controller.h"
 #include "src/helpers/wrapper_template.h"
 
@@ -38,6 +39,8 @@ class GameController {
   void ProceedFinishGame();
   void RecalculateDeviations();
   void UpdateCarsInfoAndCollisions(int time_millis);
+  void SetUpCars(const InputController* input_controller);
+  void SetUpBots();
   static void CollideCars(Car* car_1, Car* car_2);
 
   static constexpr double kVelocityDecrease = 0.5;

@@ -1,8 +1,10 @@
 #pragma once
 
+#include "src/GameCore/GameObjects/game_object.h"
+
 class Behavior {
  public:
-  virtual void HandleTick() = 0;
+  virtual void HandleTick(const GameObject*) = 0;
 
   bool IsFlagUp() const;
   bool IsFlagDown() const;
@@ -10,9 +12,12 @@ class Behavior {
   bool IsFlagRight() const;
   bool IsFlagShoot() const;
   bool IsFlagMine() const;
+  double GetMaxSpeed() const;
   void EnableInput(bool enable);
 
  protected:
+  static constexpr double kMaxSpeed = 200;
+  double max_speed_ = kMaxSpeed;
   bool enable_input_ = true;
   bool flag_up_ = false;
   bool flag_down_ = false;

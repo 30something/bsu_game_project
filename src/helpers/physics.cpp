@@ -44,6 +44,12 @@ bool physics::IsIntersects(Line l1, Line l2) {
 }
 
 Vec2f physics::FindIntersectionPoint(Line l1, Line l2) {
+  if (l1.x1 - l1.x2 == 0) {
+    l1.x2 += physics::kAlmostZero;
+  }
+  if (l2.x1 - l2.x2 == 0) {
+    l2.x2 += physics::kAlmostZero;
+  }
   double k1 = (l1.y1 - l1.y2) / (l1.x1 - l1.x2);
   double k2 = (l2.y1 - l2.y2) / (l2.x1 - l2.x2);
   double b1 = l1.y1 - k1 * l1.x1;

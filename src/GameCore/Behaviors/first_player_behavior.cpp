@@ -4,7 +4,7 @@ FirstPlayerBehavior::FirstPlayerBehavior(
     const InputController* input_controller) :
     input_controller_(input_controller) {}
 
-void FirstPlayerBehavior::HandleTick() {
+void FirstPlayerBehavior::HandleTick(const GameObject*) {
   const auto& keys_condition = input_controller_->GetKeysCondition();
   flag_up_ = keys_condition.at(KeyID::kFirstUp);
   flag_down_ = keys_condition.at(KeyID::kFirstDown);
