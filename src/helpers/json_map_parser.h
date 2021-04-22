@@ -20,6 +20,8 @@ class JsonMapParser {
   std::vector<std::vector<QPoint>> GetBorders();
   std::vector<std::pair<QPoint, double>> GetCarStartPositionsAndAngles();
   Line GetFinishLine();
+  std::vector<Vec2f> GetWaypoints();
+  std::vector<Line> GetNoGoLines();
 
  private:
   QJsonObject json_;

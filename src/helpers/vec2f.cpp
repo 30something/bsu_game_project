@@ -1,8 +1,6 @@
 //  https://github.com/abainbridge/car_sim
 #include "vec2f.h"
 
-
-
 Vec2f Vec2f::operator+(Vec2f const& b) const {
   return Vec2f(x_ + b.x_, y_ + b.y_);
 }
@@ -43,7 +41,7 @@ void Vec2f::Rotate(double radians) {
   y_ = tmp * sn + y_ * cs;
 }
 
-double Vec2f::AngleBetween(Vec2f const& other) {
+double Vec2f::AngleBetween(Vec2f const& other) const {
   Vec2f this_normalized = *this;
   this_normalized.Normalize();
   Vec2f other_normalized = other;

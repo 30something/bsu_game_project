@@ -47,6 +47,7 @@ set(SOURCES main.cpp
         src/GameCore/Behaviors/behavior.cpp
         src/GameCore/Behaviors/first_player_behavior.cpp
         src/GameCore/Behaviors/second_player_behavior.cpp
+        src/GameCore/Behaviors/bot_behavior.cpp
         src/GameCore/input_controller.cpp
         src/helpers/pixmap_loader.cpp
         )

@@ -23,3 +23,7 @@ bool Behavior::IsFlagShoot() const {
 bool Behavior::IsFlagMine() const {
   return flag_mine_;
 }
+
+double Behavior::GetMaxSpeed() const {
+  return max_speed_;
+}

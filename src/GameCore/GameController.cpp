@@ -2,33 +2,47 @@
 
 GameController::GameController(GameMode* game_mode,
                                InputController* input_controller) :
+    map_(map_data::json_file_paths.file_paths[game_mode->map_index]),
     game_mode_(game_mode),
     weapon_handler_() {
-  JsonMapParser
-      parser(map_data::json_file_paths.file_paths[game_mode->map_index]);
-  map_.SetBorders(parser.GetBorders());
-  std::vector<std::pair<QPoint, double>> pos_and_angles =
-      parser.GetCarStartPositionsAndAngles();
-  Behavior* first_player_behavior =
-      new FirstPlayerBehavior(input_controller);
-  cars_.emplace_back(
-      pos_and_angles[0].first,
-      pos_and_angles[0].second,
-      first_player_behavior);
-  if (game_mode_->players_amount > 1) {
-    Behavior* second_player_behavior =
-        new SecondPlayerBehavior(input_controller);
-    cars_.emplace_back(
-        pos_and_angles[1].first,
-        pos_and_angles[1].second,
-        second_player_behavior);
-  }
+  SetUpCars(input_controller);
+  SetUpBots();
   game_objects_.push_back(
       new WrapperTemplate<GameObject, Car>(cars_));
   game_objects_.push_back(
       new WrapperTemplate<GameObject, Mine>(weapon_handler_.GetMines()));
   game_objects_.push_back(
       new WrapperTemplate<GameObject, Bonus>(map_.GetActiveBonuses()));
+}
+
+void GameController::SetUpBots() {
+  for (size_t i = 0; i < game_mode_->bots_amount; i++) {
+    auto* bot = new BotBehavior(map_.GetBorders(),
+                                cars_,
+                                map_.GetWaypoints(),
+                                map_.GetNoGoLines());
+    cars_.emplace_back(
+        map_.GetPosAndAngles()[game_mode_->players_amount + i].first,
+        map_.GetPosAndAngles()[game_mode_->players_amount + i].second,
+        bot);
+  }
+}
+
+void GameController::SetUpCars(const InputController* input_controller) {
+  Behavior* first_player_behavior =
+      new FirstPlayerBehavior(input_controller);
+  cars_.emplace_back(
+      map_.GetPosAndAngles()[0].first,
+      map_.GetPosAndAngles()[0].second,
+      first_player_behavior);
+  if (game_mode_->players_amount > 1) {
+    Behavior* second_player_behavior =
+        new SecondPlayerBehavior(input_controller);
+    cars_.emplace_back(
+        map_.GetPosAndAngles()[1].first,
+        map_.GetPosAndAngles()[1].second,
+        second_player_behavior);
+  }
 }
 
 void GameController::Tick(int time_millis) {

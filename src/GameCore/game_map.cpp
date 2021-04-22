@@ -1,5 +1,18 @@
 #include "game_map.h"
 
+Map::Map(const QString& json_filepath) {
+  JsonMapParser parser(json_filepath);
+  borders_ = parser.GetBorders();
+  waypoints_ = parser.GetWaypoints();
+  no_go_lines_ = parser.GetNoGoLines();
+  pos_and_angles_ = parser.GetCarStartPositionsAndAngles();
+  CalculateBonusesPositions();
+  bonus_timer_.setSingleShot(true);
+  bonus_timer_.start(
+      QRandomGenerator::global()->bounded(kMaxMilliSecondsForNewBonus)
+          + kMinMilliSecondForNewBonus);
+}
+
 void Map::HandleCarTick(Car* car) {
   ProceedCollisions(car);
   ProceedActiveBonuses(car);
@@ -49,7 +62,7 @@ void Map::ProceedCollisions(Car* car) {
     for (const auto& border : borders_) {
       for (size_t j = 0; j < border.size(); j++) {
         Line l2;
-        size_t border_i = (j == (border.size()) - 1 ? 0 : j + 1);
+        size_t border_i = (j == border.size() - 1 ? 0 : j + 1);
         l2.x1 = border[j].x();
         l2.y1 = border[j].y();
         l2.x2 = border[border_i].x();
@@ -94,11 +107,18 @@ const std::vector<Bonus>& Map::GetActiveBonuses() const {
   return bonuses_;
 }
 
-void Map::SetBorders(const std::vector<std::vector<QPoint>>& borders) {
-  borders_ = borders;
-  CalculateBonusesPositions();
-  bonus_timer_.setSingleShot(true);
-  bonus_timer_.start(
-      QRandomGenerator::global()->bounded(kMaxMilliSecondsForNewBonus)
-          + kMinMilliSecondForNewBonus);
+const std::vector<std::vector<QPoint>>& Map::GetBorders() const {
+  return borders_;
+}
+
+const std::vector<Vec2f>& Map::GetWaypoints() const {
+  return waypoints_;
+}
+
+const std::vector<Line>& Map::GetNoGoLines() const {
+  return no_go_lines_;
+}
+
+const std::vector<std::pair<QPoint, double>>& Map::GetPosAndAngles() const {
+  return pos_and_angles_;
 }

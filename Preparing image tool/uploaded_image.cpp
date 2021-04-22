@@ -90,9 +90,8 @@ void PrepareImage::WriteToFile() {
   QFile file(filename);
   if (file.open(QIODevice::WriteOnly)) {
     QTextStream out(&file);
-    out << "x | y\n";
     for (auto i : coordinates_left_) {
-      out << i.first << ' ' << i.second << '\n';
+      out << "{\"x\": " << i.first << ", \"y\": " << ' ' << i.second << "},\n";
     }
     out << "---" << '\n';
     for (auto i : coordinates_right_) {

@@ -14,6 +14,7 @@
 #include "src/helpers/json_map_parser.h"
 #include "src/GameCore/Behaviors/first_player_behavior.h"
 #include "src/GameCore/Behaviors/second_player_behavior.h"
+#include "src/GameCore/Behaviors/bot_behavior.h"
 #include "input_controller.h"
 #include "src/helpers/wrapper_template.h"
 
@@ -34,10 +35,12 @@ class GameController {
   WeaponHandler weapon_handler_;
   std::vector<WrapperBase<GameObject>*> game_objects_;
 
-  static constexpr double kVelocityDecrease = 0.5;
+  static constexpr double kVelocityDecrease = 1;
   static constexpr double kDeviationDecrease = 0.5;
   static constexpr double kHPDecrease = 0.005;
 
   void ProceedCollisionsWithCars();
   static void CollideCars(Car* car_1, Car* car_2);
+  void SetUpCars(const InputController* input_controller);
+  void SetUpBots();
 };
