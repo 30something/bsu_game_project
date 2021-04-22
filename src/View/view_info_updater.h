@@ -18,13 +18,13 @@ class ViewInfoUpdater {
   ~ViewInfoUpdater() = default;
 
   void Repaint(QPainter* painter,
-               const std::vector<QRect>* frames,
                const CarsData& cars_data,
+               const std::vector<QRect>& frames,
                double scale);
 
   void UpdateStartInfo();
   void UpdateAllInfoDescription(QPainter* painter,
-                                const std::vector<QRect>* frames,
+                                const std::vector<QRect>& frames,
                                 double scale);
   void UpdatePlayerInfoDescription(QPainter* painter,
                                    int x_pos,

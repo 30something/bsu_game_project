@@ -18,11 +18,9 @@ class View {
 
   void Repaint(const std::vector<WrapperBase<GameObject>*>& objects,
                const std::vector<Vec2f>& players_cars_positions,
-               QPainter* painter,
-               std::vector<QRect>* frames);
+               QPainter* painter);
   void resizeEvent(int width, int height);
-  void FillFramesVector(std::vector<QRect>* frames,
-                        const QPainter* painter) const;
+  std::vector<QRect> GetFrames() const;
   double GetScale() const;
 
  private:
@@ -34,10 +32,11 @@ class View {
                    const QRect& frame,
                    const Vec2f& frame_center,
                    const std::vector<WrapperBase<GameObject>*>& objects);
+  void UpdateFrames(int width, int height);
 
   PixmapLoader pixmap_loader_;
+  std::vector<QRect> frames_;
 
   uint32_t players_amount_ = 0;
-  uint32_t laps_amount_ = 0;
   double scale_ = 0;
 };

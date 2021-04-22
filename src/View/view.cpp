@@ -8,34 +8,36 @@ View::View(GameMode* game_mode) :
 
 void View::Repaint(const std::vector<WrapperBase<GameObject>*>& objects,
                    const std::vector<Vec2f>& cars_positions,
-                   QPainter* painter,
-                   std::vector<QRect>* frames) {
-  FillFramesVector(frames, painter);
+                   QPainter* painter) {
   painter->scale(scale_, scale_);
-  for (size_t i = 0; i < frames->size(); i++) {
+  for (size_t i = 0; i < frames_.size(); i++) {
     Vec2f position = cars_positions[i];
-    DrawMap(painter, (*frames)[i], position);
-    DrawObjects(painter, (*frames)[i], position, objects);
+    DrawMap(painter, frames_[i], position);
+    DrawObjects(painter, frames_[i], position, objects);
   }
 }
 
-void View::FillFramesVector(std::vector<QRect>* frames,
-                            const QPainter* painter) const {
+void View::UpdateFrames(int width, int height) {
+  frames_.clear();
   if (players_amount_ == 1) {
-    frames->emplace_back(0,
+    frames_.emplace_back(0,
                          0,
-                         painter->window().width(),
-                         painter->window().height());
+                         width,
+                         height);
   } else {
-    frames->emplace_back(0,
+    frames_.emplace_back(0,
                          0,
-                         painter->window().width() / 2,
-                         painter->window().height());
-    frames->emplace_back(painter->window().width() / 2,
+                         width / 2,
+                         height);
+    frames_.emplace_back(width / 2,
                          0,
-                         painter->window().width() / 2,
-                         painter->window().height());
+                         width / 2,
+                         height);
   }
+}
+
+std::vector<QRect> View::GetFrames() const {
+  return frames_;
 }
 
 double View::GetScale() const {
@@ -92,4 +94,5 @@ void View::DrawObjects(QPainter* painter,
 
 void View::resizeEvent(int width, int height) {
   CalculateScale(width, height);
+  UpdateFrames(width, height);
 }

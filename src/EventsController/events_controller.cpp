@@ -33,14 +33,12 @@ void EventsController::FinishCheckEvent() {
 
 void EventsController::paintEvent(QPaintEvent*) {
   QPainter main_painter(this);
-  std::vector<QRect> frames;
   view_->Repaint(game_controller_->GetGameObjects(),
                  game_controller_->GetPlayersCarPositions(),
-                 &main_painter,
-                 &frames);
+                 &main_painter);
   view_info_updater_->Repaint(&main_painter,
-                              &frames,
                               CarsData(game_controller_->GetCarsData()),
+                              view_->GetFrames(),
                               view_->GetScale());
 }
 

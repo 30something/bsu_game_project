@@ -13,8 +13,8 @@ ViewInfoUpdater::ViewInfoUpdater(QWidget* parent,
 }
 
 void ViewInfoUpdater::Repaint(QPainter* painter,
-                              const std::vector<QRect>* frames,
                               const CarsData& cars_data,
+                              const std::vector<QRect>& frames,
                               double scale) {
   cars_data_ = cars_data;
   UpdateAllInfoDescription(painter,
@@ -50,13 +50,13 @@ void ViewInfoUpdater::UpdatePlayerInfoDescription(QPainter* painter,
 }
 
 void ViewInfoUpdater::UpdateAllInfoDescription(QPainter* painter,
-                                               const std::vector<QRect>* frames,
+                                               const std::vector<QRect>& frames,
                                                double scale) {
-  for (int i = 0; i < static_cast<int>(frames->size()); i++) {
+  for (int i = 0; i < static_cast<int>(frames.size()); i++) {
     UpdatePlayerInfoDescription(
         painter,
-        (*frames)[i].left() / scale,
-        (*frames)[i].top() / scale + kDescriptionOffset,
+        frames[i].left() / scale,
+        frames[i].top() / scale + kDescriptionOffset,
         i);
   }
 }
