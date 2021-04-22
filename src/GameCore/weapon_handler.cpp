@@ -36,9 +36,8 @@ void WeaponHandler::ProceedWeapons(std::vector<Car>* cars) {
   }
   for (const auto& mine : mines_) {
     for (auto& car : *cars) {
-      if (physics::IsInside(car.GetCollisionLines(),
-                            QPoint(mine.GetPosition().GetX(),
-                                   mine.GetPosition().GetY()))) {
+      if (physics::IsIntersects(car.GetCollisionLines(),
+                                mine.GetCollisionLines())) {
         car.AddHitPoints(-kMineDamage);
         car.SetVelocity(Vec2f(car.GetVelocity()).Normalize() * -kMineSplash);
         mines_.erase(std::find(mines_.begin(), mines_.end(), mine));

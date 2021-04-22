@@ -13,3 +13,15 @@ bool Mine::operator==(const Mine& rhs) const {
 bool Mine::operator!=(const Mine& rhs) const {
   return !(rhs == *this);
 }
+
+std::vector<Line> Mine::GetCollisionLines() const {
+  Vec2f p1(position_.GetX() - kMineRange, position_.GetY() - kMineRange);
+  Vec2f p2(position_.GetX() + kMineRange, position_.GetY() - kMineRange);
+  Vec2f p3(position_.GetX() + kMineRange, position_.GetY() + kMineRange);
+  Vec2f p4(position_.GetX() - kMineRange, position_.GetY() + kMineRange);
+  Line l1(p1, p2);
+  Line l2(p2, p3);
+  Line l3(p3, p4);
+  Line l4(p4, p1);
+  return {l1,l2,l3,l4};
+}

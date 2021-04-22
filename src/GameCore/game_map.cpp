@@ -92,9 +92,8 @@ void Map::ProceedNewBonuses() {
 
 void Map::ProceedActiveBonuses(Car* car) {
   for (auto& bonus : bonuses_) {
-    if (physics::IsInside(car->GetCollisionLines(),
-                          QPoint(bonus.GetPosition().GetX(),
-                                 bonus.GetPosition().GetY()))) {
+    if (physics::IsIntersects(car->GetCollisionLines(),
+                          bonus.GetCollisionLines())) {
       bonus.ApplyTo(car);
       bonuses_.erase(std::find(bonuses_.begin(),
                                bonuses_.end(),

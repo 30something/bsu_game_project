@@ -5,6 +5,7 @@ int physics::Product(const QPoint& m, const QPoint& p1, const QPoint& p2) {
       - (p2.y() - p1.y()) * (m.x() - p1.x());
 }
 
+//  Works only with rectangles
 bool physics::IsInside(const std::vector<Line>& rect, const QPoint& point) {
   int p1 = Product(point,
                    QPoint(rect[0].x1, rect[0].y1),

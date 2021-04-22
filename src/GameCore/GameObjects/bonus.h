@@ -19,6 +19,7 @@ class Bonus : public GameObject {
 
   void ApplyTo(Car* car);
   PixmapID GetPixmapId() const override;
+  std::vector<Line> GetCollisionLines() const override;
 
   bool operator==(const Bonus& rhs) const {
     return type_ == rhs.type_ &&
@@ -31,9 +32,9 @@ class Bonus : public GameObject {
 
  private:
   BonusType type_;
-  Vec2f position_;
 
   static constexpr double kBonusHealthPrize = 20;
   static constexpr double kBonusBulletsAmmoPrize = 100;
   static constexpr double kBonusMinesPrize = 2;
+  static constexpr double kBonusRadius = 3;
 };

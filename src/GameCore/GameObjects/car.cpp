@@ -249,5 +249,5 @@ PixmapID Car::GetPixmapId() const {
 }
 
 bool Car::IsPuttingMine() const {
-  return behavior_->IsFlagMine();
+  return behavior_->IsFlagMine() && mines_tick_timer_ >= kMineDelayTicks;
 }

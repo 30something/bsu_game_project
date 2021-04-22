@@ -55,7 +55,7 @@ class Car : public GameObject {
 
   double angular_velocity_ = 0;
   double steering_angle_ = 0;
-  static constexpr int kPutMineOffset = -10;
+  static constexpr int kPutMineOffset = -15;
   static constexpr double kShootingRange = 100;
   static constexpr double kAccelFactor = 2.0;
   static constexpr double kFrictionFactor = 0.5;
