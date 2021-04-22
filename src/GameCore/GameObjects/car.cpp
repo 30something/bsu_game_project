@@ -47,9 +47,9 @@ void Car::ProceedInputFlags() {
     } else {
       if (std::abs(velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees())
           > 90) {
-        velocity_ += coef;
+        velocity_.SetLen(velocity_.GetLength() + coef.GetLength());
       } else {
-        velocity_ -= coef;
+        velocity_.SetLen(velocity_.GetLength() - coef.GetLength());
       }
     }
   }
