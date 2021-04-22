@@ -23,12 +23,6 @@ class ImageFilePaths {
   ImageFilePaths();
 };
 
-static const std::vector<QString> image_filepaths{
-    {":resources/images/maps/map_1.jpg"},
-    {":resources/images/maps/map_2.jpg"},
-    {":resources/images/maps/map_3.jpg"}
-};
-
 static const ImageFilePaths image_file_paths;
 
 }  // namespace map_data
