@@ -3,12 +3,12 @@
 GameController::GameController(GameMode* game_mode,
                                InputController* input_controller) :
     map_(map_data::json_file_paths.file_paths[game_mode->map_index]),
+    finish_line_(map_.GetFinishLine()),
     game_mode_(game_mode),
     weapon_handler_() {
   SetUpCars(input_controller);
   SetUpBots();
   SetUpCarsAchievements();
-  finish_line_ = map_.GetFinishLine();
   game_objects_.push_back(
       new WrapperTemplate<GameObject, Car>(cars_));
   game_objects_.push_back(
