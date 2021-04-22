@@ -3,7 +3,7 @@
 Car::Car(QPoint position,
          double angle,
          Behavior* behavior) :
-         GameObject(Vec2f(position.x(), position.y())),
+    GameObject(Vec2f(position.x(), position.y())),
     behavior_(behavior) {
   velocity_.Set(physics::kAlmostZero, physics::kAlmostZero);
   angle_vec_.Set(1.0, 0.0);
@@ -45,12 +45,7 @@ void Car::ProceedInputFlags() {
     if (velocity_.GetLength() < (coef).GetLength()) {
       velocity_.SetLen(physics::kAlmostZero);
     } else {
-      if (std::abs(velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees())
-          > 90) {
-        velocity_.SetLen(velocity_.GetLength() + coef.GetLength());
-      } else {
-        velocity_.SetLen(velocity_.GetLength() - coef.GetLength());
-      }
+      velocity_.SetLen(velocity_.GetLength() - coef.GetLength());
     }
   }
 }

@@ -41,6 +41,7 @@ class Map {
   static constexpr int kAmountOfBonusTypes = 3;
   static constexpr int kMaxMilliSecondsForNewBonus = 10000;
   static constexpr int kMinMilliSecondForNewBonus = 1000;
+  static constexpr double kBonusSpawnDeadZone = 0.1;
 
   void CalculateBonusesPositions();
   void ProceedCollisions(Car*);
