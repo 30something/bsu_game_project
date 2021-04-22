@@ -43,6 +43,7 @@ class BotBehavior : public Behavior {
 
   static constexpr double kDistanceRange = 100000;
   static constexpr double kWeaponsRange = 100;
-  static constexpr double kSpeedCoefficientMultiplier = 2;
+  static constexpr double kSpeedCoefficientMultiplier = 10;
   static constexpr double kMinDistanceToTurn = 10;
+  static constexpr double kMaxSpeedCoefficient = 100;
 };
