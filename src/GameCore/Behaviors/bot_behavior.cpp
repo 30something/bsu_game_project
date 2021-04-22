@@ -104,7 +104,7 @@ double BotBehavior::FindMinDistanceToBorder(Vec2f angle_vec,
       car_position.GetY() + kDistanceRange * angle_vec.GetY());
   for (const auto& border : borders_) {
     for (size_t j = 0; j < border.size(); j++) {
-      size_t border_i = (j == (border.size()) - 1 ? 0 : j + 1);
+      size_t border_i = (j == border.size() - 1 ? 0 : j + 1);
       Line border_line(border[j].x(),
                        border[j].y(),
                        border[border_i].x(),

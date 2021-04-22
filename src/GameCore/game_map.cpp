@@ -62,7 +62,7 @@ void Map::ProceedCollisions(Car* car) {
     for (const auto& border : borders_) {
       for (size_t j = 0; j < border.size(); j++) {
         Line l2;
-        size_t border_i = (j == (border.size()) - 1 ? 0 : j + 1);
+        size_t border_i = (j == border.size() - 1 ? 0 : j + 1);
         l2.x1 = border[j].x();
         l2.y1 = border[j].y();
         l2.x2 = border[border_i].x();
