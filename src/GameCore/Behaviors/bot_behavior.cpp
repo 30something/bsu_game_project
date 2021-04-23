@@ -188,7 +188,7 @@ void BotBehavior::ProceedDistanceToPlayerCar() {
     speed_coefficient -= waypoints_.size();
   }
   speed_coefficient *= kSpeedCoefficientMultiplier;
-  if(speed_coefficient > kMaxSpeedCoefficient) {
+  if (speed_coefficient > kMaxSpeedCoefficient) {
     speed_coefficient = kMaxSpeedCoefficient;
   }
   if (closest_index_ > car_closest_index) {

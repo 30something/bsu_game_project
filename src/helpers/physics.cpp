@@ -92,10 +92,10 @@ Vec2f physics::GetRandomPointOnLine(Line line, double lower, double upper) {
   double dx = line.x1 - line.x2;
   double dy = line.y1 - line.y2;
   double scalar = QRandomGenerator::global()->generateDouble();
-  if(scalar < lower) {
+  if (scalar < lower) {
     scalar = lower;
   }
-  if(scalar > upper) {
+  if (scalar > upper) {
     scalar = upper;
   }
   dx *= scalar;

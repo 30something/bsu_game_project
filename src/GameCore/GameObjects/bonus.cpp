@@ -40,5 +40,5 @@ std::vector<Line> Bonus::GetCollisionLines() const {
   Line l2(p2, p3);
   Line l3(p3, p4);
   Line l4(p4, p1);
- return {l1,l2,l3,l4};
+  return {l1, l2, l3, l4};
 }

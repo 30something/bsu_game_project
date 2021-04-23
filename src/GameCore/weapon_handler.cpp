@@ -35,13 +35,14 @@ void WeaponHandler::ProceedWeapons(std::vector<Car>* cars) {
     }
   }
   for (auto& mine : mines_) {
-    if(!mine.IsExploded())
-    for (auto& car : *cars) {
-      if (physics::IsIntersects(car.GetCollisionLines(),
-                                mine.GetCollisionLines())) {
-        car.AddHitPoints(-kMineDamage);
-        car.SetVelocity(Vec2f(car.GetVelocity()).Normalize() * -kMineSplash);
-        mine.SetIsExploded(true);
+    if (!mine.IsExploded()) {
+      for (auto& car : *cars) {
+        if (physics::IsIntersects(car.GetCollisionLines(),
+                                  mine.GetCollisionLines())) {
+          car.AddHitPoints(-kMineDamage);
+          car.SetVelocity(Vec2f(car.GetVelocity()).Normalize() * -kMineSplash);
+          mine.SetIsExploded(true);
+        }
       }
     }
   }
