@@ -14,9 +14,9 @@ class WeaponHandler {
   void ProceedWeapons(std::vector<Car>* cars);
   const std::vector<Mine>& GetMines() const;
 
+
  private:
   std::vector<Mine> mines_;
-
   static void ShootBullet(Car* car, std::vector<Car>* cars);
 
   static constexpr int kMineSplash = 100;

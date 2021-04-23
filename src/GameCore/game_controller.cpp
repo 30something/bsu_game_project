@@ -12,11 +12,11 @@ GameController::GameController(GameMode* game_mode,
   weapons_timer_.setSingleShot(true);
   weapons_timer_.start(kMillisWeaponsEnable);
   game_objects_.push_back(
-      new WrapperTemplate<GameObject, Car>(cars_));
-  game_objects_.push_back(
       new WrapperTemplate<GameObject, Mine>(weapon_handler_.GetMines()));
   game_objects_.push_back(
       new WrapperTemplate<GameObject, Bonus>(map_.GetActiveBonuses()));
+  game_objects_.push_back(
+      new WrapperTemplate<GameObject, Car>(cars_));
 }
 
 void GameController::SetUpBots() {

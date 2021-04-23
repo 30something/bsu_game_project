@@ -3,7 +3,7 @@
 Mine::Mine(Vec2f position) : GameObject(position) {}
 
 PixmapID Mine::GetPixmapId() const {
-  return PixmapID::kMine;
+  return is_exploded_ ? PixmapID::kExplodedMine : PixmapID::kMine;
 }
 
 bool Mine::operator==(const Mine& rhs) const {
@@ -23,5 +23,13 @@ std::vector<Line> Mine::GetCollisionLines() const {
   Line l2(p2, p3);
   Line l3(p3, p4);
   Line l4(p4, p1);
-  return {l1,l2,l3,l4};
+  return {l1, l2, l3, l4};
+}
+
+void Mine::SetIsExploded(bool is_exploded) {
+  is_exploded_ = is_exploded;
+}
+
+bool Mine::IsExploded() const {
+  return is_exploded_;
 }

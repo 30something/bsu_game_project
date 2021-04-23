@@ -14,4 +14,9 @@ class Mine : public GameObject {
   bool operator==(const Mine& rhs) const;
   bool operator!=(const Mine& rhs) const;
   static constexpr double kMineRange = 5;
+  void SetIsExploded(bool is_exploded);
+  bool IsExploded() const;
+
+ private:
+  bool is_exploded_ = false;
 };
