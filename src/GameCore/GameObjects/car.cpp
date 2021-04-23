@@ -15,7 +15,6 @@ Car::Car(QPoint position,
 }
 
 void Car::ProceedInputFlags() {
-  if (is_alive_) {
     if (behavior_->IsFlagLeft()) {
       steering_angle_ = -kMaxSteeringLock;
     }
@@ -28,11 +27,10 @@ void Car::ProceedInputFlags() {
         velocity_.SetLen(behavior_->GetMaxSpeed());
       }
     }
-  }
-  if ((!behavior_->IsFlagRight() && !behavior_->IsFlagLeft()) || !is_alive_) {
+  if ((!behavior_->IsFlagRight() && !behavior_->IsFlagLeft())) {
     steering_angle_ = 0;
   }
-  if (behavior_->IsFlagDown() && is_alive_) {
+  if (behavior_->IsFlagDown()) {
     velocity_ -= angle_vec_ * kAccelFactor;
     if (velocity_.GetLength() > kMaxSpeedBackward &&
         std::abs(velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees())
@@ -40,7 +38,7 @@ void Car::ProceedInputFlags() {
       velocity_.SetLen(kMaxSpeedBackward);
     }
   }
-  if ((!behavior_->IsFlagUp() && !behavior_->IsFlagDown()) || !is_alive_) {
+  if ((!behavior_->IsFlagUp() && !behavior_->IsFlagDown())) {
     Vec2f coef = angle_vec_ * kFrictionFactor;
     if (velocity_.GetLength() < (coef).GetLength()) {
       velocity_.SetLen(physics::kAlmostZero);
@@ -209,10 +207,11 @@ bool Car::IsAlive() const {
 
 void Car::SetIsAlive(bool is_alive) {
   is_alive_ = is_alive;
+  behavior_->EnableInput(is_alive);
 }
 
 std::optional<Vec2f> Car::DropMine() {
-  if (mines_amount_ > 0 && is_alive_ && ++mines_tick_timer_ > kMineDelayTicks) {
+  if (mines_amount_ > 0 && ++mines_tick_timer_ > kMineDelayTicks) {
     mines_amount_--;
     mines_tick_timer_ = 0;
     return Vec2f(angle_vec_.GetX() * (kPutMineOffset) + position_.GetX(),
@@ -223,7 +222,7 @@ std::optional<Vec2f> Car::DropMine() {
 }
 
 std::optional<Line> Car::ShootBullet() {
-  if (bullets_amount_ > 0 && is_alive_) {
+  if (bullets_amount_ > 0) {
     bullets_amount_--;
     return Line(
         position_.GetX(),

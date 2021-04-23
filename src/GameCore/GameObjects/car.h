@@ -77,9 +77,9 @@ class Car : public GameObject {
 
   bool is_alive_ = true;
 
-  double hit_points_ = 200;
+  double hit_points_ = 100;
   size_t bullets_amount_ = 1000;
-  size_t mines_amount_ = 5;
+  size_t mines_amount_ = 10;
   size_t mines_tick_timer_ = 0;
 
   void UpdateWheelsPosAndOrientation();
