@@ -1,10 +1,13 @@
 #include "car.h"
+#include <iostream>
 
 Car::Car(QPoint position,
          double angle,
-         Behavior* behavior) :
+         Behavior* behavior,
+         bool enable_drifts) :
     GameObject(Vec2f(position.x(), position.y())),
-    behavior_(behavior) {
+    behavior_(behavior),
+    enable_drifts_(enable_drifts) {
   velocity_.Set(physics::kAlmostZero, physics::kAlmostZero);
   angle_vec_.Set(1.0, 0.0);
   angle_vec_.Rotate(angle);
@@ -14,19 +17,70 @@ Car::Car(QPoint position,
   }
 }
 
-void Car::ProceedInputFlags() {
-    if (behavior_->IsFlagLeft()) {
-      steering_angle_ = -kMaxSteeringLock;
+void Car::ProceedInputFlagsArcade() {
+  if (behavior_->IsFlagLeft()) {
+    angle_vec_.Rotate(-kTickRotationAngle);
+  }
+  if (behavior_->IsFlagRight()) {
+    angle_vec_.Rotate(kTickRotationAngle);
+  }
+  if (behavior_->IsFlagUp()) {
+    velocity_ += angle_vec_ * kAccelFactor;
+    if (velocity_.GetLength() > behavior_->GetMaxSpeed()) {
+      velocity_.SetLen(behavior_->GetMaxSpeed());
     }
-    if (behavior_->IsFlagRight()) {
-      steering_angle_ = kMaxSteeringLock;
+  }
+  if (behavior_->IsFlagDown()) {
+    velocity_ -= angle_vec_ * kAccelFactor;
+    if (velocity_.GetLength() > kMaxSpeedBackward &&
+        std::abs(velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees())
+            > 90) {
+      velocity_.SetLen(kMaxSpeedBackward);
     }
-    if (behavior_->IsFlagUp()) {
-      velocity_ += angle_vec_ * kAccelFactor;
-      if (velocity_.GetLength() > behavior_->GetMaxSpeed()) {
-        velocity_.SetLen(behavior_->GetMaxSpeed());
-      }
+  }
+  if ((!behavior_->IsFlagUp() && !behavior_->IsFlagDown())) {
+    Vec2f coef = angle_vec_ * kFrictionFactor;
+    if (velocity_.GetLength() < (coef).GetLength()) {
+      velocity_.SetLen(physics::kAlmostZero);
+    } else {
+      velocity_.SetLen(velocity_.GetLength() - coef.GetLength());
     }
+  }
+}
+
+void Car::ArcadeStep(int time_millisec) {
+  // Я не знаю почему оно не работает решением в лоб
+  // Но я сидел над этим часа два и этот вариант вроде работает всегда
+  ProceedInputFlagsArcade();
+  double time_sec = time_millisec / 1000.0;
+  UpdateWheelsPosAndOrientation();
+  double velocity_len = velocity_.GetLength();
+  double angle =
+      std::abs(velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees());
+  if (angle > 350 || angle < 90) {
+    velocity_ = angle_vec_;
+  } else {
+    velocity_ = angle_vec_ * -1;
+  }
+  velocity_.SetLen(velocity_len);
+  if (velocity_.GetLength() > kMinVelocityThreshold) {
+    position_ += velocity_ * time_sec;
+  }
+}
+
+void Car::ProceedInputFlagsRealistic() {
+  if (behavior_->IsFlagLeft()) {
+    steering_angle_ = -kMaxSteeringLock;
+  }
+  if (behavior_->IsFlagRight()) {
+    steering_angle_ = kMaxSteeringLock;
+  }
+  if (behavior_->IsFlagUp()) {
+    velocity_ += angle_vec_ * kAccelFactor;
+    if (velocity_.GetLength() > behavior_->GetMaxSpeed()) {
+      velocity_.SetLen(behavior_->GetMaxSpeed());
+    }
+  }
   if ((!behavior_->IsFlagRight() && !behavior_->IsFlagLeft())) {
     steering_angle_ = 0;
   }
@@ -50,8 +104,11 @@ void Car::ProceedInputFlags() {
 
 void Car::Tick(int time_millisec) {
   behavior_->HandleTick(this);
-  ProceedInputFlags();
-  AdvanceStep(time_millisec);
+  if (enable_drifts_) {
+    RealisticStep(time_millisec);
+  } else {
+    ArcadeStep(time_millisec);
+  }
   mines_tick_timer_++;
 }
 
@@ -59,7 +116,8 @@ void Car::EnableInput(bool flag) {
   behavior_->EnableInput(flag);
 }
 
-void Car::AdvanceStep(int time_millisec) {
+void Car::RealisticStep(int time_millisec) {
+  ProceedInputFlagsRealistic();
   double time_sec = time_millisec / 1000.0;
 
   Vec2f accel;

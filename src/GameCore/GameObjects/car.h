@@ -20,7 +20,8 @@ class Car : public GameObject {
  public:
   Car(QPoint position,
       double angle,
-      Behavior* behavior);
+      Behavior* behavior,
+      bool enable_drifts);
   ~Car() = default;
 
   void Tick(int time_millisec);
@@ -53,6 +54,7 @@ class Car : public GameObject {
   Behavior* behavior_ = nullptr;
   Vec2f angle_vec_;
   Vec2f velocity_;
+  bool enable_drifts_ = true;
 
   double angular_velocity_ = 0;
   double steering_angle_ = 0;
@@ -74,6 +76,7 @@ class Car : public GameObject {
   static constexpr double kMinVelocityThreshold = 5;
   static constexpr double kMinAngularVelocityThreshold = 0.1;
   static constexpr double kMineDelayTicks = 500;
+  static constexpr double kTickRotationAngle = 0.015;
 
   bool is_alive_ = true;
 
@@ -83,8 +86,10 @@ class Car : public GameObject {
   size_t mines_tick_timer_ = 0;
 
   void UpdateWheelsPosAndOrientation();
-  void AdvanceStep(int time_millisec);
+  void RealisticStep(int time_millisec);
+  void ArcadeStep(int time_millisec);
   void CalcAccelerations(Vec2f* accel, double* angular_accel);
-  void ProceedInputFlags();
+  void ProceedInputFlagsRealistic();
+  void ProceedInputFlagsArcade();
   void CalcLateralForces();
 };

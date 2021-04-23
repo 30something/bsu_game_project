@@ -17,7 +17,7 @@ class Behavior {
   void EnableWeapons(bool enable);
 
  protected:
-  static constexpr double kMaxSpeed = 200;
+  static constexpr double kMaxSpeed = 240;
   double max_speed_ = kMaxSpeed;
   bool enable_input_ = true;
   bool enable_weapons_ = false;
