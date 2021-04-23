@@ -17,11 +17,11 @@ bool Behavior::IsFlagRight() const {
 }
 
 bool Behavior::IsFlagShoot() const {
-  return flag_shoot_ && enable_input_;
+  return flag_shoot_ && enable_input_ && enable_weapons_;
 }
 
 bool Behavior::IsFlagMine() const {
-  return flag_mine_ && enable_input_;
+  return flag_mine_ && enable_input_ && enable_weapons_;
 }
 
 void Behavior::EnableInput(bool enable) {
@@ -30,4 +30,8 @@ void Behavior::EnableInput(bool enable) {
 
 double Behavior::GetMaxSpeed() const {
   return max_speed_;
+}
+
+void Behavior::EnableWeapons(bool enable) {
+  enable_weapons_ = enable;
 }

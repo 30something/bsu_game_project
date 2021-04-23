@@ -250,3 +250,7 @@ PixmapID Car::GetPixmapId() const {
 bool Car::IsPuttingMine() const {
   return behavior_->IsFlagMine() && mines_tick_timer_ >= kMineDelayTicks;
 }
+
+void Car::EnableWeapons(bool flag) {
+  behavior_->EnableWeapons(flag);
+}

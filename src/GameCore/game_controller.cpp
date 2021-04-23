@@ -9,6 +9,8 @@ GameController::GameController(GameMode* game_mode,
   SetUpCars(input_controller);
   SetUpBots();
   SetUpCarsAchievements();
+  weapons_timer_.setSingleShot(true);
+  weapons_timer_.start(kMillisWeaponsEnable);
   game_objects_.push_back(
       new WrapperTemplate<GameObject, Car>(cars_));
   game_objects_.push_back(
@@ -60,6 +62,7 @@ void GameController::SetUpCarsAchievements() {
 
 void GameController::Tick(int time_millis) {
   weapon_handler_.ProceedWeapons(&cars_);
+  CheckEnableWeapons();
   ProceedCollisionsWithCars();
   ProceedCollisionsWithFinish();
   ProceedFinishGame();
@@ -198,4 +201,12 @@ bool GameController::AllCarsFinished() const {
 
 std::vector<CarAchievements> GameController::GetCarsData() const {
   return car_achievements_;
+}
+
+void GameController::CheckEnableWeapons() {
+  if (!weapons_timer_.isActive()) {
+    for (auto& car : cars_) {
+      car.EnableWeapons(true);
+    }
+  }
 }
