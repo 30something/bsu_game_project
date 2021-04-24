@@ -21,5 +21,5 @@ class GameObject {
   Vec2f position_;
 
  private:
-  static constexpr double kDefaultRadius = 5;
+  static constexpr double kDefaultSize = 5;
 };

@@ -210,7 +210,8 @@ size_t BotBehavior::FindClosestPlayersCar() {
   return GetMinimalElementIndex(distances);
 }
 
-size_t BotBehavior::GetMinimalElementIndex(const std::vector<double>& distances) {
+size_t
+BotBehavior::GetMinimalElementIndex(const std::vector<double>& distances) {
   size_t minimal_index = 0;
   for (size_t i = 0; i < distances.size(); i++) {
     if (distances[i] < distances[minimal_index]) {

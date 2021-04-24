@@ -16,8 +16,8 @@ class BotBehavior : public Behavior {
  public:
   explicit BotBehavior(const std::vector<std::vector<QPoint>>& borders,
                        const std::vector<Car>& cars,
-                       const std::vector<Vec2f>&  waypoints,
-                       const std::vector<Line>&  no_go_lines,
+                       const std::vector<Vec2f>& waypoints,
+                       const std::vector<Line>& no_go_lines,
                        GameMode* gamemode);
   void HandleTick(const GameObject* our_car) override;
 
@@ -50,5 +50,5 @@ class BotBehavior : public Behavior {
   static constexpr double kSpeedCoefficientMultiplier = 10;
   static constexpr double kMinDistanceToTurn = 10;
   static constexpr double kMaxSpeedCoefficient = 100;
-  static size_t GetMinimalElementIndex(const std::vector<double>& distances) ;
+  static size_t GetMinimalElementIndex(const std::vector<double>& distances);
 };
