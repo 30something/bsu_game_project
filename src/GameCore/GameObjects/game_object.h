@@ -19,4 +19,7 @@ class GameObject {
 
  protected:
   Vec2f position_;
+
+ private:
+  static constexpr double kDefaultRadius = 5;
 };

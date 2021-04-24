@@ -1,7 +1,15 @@
 #include "game_object.h"
 
 std::vector<Line> GameObject::GetCollisionLines() const {
-  return std::vector<Line>();
+  Vec2f p1(position_.GetX() - kDefaultRadius,position_.GetY() - kDefaultRadius);
+  Vec2f p2(position_.GetX() + kDefaultRadius,position_.GetY() - kDefaultRadius);
+  Vec2f p3(position_.GetX() + kDefaultRadius,position_.GetY() + kDefaultRadius);
+  Vec2f p4(position_.GetX() - kDefaultRadius,position_.GetY() + kDefaultRadius);
+  Line l1(p1, p2);
+  Line l2(p2, p3);
+  Line l3(p3, p4);
+  Line l4(p4, p1);
+  return {l1, l2, l3, l4};
 }
 
 double GameObject::GetAngle() const {

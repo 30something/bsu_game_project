@@ -81,7 +81,7 @@ void Car::ProceedInputFlagsRealistic() {
       velocity_.SetLen(behavior_->GetMaxSpeed());
     }
   }
-  if ((!behavior_->IsFlagRight() && !behavior_->IsFlagLeft())) {
+  if (!behavior_->IsFlagRight() && !behavior_->IsFlagLeft()) {
     steering_angle_ = 0;
   }
   if (behavior_->IsFlagDown()) {
