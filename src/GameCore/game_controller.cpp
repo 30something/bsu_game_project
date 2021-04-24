@@ -24,7 +24,8 @@ void GameController::SetUpBots() {
     auto* bot = new BotBehavior(map_.GetBorders(),
                                 cars_,
                                 map_.GetWaypoints(),
-                                map_.GetNoGoLines());
+                                map_.GetNoGoLines(),
+                                game_mode_);
     cars_.emplace_back(
         map_.GetPosAndAngles()[game_mode_->players_amount + i].first,
         map_.GetPosAndAngles()[game_mode_->players_amount + i].second,

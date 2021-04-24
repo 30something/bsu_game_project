@@ -3,11 +3,13 @@
 BotBehavior::BotBehavior(const std::vector<std::vector<QPoint>>& borders,
                          const std::vector<Car>& cars,
                          const std::vector<Vec2f>& waypoints,
-                         const std::vector<Line>& no_go_lines) :
+                         const std::vector<Line>& no_go_lines,
+                         GameMode* gamemode) :
     borders_(borders),
     cars_(cars),
     waypoints_(waypoints),
-    no_go_lines_(no_go_lines) {
+    no_go_lines_(no_go_lines),
+    game_mode_(gamemode) {
 }
 
 void BotBehavior::HandleTick(const GameObject* car) {
@@ -154,13 +156,7 @@ size_t BotBehavior::FindIndexOfClosestWaypoint(const Car& car) const {
                                           QPoint(car.GetPosition().GetX(),
                                                  car.GetPosition().GetY())));
   }
-  size_t minimal_index = 0;
-  for (size_t i = 0; i < distances.size(); i++) {
-    if (distances[i] < distances[minimal_index]) {
-      minimal_index = i;
-    }
-  }
-  return minimal_index;
+  return GetMinimalElementIndex(distances);
 }
 
 bool BotBehavior::CheckCarInDirection(Vec2f position, Vec2f angle_vec) const {
@@ -181,7 +177,8 @@ bool BotBehavior::CheckCarInDirection(Vec2f position, Vec2f angle_vec) const {
 }
 
 void BotBehavior::ProceedDistanceToPlayerCar() {
-  size_t car_closest_index = FindIndexOfClosestWaypoint(cars_[0]);
+  size_t car_closest_index =
+      FindIndexOfClosestWaypoint(cars_[FindClosestPlayersCar()]);
   size_t speed_coefficient =
       std::abs(static_cast<int64_t>(closest_index_ - car_closest_index));
   if (speed_coefficient > waypoints_.size() - 2) {
@@ -200,4 +197,25 @@ void BotBehavior::ProceedDistanceToPlayerCar() {
   if (closest_index_ == car_closest_index) {
     max_speed_ = kMaxSpeed;
   }
+}
+
+size_t BotBehavior::FindClosestPlayersCar() {
+  std::vector<double> distances;
+  for (size_t i = 0; i < game_mode_->players_amount; i++) {
+    distances.push_back(physics::Distance(QPoint(cars_[i].GetPosition().GetX(),
+                                                 cars_[i].GetPosition().GetY()),
+                                          QPoint(car_->GetPosition().GetX(),
+                                                 car_->GetPosition().GetY())));
+  }
+  return GetMinimalElementIndex(distances);
+}
+
+size_t BotBehavior::GetMinimalElementIndex(const std::vector<double>& distances) {
+  size_t minimal_index = 0;
+  for (size_t i = 0; i < distances.size(); i++) {
+    if (distances[i] < distances[minimal_index]) {
+      minimal_index = i;
+    }
+  }
+  return minimal_index;
 }
