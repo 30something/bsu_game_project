@@ -292,8 +292,12 @@ void Car::EnableWeapons(bool flag) {
 }
 
 void Car::UpdateCollisionLines() {
-  collision_lines_[0] = Line(wheels_[0].GetPosition(),wheels_[1].GetPosition());
-  collision_lines_[1] = Line(wheels_[0].GetPosition(),wheels_[2].GetPosition());
-  collision_lines_[2] = Line(wheels_[1].GetPosition(),wheels_[3].GetPosition());
-  collision_lines_[3] = Line(wheels_[2].GetPosition(),wheels_[3].GetPosition());
+  collision_lines_[0] =
+      Line(wheels_[0].GetPosition(), wheels_[1].GetPosition());
+  collision_lines_[1] =
+      Line(wheels_[0].GetPosition(), wheels_[2].GetPosition());
+  collision_lines_[2] =
+      Line(wheels_[1].GetPosition(), wheels_[3].GetPosition());
+  collision_lines_[3] =
+      Line(wheels_[2].GetPosition(), wheels_[3].GetPosition());
 }

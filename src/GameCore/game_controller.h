@@ -23,6 +23,7 @@
 
 class GameController : public QObject {
   Q_OBJECT
+
  public:
   explicit GameController(GameMode* game_mode, InputController*);
   ~GameController() override = default;
