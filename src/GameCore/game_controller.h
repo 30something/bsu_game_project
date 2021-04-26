@@ -8,6 +8,7 @@
 #include <QTextStream>
 #include <QFile>
 #include <QPoint>
+#include <QObject>
 
 #include "src/GameCore/GameObjects/car.h"
 #include "game_map.h"
@@ -20,10 +21,11 @@
 #include "input_controller.h"
 #include "src/helpers/wrapper_template.h"
 
-class GameController {
+class GameController : public QObject {
+  Q_OBJECT
  public:
   explicit GameController(GameMode* game_mode, InputController*);
-  ~GameController() = default;
+  ~GameController() override = default;
 
   void Tick(int time_millis);
 

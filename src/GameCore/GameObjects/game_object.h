@@ -15,10 +15,12 @@ class GameObject {
   Vec2f GetPosition() const;
   virtual double GetAngle() const;
   virtual PixmapID GetPixmapId() const = 0;
-  virtual std::vector<Line> GetCollisionLines() const;
+  virtual const std::vector<Line>& GetCollisionLines() const;
 
  protected:
   Vec2f position_;
+  std::vector<Line> collision_lines_;
+  virtual void UpdateCollisionLines();
 
  private:
   static constexpr double kDefaultSize = 5;

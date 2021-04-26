@@ -2,6 +2,7 @@
 
 GameController::GameController(GameMode* game_mode,
                                InputController* input_controller) :
+    QObject(nullptr),
     map_(map_data::json_file_paths.file_paths[game_mode->map_index]),
     finish_line_(map_.GetFinishLine()),
     game_mode_(game_mode),
@@ -11,6 +12,10 @@ GameController::GameController(GameMode* game_mode,
   SetUpCarsAchievements();
   weapons_timer_.setSingleShot(true);
   weapons_timer_.start(kMillisWeaponsEnable);
+  connect(&weapons_timer_,
+          &QTimer::timeout,
+          this,
+          &GameController::CheckEnableWeapons);
   game_objects_.push_back(
       new WrapperTemplate<GameObject, Mine>(weapon_handler_.GetMines()));
   game_objects_.push_back(
@@ -66,7 +71,6 @@ void GameController::SetUpCarsAchievements() {
 
 void GameController::Tick(int time_millis) {
   weapon_handler_.ProceedWeapons(&cars_);
-  CheckEnableWeapons();
   ProceedCollisionsWithCars();
   ProceedCollisionsWithFinish();
   ProceedFinishGame();
@@ -208,9 +212,7 @@ std::vector<CarAchievements> GameController::GetCarsData() const {
 }
 
 void GameController::CheckEnableWeapons() {
-  if (!weapons_timer_.isActive()) {
-    for (auto& car : cars_) {
-      car.EnableWeapons(true);
-    }
+  for (auto& car : cars_) {
+    car.EnableWeapons(true);
   }
 }

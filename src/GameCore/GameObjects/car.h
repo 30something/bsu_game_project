@@ -33,7 +33,7 @@ class Car : public GameObject {
   double GetBulletsAmount() const;
   double GetMinesAmount() const;
   double GetAngle() const override;
-  std::vector<Line> GetCollisionLines() const override;
+  const std::vector<Line>& GetCollisionLines() const override;
   const Vec2f& GetVelocity() const;
   PixmapID GetPixmapId() const override;
   const Vec2f& GetAngleVec() const;
@@ -92,4 +92,6 @@ class Car : public GameObject {
   void ProceedInputFlagsRealistic();
   void ProceedInputFlagsArcade();
   void CalcLateralForces();
+  void ProceedUpAndDownFlags();
+  void UpdateCollisionLines() override;
 };

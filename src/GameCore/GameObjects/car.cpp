@@ -1,5 +1,4 @@
 #include "car.h"
-#include <iostream>
 
 Car::Car(QPoint position,
          double angle,
@@ -24,28 +23,7 @@ void Car::ProceedInputFlagsArcade() {
   if (behavior_->IsFlagRight()) {
     angle_vec_.Rotate(kTickRotationAngle);
   }
-  if (behavior_->IsFlagUp()) {
-    velocity_ += angle_vec_ * kAccelFactor;
-    if (velocity_.GetLength() > behavior_->GetMaxSpeed()) {
-      velocity_.SetLen(behavior_->GetMaxSpeed());
-    }
-  }
-  if (behavior_->IsFlagDown()) {
-    velocity_ -= angle_vec_ * kAccelFactor;
-    if (velocity_.GetLength() > kMaxSpeedBackward &&
-        std::abs(velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees())
-            > 90) {
-      velocity_.SetLen(kMaxSpeedBackward);
-    }
-  }
-  if ((!behavior_->IsFlagUp() && !behavior_->IsFlagDown())) {
-    Vec2f coef = angle_vec_ * kFrictionFactor;
-    if (velocity_.GetLength() < (coef).GetLength()) {
-      velocity_.SetLen(physics::kAlmostZero);
-    } else {
-      velocity_.SetLen(velocity_.GetLength() - coef.GetLength());
-    }
-  }
+  ProceedUpAndDownFlags();
 }
 
 void Car::ArcadeStep(int time_millisec) {
@@ -75,14 +53,18 @@ void Car::ProceedInputFlagsRealistic() {
   if (behavior_->IsFlagRight()) {
     steering_angle_ = kMaxSteeringLock;
   }
+  if (!behavior_->IsFlagRight() && !behavior_->IsFlagLeft()) {
+    steering_angle_ = 0;
+  }
+  ProceedUpAndDownFlags();
+}
+
+void Car::ProceedUpAndDownFlags() {
   if (behavior_->IsFlagUp()) {
     velocity_ += angle_vec_ * kAccelFactor;
     if (velocity_.GetLength() > behavior_->GetMaxSpeed()) {
       velocity_.SetLen(behavior_->GetMaxSpeed());
     }
-  }
-  if (!behavior_->IsFlagRight() && !behavior_->IsFlagLeft()) {
-    steering_angle_ = 0;
   }
   if (behavior_->IsFlagDown()) {
     velocity_ -= angle_vec_ * kAccelFactor;
@@ -110,6 +92,7 @@ void Car::Tick(int time_millisec) {
     ArcadeStep(time_millisec);
   }
   mines_tick_timer_++;
+  UpdateCollisionLines();
 }
 
 void Car::EnableInput(bool flag) {
@@ -167,12 +150,8 @@ void Car::CalcLateralForces() {
                               kRearCoefFriction);
 }
 
-std::vector<Line> Car::GetCollisionLines() const {
-  Line l1(wheels_[0].GetPosition(), wheels_[1].GetPosition());
-  Line l2(wheels_[0].GetPosition(), wheels_[2].GetPosition());
-  Line l3(wheels_[1].GetPosition(), wheels_[3].GetPosition());
-  Line l4(wheels_[2].GetPosition(), wheels_[3].GetPosition());
-  return {l1, l2, l3, l4};
+const std::vector<Line>& Car::GetCollisionLines() const {
+  return collision_lines_;
 }
 
 void Car::UpdateWheelsPosAndOrientation() {
@@ -310,4 +289,11 @@ bool Car::IsPuttingMine() const {
 
 void Car::EnableWeapons(bool flag) {
   behavior_->EnableWeapons(flag);
+}
+
+void Car::UpdateCollisionLines() {
+  collision_lines_[0] = Line(wheels_[0].GetPosition(),wheels_[1].GetPosition());
+  collision_lines_[1] = Line(wheels_[0].GetPosition(),wheels_[2].GetPosition());
+  collision_lines_[2] = Line(wheels_[1].GetPosition(),wheels_[3].GetPosition());
+  collision_lines_[3] = Line(wheels_[2].GetPosition(),wheels_[3].GetPosition());
 }
