@@ -245,29 +245,9 @@ std::optional<Line> Car::ShootBullet() {
 PixmapID Car::GetPixmapId() const {
   if (is_alive_) {
     if (bullets_amount_ > 0 && behavior_->IsFlagShoot()) {
-      switch (car_number_) {
-        case 1: return PixmapID::kShootingCar1;
-        case 2: return PixmapID::kShootingCar2;
-        case 3: return PixmapID::kShootingCar3;
-        case 4: return PixmapID::kShootingCar4;
-        case 5: return PixmapID::kShootingCar5;
-        case 6: return PixmapID::kShootingCar6;
-        case 7: return PixmapID::kShootingCar7;
-        case 8: return PixmapID::kShootingCar8;
-        default: return PixmapID::kShootingCar1;
-      }
+      return shooting_cars_pixmaps_[car_number_];
     } else {
-      switch (car_number_) {
-        case 1: return PixmapID::kCar1;
-        case 2: return PixmapID::kCar2;
-        case 3: return PixmapID::kCar3;
-        case 4: return PixmapID::kCar4;
-        case 5: return PixmapID::kCar5;
-        case 6: return PixmapID::kCar6;
-        case 7: return PixmapID::kCar7;
-        case 8: return PixmapID::kCar8;
-        default: return PixmapID::kCar1;
-      }
+      return standard_cars_pixmaps_[car_number_];
     }
   } else {
     return PixmapID::kDeadCar;

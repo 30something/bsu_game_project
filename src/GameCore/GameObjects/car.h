@@ -49,6 +49,12 @@ class Car : public GameObject {
   void SetIsAlive(bool is_alive);
 
  private:
+  void UpdateWheelsPosAndOrientation();
+  void AdvanceStep(int time_millisec);
+  void CalcAccelerations(Vec2f* accel, double* angular_accel);
+  void ProceedInputFlags();
+  void CalcLateralForces();
+
   std::vector<Wheel> wheels_{4};
   Behavior* behavior_ = nullptr;
   Vec2f angle_vec_;
@@ -81,11 +87,24 @@ class Car : public GameObject {
   size_t bullets_amount_ = 1000;
   size_t mines_amount_ = 5;
   size_t mines_tick_timer_ = 0;
-  int32_t car_number_ = 1;
+  int32_t car_number_ = 0;
 
-  void UpdateWheelsPosAndOrientation();
-  void AdvanceStep(int time_millisec);
-  void CalcAccelerations(Vec2f* accel, double* angular_accel);
-  void ProceedInputFlags();
-  void CalcLateralForces();
+  const std::vector<PixmapID> standard_cars_pixmaps_ =
+      {PixmapID::kCar1,
+       PixmapID::kCar2,
+       PixmapID::kCar3,
+       PixmapID::kCar4,
+       PixmapID::kCar5,
+       PixmapID::kCar6,
+       PixmapID::kCar7,
+       PixmapID::kCar8};
+  const std::vector<PixmapID> shooting_cars_pixmaps_ =
+      {PixmapID::kShootingCar1,
+       PixmapID::kShootingCar2,
+       PixmapID::kShootingCar3,
+       PixmapID::kShootingCar4,
+       PixmapID::kShootingCar5,
+       PixmapID::kShootingCar6,
+       PixmapID::kShootingCar7,
+       PixmapID::kShootingCar8};
 };
