@@ -1,5 +1,4 @@
 #include "map_selector_tile.h"
-#include <iostream>
 
 MapSelectorTile::MapSelectorTile(QWidget* parent,
                                  const QString& filename) :
