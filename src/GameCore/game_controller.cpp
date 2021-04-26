@@ -26,7 +26,8 @@ void GameController::SetUpBots() {
     cars_.emplace_back(
         map_.GetPosAndAngles()[game_mode_->players_amount + i].first,
         map_.GetPosAndAngles()[game_mode_->players_amount + i].second,
-        bot);
+        bot,
+        i + 3);
   }
 }
 
@@ -36,14 +37,16 @@ void GameController::SetUpCars(const InputController* input_controller) {
   cars_.emplace_back(
       map_.GetPosAndAngles()[0].first,
       map_.GetPosAndAngles()[0].second,
-      first_player_behavior);
+      first_player_behavior,
+      1);
   if (game_mode_->players_amount > 1) {
     Behavior* second_player_behavior =
         new SecondPlayerBehavior(input_controller);
     cars_.emplace_back(
         map_.GetPosAndAngles()[1].first,
         map_.GetPosAndAngles()[1].second,
-        second_player_behavior);
+        second_player_behavior,
+        2);
   }
 }
 

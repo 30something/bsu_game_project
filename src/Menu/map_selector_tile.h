@@ -14,5 +14,7 @@ class MapSelectorTile : public QWidget {
 
  private:
   void paintEvent(QPaintEvent*) override;
+
   QPixmap* pixmap_ = nullptr;
+  QWidget* parent_ = nullptr;
 };

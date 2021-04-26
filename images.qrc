@@ -1,8 +1,22 @@
 <RCC>
     <qresource>
         <file>resources/images/cars/car1.png</file>
-        <file>resources/images/cars/car1_dead.png</file>
+        <file>resources/images/cars/car2.png</file>
+        <file>resources/images/cars/car3.png</file>
+        <file>resources/images/cars/car4.png</file>
+        <file>resources/images/cars/car5.png</file>
+        <file>resources/images/cars/car6.png</file>
+        <file>resources/images/cars/car7.png</file>
+        <file>resources/images/cars/car8.png</file>
         <file>resources/images/cars/car1_shoot.png</file>
+        <file>resources/images/cars/car2_shoot.png</file>
+        <file>resources/images/cars/car3_shoot.png</file>
+        <file>resources/images/cars/car4_shoot.png</file>
+        <file>resources/images/cars/car5_shoot.png</file>
+        <file>resources/images/cars/car6_shoot.png</file>
+        <file>resources/images/cars/car7_shoot.png</file>
+        <file>resources/images/cars/car8_shoot.png</file>
+        <file>resources/images/cars/car_dead.png</file>
         <file>resources/images/maps/map1.jpg</file>
         <file>resources/images/maps/map2.jpg</file>
         <file>resources/images/maps/map3.jpg</file>
@@ -10,6 +24,13 @@
         <file>resources/images/maps/map5.jpg</file>
         <file>resources/images/maps/map6.jpg</file>
         <file>resources/images/maps/map7.jpg</file>
+        <file>resources/images/maps/minimaps/minimap1.jpg</file>
+        <file>resources/images/maps/minimaps/minimap2.jpg</file>
+        <file>resources/images/maps/minimaps/minimap3.jpg</file>
+        <file>resources/images/maps/minimaps/minimap4.jpg</file>
+        <file>resources/images/maps/minimaps/minimap5.jpg</file>
+        <file>resources/images/maps/minimaps/minimap6.jpg</file>
+        <file>resources/images/maps/minimaps/minimap7.jpg</file>
         <file>resources/images/other_stuff/mine.png</file>
         <file>resources/images/other_stuff/hp.png</file>
         <file>resources/images/other_stuff/ammo.png</file>

@@ -22,14 +22,21 @@ GameModeSelector::GameModeSelector(QWidget* parent, GameMode* game_mode) :
     number_of_players_(new QComboBox(this)),
     number_of_laps_(new QComboBox(this)),
     number_of_bots_(new QComboBox(this)) {
-  for (const auto& image : map_data::image_file_paths.file_paths) {
-    stacked_widget_->addWidget(new MapSelectorTile(this, image));
+  for (const auto& image : map_data::image_file_paths.minimaps_file_paths) {
+    stacked_widget_->addWidget(new MapSelectorTile(stacked_widget_, image));
   }
   SetSizes();
   PrepareComboBoxes();
   SetUpLayouts();
   stacked_widget_->setCurrentIndex(0);
   ConnectUI();
+}
+
+void GameModeSelector::resizeEvent(QResizeEvent*) {
+  stacked_widget_->setGeometry(width() / kMinimapStartXDivisionCoef,
+                               height() / kMinimapStartYDivisionCoef,
+                               width() / kMinimapWidthDivisionCoef,
+                               height() / kMinimapHeightDivisionCoef);
 }
 
 void GameModeSelector::SetSizes() {
@@ -56,7 +63,7 @@ void GameModeSelector::PrepareComboBoxes() {
 
 void GameModeSelector::SwitchRight() {
   if (game_mode_->map_index
-      >= map_data::image_file_paths.file_paths.size() - 1) {
+      >= map_data::image_file_paths.maps_file_paths.size() - 1) {
     game_mode_->map_index = 0;
   } else {
     game_mode_->map_index++;
@@ -67,7 +74,8 @@ void GameModeSelector::SwitchRight() {
 
 void GameModeSelector::SwitchLeft() {
   if (game_mode_->map_index <= 0) {
-    game_mode_->map_index = map_data::image_file_paths.file_paths.size() - 1;
+    game_mode_->map_index =
+        map_data::image_file_paths.maps_file_paths.size() - 1;
   } else {
     game_mode_->map_index--;
   }
@@ -82,11 +90,14 @@ void GameModeSelector::ApplySettings() {
 }
 
 void GameModeSelector::SetUpLayouts() {
+  main_layout_->addStretch(10);
   main_layout_->addLayout(picture_layout_);
+  main_layout_->addStretch(20);
   main_layout_->addLayout(boxes_layout_);
+  main_layout_->addStretch(1);
   main_layout_->addLayout(buttons_layout_);
   picture_layout_->addWidget(left_, 1, Qt::AlignCenter);
-  picture_layout_->addWidget(stacked_widget_, 0, Qt::AlignCenter);
+  picture_layout_->addStretch(1);
   picture_layout_->addWidget(right_, 1, Qt::AlignCenter);
   players_layout_->addStretch(2);
   players_layout_->addWidget(players_label_, 1, Qt::AlignCenter);

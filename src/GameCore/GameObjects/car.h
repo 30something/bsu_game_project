@@ -20,7 +20,8 @@ class Car : public GameObject {
  public:
   Car(QPoint position,
       double angle,
-      Behavior* behavior);
+      Behavior* behavior,
+      int32_t car_number);
   ~Car() = default;
 
   void Tick(int time_millisec);
@@ -80,6 +81,7 @@ class Car : public GameObject {
   size_t bullets_amount_ = 1000;
   size_t mines_amount_ = 5;
   size_t mines_tick_timer_ = 0;
+  int32_t car_number_ = 1;
 
   void UpdateWheelsPosAndOrientation();
   void AdvanceStep(int time_millisec);

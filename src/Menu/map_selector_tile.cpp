@@ -1,15 +1,15 @@
 #include "map_selector_tile.h"
+#include <iostream>
 
 MapSelectorTile::MapSelectorTile(QWidget* parent,
                                  const QString& filename) :
     QWidget(parent),
-    pixmap_(new QPixmap(filename)) {
+    pixmap_(new QPixmap(filename)),
+    parent_(parent) {
   repaint();
-  setMinimumSize(400, 400);
 }
 
 void MapSelectorTile::paintEvent(QPaintEvent*) {
   QPainter qp(this);
-  qp.scale(0.5, 0.5);
-  qp.drawPixmap(0, 0, *pixmap_, 800, 800, 1000, 1000);
+  qp.drawPixmap(QRect(0, 0, parent_->width(), parent_->height()), *pixmap_);
 }

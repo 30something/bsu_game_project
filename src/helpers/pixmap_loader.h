@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include <vector>
 
 #include <QString>
 #include <QPixmap>
@@ -17,7 +18,10 @@ class PixmapLoader {
  private:
   void InitPixmaps();
   void InitOffsets();
+
   QString map_filepath_;
   std::map<PixmapID, QPixmap> pixmaps_;
   std::map<PixmapID, QPoint> offsets_;
+
+  static constexpr int32_t kCarsPixmapsAmount = 8;
 };

@@ -22,6 +22,8 @@ class GameModeSelector : public QWidget {
   void ReturnToMainMenu();
 
  private:
+  void resizeEvent(QResizeEvent*) override;
+
   void SetSizes();
   void SetUpLayouts();
   void ConnectUI();
@@ -50,7 +52,13 @@ class GameModeSelector : public QWidget {
   QComboBox* number_of_players_ = nullptr;
   QComboBox* number_of_laps_ = nullptr;
   QComboBox* number_of_bots_ = nullptr;
+
   static constexpr uint32_t kMaxPlayersAmount = 2;
   static constexpr uint32_t kMaxLapsAmount = 10;
   static constexpr uint32_t kMaxBotsAmount = 6;
+
+  static constexpr int32_t kMinimapStartXDivisionCoef = 3;
+  static constexpr int32_t kMinimapStartYDivisionCoef = 30;
+  static constexpr int32_t kMinimapWidthDivisionCoef = 3;
+  static constexpr int32_t kMinimapHeightDivisionCoef = 2;
 };

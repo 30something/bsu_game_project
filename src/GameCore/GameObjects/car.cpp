@@ -2,9 +2,11 @@
 
 Car::Car(QPoint position,
          double angle,
-         Behavior* behavior) :
-         GameObject(Vec2f(position.x(), position.y())),
-    behavior_(behavior) {
+         Behavior* behavior,
+         int32_t car_number) :
+    GameObject(Vec2f(position.x(), position.y())),
+    behavior_(behavior),
+    car_number_(car_number) {
   velocity_.Set(physics::kAlmostZero, physics::kAlmostZero);
   angle_vec_.Set(1.0, 0.0);
   angle_vec_.Rotate(angle);
@@ -243,9 +245,29 @@ std::optional<Line> Car::ShootBullet() {
 PixmapID Car::GetPixmapId() const {
   if (is_alive_) {
     if (bullets_amount_ > 0 && behavior_->IsFlagShoot()) {
-      return PixmapID::kShootingCar;
+      switch (car_number_) {
+        case 1: return PixmapID::kShootingCar1;
+        case 2: return PixmapID::kShootingCar2;
+        case 3: return PixmapID::kShootingCar3;
+        case 4: return PixmapID::kShootingCar4;
+        case 5: return PixmapID::kShootingCar5;
+        case 6: return PixmapID::kShootingCar6;
+        case 7: return PixmapID::kShootingCar7;
+        case 8: return PixmapID::kShootingCar8;
+        default: return PixmapID::kShootingCar1;
+      }
     } else {
-      return PixmapID::kCar;
+      switch (car_number_) {
+        case 1: return PixmapID::kCar1;
+        case 2: return PixmapID::kCar2;
+        case 3: return PixmapID::kCar3;
+        case 4: return PixmapID::kCar4;
+        case 5: return PixmapID::kCar5;
+        case 6: return PixmapID::kCar6;
+        case 7: return PixmapID::kCar7;
+        case 8: return PixmapID::kCar8;
+        default: return PixmapID::kCar1;
+      }
     }
   } else {
     return PixmapID::kDeadCar;

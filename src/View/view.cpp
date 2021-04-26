@@ -3,7 +3,7 @@
 
 View::View(GameMode* game_mode) :
     pixmap_loader_(
-        map_data::image_file_paths.file_paths[game_mode->map_index]),
+        map_data::image_file_paths.maps_file_paths[game_mode->map_index]),
     players_amount_(game_mode->players_amount) {}
 
 void View::Repaint(const std::vector<WrapperBase<GameObject>*>& objects,
