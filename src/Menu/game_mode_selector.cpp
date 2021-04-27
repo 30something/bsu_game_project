@@ -63,7 +63,7 @@ void GameModeSelector::PrepareComboBoxes() {
 
 void GameModeSelector::SwitchRight() {
   if (game_mode_->map_index
-      >= map_data::image_file_paths.maps_file_paths.size() - 1) {
+      >= map_data::image_file_paths.minimaps_file_paths.size() - 1) {
     game_mode_->map_index = 0;
   } else {
     game_mode_->map_index++;
@@ -75,7 +75,7 @@ void GameModeSelector::SwitchRight() {
 void GameModeSelector::SwitchLeft() {
   if (game_mode_->map_index <= 0) {
     game_mode_->map_index =
-        map_data::image_file_paths.maps_file_paths.size() - 1;
+        map_data::image_file_paths.minimaps_file_paths.size() - 1;
   } else {
     game_mode_->map_index--;
   }

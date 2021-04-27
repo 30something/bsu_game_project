@@ -8,6 +8,7 @@
 #include <QPoint>
 
 #include "src/helpers/pixmapIDs.h"
+#include "src/helpers/cars_colors.h"
 
 class PixmapLoader {
  public:
@@ -22,6 +23,4 @@ class PixmapLoader {
   QString map_filepath_;
   std::map<PixmapID, QPixmap> pixmaps_;
   std::map<PixmapID, QPoint> offsets_;
-
-  static constexpr int32_t kCarsPixmapsAmount = 8;
 };

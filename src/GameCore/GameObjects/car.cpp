@@ -3,10 +3,10 @@
 Car::Car(QPoint position,
          double angle,
          Behavior* behavior,
-         int32_t car_number) :
+         CarsColors car_color) :
     GameObject(Vec2f(position.x(), position.y())),
     behavior_(behavior),
-    car_number_(car_number) {
+    car_color_(car_color) {
   velocity_.Set(physics::kAlmostZero, physics::kAlmostZero);
   angle_vec_.Set(1.0, 0.0);
   angle_vec_.Rotate(angle);
@@ -244,10 +244,11 @@ std::optional<Line> Car::ShootBullet() {
 
 PixmapID Car::GetPixmapId() const {
   if (is_alive_) {
+    auto color_position = static_cast<int32_t>(car_color_);
     if (bullets_amount_ > 0 && behavior_->IsFlagShoot()) {
-      return shooting_cars_pixmaps_[car_number_];
+      return static_cast<PixmapID>(color_position + kCarsPixmapsAmount);
     } else {
-      return standard_cars_pixmaps_[car_number_];
+      return static_cast<PixmapID>(color_position);
     }
   } else {
     return PixmapID::kDeadCar;

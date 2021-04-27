@@ -19,6 +19,7 @@
 #include "src/GameCore/Behaviors/bot_behavior.h"
 #include "input_controller.h"
 #include "src/helpers/wrapper_template.h"
+#include "src/helpers/cars_colors.h"
 
 class GameController {
  public:

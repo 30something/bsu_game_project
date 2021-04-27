@@ -13,6 +13,7 @@
 #include "wheel.h"
 #include "src/helpers/line.h"
 #include "src/helpers/physics.h"
+#include "src/helpers/cars_colors.h"
 #include "game_object.h"
 #include "src/GameCore/Behaviors/behavior.h"
 
@@ -21,7 +22,7 @@ class Car : public GameObject {
   Car(QPoint position,
       double angle,
       Behavior* behavior,
-      int32_t car_number);
+      CarsColors car_color);
   ~Car() = default;
 
   void Tick(int time_millisec);
@@ -87,24 +88,5 @@ class Car : public GameObject {
   size_t bullets_amount_ = 1000;
   size_t mines_amount_ = 5;
   size_t mines_tick_timer_ = 0;
-  int32_t car_number_ = 0;
-
-  const std::vector<PixmapID> standard_cars_pixmaps_ =
-      {PixmapID::kCar1,
-       PixmapID::kCar2,
-       PixmapID::kCar3,
-       PixmapID::kCar4,
-       PixmapID::kCar5,
-       PixmapID::kCar6,
-       PixmapID::kCar7,
-       PixmapID::kCar8};
-  const std::vector<PixmapID> shooting_cars_pixmaps_ =
-      {PixmapID::kShootingCar1,
-       PixmapID::kShootingCar2,
-       PixmapID::kShootingCar3,
-       PixmapID::kShootingCar4,
-       PixmapID::kShootingCar5,
-       PixmapID::kShootingCar6,
-       PixmapID::kShootingCar7,
-       PixmapID::kShootingCar8};
+  CarsColors car_color_;
 };

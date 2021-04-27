@@ -11,12 +11,12 @@ void PixmapLoader::InitPixmaps() {
   std::vector<QPixmap> shooting_cars;
 
   for (int32_t i = 0; i < kCarsPixmapsAmount; i++) {
-    QString new_car_path = basic_path +
+    QString car_path = basic_path +
         "cars/car" + QString::fromStdString(std::to_string(i + 1));
-    QString new_standard_car_path = new_car_path + ".png";
-    QString new_shooting_car_path = new_car_path + "_shoot.png";
-    standard_cars.emplace_back(QPixmap(new_standard_car_path));
-    shooting_cars.emplace_back(QPixmap(new_shooting_car_path));
+    QString standard_car_path = car_path + ".png";
+    QString shooting_car_path = car_path + "_shoot.png";
+    standard_cars.emplace_back(QPixmap(standard_car_path));
+    shooting_cars.emplace_back(QPixmap(shooting_car_path));
     pixmaps_[static_cast<PixmapID>(i)] = standard_cars[i];
     pixmaps_[static_cast<PixmapID>(i + kCarsPixmapsAmount)] = shooting_cars[i];
   }
