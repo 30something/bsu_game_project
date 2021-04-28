@@ -69,9 +69,9 @@ void EventsController::PlaySounds() {
     view_->PlayDrift(game_controller_->GetCoefficientForDriftSound());
     view_->PlayBrake(game_controller_->GetCoefficientForBrakeSound());
 
-    view_->PlayBonus(game_controller_->GetWhetherBonusIsApplied());
+    view_->PlayBonus(game_controller_->BonusIsApplied());
     view_->PlayShooting(game_controller_->GetParametersForShootingSound().first,
                         game_controller_->GetParametersForShootingSound().second);
-    view_->PlayMine(game_controller_->GetWhetherMineIsExploded());
+    view_->PlayMine(game_controller_->MineIsExploded());
     view_->PlayCarExplosion(game_controller_->CarIsExploded());
 }
