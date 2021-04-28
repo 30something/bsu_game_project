@@ -43,7 +43,9 @@ void Car::ProceedInputFlags() {
         if (velocity_.GetLength() < (coef).GetLength()) {
             velocity_.SetLen(physics::kAlmostZero);
         } else {
-            if (std::abs(velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees())
+            if (std::abs(
+                    velocity_.GetAngleDegrees() -
+                    angle_vec_.GetAngleDegrees())
                 > 90) {
                 velocity_ += coef;
             } else {
@@ -247,8 +249,9 @@ void Car::SetIsAlive(bool is_alive) {
 std::optional<QPoint> Car::DropMine() {
     if (mines_amount_ > 0) {
         mines_amount_--;
-        return QPoint(angle_vec_.GetX() * (kPutMineOffset) + position_.GetX(),
-                      angle_vec_.GetY() * (kPutMineOffset) + position_.GetY());
+        return QPoint(
+                angle_vec_.GetX() * (kPutMineOffset) + position_.GetX(),
+                angle_vec_.GetY() * (kPutMineOffset) + position_.GetY());
     } else {
         return std::nullopt;
     }
