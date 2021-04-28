@@ -5,4 +5,5 @@ struct GameMode {
   uint32_t players_amount = 1;
   uint32_t bots_amount = 0;
   int32_t laps_amount = 1;
+  bool enable_drifting = false;
 };

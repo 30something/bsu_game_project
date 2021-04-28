@@ -19,6 +19,7 @@ enum class PixmapID {
   kShootingCar8,
   kDeadCar,
   kMine,
+  kExplodedMine,
   kBonusHealth,
   kBonusBulletsAmmo,
   kBonusMineAmmo,

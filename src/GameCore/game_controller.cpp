@@ -2,19 +2,26 @@
 
 GameController::GameController(GameMode* game_mode,
                                InputController* input_controller) :
+    QObject(nullptr),
     map_(map_data::json_file_paths.file_paths[game_mode->map_index]),
+    finish_line_(map_.GetFinishLine()),
     game_mode_(game_mode),
     weapon_handler_() {
   SetUpCars(input_controller);
   SetUpBots();
   SetUpCarsAchievements();
-  finish_line_ = map_.GetFinishLine();
-  game_objects_.push_back(
-      new WrapperTemplate<GameObject, Car>(cars_));
+  weapons_timer_.setSingleShot(true);
+  weapons_timer_.start(kMillisWeaponsEnable);
+  connect(&weapons_timer_,
+          &QTimer::timeout,
+          this,
+          &GameController::EnableWeapons);
   game_objects_.push_back(
       new WrapperTemplate<GameObject, Mine>(weapon_handler_.GetMines()));
   game_objects_.push_back(
       new WrapperTemplate<GameObject, Bonus>(map_.GetActiveBonuses()));
+  game_objects_.push_back(
+      new WrapperTemplate<GameObject, Car>(cars_));
 }
 
 void GameController::SetUpBots() {
@@ -22,11 +29,13 @@ void GameController::SetUpBots() {
     auto* bot = new BotBehavior(map_.GetBorders(),
                                 cars_,
                                 map_.GetWaypoints(),
-                                map_.GetNoGoLines());
+                                map_.GetNoGoLines(),
+                                game_mode_);
     cars_.emplace_back(
         map_.GetPosAndAngles()[game_mode_->players_amount + i].first,
         map_.GetPosAndAngles()[game_mode_->players_amount + i].second,
         bot,
+        game_mode_->enable_drifting,
         static_cast<CarsColors>(i + 2));
   }
 }
@@ -38,6 +47,7 @@ void GameController::SetUpCars(const InputController* input_controller) {
       map_.GetPosAndAngles()[0].first,
       map_.GetPosAndAngles()[0].second,
       first_player_behavior,
+      game_mode_->enable_drifting,
       static_cast<CarsColors>(0));
   if (game_mode_->players_amount > 1) {
     Behavior* second_player_behavior =
@@ -46,6 +56,7 @@ void GameController::SetUpCars(const InputController* input_controller) {
         map_.GetPosAndAngles()[1].first,
         map_.GetPosAndAngles()[1].second,
         second_player_behavior,
+        game_mode_->enable_drifting,
         static_cast<CarsColors>(1));
   }
 }
@@ -77,7 +88,7 @@ void GameController::UpdateCarsInfoAndCollisions(int time_millis) {
     car_achievements_[i].current_showed_velocity =
         cars_[i].GetVelocity().GetLength();
     if (cars_[i].GetHitPoints() < physics::kAlmostZero) {
-      cars_[i].SetIsAlive(false);
+      cars_[i].BecomeDead();
       remaining_cars_.erase(i);
     }
   }
@@ -201,4 +212,8 @@ bool GameController::AllCarsFinished() const {
 
 std::vector<CarAchievements> GameController::GetCarsData() const {
   return car_achievements_;
+}
+
+void GameController::EnableWeapons() {
+  weapon_handler_.SetEnableWeapons(true);
 }

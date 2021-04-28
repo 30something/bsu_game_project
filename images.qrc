@@ -32,6 +32,7 @@
         <file>resources/images/maps/minimaps/minimap6.jpg</file>
         <file>resources/images/maps/minimaps/minimap7.jpg</file>
         <file>resources/images/other_stuff/mine.png</file>
+        <file>resources/images/other_stuff/exploded_mine.png</file>
         <file>resources/images/other_stuff/hp.png</file>
         <file>resources/images/other_stuff/ammo.png</file>
         <file>resources/images/other_stuff/mines_ammo.png</file>

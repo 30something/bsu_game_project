@@ -12,6 +12,7 @@ GameModeSelector::GameModeSelector(QWidget* parent, GameMode* game_mode) :
     players_label_(new QLabel("Choose number of players: ", this)),
     laps_label_(new QLabel("Choose number of laps: ", this)),
     bots_label_(new QLabel("Choose number of bots: ", this)),
+    enable_drifts_(new QCheckBox("Enable Drifts?", this)),
     players_layout_(new QHBoxLayout),
     laps_layout_(new QHBoxLayout),
     bots_layout_(new QHBoxLayout),
@@ -87,6 +88,7 @@ void GameModeSelector::ApplySettings() {
   game_mode_->players_amount = number_of_players_->currentIndex() + 1;
   game_mode_->laps_amount = number_of_laps_->currentIndex() + 1;
   game_mode_->bots_amount = number_of_bots_->currentIndex();
+  game_mode_->enable_drifting = enable_drifts_->isChecked();
 }
 
 void GameModeSelector::SetUpLayouts() {
@@ -114,6 +116,7 @@ void GameModeSelector::SetUpLayouts() {
   boxes_layout_->addLayout(players_layout_);
   boxes_layout_->addLayout(laps_layout_);
   boxes_layout_->addLayout(bots_layout_);
+  boxes_layout_->addWidget(enable_drifts_, 1, Qt::AlignCenter);
   buttons_layout_->addWidget(back_to_main_menu_, Qt::AlignCenter);
   buttons_layout_->addWidget(start_game_, Qt::AlignCenter);
 }
@@ -145,6 +148,10 @@ void GameModeSelector::ConnectUI() {
           &GameModeSelector::ApplySettings);
   connect(number_of_bots_,
           QOverload<int>::of(&QComboBox::currentIndexChanged),
+          this,
+          &GameModeSelector::ApplySettings);
+  connect(enable_drifts_,
+          &QCheckBox::stateChanged,
           this,
           &GameModeSelector::ApplySettings);
 }

@@ -13,12 +13,9 @@ class Bonus : public GameObject {
     kMineAmmo
   };
 
-  Bonus(Vec2f point, BonusType _type) :
-      GameObject(point),
-      type_(_type) {}
+  Bonus(Vec2f point, BonusType _type);
 
   void ApplyTo(Car* car);
-  PixmapID GetPixmapId() const override;
 
   bool operator==(const Bonus& rhs) const {
     return type_ == rhs.type_ &&
@@ -31,7 +28,6 @@ class Bonus : public GameObject {
 
  private:
   BonusType type_;
-  Vec2f position_;
 
   static constexpr double kBonusHealthPrize = 20;
   static constexpr double kBonusBulletsAmmoPrize = 100;
