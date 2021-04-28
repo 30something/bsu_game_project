@@ -11,8 +11,8 @@ class Mine : public GameObject {
   explicit Mine(Vec2f position);
   bool operator==(const Mine& rhs) const;
   bool operator!=(const Mine& rhs) const;
-  void SetExploaded();
-  bool IsExploaded() const;
+  void SetExploded();
+  bool IsExploded() const;
 
  private:
   bool is_exploded_ = false;

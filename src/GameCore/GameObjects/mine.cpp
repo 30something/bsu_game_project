@@ -12,11 +12,11 @@ bool Mine::operator!=(const Mine& rhs) const {
   return !(rhs == *this);
 }
 
-void Mine::SetExploaded() {
+void Mine::SetExploded() {
   pixmap_id_ = PixmapID::kExplodedMine;
   is_exploded_ = true;
 }
 
-bool Mine::IsExploaded() const {
+bool Mine::IsExploded() const {
   return is_exploded_;
 }
