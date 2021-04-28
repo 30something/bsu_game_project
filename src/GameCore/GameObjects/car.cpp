@@ -208,7 +208,7 @@ void Car::SetPosition(const Vec2f& position) {
 }
 
 double Car::GetHitPoints() const {
-  return hit_points_ * 100'000'000'000'000;
+  return hit_points_;
 }
 
 double Car::GetBulletsAmount() const {
