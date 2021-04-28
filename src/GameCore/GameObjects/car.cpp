@@ -14,6 +14,7 @@ Car::Car(QPoint position,
   for (auto& wheel : wheels_) {
     wheel.SetPreviousPosition(wheel.GetPosition());
   }
+  pixmap_id_ = PixmapID::kCar;
 }
 
 void Car::ProceedInputFlagsArcade() {
@@ -90,6 +91,9 @@ void Car::Tick(int time_millisec) {
     RealisticStep(time_millisec);
   } else {
     ArcadeStep(time_millisec);
+  }
+  if(bullets_amount_ == 0 || !behavior_->IsFlagShoot()) {
+    pixmap_id_ = PixmapID::kCar;
   }
   mines_tick_timer_++;
   UpdateCollisionLines();
@@ -238,13 +242,9 @@ bool Car::IsShooting() const {
   return behavior_->IsFlagShoot();
 }
 
-bool Car::IsAlive() const {
-  return is_alive_;
-}
-
-void Car::SetIsAlive(bool is_alive) {
-  is_alive_ = is_alive;
-  behavior_->EnableInput(is_alive);
+void Car::BecomeDead() {
+  behavior_->EnableInput(false);
+  pixmap_id_ = PixmapID::kDeadCar;
 }
 
 std::optional<Vec2f> Car::DropMine() {
@@ -260,6 +260,7 @@ std::optional<Vec2f> Car::DropMine() {
 
 std::optional<Line> Car::ShootBullet() {
   if (bullets_amount_ > 0) {
+    pixmap_id_ = PixmapID::kShootingCar;
     bullets_amount_--;
     return Line(
         position_.GetX(),
@@ -267,28 +268,13 @@ std::optional<Line> Car::ShootBullet() {
         angle_vec_.GetX() * kShootingRange + position_.GetX(),
         angle_vec_.GetY() * kShootingRange + position_.GetY());
   } else {
+    pixmap_id_ = PixmapID::kCar;
     return std::nullopt;
-  }
-}
-
-PixmapID Car::GetPixmapId() const {
-  if (is_alive_) {
-    if (bullets_amount_ > 0 && behavior_->IsFlagShoot()) {
-      return PixmapID::kShootingCar;
-    } else {
-      return PixmapID::kCar;
-    }
-  } else {
-    return PixmapID::kDeadCar;
   }
 }
 
 bool Car::IsPuttingMine() const {
   return behavior_->IsFlagMine() && mines_tick_timer_ >= kMineDelayTicks;
-}
-
-void Car::EnableWeapons(bool flag) {
-  behavior_->EnableWeapons(flag);
 }
 
 void Car::UpdateCollisionLines() {

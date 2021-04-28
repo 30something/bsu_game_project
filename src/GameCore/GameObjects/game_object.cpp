@@ -27,3 +27,7 @@ void GameObject::UpdateCollisionLines() {
   collision_lines_[2] = Line(p3, p4);
   collision_lines_[3] = Line(p4, p1);
 }
+
+PixmapID GameObject::GetPixmapId() const {
+  return pixmap_id_;
+}

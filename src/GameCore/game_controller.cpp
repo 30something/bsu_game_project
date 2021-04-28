@@ -15,7 +15,7 @@ GameController::GameController(GameMode* game_mode,
   connect(&weapons_timer_,
           &QTimer::timeout,
           this,
-          &GameController::CheckEnableWeapons);
+          &GameController::EnableWeapons);
   game_objects_.push_back(
       new WrapperTemplate<GameObject, Mine>(weapon_handler_.GetMines()));
   game_objects_.push_back(
@@ -85,7 +85,7 @@ void GameController::UpdateCarsInfoAndCollisions(int time_millis) {
     car_achievements_[i].current_showed_velocity =
         cars_[i].GetVelocity().GetLength();
     if (cars_[i].GetHitPoints() < physics::kAlmostZero) {
-      cars_[i].SetIsAlive(false);
+      cars_[i].BecomeDead();
       remaining_cars_.erase(i);
     }
   }
@@ -211,8 +211,6 @@ std::vector<CarAchievements> GameController::GetCarsData() const {
   return car_achievements_;
 }
 
-void GameController::CheckEnableWeapons() {
-  for (auto& car : cars_) {
-    car.EnableWeapons(true);
-  }
+void GameController::EnableWeapons() {
+  weapon_handler_.SetEnableWeapons(true);
 }

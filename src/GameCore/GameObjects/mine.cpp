@@ -1,9 +1,7 @@
 #include "mine.h"
 
-Mine::Mine(Vec2f position) : GameObject(position) {}
-
-PixmapID Mine::GetPixmapId() const {
-  return is_exploded_ ? PixmapID::kExplodedMine : PixmapID::kMine;
+Mine::Mine(Vec2f position) : GameObject(position) {
+  pixmap_id_ = PixmapID::kMine;
 }
 
 bool Mine::operator==(const Mine& rhs) const {
@@ -14,10 +12,11 @@ bool Mine::operator!=(const Mine& rhs) const {
   return !(rhs == *this);
 }
 
-void Mine::SetIsExploded(bool is_exploded) {
-  is_exploded_ = is_exploded;
+void Mine::SetExploaded() {
+  pixmap_id_ = PixmapID::kExplodedMine;
+  is_exploded_ = true;
 }
 
-bool Mine::IsExploded() const {
+bool Mine::IsExploaded() const {
   return is_exploded_;
 }

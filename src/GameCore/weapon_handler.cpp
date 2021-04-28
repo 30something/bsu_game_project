@@ -26,6 +26,9 @@ void WeaponHandler::PutMine(Car* car) {
 }
 
 void WeaponHandler::ProceedWeapons(std::vector<Car>* cars) {
+  if(!enable_weapons_) {
+    return;
+  }
   for (auto& car : *cars) {
     if (car.IsShooting()) {
       ShootBullet(&car, cars);
@@ -35,13 +38,13 @@ void WeaponHandler::ProceedWeapons(std::vector<Car>* cars) {
     }
   }
   for (auto& mine : mines_) {
-    if (!mine.IsExploded()) {
+    if (!mine.IsExploaded()) {
       for (auto& car : *cars) {
         if (physics::IsIntersects(car.GetCollisionLines(),
                                   mine.GetCollisionLines())) {
           car.AddHitPoints(-kMineDamage);
           car.SetVelocity(Vec2f(car.GetVelocity()).Normalize() * -kMineSplash);
-          mine.SetIsExploded(true);
+          mine.SetExploaded();
         }
       }
     }
@@ -50,4 +53,8 @@ void WeaponHandler::ProceedWeapons(std::vector<Car>* cars) {
 
 const std::vector<Mine>& WeaponHandler::GetMines() const {
   return mines_;
+}
+
+void WeaponHandler::SetEnableWeapons(bool enable_weapons) {
+  enable_weapons_ = enable_weapons;
 }

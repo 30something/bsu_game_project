@@ -35,19 +35,16 @@ class Car : public GameObject {
   double GetAngle() const override;
   const std::vector<Line>& GetCollisionLines() const override;
   const Vec2f& GetVelocity() const;
-  PixmapID GetPixmapId() const override;
   const Vec2f& GetAngleVec() const;
   bool IsPuttingMine() const;
   bool IsShooting() const;
-  bool IsAlive() const;
   void SetVelocity(const Vec2f& velocity);
   void SetPosition(const Vec2f& position);
   void AddHitPoints(double hit_points_);
   void AddBulletsAmount(double bullets_amount_);
   void AddMinesAmount(double mines_amount_);
   void EnableInput(bool flag);
-  void EnableWeapons(bool flag);
-  void SetIsAlive(bool is_alive);
+  void BecomeDead();
 
  private:
   std::vector<Wheel> wheels_{4};
@@ -77,8 +74,6 @@ class Car : public GameObject {
   static constexpr double kMinAngularVelocityThreshold = 0.1;
   static constexpr double kMineDelayTicks = 500;
   static constexpr double kTickRotationAngle = 0.015;
-
-  bool is_alive_ = true;
 
   double hit_points_ = 200;
   size_t bullets_amount_ = 1000;

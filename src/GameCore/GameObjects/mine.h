@@ -9,11 +9,10 @@
 class Mine : public GameObject {
  public:
   explicit Mine(Vec2f position);
-  PixmapID GetPixmapId() const override;
   bool operator==(const Mine& rhs) const;
   bool operator!=(const Mine& rhs) const;
-  void SetIsExploded(bool is_exploded);
-  bool IsExploded() const;
+  void SetExploaded();
+  bool IsExploaded() const;
 
  private:
   bool is_exploded_ = false;

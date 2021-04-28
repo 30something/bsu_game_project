@@ -14,13 +14,11 @@ class Behavior {
   bool IsFlagMine() const;
   double GetMaxSpeed() const;
   void EnableInput(bool enable);
-  void EnableWeapons(bool enable);
 
  protected:
   static constexpr double kMaxSpeed = 240;
   double max_speed_ = kMaxSpeed;
   bool enable_input_ = true;
-  bool enable_weapons_ = false;
   bool flag_up_ = false;
   bool flag_down_ = false;
   bool flag_left_ = false;

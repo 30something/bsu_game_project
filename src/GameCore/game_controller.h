@@ -46,7 +46,7 @@ class GameController : public QObject {
   void RecalculateDeviations();
   void UpdateCarsInfoAndCollisions(int time_millis);
   static void CollideCars(Car* car_1, Car* car_2);
-  void CheckEnableWeapons();
+  void EnableWeapons();
 
   static constexpr double kVelocityDecrease = 0.5;
   static constexpr double kDeviationDecrease = 0.5;
