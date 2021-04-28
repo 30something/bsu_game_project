@@ -31,3 +31,4 @@ void Behavior::EnableInput(bool enable) {
 double Behavior::GetMaxSpeed() const {
   return max_speed_;
 }
+

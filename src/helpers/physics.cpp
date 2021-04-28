@@ -5,6 +5,7 @@ int physics::Product(const QPoint& m, const QPoint& p1, const QPoint& p2) {
       - (p2.y() - p1.y()) * (m.x() - p1.x());
 }
 
+//  Works only with rectangles
 bool physics::IsInside(const std::vector<Line>& rect, const QPoint& point) {
   int p1 = Product(point,
                    QPoint(rect[0].x1, rect[0].y1),
@@ -87,10 +88,16 @@ double physics::CalculateLineDeviation(double x_pos, double y_pos, Line line) {
   return d;
 }
 
-Vec2f physics::GetRandomPointOnLine(Line line) {
+Vec2f physics::GetRandomPointOnLine(Line line, double lower, double upper) {
   double dx = line.x1 - line.x2;
   double dy = line.y1 - line.y2;
   double scalar = QRandomGenerator::global()->generateDouble();
+  if (scalar < lower) {
+    scalar = lower;
+  }
+  if (scalar > upper) {
+    scalar = upper;
+  }
   dx *= scalar;
   dy *= scalar;
   return Vec2f(line.x1 - dx, line.y1 - dy);

@@ -5,6 +5,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QStackedWidget>
+#include <QCheckBox>
 
 #include "map_selector_tile.h"
 #include "src/helpers/map_data.h"
@@ -40,6 +41,7 @@ class GameModeSelector : public QWidget {
   QLabel* players_label_;
   QLabel* laps_label_;
   QLabel* bots_label_;
+  QCheckBox* enable_drifts_;
   QHBoxLayout* players_layout_;
   QHBoxLayout* laps_layout_;
   QHBoxLayout* bots_layout_;

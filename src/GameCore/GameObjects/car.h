@@ -20,7 +20,8 @@ class Car : public GameObject {
  public:
   Car(QPoint position,
       double angle,
-      Behavior* behavior);
+      Behavior* behavior,
+      bool enable_drifts);
   ~Car() = default;
 
   void Tick(int time_millisec);
@@ -32,30 +33,29 @@ class Car : public GameObject {
   double GetBulletsAmount() const;
   double GetMinesAmount() const;
   double GetAngle() const override;
-  std::vector<Line> GetCollisionLines() const override;
+  const std::vector<Line>& GetCollisionLines() const override;
   const Vec2f& GetVelocity() const;
-  PixmapID GetPixmapId() const override;
   const Vec2f& GetAngleVec() const;
   bool IsPuttingMine() const;
   bool IsShooting() const;
-  bool IsAlive() const;
   void SetVelocity(const Vec2f& velocity);
   void SetPosition(const Vec2f& position);
   void AddHitPoints(double hit_points_);
   void AddBulletsAmount(double bullets_amount_);
   void AddMinesAmount(double mines_amount_);
   void EnableInput(bool flag);
-  void SetIsAlive(bool is_alive);
+  void BecomeDead();
 
  private:
   std::vector<Wheel> wheels_{4};
   Behavior* behavior_ = nullptr;
   Vec2f angle_vec_;
   Vec2f velocity_;
+  bool enable_drifts_ = true;
 
   double angular_velocity_ = 0;
   double steering_angle_ = 0;
-  static constexpr int kPutMineOffset = -10;
+  static constexpr int kPutMineOffset = -15;
   static constexpr double kShootingRange = 100;
   static constexpr double kAccelFactor = 2.0;
   static constexpr double kFrictionFactor = 0.5;
@@ -73,17 +73,20 @@ class Car : public GameObject {
   static constexpr double kMinVelocityThreshold = 5;
   static constexpr double kMinAngularVelocityThreshold = 0.1;
   static constexpr double kMineDelayTicks = 500;
-
-  bool is_alive_ = true;
+  static constexpr double kTickRotationAngle = 0.015;
 
   double hit_points_ = 200;
   size_t bullets_amount_ = 1000;
-  size_t mines_amount_ = 5;
+  size_t mines_amount_ = 10;
   size_t mines_tick_timer_ = 0;
 
   void UpdateWheelsPosAndOrientation();
-  void AdvanceStep(int time_millisec);
+  void RealisticStep(int time_millisec);
+  void ArcadeStep(int time_millisec);
   void CalcAccelerations(Vec2f* accel, double* angular_accel);
-  void ProceedInputFlags();
+  void ProceedInputFlagsRealistic();
+  void ProceedInputFlagsArcade();
   void CalcLateralForces();
+  void ProceedUpDownFlags();
+  void UpdateCollisionLines() override;
 };

@@ -2,9 +2,11 @@
 
 Car::Car(QPoint position,
          double angle,
-         Behavior* behavior) :
-         GameObject(Vec2f(position.x(), position.y())),
-    behavior_(behavior) {
+         Behavior* behavior,
+         bool enable_drifts) :
+    GameObject(Vec2f(position.x(), position.y())),
+    behavior_(behavior),
+    enable_drifts_(enable_drifts) {
   velocity_.Set(physics::kAlmostZero, physics::kAlmostZero);
   angle_vec_.Set(1.0, 0.0);
   angle_vec_.Rotate(angle);
@@ -12,27 +14,60 @@ Car::Car(QPoint position,
   for (auto& wheel : wheels_) {
     wheel.SetPreviousPosition(wheel.GetPosition());
   }
+  pixmap_id_ = PixmapID::kCar;
 }
 
-void Car::ProceedInputFlags() {
-  if (is_alive_) {
-    if (behavior_->IsFlagLeft()) {
-      steering_angle_ = -kMaxSteeringLock;
-    }
-    if (behavior_->IsFlagRight()) {
-      steering_angle_ = kMaxSteeringLock;
-    }
-    if (behavior_->IsFlagUp()) {
-      velocity_ += angle_vec_ * kAccelFactor;
-      if (velocity_.GetLength() > behavior_->GetMaxSpeed()) {
-        velocity_.SetLen(behavior_->GetMaxSpeed());
-      }
-    }
+void Car::ProceedInputFlagsArcade() {
+  if (behavior_->IsFlagLeft()) {
+    angle_vec_.Rotate(-kTickRotationAngle);
   }
-  if ((!behavior_->IsFlagRight() && !behavior_->IsFlagLeft()) || !is_alive_) {
+  if (behavior_->IsFlagRight()) {
+    angle_vec_.Rotate(kTickRotationAngle);
+  }
+  ProceedUpDownFlags();
+}
+
+void Car::ArcadeStep(int time_millisec) {
+  // Я не знаю почему оно не работает решением в лоб
+  // Но я сидел над этим часа два и этот вариант вроде работает всегда
+  ProceedInputFlagsArcade();
+  double time_sec = time_millisec / 1000.0;
+  UpdateWheelsPosAndOrientation();
+  double velocity_len = velocity_.GetLength();
+  double angle =
+      std::abs(velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees());
+  if (angle > 350 || angle < 90) {
+    velocity_ = angle_vec_;
+  } else {
+    velocity_ = angle_vec_ * -1;
+  }
+  velocity_.SetLen(velocity_len);
+  if (velocity_.GetLength() > kMinVelocityThreshold) {
+    position_ += velocity_ * time_sec;
+  }
+}
+
+void Car::ProceedInputFlagsRealistic() {
+  if (behavior_->IsFlagLeft()) {
+    steering_angle_ = -kMaxSteeringLock;
+  }
+  if (behavior_->IsFlagRight()) {
+    steering_angle_ = kMaxSteeringLock;
+  }
+  if (!behavior_->IsFlagRight() && !behavior_->IsFlagLeft()) {
     steering_angle_ = 0;
   }
-  if (behavior_->IsFlagDown() && is_alive_) {
+  ProceedUpDownFlags();
+}
+
+void Car::ProceedUpDownFlags() {
+  if (behavior_->IsFlagUp()) {
+    velocity_ += angle_vec_ * kAccelFactor;
+    if (velocity_.GetLength() > behavior_->GetMaxSpeed()) {
+      velocity_.SetLen(behavior_->GetMaxSpeed());
+    }
+  }
+  if (behavior_->IsFlagDown()) {
     velocity_ -= angle_vec_ * kAccelFactor;
     if (velocity_.GetLength() > kMaxSpeedBackward &&
         std::abs(velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees())
@@ -40,33 +75,36 @@ void Car::ProceedInputFlags() {
       velocity_.SetLen(kMaxSpeedBackward);
     }
   }
-  if ((!behavior_->IsFlagUp() && !behavior_->IsFlagDown()) || !is_alive_) {
+  if ((!behavior_->IsFlagUp() && !behavior_->IsFlagDown())) {
     Vec2f coef = angle_vec_ * kFrictionFactor;
     if (velocity_.GetLength() < (coef).GetLength()) {
       velocity_.SetLen(physics::kAlmostZero);
     } else {
-      if (std::abs(velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees())
-          > 90) {
-        velocity_ += coef;
-      } else {
-        velocity_ -= coef;
-      }
+      velocity_.SetLen(velocity_.GetLength() - coef.GetLength());
     }
   }
 }
 
 void Car::Tick(int time_millisec) {
   behavior_->HandleTick(this);
-  ProceedInputFlags();
-  AdvanceStep(time_millisec);
+  if (enable_drifts_) {
+    RealisticStep(time_millisec);
+  } else {
+    ArcadeStep(time_millisec);
+  }
+  if (bullets_amount_ == 0 || !behavior_->IsFlagShoot()) {
+    pixmap_id_ = PixmapID::kCar;
+  }
   mines_tick_timer_++;
+  UpdateCollisionLines();
 }
 
 void Car::EnableInput(bool flag) {
   behavior_->EnableInput(flag);
 }
 
-void Car::AdvanceStep(int time_millisec) {
+void Car::RealisticStep(int time_millisec) {
+  ProceedInputFlagsRealistic();
   double time_sec = time_millisec / 1000.0;
 
   Vec2f accel;
@@ -116,12 +154,8 @@ void Car::CalcLateralForces() {
                               kRearCoefFriction);
 }
 
-std::vector<Line> Car::GetCollisionLines() const {
-  Line l1(wheels_[0].GetPosition(), wheels_[1].GetPosition());
-  Line l2(wheels_[0].GetPosition(), wheels_[2].GetPosition());
-  Line l3(wheels_[1].GetPosition(), wheels_[3].GetPosition());
-  Line l4(wheels_[2].GetPosition(), wheels_[3].GetPosition());
-  return {l1, l2, l3, l4};
+const std::vector<Line>& Car::GetCollisionLines() const {
+  return collision_lines_;
 }
 
 void Car::UpdateWheelsPosAndOrientation() {
@@ -208,16 +242,13 @@ bool Car::IsShooting() const {
   return behavior_->IsFlagShoot();
 }
 
-bool Car::IsAlive() const {
-  return is_alive_;
-}
-
-void Car::SetIsAlive(bool is_alive) {
-  is_alive_ = is_alive;
+void Car::BecomeDead() {
+  behavior_->EnableInput(false);
+  pixmap_id_ = PixmapID::kDeadCar;
 }
 
 std::optional<Vec2f> Car::DropMine() {
-  if (mines_amount_ > 0 && is_alive_ && ++mines_tick_timer_ > kMineDelayTicks) {
+  if (mines_amount_ > 0 && ++mines_tick_timer_ > kMineDelayTicks) {
     mines_amount_--;
     mines_tick_timer_ = 0;
     return Vec2f(angle_vec_.GetX() * (kPutMineOffset) + position_.GetX(),
@@ -228,7 +259,8 @@ std::optional<Vec2f> Car::DropMine() {
 }
 
 std::optional<Line> Car::ShootBullet() {
-  if (bullets_amount_ > 0 && is_alive_) {
+  if (bullets_amount_ > 0) {
+    pixmap_id_ = PixmapID::kShootingCar;
     bullets_amount_--;
     return Line(
         position_.GetX(),
@@ -236,22 +268,22 @@ std::optional<Line> Car::ShootBullet() {
         angle_vec_.GetX() * kShootingRange + position_.GetX(),
         angle_vec_.GetY() * kShootingRange + position_.GetY());
   } else {
+    pixmap_id_ = PixmapID::kCar;
     return std::nullopt;
   }
 }
 
-PixmapID Car::GetPixmapId() const {
-  if (is_alive_) {
-    if (bullets_amount_ > 0 && behavior_->IsFlagShoot()) {
-      return PixmapID::kShootingCar;
-    } else {
-      return PixmapID::kCar;
-    }
-  } else {
-    return PixmapID::kDeadCar;
-  }
+bool Car::IsPuttingMine() const {
+  return behavior_->IsFlagMine() && mines_tick_timer_ >= kMineDelayTicks;
 }
 
-bool Car::IsPuttingMine() const {
-  return behavior_->IsFlagMine();
+void Car::UpdateCollisionLines() {
+  collision_lines_[0] =
+      Line(wheels_[0].GetPosition(), wheels_[1].GetPosition());
+  collision_lines_[1] =
+      Line(wheels_[0].GetPosition(), wheels_[2].GetPosition());
+  collision_lines_[2] =
+      Line(wheels_[1].GetPosition(), wheels_[3].GetPosition());
+  collision_lines_[3] =
+      Line(wheels_[2].GetPosition(), wheels_[3].GetPosition());
 }

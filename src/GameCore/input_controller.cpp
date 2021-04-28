@@ -41,10 +41,10 @@ void InputController::SetKeyConditions(QKeyEvent* event, bool value) {
   if (key == Qt::Key_Right) {
     keys_condition_[KeyID::kFirstRight] = value;
   }
-  if (key == Qt::Key_Control) {
+  if (key == Qt::Key_O) {
     keys_condition_[KeyID::kFirstShoot] = value;
   }
-  if (key == Qt::Key_Shift) {
+  if (key == Qt::Key_P) {
     keys_condition_[KeyID::kFirstMine] = value;
   }
   if (key == Qt::Key_W) {
@@ -59,10 +59,10 @@ void InputController::SetKeyConditions(QKeyEvent* event, bool value) {
   if (key == Qt::Key_D) {
     keys_condition_[KeyID::kSecondRight] = value;
   }
-  if (key == Qt::Key_Alt) {
+  if (key == Qt::Key_C) {
     keys_condition_[KeyID::kSecondShoot] = value;
   }
-  if (key == Qt::Key_Space) {
+  if (key == Qt::Key_V) {
     keys_condition_[KeyID::kSecondMine] = value;
   }
 }

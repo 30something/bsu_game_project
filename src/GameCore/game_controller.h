@@ -8,6 +8,7 @@
 #include <QTextStream>
 #include <QFile>
 #include <QPoint>
+#include <QObject>
 
 #include "src/GameCore/GameObjects/car.h"
 #include "game_map.h"
@@ -20,10 +21,12 @@
 #include "input_controller.h"
 #include "src/helpers/wrapper_template.h"
 
-class GameController {
+class GameController : public QObject {
+  Q_OBJECT
+
  public:
   explicit GameController(GameMode* game_mode, InputController*);
-  ~GameController() = default;
+  ~GameController() override = default;
 
   void Tick(int time_millis);
 
@@ -43,10 +46,12 @@ class GameController {
   void RecalculateDeviations();
   void UpdateCarsInfoAndCollisions(int time_millis);
   static void CollideCars(Car* car_1, Car* car_2);
+  void EnableWeapons();
 
   static constexpr double kVelocityDecrease = 0.5;
   static constexpr double kDeviationDecrease = 0.5;
   static constexpr double kHPDecrease = 0.005;
+  static constexpr double kMillisWeaponsEnable = 10000;
 
   Map map_;
   Line finish_line_;
@@ -56,4 +61,5 @@ class GameController {
   GameMode* game_mode_ = nullptr;
   WeaponHandler weapon_handler_;
   std::vector<WrapperBase<GameObject>*> game_objects_;
+  QTimer weapons_timer_;
 };
