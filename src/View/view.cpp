@@ -10,10 +10,10 @@ View::View(QWidget* events_controller, GameController* model, GameMode* game_mod
     bullets_ammo_bonus_(":resources/images/other_stuff/ammo.png"),
     mines_bonus_(":resources/images/other_stuff/mines_ammo.png"),
     players_amount_(game_mode->players_amount),
-    engine_(new Engine(events_controller)),
-    drift_(new Drift(events_controller)),
-    brake_(new Brake(events_controller)),
-    effects_(new Effects(events_controller)) {
+    engine_sound_(new Engine(events_controller)),
+    drift_sound_(new Drift(events_controller)),
+    brake_sound_(new Brake(events_controller)),
+    sounds_of_effects_(new Effects(events_controller)) {
   map_.load(map_data::image_filepaths[game_mode->map_index]);
 }
 
@@ -136,30 +136,30 @@ void View::DrawPicture(QPainter* painter,
 }
 
 void View::PlayEngine(double coefficient, int direction, bool car_is_alive) {
-    engine_->Play(coefficient, direction, car_is_alive);
+    engine_sound_->Play(coefficient, direction, car_is_alive);
 }
 
 void View::PlayDrift(double coefficient) {
-    drift_->Play(coefficient);
+    drift_sound_->Play(coefficient);
 }
 
 void View::PlayBrake(double coefficient) {
-    brake_->Play(coefficient);
+    brake_sound_->Play(coefficient);
 }
 
 void View::PlayBonus(bool play_bonus) {
-   effects_->PlayBonus(play_bonus);
+   sounds_of_effects_->PlayBonus(play_bonus);
    model_->SetNoBonusIsApplied();
 }
 
 void View::PlayShooting(bool using_gun, bool bullets) {
-    effects_->PlayShooting(using_gun, bullets);
+    sounds_of_effects_->PlayShooting(using_gun, bullets);
 }
 
 void View::PlayMine(bool play_mine) {
-    effects_->PlayMine(play_mine);
+    sounds_of_effects_->PlayMine(play_mine);
 }
 
 void View::PlayCarExplosion(bool play_car_explosion) {
-    effects_->PlayCarExplosion(play_car_explosion);
+    sounds_of_effects_->PlayCarExplosion(play_car_explosion);
 }

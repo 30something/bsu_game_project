@@ -29,8 +29,8 @@ class GameController {
   std::pair<bool, bool> GetParametersForShootingSound() const;
   double GetCoefficientForDriftSound() const;
   double GetCoefficientForBrakeSound() const;
-  bool GetWhetherBonusIsApplied() const;
-  bool GetWhetherMineIsExploded() const;
+  bool BonusIsApplied() const;
+  bool MineIsExploded() const;
   bool CarIsExploded() const;
   bool FirstCarIsAlive() const;
 

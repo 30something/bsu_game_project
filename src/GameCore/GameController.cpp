@@ -27,7 +27,7 @@ void GameController::Tick(int time_millis) {
   for (auto& car : cars_) {
     map_.HandleCarTick(&car);
 
-    if (index_of_car == 0 && GetWhetherBonusIsApplied()) {
+    if (index_of_car == 0 && BonusIsApplied()) {
         first_car_bonus = true;
     }
     index_of_car++;
@@ -192,8 +192,8 @@ double GameController::GetCoefficientForBrakeSound() const {
     return cars_[0].GetCoefficientForBrakeSound();
 }
 
-bool GameController::GetWhetherBonusIsApplied() const {
-    return map_.GetWhetherBonusIsApplied();
+bool GameController::BonusIsApplied() const {
+    return map_.BonusIsApplied();
 }
 
 void GameController::SetNoBonusIsApplied() {
@@ -204,7 +204,7 @@ std::pair<bool, bool> GameController::GetParametersForShootingSound() const {
     return std::pair(cars_[0].UsingGun(), cars_[0].GetBulletsAmount());
 }
 
-bool GameController::GetWhetherMineIsExploded() const {
+bool GameController::MineIsExploded() const {
     return weapon_handler_.MineIsExploded();
 }
 

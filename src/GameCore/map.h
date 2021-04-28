@@ -24,7 +24,7 @@ class Map {
   void SetBorders(const std::vector<std::vector<QPoint>>& borders);
   void SetNoBonusIsApplied();
 
-  bool GetWhetherBonusIsApplied() const;
+  bool BonusIsApplied() const;
 
  private:
   std::vector<std::vector<QPoint>> borders_;

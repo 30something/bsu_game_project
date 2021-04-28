@@ -7,10 +7,10 @@
 #include <QPixmap>
 
 #include "src/GameCore/GameController.h"
-#include "EngineSound.h"
-#include "DriftSound.h"
-#include "BrakeSound.h"
-#include "SoundsOfEffects.h"
+#include "engine_sound.h"
+#include "drift_sound.h"
+#include "brake_sound.h"
+#include "sounds_of_effects.h"
 #include "src/helpers/sizes.h"
 
 class View {
@@ -55,8 +55,8 @@ class View {
       const QPixmap& car,
       const QPoint& offset) const;
   std::vector<QRect> GetFramesVector(const QPainter* painter) const;
-  Engine* engine_;
-  Drift* drift_;
-  Brake* brake_;
-  Effects* effects_;
+  Engine* engine_sound_;
+  Drift* drift_sound_;
+  Brake* brake_sound_;
+  Effects* sounds_of_effects_;
 };

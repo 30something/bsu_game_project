@@ -1,16 +1,17 @@
 <RCC>
     <qresource>
-        <file>resources/sounds/IdleSpeed.wav</file>
-        <file>resources/sounds/BMW.wav</file>
-        <file>resources/sounds/BMW (reversed changed).wav</file>
-        <file>resources/sounds/drift5 (end).wav</file>
-        <file>resources/sounds/drift5 (changed).wav</file>
-        <file>resources/sounds/car_brake.wav</file>
+        <file>resources/sounds/car_sounds/idle_speed.wav</file>
+        <file>resources/sounds/car_sounds/main_engine.wav</file>
+        <file>resources/sounds/car_sounds/reversed_engine.wav</file>
+        <file>resources/sounds/car_sounds/drift.wav</file>
+        <file>resources/sounds/car_sounds/drift_loop.wav</file>
+        <file>resources/sounds/car_sounds/car_brake.wav</file>
 
-        <file>resources/sounds/Bonus3.wav</file>
-        <file>resources/sounds/Mine.wav</file>
-        <file>resources/sounds/CarExplosion1.wav</file>
-        <file>resources/sounds/GunshotSound1.wav</file>
-        <file>resources/sounds/NoBullets2.wav</file>
+        <file>resources/sounds/effects/bonus.wav</file>
+        <file>resources/sounds/effects/car_explosion.wav</file>
+
+        <file>resources/sounds/weapon/gunshot_sound.wav</file>
+        <file>resources/sounds/weapon/mine.wav</file>
+        <file>resources/sounds/weapon/no_bullets.wav</file>
     </qresource>
 </RCC>

@@ -257,7 +257,6 @@ std::optional<QPoint> Car::DropMine() {
 std::optional<Line> Car::ShootBullet() {
   if (bullets_amount_ > 0) {
     bullets_amount_--;
-    qDebug() << bullets_amount_ << "\n";
     return Line(
         position_.GetX(),
         position_.GetY(),

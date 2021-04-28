@@ -1,4 +1,4 @@
-#include "SoundsOfEffects.h"
+#include "sounds_of_effects.h"
 #include <QDebug>
 
 Effects::Effects(QWidget *parent) : QWidget(parent),
@@ -7,11 +7,10 @@ Effects::Effects(QWidget *parent) : QWidget(parent),
     sound_player_->setPlaylist(sound_playlist_);
     sound_playlist_->
             addMedia(QUrl(
-            "qrc:/resources/sounds/GunshotSound1.wav"));
+            "qrc:/resources/sounds/weapon/gunshot_sound.wav"));
     sound_playlist_->
             addMedia(QUrl(
-            "qrc:/resources/sounds/NoBullets2.wav"));
-    sound_player_->setVolume(100);
+            "qrc:/resources/sounds/weapon/no_bullets.wav"));
 }
 
 void Effects::PlayBonus(bool play_bonus) {
@@ -19,7 +18,7 @@ void Effects::PlayBonus(bool play_bonus) {
         QMediaPlayer *player = new QMediaPlayer(this);
         QMediaPlaylist *playlist = new QMediaPlaylist(player);
         player->setPlaylist(playlist);
-        playlist->addMedia(QUrl("qrc:/resources/sounds/Bonus3.wav"));
+        playlist->addMedia(QUrl("qrc:/resources/sounds/effects/bonus.wav"));
         playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);
         player->play();
     }
@@ -48,7 +47,7 @@ void Effects::PlayMine(bool play_mine) {
         QMediaPlayer *player = new QMediaPlayer(this);
         QMediaPlaylist *playlist = new QMediaPlaylist(player);
         player->setPlaylist(playlist);
-        playlist->addMedia(QUrl("qrc:/resources/sounds/Mine.wav"));
+        playlist->addMedia(QUrl("qrc:/resources/sounds/weapon/mine.wav"));
         playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);
         player->play();
     }
@@ -59,7 +58,7 @@ void Effects::PlayCarExplosion(bool play_car_explosion) {
         QMediaPlayer *player = new QMediaPlayer(this);
         QMediaPlaylist *playlist = new QMediaPlaylist(player);
         player->setPlaylist(playlist);
-        playlist->addMedia(QUrl("qrc:/resources/sounds/CarExplosion1.wav"));
+        playlist->addMedia(QUrl("qrc:/resources/sounds/effects/car_explosion.wav"));
         playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);
         player->play();
     }

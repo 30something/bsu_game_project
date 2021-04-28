@@ -25,6 +25,8 @@ class EventsController : public QWidget {
   void PhysicsTimerEvent();
   void ViewTimerEvent();
 
+  void PlaySounds();
+
  signals:
   void SetGamePause();
   void StopGamePause();

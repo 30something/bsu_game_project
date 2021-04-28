@@ -1,4 +1,4 @@
-#include "DriftSound.h"
+#include "drift_sound.h"
 #include <QDebug>
 
 Drift::Drift(QWidget* parent) :  QWidget(parent),
@@ -8,10 +8,10 @@ Drift::Drift(QWidget* parent) :  QWidget(parent),
     sound_player_->setPlaylist(sound_playlist_);
     sound_playlist_->
             addMedia(QUrl(
-            "qrc:/resources/sounds/drift5 (changed).wav"));
+            "qrc:/resources/sounds/car_sounds/drift.wav"));
     sound_playlist_->
             addMedia(QUrl(
-            "qrc:/resources/sounds/drift5 (end).wav"));
+            "qrc:/resources/sounds/car_sounds/drift_loop.wav"));
     sound_playlist_->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
 }
 

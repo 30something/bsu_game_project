@@ -1,4 +1,4 @@
-#include "EngineSound.h"
+#include "engine_sound.h"
 #include <QDebug>
 
 Engine::Engine(QWidget* parent) : QWidget(parent),
@@ -9,19 +9,17 @@ Engine::Engine(QWidget* parent) : QWidget(parent),
     sound_player_->setVolume(volume_);
     sound_playlist_->
             addMedia(QUrl(
-            "qrc:/resources/sounds/IdleSpeed.wav"));
+            "qrc:/resources/sounds/car_sounds/idle_speed.wav"));
     sound_playlist_->
             addMedia(QUrl(
-            "qrc:/resources/sounds/BMW.wav"));
+            "qrc:/resources/sounds/car_sounds/main_engine.wav"));
     sound_playlist_->addMedia(QUrl(
-            "qrc:/resources/sounds/BMW (reversed changed).wav"));
+            "qrc:/resources/sounds/car_sounds/reversed_engine.wav"));
 
     sound_playlist_->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
     sound_player_->setPlaybackRate(1);
     sound_player_->play();
 }
-
-//TODO fix engine sound
 
 void Engine::Play(double coefficient1, int direction, bool car_is_alive) {
     if (!car_is_alive) {
@@ -31,13 +29,6 @@ void Engine::Play(double coefficient1, int direction, bool car_is_alive) {
 
     int coefficient = (int)(100 * coefficient1);
 
-//    bool reversed_playing = false;
-
-//    if (coefficient < 0) {
-//        reversed_playing = true;
-//        coefficient *= -1;
-//    }
-
     int volume = 100 - kDefaultVolume;
     volume *= coefficient;
     volume_ = (volume / 100) + kDefaultVolume;
@@ -45,41 +36,25 @@ void Engine::Play(double coefficient1, int direction, bool car_is_alive) {
 
     if (coefficient <= 5) {
         PlayIdleSpeed();
-    } else if (coefficient >= 10 && direction == 0) {
+    } else if (direction == 0) {
         PlayReversedEngine();
-    } else if (coefficient >= 10 && sound_playlist_->currentIndex() != 1) {
+    } else if (sound_playlist_->currentIndex() != 1) {
         PlayEngine();
     }
 
     if (sound_player_->position() >= 1000 && direction == -1) {
         sound_player_->setPosition(sound_player_->position() - 200);
     }
-//    }
-//    } else if (coefficient >= 98 && sound_playlist_->currentIndex() == 1) {
-//        int64_t position = sound_player_->position();
-//        sound_playlist_->setCurrentIndex(3);
-//        sound_player_->setPosition(position);
-//    }
-
-//    if (coefficient > 10 && coefficient <= 20) {
-//        if (sound_player_->playbackRate() != 0.98) {
-//            sound_player_->setPlaybackRate(0.98);
-//        }
-//    } else
-//        if (coefficient >= 40 && coefficient <= 60) {
-//        if (sound_player_->playbackRate() != 1) {
-//            sound_player_->setPlaybackRate(1);
-//        }
-//    } else if (coefficient >= 80) {
-////        if (sound_playlist_->currentIndex() == 1 && sound_player_->position() >= 2700) {
-////            sound_player_->setPosition(2400);
-////        }
-//        if (sound_player_->playbackRate() != 1.02) {
-//            sound_player_->setPlaybackRate(1.02);
-//        }
-//    }
-
-//    sound_player_->play();
+    if (sound_playlist_->currentIndex() == 1 && direction == 1) {
+        if (coefficient <= 30 && sound_player_->position() >= 981) {
+            sound_player_->setPosition(sound_player_->position() - 200);
+        } else if (coefficient <= 60 && sound_player_->position() >= 1962) {
+            sound_player_->setPosition(sound_player_->position() - 200);
+        }
+        if (sound_player_->position() >= 2700) {
+            sound_player_->setPosition(sound_player_->position() - 120);
+        }
+    }
 }
 
 void Engine::PlayIdleSpeed() {

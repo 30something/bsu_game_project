@@ -1,4 +1,4 @@
-#include "BrakeSound.h"
+#include "brake_sound.h"
 #include <QDebug>
 
 Brake::Brake(QWidget* parent) :  QWidget(parent),
@@ -8,7 +8,7 @@ Brake::Brake(QWidget* parent) :  QWidget(parent),
     sound_player_->setPlaylist(sound_playlist_);
     sound_playlist_->
             addMedia(QUrl(
-            "qrc:/resources/sounds/car_brake.wav"));
+            "qrc:/resources/sounds/car_sounds/car_brake.wav"));
     sound_playlist_->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
 }
 

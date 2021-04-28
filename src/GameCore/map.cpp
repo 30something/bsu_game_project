@@ -102,7 +102,7 @@ void Map::SetBorders(const std::vector<std::vector<QPoint>>& borders) {
           + kMinMilliSecondForNewBonus);
 }
 
-bool Map::GetWhetherBonusIsApplied() const {
+bool Map::BonusIsApplied() const {
     return bonus_is_applied_;
 }
 
