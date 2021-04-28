@@ -92,7 +92,7 @@ void Car::Tick(int time_millisec) {
   } else {
     ArcadeStep(time_millisec);
   }
-  if(bullets_amount_ == 0 || !behavior_->IsFlagShoot()) {
+  if (bullets_amount_ == 0 || !behavior_->IsFlagShoot()) {
     pixmap_id_ = PixmapID::kCar;
   }
   mines_tick_timer_++;

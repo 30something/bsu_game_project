@@ -26,7 +26,7 @@ void WeaponHandler::PutMine(Car* car) {
 }
 
 void WeaponHandler::ProceedWeapons(std::vector<Car>* cars) {
-  if(!enable_weapons_) {
+  if (!enable_weapons_) {
     return;
   }
   for (auto& car : *cars) {
