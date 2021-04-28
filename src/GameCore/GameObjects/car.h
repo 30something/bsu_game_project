@@ -92,6 +92,6 @@ class Car : public GameObject {
   void ProceedInputFlagsRealistic();
   void ProceedInputFlagsArcade();
   void CalcLateralForces();
-  void ProceedUpAndDownFlags();
+  void ProceedUpDownFlags();
   void UpdateCollisionLines() override;
 };

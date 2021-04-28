@@ -23,7 +23,7 @@ void Car::ProceedInputFlagsArcade() {
   if (behavior_->IsFlagRight()) {
     angle_vec_.Rotate(kTickRotationAngle);
   }
-  ProceedUpAndDownFlags();
+  ProceedUpDownFlags();
 }
 
 void Car::ArcadeStep(int time_millisec) {
@@ -56,10 +56,10 @@ void Car::ProceedInputFlagsRealistic() {
   if (!behavior_->IsFlagRight() && !behavior_->IsFlagLeft()) {
     steering_angle_ = 0;
   }
-  ProceedUpAndDownFlags();
+  ProceedUpDownFlags();
 }
 
-void Car::ProceedUpAndDownFlags() {
+void Car::ProceedUpDownFlags() {
   if (behavior_->IsFlagUp()) {
     velocity_ += angle_vec_ * kAccelFactor;
     if (velocity_.GetLength() > behavior_->GetMaxSpeed()) {

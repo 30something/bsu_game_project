@@ -15,8 +15,7 @@ class Bonus : public GameObject {
 
   Bonus(Vec2f point, BonusType _type) :
       GameObject(point),
-      type_(_type) {
-  }
+      type_(_type) {}
 
   void ApplyTo(Car* car);
   PixmapID GetPixmapId() const override;
