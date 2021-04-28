@@ -1,6 +1,7 @@
 #include "src/View/view.h"
 
-View::View(QWidget *events_controller, GameController *model, GameMode *game_mode) :
+View::View(QWidget *events_controller, GameController *model,
+           GameMode *game_mode) :
         model_(model),
         car_(":resources/images/cars/car_1.png"),
         dead_car_(":resources/images/cars/car_1_dead.png"),

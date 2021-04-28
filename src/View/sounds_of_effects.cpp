@@ -26,13 +26,13 @@ void Effects::PlayBonus(bool play_bonus) {
 
 void Effects::PlayShooting(bool using_gun, bool bullets) {
     if (using_gun) {
-        if (bullets && !(sound_playlist_->currentIndex() == 0 && sound_player_->state()
-                                                                 == QMediaPlayer::PlayingState)) {
+        if (bullets && !(sound_playlist_->currentIndex() == 0 &&
+                         sound_player_->state() == QMediaPlayer::PlayingState)) {
             sound_playlist_->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
             sound_playlist_->setCurrentIndex(0);
             sound_player_->play();
-        } else if (!bullets && !(sound_playlist_->currentIndex() == 1 && sound_player_->state()
-                                                                            == QMediaPlayer::PlayingState)) {
+        } else if (!bullets && !(sound_playlist_->currentIndex() == 1 &&
+                                 sound_player_->state() == QMediaPlayer::PlayingState)) {
             sound_playlist_->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);
             sound_playlist_->setCurrentIndex(1);
             sound_player_->play();
@@ -58,7 +58,8 @@ void Effects::PlayCarExplosion(bool play_car_explosion) {
         QMediaPlayer *player = new QMediaPlayer(this);
         QMediaPlaylist *playlist = new QMediaPlaylist(player);
         player->setPlaylist(playlist);
-        playlist->addMedia(QUrl("qrc:/resources/sounds/effects/car_explosion.wav"));
+        playlist->addMedia(QUrl(
+                "qrc:/resources/sounds/effects/car_explosion.wav"));
         playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);
         player->play();
     }

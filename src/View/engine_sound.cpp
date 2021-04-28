@@ -1,7 +1,7 @@
 #include "engine_sound.h"
 #include <QDebug>
 
-Engine::Engine(QWidget* parent) : QWidget(parent),
+Engine::Engine(QWidget *parent) : QWidget(parent),
                                   sound_playlist_(new QMediaPlaylist(this)),
                                   sound_player_(new QMediaPlayer(this)),
                                   volume_(kDefaultVolume) {
@@ -27,7 +27,7 @@ void Engine::Play(double coefficient1, int direction, bool car_is_alive) {
         return;
     }
 
-    int coefficient = (int)(100 * coefficient1);
+    int coefficient = static_cast<int>(100 * coefficient1);
 
     int volume = 100 - kDefaultVolume;
     volume *= coefficient;

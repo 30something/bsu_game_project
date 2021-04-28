@@ -1,10 +1,10 @@
 #include "drift_sound.h"
 #include <QDebug>
 
-Drift::Drift(QWidget* parent) :  QWidget(parent),
-                                  sound_playlist_(new QMediaPlaylist(this)),
-                                  sound_player_(new QMediaPlayer(this)),
-                                  volume_(0) {
+Drift::Drift(QWidget *parent) : QWidget(parent),
+                                sound_playlist_(new QMediaPlaylist(this)),
+                                sound_player_(new QMediaPlayer(this)),
+                                volume_(0) {
     sound_player_->setPlaylist(sound_playlist_);
     sound_playlist_->
             addMedia(QUrl(
@@ -26,7 +26,8 @@ void Drift::Play(double coefficient) {
         }
         sound_player_->stop();
     }
-    if (sound_player_->position() >= 2650 && sound_playlist_->currentIndex() == 0) {
+    if (sound_player_->position() >= 2650 &&
+        sound_playlist_->currentIndex() == 0) {
         sound_player_->stop();
         sound_playlist_->setCurrentIndex(1);
         sound_player_->play();

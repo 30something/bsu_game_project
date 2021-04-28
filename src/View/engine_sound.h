@@ -17,7 +17,7 @@ class Engine : public QWidget {
     void PlayReversedEngine();
     void PlayEngine();
 
-private:
+ private:
     QMediaPlaylist* sound_playlist_;
     QMediaPlayer* sound_player_;
     static constexpr int kDefaultVolume = 30;
