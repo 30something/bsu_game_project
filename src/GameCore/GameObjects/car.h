@@ -37,11 +37,9 @@ class Car : public GameObject {
   double GetAngle() const override;
   const std::vector<Line>& GetCollisionLines() const override;
   const Vec2f& GetVelocity() const;
-  PixmapID GetPixmapId() const override;
   const Vec2f& GetAngleVec() const;
   bool IsPuttingMine() const;
   bool IsShooting() const;
-  bool IsAlive() const;
   void SetVelocity(const Vec2f& velocity);
   void SetPosition(const Vec2f& position);
   void AddHitPoints(double hit_points_);
