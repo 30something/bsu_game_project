@@ -15,8 +15,8 @@ if (NOT CMAKE_PREFIX_PATH)
 endif ()
 
 set(QT_VERSION 5)
-set(REQUIRED_LIBS Core Widgets)
-set(REQUIRED_LIBS_QUALIFIED Qt5::Core Qt5::Widgets)
+set(REQUIRED_LIBS Core Widgets Network)
+set(REQUIRED_LIBS_QUALIFIED Qt5::Core Qt5::Widgets Qt5::Network)
 find_package(Qt${QT_VERSION} COMPONENTS ${REQUIRED_LIBS} REQUIRED)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -53,6 +53,9 @@ set(SOURCES main.cpp
         src/Menu/end_game_stats.cpp
         src/View/view_info_updater.cpp
         src/helpers/cars_data.cpp
+        src/Network/network_player.cpp
+        src/Network/network_room.cpp
+        src/Network/player_tile.cpp
         )
 
 set(RESOURCES
