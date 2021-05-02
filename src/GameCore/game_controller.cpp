@@ -35,8 +35,8 @@ void GameController::SetUpBots() {
         map_.GetPosAndAngles()[game_mode_->players_amount + i].first,
         map_.GetPosAndAngles()[game_mode_->players_amount + i].second,
         bot,
-        game_mode_->enable_drifting,
-        static_cast<CarsColors>(i + 2));
+        static_cast<CarsColors>(i + 2),
+        game_mode_->enable_drifting);
   }
 }
 
@@ -47,8 +47,8 @@ void GameController::SetUpCars(const InputController* input_controller) {
       map_.GetPosAndAngles()[0].first,
       map_.GetPosAndAngles()[0].second,
       first_player_behavior,
-      game_mode_->enable_drifting,
-      static_cast<CarsColors>(0));
+      static_cast<CarsColors>(0),
+      game_mode_->enable_drifting);
   if (game_mode_->players_amount > 1) {
     Behavior* second_player_behavior =
         new SecondPlayerBehavior(input_controller);
@@ -56,8 +56,8 @@ void GameController::SetUpCars(const InputController* input_controller) {
         map_.GetPosAndAngles()[1].first,
         map_.GetPosAndAngles()[1].second,
         second_player_behavior,
-        game_mode_->enable_drifting,
-        static_cast<CarsColors>(1));
+        static_cast<CarsColors>(1),
+        game_mode_->enable_drifting);
   }
 }
 

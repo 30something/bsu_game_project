@@ -7,7 +7,10 @@
 
 #include "src/helpers/vec2f.h"
 #include "src/helpers/line.h"
-#include "src/helpers/pixmapIDs.h"
+#include "src/helpers/game_object_states.h"
+#include "src/helpers/pixmap_categories.h"
+
+using PixmapID = int32_t;
 
 class GameObject {
  public:
@@ -18,10 +21,19 @@ class GameObject {
   virtual const std::vector<Line>& GetCollisionLines() const;
 
  protected:
-  Vec2f position_;
-  PixmapID pixmap_id_;
-  std::vector<Line> collision_lines_;
   virtual void UpdateCollisionLines();
+
+  class PixmapComponent {
+   public:
+    virtual PixmapID GetPixmapId() const;
+
+   protected:
+    PixmapID pixmap_id_ = 0;
+  };
+
+  Vec2f position_;
+  std::vector<Line> collision_lines_;
+  PixmapComponent pixmap_component_;
 
  private:
   static constexpr double kDefaultSize = 5;

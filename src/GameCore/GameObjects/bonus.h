@@ -7,18 +7,12 @@
 
 class Bonus : public GameObject {
  public:
-  enum class BonusType {
-    kHealth,
-    kBulletsAmmo,
-    kMineAmmo
-  };
-
-  Bonus(Vec2f point, BonusType _type);
-
+  Bonus(Vec2f point, BonusStates state);
   void ApplyTo(Car* car);
+  PixmapID GetPixmapId() const override;
 
   bool operator==(const Bonus& rhs) const {
-    return type_ == rhs.type_ &&
+    return state_ == rhs.state_ &&
         position_ == rhs.position_;
   }
 
@@ -27,7 +21,13 @@ class Bonus : public GameObject {
   }
 
  private:
-  BonusType type_;
+  class BonusPixmapComponent : public PixmapComponent {
+   public:
+    void SetBonusPixmapId(BonusStates bonus_state);
+  };
+
+  BonusStates state_;
+  BonusPixmapComponent bonus_pixmap_component_;
 
   static constexpr double kBonusHealthPrize = 20;
   static constexpr double kBonusBulletsAmmoPrize = 100;

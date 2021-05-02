@@ -58,7 +58,7 @@ void View::DrawMap(QPainter* painter,
                    const Vec2f& pos) {
   painter->drawPixmap(frame.left() / scale_,
                       0,
-                      pixmap_loader_.GetPixmap(PixmapID::kMap),
+                      pixmap_loader_.GetMapPixmap(),
                       pos.GetX() - frame.width() / 2 / scale_,
                       pos.GetY() - frame.height() / 2 / scale_,
                       frame.width() / scale_,
@@ -80,12 +80,11 @@ void View::DrawObjects(QPainter* painter,
         painter->save();
         painter->translate(x, y);
         painter->rotate((*object)[i].GetAngle());
-        painter->drawPixmap(pixmap_loader_.GetOffset(
-            (*object)[i].GetPixmapId()).x(),
-                            pixmap_loader_.GetOffset(
-                                (*object)[i].GetPixmapId()).y(),
-                            pixmap_loader_.GetPixmap(
-                                (*object)[i].GetPixmapId()));
+        int32_t pixmap_id = (*object)[i].GetPixmapId();
+        std::pair<QPixmap, QPoint> pixmap_with_offset =
+            pixmap_loader_.GetPixmap(pixmap_id);
+        painter->drawPixmap(pixmap_with_offset.second,
+                            pixmap_with_offset.first);
         painter->restore();
       }
     }

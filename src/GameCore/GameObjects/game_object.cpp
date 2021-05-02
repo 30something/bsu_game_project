@@ -1,5 +1,9 @@
 #include "game_object.h"
 
+PixmapID GameObject::PixmapComponent::GetPixmapId() const {
+  return pixmap_id_;
+}
+
 const std::vector<Line>& GameObject::GetCollisionLines() const {
   return collision_lines_;
 }
@@ -29,5 +33,5 @@ void GameObject::UpdateCollisionLines() {
 }
 
 PixmapID GameObject::GetPixmapId() const {
-  return pixmap_id_;
+  return pixmap_component_.GetPixmapId();
 }

@@ -22,8 +22,8 @@ class Car : public GameObject {
   Car(QPoint position,
       double angle,
       Behavior* behavior,
-      bool enable_drifts,
-      CarsColors car_color);
+      CarsColors car_color,
+      bool enable_drifts);
   ~Car() = default;
 
   void Tick(int time_millisec);
@@ -35,6 +35,7 @@ class Car : public GameObject {
   double GetBulletsAmount() const;
   double GetMinesAmount() const;
   double GetAngle() const override;
+  PixmapID GetPixmapId() const override;
   const std::vector<Line>& GetCollisionLines() const override;
   const Vec2f& GetVelocity() const;
   const Vec2f& GetAngleVec() const;
@@ -49,6 +50,11 @@ class Car : public GameObject {
   void BecomeDead();
 
  private:
+  class CarPixmapComponent : public PixmapComponent {
+   public:
+    void SetCarPixmapId(CarStates car_state, CarsColors car_color);
+  };
+
   void UpdateWheelsPosAndOrientation();
   void RealisticStep(int time_millisec);
   void ArcadeStep(int time_millisec);
@@ -59,15 +65,7 @@ class Car : public GameObject {
   void ProceedUpDownFlags();
   void UpdateCollisionLines() override;
 
-  std::vector<Wheel> wheels_{4};
-  Behavior* behavior_ = nullptr;
-  Vec2f angle_vec_;
-  Vec2f velocity_;
-  bool enable_drifts_ = true;
-
-  double angular_velocity_ = 0;
-  double steering_angle_ = 0;
-  static constexpr int kPutMineOffset = -15;
+  static constexpr int32_t kPutMineOffset = -15;
   static constexpr double kShootingRange = 100;
   static constexpr double kAccelFactor = 2.0;
   static constexpr double kFrictionFactor = 0.5;
@@ -87,9 +85,18 @@ class Car : public GameObject {
   static constexpr double kMineDelayTicks = 500;
   static constexpr double kTickRotationAngle = 0.015;
 
+  std::vector<Wheel> wheels_{4};
+  Behavior* behavior_ = nullptr;
+  Vec2f angle_vec_;
+  Vec2f velocity_;
+  CarsColors car_color_;
+  CarPixmapComponent car_pixmap_component_;
+
   double hit_points_ = 200;
   size_t bullets_amount_ = 1000;
   size_t mines_amount_ = 10;
   size_t mines_tick_timer_ = 0;
-  CarsColors car_color_;
+  double angular_velocity_ = 0;
+  double steering_angle_ = 0;
+  bool enable_drifts_ = true;
 };

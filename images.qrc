@@ -1,21 +1,21 @@
 <RCC>
     <qresource>
-        <file>resources/images/cars/car1.png</file>
-        <file>resources/images/cars/car2.png</file>
-        <file>resources/images/cars/car3.png</file>
-        <file>resources/images/cars/car4.png</file>
-        <file>resources/images/cars/car5.png</file>
-        <file>resources/images/cars/car6.png</file>
-        <file>resources/images/cars/car7.png</file>
-        <file>resources/images/cars/car8.png</file>
-        <file>resources/images/cars/car1_shoot.png</file>
-        <file>resources/images/cars/car2_shoot.png</file>
-        <file>resources/images/cars/car3_shoot.png</file>
-        <file>resources/images/cars/car4_shoot.png</file>
-        <file>resources/images/cars/car5_shoot.png</file>
-        <file>resources/images/cars/car6_shoot.png</file>
-        <file>resources/images/cars/car7_shoot.png</file>
-        <file>resources/images/cars/car8_shoot.png</file>
+        <file>resources/images/cars/standard_cars/car1.png</file>
+        <file>resources/images/cars/standard_cars/car2.png</file>
+        <file>resources/images/cars/standard_cars/car3.png</file>
+        <file>resources/images/cars/standard_cars/car4.png</file>
+        <file>resources/images/cars/standard_cars/car5.png</file>
+        <file>resources/images/cars/standard_cars/car6.png</file>
+        <file>resources/images/cars/standard_cars/car7.png</file>
+        <file>resources/images/cars/standard_cars/car8.png</file>
+        <file>resources/images/cars/shooting_cars/car1_shoot.png</file>
+        <file>resources/images/cars/shooting_cars/car2_shoot.png</file>
+        <file>resources/images/cars/shooting_cars/car3_shoot.png</file>
+        <file>resources/images/cars/shooting_cars/car4_shoot.png</file>
+        <file>resources/images/cars/shooting_cars/car5_shoot.png</file>
+        <file>resources/images/cars/shooting_cars/car6_shoot.png</file>
+        <file>resources/images/cars/shooting_cars/car7_shoot.png</file>
+        <file>resources/images/cars/shooting_cars/car8_shoot.png</file>
         <file>resources/images/cars/car_dead.png</file>
         <file>resources/images/maps/map1.jpg</file>
         <file>resources/images/maps/map2.jpg</file>

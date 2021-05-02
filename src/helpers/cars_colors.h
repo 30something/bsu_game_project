@@ -10,5 +10,3 @@ enum class CarsColors {
   kCyan,
   kLightGreen
 };
-
-const int32_t kCarsPixmapsAmount = 8;
