@@ -18,7 +18,7 @@ using PixmapID = int32_t;
 class PixmapLoader {
  public:
   explicit PixmapLoader(const QString& filepath);
-  const std::pair<QPixmap, QPoint>& GetPixmap(PixmapID id);
+  const QPixmap& GetPixmap(PixmapID id);
   const QPixmap& GetMapPixmap();
 
  private:
@@ -26,10 +26,7 @@ class PixmapLoader {
 
   QString map_filepath_;
   QPixmap map_pixmap_;
-  std::unordered_map<CarStates,
-                     std::vector<std::pair<QPixmap, QPoint>>> cars_pixmaps_;
-  std::unordered_map<MineStates,
-                     std::vector<std::pair<QPixmap, QPoint>>> mines_pixmaps_;
-  std::unordered_map<BonusStates,
-                     std::vector<std::pair<QPixmap, QPoint>>> bonuses_pixmaps_;
+  std::unordered_map<CarStates, std::vector<QPixmap>> cars_pixmaps_;
+  std::unordered_map<MineStates, std::vector<QPixmap>> mines_pixmaps_;
+  std::unordered_map<BonusStates, std::vector<QPixmap>> bonuses_pixmaps_;
 };

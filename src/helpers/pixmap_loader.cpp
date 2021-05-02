@@ -9,14 +9,12 @@ void PixmapLoader::InitPixmaps() {
   QFileInfoList standard_cars_list =
       QDir(":resources/images/cars/standard_cars").entryInfoList();
   for (const auto& file : standard_cars_list) {
-    cars_pixmaps_[CarStates::kStandard].emplace_back(QPixmap(file.filePath()),
-                                                     QPoint(-5, -10));
+    cars_pixmaps_[CarStates::kStandard].emplace_back(QPixmap(file.filePath()));
   }
   QFileInfoList shooting_cars_list =
       QDir(":resources/images/cars/shooting_cars").entryInfoList();
   for (const auto& file : shooting_cars_list) {
-    cars_pixmaps_[CarStates::kShooting].emplace_back(QPixmap(file.filePath()),
-                                                     QPoint(-5, -16));
+    cars_pixmaps_[CarStates::kShooting].emplace_back(QPixmap(file.filePath()));
   }
 
   QString basic_path = ":resources/images/";
@@ -28,21 +26,15 @@ void PixmapLoader::InitPixmaps() {
   QPixmap mines_bonus(basic_path + "other_stuff/mines_ammo.png");
   map_pixmap_ = QPixmap(map_filepath_);
 
-  cars_pixmaps_[CarStates::kDead].emplace_back(dead_car,
-                                               QPoint(-5, -10));
-  mines_pixmaps_[MineStates::kStandard].emplace_back(mine,
-                                                     QPoint(-2, -2));
-  mines_pixmaps_[MineStates::kExploded].emplace_back(exploded_mine,
-                                                     QPoint(-2, -2));
-  bonuses_pixmaps_[BonusStates::kHealth].emplace_back(health_bonus,
-                                                      QPoint(-5, -5));
-  bonuses_pixmaps_[BonusStates::kBulletsAmmo].emplace_back(bullets_ammo_bonus,
-                                                           QPoint(-5, -5));
-  bonuses_pixmaps_[BonusStates::kMineAmmo].emplace_back(mines_bonus,
-                                                        QPoint(-5, -5));
+  cars_pixmaps_[CarStates::kDead].emplace_back(dead_car);
+  mines_pixmaps_[MineStates::kStandard].emplace_back(mine);
+  mines_pixmaps_[MineStates::kExploded].emplace_back(exploded_mine);
+  bonuses_pixmaps_[BonusStates::kHealth].emplace_back(health_bonus);
+  bonuses_pixmaps_[BonusStates::kBulletsAmmo].emplace_back(bullets_ammo_bonus);
+  bonuses_pixmaps_[BonusStates::kMineAmmo].emplace_back(mines_bonus);
 }
 
-const std::pair<QPixmap, QPoint>& PixmapLoader::GetPixmap(PixmapID id) {
+const QPixmap& PixmapLoader::GetPixmap(PixmapID id) {
   auto pixmap_category = static_cast<PixmapCategories>(id >> 24);
   int32_t state_value = (id << 8) >> 24;
   int32_t pixmap_number = (id << 16) >> 16;

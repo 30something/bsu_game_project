@@ -80,11 +80,10 @@ void View::DrawObjects(QPainter* painter,
         painter->save();
         painter->translate(x, y);
         painter->rotate((*object)[i].GetAngle());
-        int32_t pixmap_id = (*object)[i].GetPixmapId();
-        std::pair<QPixmap, QPoint> pixmap_with_offset =
-            pixmap_loader_.GetPixmap(pixmap_id);
-        painter->drawPixmap(pixmap_with_offset.second,
-                            pixmap_with_offset.first);
+        QPixmap pixmap = pixmap_loader_.GetPixmap((*object)[i].GetPixmapId());
+        painter->drawPixmap(-(pixmap.width() / 2),
+                            -(pixmap.height() / 2),
+                            pixmap);
         painter->restore();
       }
     }
