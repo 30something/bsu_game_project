@@ -15,6 +15,7 @@ using PixmapID = int32_t;
 class GameObject {
  public:
   explicit GameObject(const Vec2f& position);
+  virtual ~GameObject();
   Vec2f GetPosition() const;
   virtual double GetAngle() const;
   virtual PixmapID GetPixmapId() const;

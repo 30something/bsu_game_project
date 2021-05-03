@@ -23,6 +23,10 @@ GameObject::GameObject(const Vec2f& position) :
   UpdateCollisionLines();
 }
 
+GameObject::~GameObject() {
+  delete pixmap_component_;
+}
+
 void GameObject::UpdateCollisionLines() {
   Vec2f p1(position_.GetX() - kDefaultSize, position_.GetY() - kDefaultSize);
   Vec2f p2(position_.GetX() + kDefaultSize, position_.GetY() - kDefaultSize);
