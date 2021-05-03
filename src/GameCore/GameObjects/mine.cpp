@@ -1,9 +1,10 @@
 #include "mine.h"
 
 Mine::Mine(Vec2f position) :
-  GameObject(position),
-  pixmap_component_(new MinePixmapComponent) {
-  pixmap_component_->SetMinePixmapId(MineStates::kStandard);
+  GameObject(position,
+             new MinePixmapComponent) {
+  dynamic_cast<MinePixmapComponent*>(pixmap_component_)->
+      SetMinePixmapId(MineStates::kStandard);
 }
 
 bool Mine::operator==(const Mine& rhs) const {
@@ -15,16 +16,13 @@ bool Mine::operator!=(const Mine& rhs) const {
 }
 
 void Mine::SetExploded() {
-  pixmap_component_->SetMinePixmapId(MineStates::kExploded);
+  dynamic_cast<MinePixmapComponent*>(pixmap_component_)->
+      SetMinePixmapId(MineStates::kExploded);
   is_exploded_ = true;
 }
 
 bool Mine::IsExploded() const {
   return is_exploded_;
-}
-
-PixmapID Mine::GetPixmapId() const {
-  return pixmap_component_->GetPixmapId();
 }
 
 void Mine::MinePixmapComponent::SetMinePixmapId(MineStates mine_state) {

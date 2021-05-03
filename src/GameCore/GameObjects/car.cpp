@@ -5,10 +5,10 @@ Car::Car(QPoint position,
          Behavior* behavior,
          CarsColors car_color,
          bool enable_drifts) :
-    GameObject(Vec2f(position.x(), position.y())),
+    GameObject(Vec2f(position.x(), position.y()),
+               new CarPixmapComponent),
     behavior_(behavior),
     car_color_(car_color),
-    pixmap_component_(new CarPixmapComponent),
     enable_drifts_(enable_drifts) {
   velocity_.Set(physics::kAlmostZero, physics::kAlmostZero);
   angle_vec_.Set(1.0, 0.0);
@@ -17,7 +17,8 @@ Car::Car(QPoint position,
   for (auto& wheel : wheels_) {
     wheel.SetPreviousPosition(wheel.GetPosition());
   }
-  pixmap_component_->SetCarPixmapId(CarStates::kStandard, car_color_);
+  dynamic_cast<CarPixmapComponent*>(pixmap_component_)->
+      SetCarPixmapId(CarStates::kStandard, car_color_);
 }
 
 Car::~Car() {
@@ -100,7 +101,8 @@ void Car::Tick(int time_millisec) {
     ArcadeStep(time_millisec);
   }
   if (bullets_amount_ == 0 || !behavior_->IsFlagShoot()) {
-    pixmap_component_->SetCarPixmapId(CarStates::kStandard, car_color_);
+    dynamic_cast<CarPixmapComponent*>(pixmap_component_)->
+        SetCarPixmapId(CarStates::kStandard, car_color_);
   }
   mines_tick_timer_++;
   UpdateCollisionLines();
@@ -202,10 +204,6 @@ double Car::GetAngle() const {
   return angle_vec_.GetAngleDegrees() + 90;
 }
 
-PixmapID Car::GetPixmapId() const {
-  return pixmap_component_->GetPixmapId();
-}
-
 const Vec2f& Car::GetVelocity() const {
   return velocity_;
 }
@@ -255,7 +253,8 @@ bool Car::IsShooting() const {
 
 void Car::BecomeDead() {
   behavior_->EnableInput(false);
-  pixmap_component_->SetCarPixmapId(CarStates::kDead, car_color_);
+  dynamic_cast<CarPixmapComponent*>(pixmap_component_)->
+      SetCarPixmapId(CarStates::kDead, car_color_);
 }
 
 std::optional<Vec2f> Car::DropMine() {
@@ -271,7 +270,8 @@ std::optional<Vec2f> Car::DropMine() {
 
 std::optional<Line> Car::ShootBullet() {
   if (bullets_amount_ > 0) {
-    pixmap_component_->SetCarPixmapId(CarStates::kShooting, car_color_);
+    dynamic_cast<CarPixmapComponent*>(pixmap_component_)->
+        SetCarPixmapId(CarStates::kShooting, car_color_);
     bullets_amount_--;
     return Line(
         position_.GetX(),
@@ -279,7 +279,8 @@ std::optional<Line> Car::ShootBullet() {
         angle_vec_.GetX() * kShootingRange + position_.GetX(),
         angle_vec_.GetY() * kShootingRange + position_.GetY());
   } else {
-    pixmap_component_->SetCarPixmapId(CarStates::kStandard, car_color_);
+    dynamic_cast<CarPixmapComponent*>(pixmap_component_)->
+        SetCarPixmapId(CarStates::kStandard, car_color_);
     return std::nullopt;
   }
 }
@@ -304,8 +305,6 @@ void Car::CarPixmapComponent::SetCarPixmapId(CarStates car_state,
   auto category_value = static_cast<int32_t>(PixmapCategories::kCar);
   auto car_state_value = static_cast<int32_t>(car_state);
   auto car_color_value = static_cast<int32_t>(car_color);
-  pixmap_id_ =
-      (category_value << 24) +
-          (car_state_value << 16) +
-          car_color_value;
+  pixmap_id_ = (category_value << 24) + (car_state_value << 16) +
+      car_color_value;
 }

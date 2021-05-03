@@ -1,10 +1,11 @@
 #include "bonus.h"
 
 Bonus::Bonus(Vec2f point, BonusTypes type) :
-    GameObject(point),
-    type_(type),
-    pixmap_component_(new BonusPixmapComponent) {
-  pixmap_component_->SetBonusPixmapId(type_);
+    GameObject(point,
+               new BonusPixmapComponent),
+    type_(type) {
+  dynamic_cast<BonusPixmapComponent*>(pixmap_component_)->
+      SetBonusPixmapId(type_);
 }
 
 void Bonus::ApplyTo(Car* car) {
@@ -22,10 +23,6 @@ void Bonus::ApplyTo(Car* car) {
       break;
     }
   }
-}
-
-PixmapID Bonus::GetPixmapId() const {
-  return pixmap_component_->GetPixmapId();
 }
 
 void Bonus::BonusPixmapComponent::SetBonusPixmapId(BonusTypes bonus_type) {

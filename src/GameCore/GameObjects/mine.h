@@ -14,7 +14,6 @@ class Mine : public GameObject {
   bool operator!=(const Mine& rhs) const;
   void SetExploded();
   bool IsExploded() const;
-  PixmapID GetPixmapId() const override;
 
  private:
   class MinePixmapComponent : public PixmapComponent {
@@ -23,6 +22,5 @@ class Mine : public GameObject {
     ~MinePixmapComponent() override = default;
   };
 
-  MinePixmapComponent* pixmap_component_;
   bool is_exploded_ = false;
 };

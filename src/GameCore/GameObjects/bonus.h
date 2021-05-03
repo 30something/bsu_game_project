@@ -10,7 +10,6 @@ class Bonus : public GameObject {
   Bonus(Vec2f point, BonusTypes type);
   ~Bonus() override = default;
   void ApplyTo(Car* car);
-  PixmapID GetPixmapId() const override;
 
   bool operator==(const Bonus& rhs) const {
     return type_ == rhs.type_ &&
@@ -29,7 +28,6 @@ class Bonus : public GameObject {
   };
 
   BonusTypes type_;
-  BonusPixmapComponent* pixmap_component_;
 
   static constexpr double kBonusHealthPrize = 20;
   static constexpr double kBonusBulletsAmmoPrize = 100;

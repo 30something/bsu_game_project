@@ -35,7 +35,6 @@ class Car : public GameObject {
   double GetBulletsAmount() const;
   double GetMinesAmount() const;
   double GetAngle() const override;
-  PixmapID GetPixmapId() const override;
   const std::vector<Line>& GetCollisionLines() const override;
   const Vec2f& GetVelocity() const;
   const Vec2f& GetAngleVec() const;
@@ -91,7 +90,6 @@ class Car : public GameObject {
   Vec2f angle_vec_;
   Vec2f velocity_;
   CarsColors car_color_;
-  CarPixmapComponent* pixmap_component_;
 
   double hit_points_ = 200;
   size_t bullets_amount_ = 1000;

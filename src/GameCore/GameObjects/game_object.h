@@ -13,8 +13,11 @@
 using PixmapID = int32_t;
 
 class GameObject {
+ protected:
+  class PixmapComponent;
  public:
-  explicit GameObject(const Vec2f& position);
+  explicit GameObject(const Vec2f& position,
+                      PixmapComponent* pixmap_component);
   virtual ~GameObject();
   Vec2f GetPosition() const;
   virtual double GetAngle() const;
@@ -35,7 +38,7 @@ class GameObject {
 
   Vec2f position_;
   std::vector<Line> collision_lines_;
-  PixmapComponent* pixmap_component_;
+  PixmapComponent* pixmap_component_ = nullptr;
 
  private:
   static constexpr double kDefaultSize = 5;
