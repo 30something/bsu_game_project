@@ -37,8 +37,9 @@ class NetworkRoom : public QWidget {
 
   NetworkPlayer* network_player_ = nullptr;
   PlayerTile* player_tile_;
-  std::vector<PlayerTile> other_players_;
+  std::vector<PlayerTile*> other_players_;
   NetworkController* network_controller_ = nullptr;
+  void UpdatePlayersVector();
   void SetUpAndStartGame();
   void ChangeReadyStatus();
   void ConnectToServer();

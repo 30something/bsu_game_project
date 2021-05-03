@@ -1,15 +1,15 @@
 #include "src/Network/network_player.h"
 
-const QString& NetworkPlayer::GetNickname() const {
-  return nickname_;
+size_t NetworkPlayer::GetId() const {
+  return id_;
 }
 
-void NetworkPlayer::SetNickname(const QString& nickname) {
-  nickname_ = nickname;
+void NetworkPlayer::SetId(size_t nickname) {
+  id_ = nickname;
 }
 
 QTcpSocket* NetworkPlayer::Socket() {
-  return &socket_;
+  return socket_;
 }
 
 bool NetworkPlayer::IsReady() const {
@@ -20,5 +20,5 @@ void NetworkPlayer::SetIsReady(bool is_ready) {
   is_ready_ = is_ready;
 }
 
-NetworkPlayer::NetworkPlayer() : socket_() {
+NetworkPlayer::NetworkPlayer(QTcpSocket* p_socket) : socket_(p_socket) {
 }

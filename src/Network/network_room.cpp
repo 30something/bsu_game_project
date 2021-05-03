@@ -13,8 +13,7 @@ NetworkRoom::NetworkRoom(QWidget* parent) :
     connection_layout_(new QVBoxLayout()),
     buttons_layout_(new QHBoxLayout()),
     players_layout_(new QVBoxLayout()),
-    network_player_(new NetworkPlayer()),
-  player_tile_(new PlayerTile(this, network_player_)){
+    network_player_(new NetworkPlayer(new QTcpSocket())) {
   SetUpLayouts();
   ConnectEverything();
 }
@@ -38,7 +37,6 @@ void NetworkRoom::SetUpLayouts() {
   main_layout_->addLayout(buttons_layout_);
   main_layout_->addLayout(connection_layout_);
   main_layout_->addLayout(players_layout_);
-  players_layout_->addWidget(player_tile_);
   connection_layout_->addWidget(ip_);
   connection_layout_->addWidget(port_);
   connection_layout_->addWidget(nickname_);
@@ -50,7 +48,7 @@ void NetworkRoom::SetUpLayouts() {
 
 void NetworkRoom::ConnectToServer() {
   network_player_->Socket()->connectToHost(ip_->text(), port_->text().toInt());
-  if(network_player_->Socket()->isOpen()) {
+  if (network_player_->Socket()->isOpen()) {
     connection_status_->setText("Connected Successfully");
   } else {
     connection_status_->setText("Connection Error");
@@ -60,10 +58,14 @@ void NetworkRoom::ConnectToServer() {
           &NetworkController::StartGame,
           this,
           &NetworkRoom::SetUpAndStartGame);
+  connect(network_controller_,
+          &NetworkController::GotPlayersVector,
+          this,
+          &NetworkRoom::UpdatePlayersVector);
 }
 
 void NetworkRoom::ChangeReadyStatus() {
-  if(network_player_->Socket()->isOpen()) {
+  if (network_player_->Socket()->isOpen()) {
     network_controller_->SendReadyStatus();
     network_player_->SetIsReady(!network_player_->IsReady());
   } else {
@@ -74,4 +76,13 @@ void NetworkRoom::ChangeReadyStatus() {
 void NetworkRoom::SetUpAndStartGame() {
   // smth here
   emit StartGame();
+}
+
+void NetworkRoom::UpdatePlayersVector() {
+  auto id =
+      network_controller_->GetData().toInt();
+  auto* player = new NetworkPlayer(nullptr);
+  player->SetId(id);
+  other_players_.emplace_back(new PlayerTile(this, player));
+  players_layout_->addWidget(other_players_.back());
 }

@@ -6,15 +6,15 @@
 
 class NetworkPlayer {
  public:
-  NetworkPlayer();
-  const QString& GetNickname() const;
-  void SetNickname(const QString& nickname);
+  explicit NetworkPlayer(QTcpSocket* p_socket);
+  size_t GetId() const;
+  void SetId(size_t nickname);
   QTcpSocket* Socket();
   bool IsReady() const;
   void SetIsReady(bool is_ready);
 
  private:
-  QString nickname_;
-  QTcpSocket socket_;
+  size_t id_;
+  QTcpSocket* socket_;
   bool is_ready_ = false;
 };

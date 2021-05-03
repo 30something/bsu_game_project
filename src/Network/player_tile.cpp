@@ -3,7 +3,7 @@
 PlayerTile::PlayerTile(QWidget* parent, const NetworkPlayer* player) :
     QWidget(parent),
     player_(player),
-    nickname_(new QLabel(player->GetNickname(), this)),
+    nickname_(new QLabel(QString::number(player->GetId()), this)),
     is_ready_(new QLabel(this)),
     main_layout_(new QHBoxLayout(this)) {
   if(player->IsReady()) {
@@ -21,5 +21,5 @@ void PlayerTile::UpdateInfo() {
   } else {
     is_ready_->setText("not ready");
   }
-  nickname_->setText(player_->GetNickname());
+  nickname_->setText(QString::number(player_->GetId()));
 }

@@ -64,5 +64,12 @@ set(RESOURCES
         map_data.qrc
         src/helpers/map_data.cpp)
 
+set(SERVER_SOURCES
+        src/Server/main.cpp
+        src/Network/network_player.cpp
+        src/Server/server_controller.cpp)
+
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
+add_executable(Death_Rally_Server ${SERVER_SOURCES})
 target_link_libraries(${PROJECT_NAME} ${REQUIRED_LIBS_QUALIFIED})
+target_link_libraries(Death_Rally_Server ${REQUIRED_LIBS_QUALIFIED})
