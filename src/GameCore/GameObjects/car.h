@@ -24,7 +24,6 @@ class Car : public GameObject {
       Behavior* behavior,
       CarsColors car_color,
       bool enable_drifts);
-  ~Car() override;
 
   void Tick(int time_millisec);
 

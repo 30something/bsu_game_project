@@ -9,7 +9,6 @@
 class Mine : public GameObject {
  public:
   explicit Mine(Vec2f position);
-  ~Mine() override = default;
   bool operator==(const Mine& rhs) const;
   bool operator!=(const Mine& rhs) const;
   void SetExploded();

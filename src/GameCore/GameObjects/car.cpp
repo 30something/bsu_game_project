@@ -21,10 +21,6 @@ Car::Car(QPoint position,
       SetCarPixmapId(CarStates::kStandard, car_color_);
 }
 
-Car::~Car() {
-  delete behavior_;
-}
-
 void Car::ProceedInputFlagsArcade() {
   if (behavior_->IsFlagLeft()) {
     angle_vec_.Rotate(-kTickRotationAngle);

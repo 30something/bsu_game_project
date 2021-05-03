@@ -8,10 +8,6 @@ GameObject::GameObject(const Vec2f& position,
   UpdateCollisionLines();
 }
 
-GameObject::~GameObject() {
-  delete pixmap_component_;
-}
-
 const std::vector<Line>& GameObject::GetCollisionLines() const {
   return collision_lines_;
 }
