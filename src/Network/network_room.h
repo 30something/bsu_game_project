@@ -8,6 +8,7 @@
 #include <QLineEdit>
 
 #include "network_player.h"
+#include "network_controller.h"
 #include "player_tile.h"
 
 class NetworkRoom : public QWidget {
@@ -33,9 +34,14 @@ class NetworkRoom : public QWidget {
   QVBoxLayout* connection_layout_;
   QHBoxLayout* buttons_layout_;
   QVBoxLayout* players_layout_;
+
   NetworkPlayer* network_player_ = nullptr;
   PlayerTile* player_tile_;
   std::vector<PlayerTile> other_players_;
+  NetworkController* network_controller_ = nullptr;
+  void SetUpAndStartGame();
+  void ChangeReadyStatus();
+  void ConnectToServer();
   void SetUpLayouts();
   void ConnectEverything() const;
 };

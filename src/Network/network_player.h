@@ -6,7 +6,7 @@
 
 class NetworkPlayer {
  public:
-  NetworkPlayer() = default;
+  NetworkPlayer();
   const QString& GetNickname() const;
   void SetNickname(const QString& nickname);
   QTcpSocket* Socket();
@@ -16,5 +16,5 @@ class NetworkPlayer {
  private:
   QString nickname_;
   QTcpSocket socket_;
-  bool is_ready_;
+  bool is_ready_ = false;
 };

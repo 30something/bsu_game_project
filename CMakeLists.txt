@@ -56,6 +56,7 @@ set(SOURCES main.cpp
         src/Network/network_player.cpp
         src/Network/network_room.cpp
         src/Network/player_tile.cpp
+        src/Network/network_controller.cpp
         )
 
 set(RESOURCES

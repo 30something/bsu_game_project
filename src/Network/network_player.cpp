@@ -8,7 +8,7 @@ void NetworkPlayer::SetNickname(const QString& nickname) {
   nickname_ = nickname;
 }
 
-QTcpSocket* NetworkPlayer::Socket(){
+QTcpSocket* NetworkPlayer::Socket() {
   return &socket_;
 }
 
@@ -18,4 +18,7 @@ bool NetworkPlayer::IsReady() const {
 
 void NetworkPlayer::SetIsReady(bool is_ready) {
   is_ready_ = is_ready;
+}
+
+NetworkPlayer::NetworkPlayer() : socket_() {
 }
