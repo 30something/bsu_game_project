@@ -16,8 +16,10 @@ Vec2f GameObject::GetPosition() const {
   return position_;
 }
 
-GameObject::GameObject(const Vec2f& position) : position_(position),
-                                                collision_lines_(4) {
+GameObject::GameObject(const Vec2f& position) :
+    position_(position),
+    collision_lines_(4),
+    pixmap_component_(new PixmapComponent) {
   UpdateCollisionLines();
 }
 
@@ -33,5 +35,5 @@ void GameObject::UpdateCollisionLines() {
 }
 
 PixmapID GameObject::GetPixmapId() const {
-  return pixmap_component_.GetPixmapId();
+  return pixmap_component_->GetPixmapId();
 }

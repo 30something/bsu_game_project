@@ -18,26 +18,27 @@ void PixmapLoader::InitPixmaps() {
   }
 
   QString basic_path = ":resources/images/";
-  QPixmap dead_car(basic_path + "cars/car_dead.png");
-  QPixmap mine(basic_path + "other_stuff/mine.png");
-  QPixmap exploded_mine(basic_path + "other_stuff/exploded_mine.png");
-  QPixmap health_bonus(basic_path + "other_stuff/hp.png");
-  QPixmap bullets_ammo_bonus(basic_path + "other_stuff/ammo.png");
-  QPixmap mines_bonus(basic_path + "other_stuff/mines_ammo.png");
   map_pixmap_ = QPixmap(map_filepath_);
 
-  cars_pixmaps_[CarStates::kDead].emplace_back(dead_car);
-  mines_pixmaps_[MineStates::kStandard].emplace_back(mine);
-  mines_pixmaps_[MineStates::kExploded].emplace_back(exploded_mine);
-  bonuses_pixmaps_[BonusStates::kHealth].emplace_back(health_bonus);
-  bonuses_pixmaps_[BonusStates::kBulletsAmmo].emplace_back(bullets_ammo_bonus);
-  bonuses_pixmaps_[BonusStates::kMineAmmo].emplace_back(mines_bonus);
+  cars_pixmaps_[CarStates::kDead].emplace_back(
+      QPixmap(basic_path + "cars/car_dead.png"));
+  mines_pixmaps_[MineStates::kStandard].emplace_back(
+      QPixmap(basic_path + "other_stuff/mine.png"));
+  mines_pixmaps_[MineStates::kExploded].emplace_back(
+      QPixmap(basic_path + "other_stuff/exploded_mine.png"));
+  bonuses_pixmaps_[BonusTypes::kHealth].emplace_back(
+      QPixmap(basic_path + "other_stuff/hp.png"));
+  bonuses_pixmaps_[BonusTypes::kBulletsAmmo].emplace_back(
+      QPixmap(basic_path + "other_stuff/ammo.png"));
+  bonuses_pixmaps_[BonusTypes::kMineAmmo].emplace_back(
+      QPixmap(basic_path + "other_stuff/mines_ammo.png"));
 }
 
 const QPixmap& PixmapLoader::GetPixmap(PixmapID id) {
-  auto pixmap_category = static_cast<PixmapCategories>(id >> 24);
-  int32_t state_value = (id << 8) >> 24;
-  int32_t pixmap_number = (id << 16) >> 16;
+  auto pixmap_category =
+      static_cast<PixmapCategories>(id >> kCategoryPixmapShift);
+  int32_t state_value = (id & kStatePixmapMask) >> kStatePixmapShift;
+  int32_t pixmap_number = id & kNumberPixmapMask;
   switch (pixmap_category) {
     case PixmapCategories::kCar: {
       auto pixmap_state = static_cast<CarStates>(state_value);
@@ -48,7 +49,7 @@ const QPixmap& PixmapLoader::GetPixmap(PixmapID id) {
       return mines_pixmaps_[pixmap_state][pixmap_number];
     }
     default: {
-      auto pixmap_state = static_cast<BonusStates>(state_value);
+      auto pixmap_state = static_cast<BonusTypes>(state_value);
       return bonuses_pixmaps_[pixmap_state][pixmap_number];
     }
   }

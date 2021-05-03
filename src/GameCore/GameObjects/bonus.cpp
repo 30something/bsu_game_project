@@ -1,28 +1,29 @@
 #include "bonus.h"
 
-Bonus::Bonus(Vec2f point, BonusStates state) :
+Bonus::Bonus(Vec2f point, BonusTypes type) :
     GameObject(point),
-    state_(state) {
-  bonus_pixmap_component_.SetBonusPixmapId(state_);
+    type_(type),
+    pixmap_component_(new BonusPixmapComponent) {
+  pixmap_component_->SetBonusPixmapId(type_);
 }
 
-void Bonus::BonusPixmapComponent::SetBonusPixmapId(BonusStates bonus_state) {
+void Bonus::BonusPixmapComponent::SetBonusPixmapId(BonusTypes bonus_type) {
   auto category_value = static_cast<int32_t>(PixmapCategories::kBonus);
-  auto bonus_state_value = static_cast<int32_t>(bonus_state);
+  auto bonus_state_value = static_cast<int32_t>(bonus_type);
   pixmap_id_ = (category_value << 24) + (bonus_state_value << 16);
 }
 
 void Bonus::ApplyTo(Car* car) {
-  switch (state_) {
-    case BonusStates::kHealth: {
+  switch (type_) {
+    case BonusTypes::kHealth: {
       car->AddHitPoints(kBonusHealthPrize);
       break;
     }
-    case BonusStates::kBulletsAmmo: {
+    case BonusTypes::kBulletsAmmo: {
       car->AddBulletsAmount(kBonusBulletsAmmoPrize);
       break;
     }
-    case BonusStates::kMineAmmo: {
+    case BonusTypes::kMineAmmo: {
       car->AddMinesAmount(kBonusMinesPrize);
       break;
     }
@@ -30,5 +31,5 @@ void Bonus::ApplyTo(Car* car) {
 }
 
 PixmapID Bonus::GetPixmapId() const {
-  return bonus_pixmap_component_.GetPixmapId();
+  return pixmap_component_->GetPixmapId();
 }

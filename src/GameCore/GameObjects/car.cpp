@@ -8,6 +8,7 @@ Car::Car(QPoint position,
     GameObject(Vec2f(position.x(), position.y())),
     behavior_(behavior),
     car_color_(car_color),
+    pixmap_component_(new CarPixmapComponent),
     enable_drifts_(enable_drifts) {
   velocity_.Set(physics::kAlmostZero, physics::kAlmostZero);
   angle_vec_.Set(1.0, 0.0);
@@ -16,7 +17,7 @@ Car::Car(QPoint position,
   for (auto& wheel : wheels_) {
     wheel.SetPreviousPosition(wheel.GetPosition());
   }
-  car_pixmap_component_.SetCarPixmapId(CarStates::kStandard, car_color_);
+  pixmap_component_->SetCarPixmapId(CarStates::kStandard, car_color_);
 }
 
 void Car::CarPixmapComponent::SetCarPixmapId(CarStates car_state,
@@ -106,7 +107,7 @@ void Car::Tick(int time_millisec) {
     ArcadeStep(time_millisec);
   }
   if (bullets_amount_ == 0 || !behavior_->IsFlagShoot()) {
-    car_pixmap_component_.SetCarPixmapId(CarStates::kStandard, car_color_);
+    pixmap_component_->SetCarPixmapId(CarStates::kStandard, car_color_);
   }
   mines_tick_timer_++;
   UpdateCollisionLines();
@@ -209,7 +210,7 @@ double Car::GetAngle() const {
 }
 
 PixmapID Car::GetPixmapId() const {
-  return car_pixmap_component_.GetPixmapId();
+  return pixmap_component_->GetPixmapId();
 }
 
 const Vec2f& Car::GetVelocity() const {
@@ -261,7 +262,7 @@ bool Car::IsShooting() const {
 
 void Car::BecomeDead() {
   behavior_->EnableInput(false);
-  car_pixmap_component_.SetCarPixmapId(CarStates::kDead, car_color_);
+  pixmap_component_->SetCarPixmapId(CarStates::kDead, car_color_);
 }
 
 std::optional<Vec2f> Car::DropMine() {
@@ -277,7 +278,7 @@ std::optional<Vec2f> Car::DropMine() {
 
 std::optional<Line> Car::ShootBullet() {
   if (bullets_amount_ > 0) {
-    car_pixmap_component_.SetCarPixmapId(CarStates::kShooting, car_color_);
+    pixmap_component_->SetCarPixmapId(CarStates::kShooting, car_color_);
     bullets_amount_--;
     return Line(
         position_.GetX(),
@@ -285,7 +286,7 @@ std::optional<Line> Car::ShootBullet() {
         angle_vec_.GetX() * kShootingRange + position_.GetX(),
         angle_vec_.GetY() * kShootingRange + position_.GetY());
   } else {
-    car_pixmap_component_.SetCarPixmapId(CarStates::kStandard, car_color_);
+    pixmap_component_->SetCarPixmapId(CarStates::kStandard, car_color_);
     return std::nullopt;
   }
 }

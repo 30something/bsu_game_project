@@ -24,7 +24,6 @@ class Car : public GameObject {
       Behavior* behavior,
       CarsColors car_color,
       bool enable_drifts);
-  ~Car() = default;
 
   void Tick(int time_millisec);
 
@@ -90,7 +89,7 @@ class Car : public GameObject {
   Vec2f angle_vec_;
   Vec2f velocity_;
   CarsColors car_color_;
-  CarPixmapComponent car_pixmap_component_;
+  CarPixmapComponent* pixmap_component_;
 
   double hit_points_ = 200;
   size_t bullets_amount_ = 1000;

@@ -11,7 +11,7 @@ enum class MineStates {
   kExploded
 };
 
-enum class BonusStates {
+enum class BonusTypes {
   kHealth,
   kBulletsAmmo,
   kMineAmmo

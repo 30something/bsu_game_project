@@ -26,6 +26,7 @@ class GameObject {
   class PixmapComponent {
    public:
     virtual PixmapID GetPixmapId() const;
+    virtual ~PixmapComponent() = default;
 
    protected:
     PixmapID pixmap_id_ = 0;
@@ -33,7 +34,7 @@ class GameObject {
 
   Vec2f position_;
   std::vector<Line> collision_lines_;
-  PixmapComponent pixmap_component_;
+  PixmapComponent* pixmap_component_;
 
  private:
   static constexpr double kDefaultSize = 5;

@@ -21,6 +21,6 @@ class Mine : public GameObject {
     void SetMinePixmapId(MineStates mine_state);
   };
 
-  MinePixmapComponent mine_pixmap_component_;
+  MinePixmapComponent* pixmap_component_;
   bool is_exploded_ = false;
 };
