@@ -7,12 +7,6 @@ Bonus::Bonus(Vec2f point, BonusTypes type) :
   pixmap_component_->SetBonusPixmapId(type_);
 }
 
-void Bonus::BonusPixmapComponent::SetBonusPixmapId(BonusTypes bonus_type) {
-  auto category_value = static_cast<int32_t>(PixmapCategories::kBonus);
-  auto bonus_state_value = static_cast<int32_t>(bonus_type);
-  pixmap_id_ = (category_value << 24) + (bonus_state_value << 16);
-}
-
 void Bonus::ApplyTo(Car* car) {
   switch (type_) {
     case BonusTypes::kHealth: {
@@ -32,4 +26,10 @@ void Bonus::ApplyTo(Car* car) {
 
 PixmapID Bonus::GetPixmapId() const {
   return pixmap_component_->GetPixmapId();
+}
+
+void Bonus::BonusPixmapComponent::SetBonusPixmapId(BonusTypes bonus_type) {
+  auto category_value = static_cast<int32_t>(PixmapCategories::kBonus);
+  auto bonus_state_value = static_cast<int32_t>(bonus_type);
+  pixmap_id_ = (category_value << 24) + (bonus_state_value << 16);
 }

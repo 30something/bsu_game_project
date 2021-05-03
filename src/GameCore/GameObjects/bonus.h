@@ -8,6 +8,7 @@
 class Bonus : public GameObject {
  public:
   Bonus(Vec2f point, BonusTypes type);
+  ~Bonus() override = default;
   void ApplyTo(Car* car);
   PixmapID GetPixmapId() const override;
 
@@ -24,6 +25,7 @@ class Bonus : public GameObject {
   class BonusPixmapComponent : public PixmapComponent {
    public:
     void SetBonusPixmapId(BonusTypes bonus_type);
+    ~BonusPixmapComponent() override = default;
   };
 
   BonusTypes type_;

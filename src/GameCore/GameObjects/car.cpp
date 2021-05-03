@@ -20,15 +20,8 @@ Car::Car(QPoint position,
   pixmap_component_->SetCarPixmapId(CarStates::kStandard, car_color_);
 }
 
-void Car::CarPixmapComponent::SetCarPixmapId(CarStates car_state,
-                                             CarsColors car_color) {
-  auto category_value = static_cast<int32_t>(PixmapCategories::kCar);
-  auto car_state_value = static_cast<int32_t>(car_state);
-  auto car_color_value = static_cast<int32_t>(car_color);
-  pixmap_id_ =
-      (category_value << 24) +
-      (car_state_value << 16) +
-      car_color_value;
+Car::~Car() {
+  delete behavior_;
 }
 
 void Car::ProceedInputFlagsArcade() {
@@ -304,4 +297,15 @@ void Car::UpdateCollisionLines() {
       Line(wheels_[1].GetPosition(), wheels_[3].GetPosition());
   collision_lines_[3] =
       Line(wheels_[2].GetPosition(), wheels_[3].GetPosition());
+}
+
+void Car::CarPixmapComponent::SetCarPixmapId(CarStates car_state,
+                                             CarsColors car_color) {
+  auto category_value = static_cast<int32_t>(PixmapCategories::kCar);
+  auto car_state_value = static_cast<int32_t>(car_state);
+  auto car_color_value = static_cast<int32_t>(car_color);
+  pixmap_id_ =
+      (category_value << 24) +
+          (car_state_value << 16) +
+          car_color_value;
 }

@@ -9,6 +9,7 @@
 class Mine : public GameObject {
  public:
   explicit Mine(Vec2f position);
+  ~Mine() override = default;
   bool operator==(const Mine& rhs) const;
   bool operator!=(const Mine& rhs) const;
   void SetExploded();
@@ -19,6 +20,7 @@ class Mine : public GameObject {
   class MinePixmapComponent : public PixmapComponent {
    public:
     void SetMinePixmapId(MineStates mine_state);
+    ~MinePixmapComponent() override = default;
   };
 
   MinePixmapComponent* pixmap_component_;

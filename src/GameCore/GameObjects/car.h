@@ -24,6 +24,7 @@ class Car : public GameObject {
       Behavior* behavior,
       CarsColors car_color,
       bool enable_drifts);
+  ~Car() override;
 
   void Tick(int time_millisec);
 
@@ -52,6 +53,7 @@ class Car : public GameObject {
   class CarPixmapComponent : public PixmapComponent {
    public:
     void SetCarPixmapId(CarStates car_state, CarsColors car_color);
+    ~CarPixmapComponent() override = default;
   };
 
   void UpdateWheelsPosAndOrientation();

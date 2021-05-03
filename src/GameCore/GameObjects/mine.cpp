@@ -6,12 +6,6 @@ Mine::Mine(Vec2f position) :
   pixmap_component_->SetMinePixmapId(MineStates::kStandard);
 }
 
-void Mine::MinePixmapComponent::SetMinePixmapId(MineStates mine_state) {
-  auto category_value = static_cast<int32_t>(PixmapCategories::kMine);
-  auto mine_state_value = static_cast<int32_t>(mine_state);
-  pixmap_id_ = (category_value << 24) + (mine_state_value << 16);
-}
-
 bool Mine::operator==(const Mine& rhs) const {
   return position_ == rhs.position_;
 }
@@ -31,4 +25,10 @@ bool Mine::IsExploded() const {
 
 PixmapID Mine::GetPixmapId() const {
   return pixmap_component_->GetPixmapId();
+}
+
+void Mine::MinePixmapComponent::SetMinePixmapId(MineStates mine_state) {
+  auto category_value = static_cast<int32_t>(PixmapCategories::kMine);
+  auto mine_state_value = static_cast<int32_t>(mine_state);
+  pixmap_id_ = (category_value << 24) + (mine_state_value << 16);
 }
