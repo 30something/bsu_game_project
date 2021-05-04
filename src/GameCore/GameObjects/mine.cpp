@@ -3,7 +3,7 @@
 Mine::Mine(Vec2f position) :
   GameObject(position,
              new MinePixmapComponent) {
-  dynamic_cast<MinePixmapComponent*>(pixmap_component_)->
+  dynamic_cast<MinePixmapComponent*>(pixmap_component_.get())->
       SetMinePixmapId(MineStates::kStandard);
 }
 
@@ -16,7 +16,7 @@ bool Mine::operator!=(const Mine& rhs) const {
 }
 
 void Mine::SetExploded() {
-  dynamic_cast<MinePixmapComponent*>(pixmap_component_)->
+  dynamic_cast<MinePixmapComponent*>(pixmap_component_.get())->
       SetMinePixmapId(MineStates::kExploded);
   is_exploded_ = true;
 }

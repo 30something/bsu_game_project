@@ -41,7 +41,9 @@ const QPixmap& PixmapLoader::GetPixmap(PixmapID id) {
   switch (pixmap_category) {
     case PixmapCategories::kCar: {
       auto pixmap_state = static_cast<CarStates>(state_value);
-      return cars_pixmaps_[pixmap_state][pixmap_number];
+      return pixmap_state == CarStates::kDead ?
+             cars_pixmaps_[pixmap_state][0] :
+             cars_pixmaps_[pixmap_state][pixmap_number];
     }
     case PixmapCategories::kMine: {
       auto pixmap_state = static_cast<MineStates>(state_value);

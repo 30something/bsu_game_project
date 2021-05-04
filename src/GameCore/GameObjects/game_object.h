@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <utility>
 #include <vector>
 
 #include <QPixmap>
@@ -18,6 +19,7 @@ class GameObject {
  public:
   explicit GameObject(const Vec2f& position,
                       PixmapComponent* pixmap_component);
+  virtual ~GameObject() = default;
   Vec2f GetPosition() const;
   virtual double GetAngle() const;
   virtual PixmapID GetPixmapId() const;
@@ -37,7 +39,7 @@ class GameObject {
 
   Vec2f position_;
   std::vector<Line> collision_lines_;
-  PixmapComponent* pixmap_component_ = nullptr;
+  std::shared_ptr<PixmapComponent> pixmap_component_ = nullptr;
 
  private:
   static constexpr double kDefaultSize = 5;

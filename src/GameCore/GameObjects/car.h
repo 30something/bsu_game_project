@@ -24,6 +24,7 @@ class Car : public GameObject {
       Behavior* behavior,
       CarsColors car_color,
       bool enable_drifts);
+  ~Car() override = default;
 
   void Tick(int time_millisec);
 
@@ -85,7 +86,7 @@ class Car : public GameObject {
   static constexpr double kTickRotationAngle = 0.015;
 
   std::vector<Wheel> wheels_{4};
-  Behavior* behavior_ = nullptr;
+  std::shared_ptr<Behavior> behavior_ = nullptr;
   Vec2f angle_vec_;
   Vec2f velocity_;
   CarsColors car_color_;

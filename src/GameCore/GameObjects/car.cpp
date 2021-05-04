@@ -17,7 +17,7 @@ Car::Car(QPoint position,
   for (auto& wheel : wheels_) {
     wheel.SetPreviousPosition(wheel.GetPosition());
   }
-  dynamic_cast<CarPixmapComponent*>(pixmap_component_)->
+  dynamic_cast<CarPixmapComponent*>(pixmap_component_.get())->
       SetCarPixmapId(CarStates::kStandard, car_color_);
 }
 
@@ -97,7 +97,7 @@ void Car::Tick(int time_millisec) {
     ArcadeStep(time_millisec);
   }
   if (bullets_amount_ == 0 || !behavior_->IsFlagShoot()) {
-    dynamic_cast<CarPixmapComponent*>(pixmap_component_)->
+    dynamic_cast<CarPixmapComponent*>(pixmap_component_.get())->
         SetCarPixmapId(CarStates::kStandard, car_color_);
   }
   mines_tick_timer_++;
@@ -249,7 +249,7 @@ bool Car::IsShooting() const {
 
 void Car::BecomeDead() {
   behavior_->EnableInput(false);
-  dynamic_cast<CarPixmapComponent*>(pixmap_component_)->
+  dynamic_cast<CarPixmapComponent*>(pixmap_component_.get())->
       SetCarPixmapId(CarStates::kDead, car_color_);
 }
 
@@ -266,7 +266,7 @@ std::optional<Vec2f> Car::DropMine() {
 
 std::optional<Line> Car::ShootBullet() {
   if (bullets_amount_ > 0) {
-    dynamic_cast<CarPixmapComponent*>(pixmap_component_)->
+    dynamic_cast<CarPixmapComponent*>(pixmap_component_.get())->
         SetCarPixmapId(CarStates::kShooting, car_color_);
     bullets_amount_--;
     return Line(
@@ -275,7 +275,7 @@ std::optional<Line> Car::ShootBullet() {
         angle_vec_.GetX() * kShootingRange + position_.GetX(),
         angle_vec_.GetY() * kShootingRange + position_.GetY());
   } else {
-    dynamic_cast<CarPixmapComponent*>(pixmap_component_)->
+    dynamic_cast<CarPixmapComponent*>(pixmap_component_.get())->
         SetCarPixmapId(CarStates::kStandard, car_color_);
     return std::nullopt;
   }

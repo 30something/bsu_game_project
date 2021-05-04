@@ -8,6 +8,7 @@
 class Bonus : public GameObject {
  public:
   Bonus(Vec2f point, BonusTypes type);
+  ~Bonus() override = default;
   void ApplyTo(Car* car);
 
   bool operator==(const Bonus& rhs) const {
