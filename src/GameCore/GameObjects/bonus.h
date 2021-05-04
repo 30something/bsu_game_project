@@ -7,14 +7,8 @@
 
 class Bonus : public GameObject {
  public:
-  enum class BonusType {
-    kHealth,
-    kBulletsAmmo,
-    kMineAmmo
-  };
-
-  Bonus(Vec2f point, BonusType _type);
-
+  Bonus(Vec2f point, BonusTypes type);
+  ~Bonus() override = default;
   void ApplyTo(Car* car);
 
   bool operator==(const Bonus& rhs) const {
@@ -27,7 +21,13 @@ class Bonus : public GameObject {
   }
 
  private:
-  BonusType type_;
+  class BonusPixmapComponent : public PixmapComponent {
+   public:
+    void SetBonusPixmapId(BonusTypes bonus_type);
+    ~BonusPixmapComponent() override = default;
+  };
+
+  BonusTypes type_;
 
   static constexpr double kBonusHealthPrize = 20;
   static constexpr double kBonusBulletsAmmoPrize = 100;

@@ -3,7 +3,7 @@
 
 View::View(GameMode* game_mode) :
     pixmap_loader_(
-        map_data::image_file_paths.file_paths[game_mode->map_index]),
+        map_data::image_file_paths.maps_file_paths[game_mode->map_index]),
     players_amount_(game_mode->players_amount) {}
 
 void View::Repaint(const std::vector<WrapperBase<GameObject>*>& objects,
@@ -58,7 +58,7 @@ void View::DrawMap(QPainter* painter,
                    const Vec2f& pos) {
   painter->drawPixmap(frame.left() / scale_,
                       0,
-                      pixmap_loader_.GetPixmap(PixmapID::kMap),
+                      pixmap_loader_.GetMapPixmap(),
                       pos.GetX() - frame.width() / 2 / scale_,
                       pos.GetY() - frame.height() / 2 / scale_,
                       frame.width() / scale_,
@@ -80,12 +80,10 @@ void View::DrawObjects(QPainter* painter,
         painter->save();
         painter->translate(x, y);
         painter->rotate((*object)[i].GetAngle());
-        painter->drawPixmap(pixmap_loader_.GetOffset(
-            (*object)[i].GetPixmapId()).x(),
-                            pixmap_loader_.GetOffset(
-                                (*object)[i].GetPixmapId()).y(),
-                            pixmap_loader_.GetPixmap(
-                                (*object)[i].GetPixmapId()));
+        QPixmap pixmap = pixmap_loader_.GetPixmap((*object)[i].GetPixmapId());
+        painter->drawPixmap(-(pixmap.width() / 2),
+                            -(pixmap.height() / 2),
+                            pixmap);
         painter->restore();
       }
     }

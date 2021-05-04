@@ -1,11 +1,12 @@
 //  Kindly taken from https://github.com/abainbridge/car_sim
 #pragma once
 
-#include <vector>
 #include <algorithm>
 #include <cmath>
+#include <memory>
 #include <utility>
 #include <optional>
+#include <vector>
 
 #include <QPoint>
 
@@ -13,6 +14,7 @@
 #include "wheel.h"
 #include "src/helpers/line.h"
 #include "src/helpers/physics.h"
+#include "src/helpers/cars_colors.h"
 #include "game_object.h"
 #include "src/GameCore/Behaviors/behavior.h"
 
@@ -21,8 +23,9 @@ class Car : public GameObject {
   Car(QPoint position,
       double angle,
       Behavior* behavior,
+      CarsColors car_color,
       bool enable_drifts);
-  ~Car() = default;
+  ~Car() override = default;
 
   void Tick(int time_millisec);
 
@@ -47,15 +50,23 @@ class Car : public GameObject {
   void BecomeDead();
 
  private:
-  std::vector<Wheel> wheels_{4};
-  Behavior* behavior_ = nullptr;
-  Vec2f angle_vec_;
-  Vec2f velocity_;
-  bool enable_drifts_ = true;
+  class CarPixmapComponent : public PixmapComponent {
+   public:
+    void SetCarPixmapId(CarStates car_state, CarsColors car_color);
+    ~CarPixmapComponent() override = default;
+  };
 
-  double angular_velocity_ = 0;
-  double steering_angle_ = 0;
-  static constexpr int kPutMineOffset = -15;
+  void UpdateWheelsPosAndOrientation();
+  void RealisticStep(int time_millisec);
+  void ArcadeStep(int time_millisec);
+  void CalcAccelerations(Vec2f* accel, double* angular_accel);
+  void ProceedInputFlagsRealistic();
+  void ProceedInputFlagsArcade();
+  void CalcLateralForces();
+  void ProceedUpDownFlags();
+  void UpdateCollisionLines() override;
+
+  static constexpr int32_t kPutMineOffset = -15;
   static constexpr double kShootingRange = 100;
   static constexpr double kAccelFactor = 2.0;
   static constexpr double kFrictionFactor = 0.5;
@@ -75,18 +86,17 @@ class Car : public GameObject {
   static constexpr double kMineDelayTicks = 500;
   static constexpr double kTickRotationAngle = 0.015;
 
+  std::vector<Wheel> wheels_{4};
+  std::shared_ptr<Behavior> behavior_ = nullptr;
+  Vec2f angle_vec_;
+  Vec2f velocity_;
+  CarsColors car_color_;
+
   double hit_points_ = 200;
   size_t bullets_amount_ = 1000;
   size_t mines_amount_ = 10;
   size_t mines_tick_timer_ = 0;
-
-  void UpdateWheelsPosAndOrientation();
-  void RealisticStep(int time_millisec);
-  void ArcadeStep(int time_millisec);
-  void CalcAccelerations(Vec2f* accel, double* angular_accel);
-  void ProceedInputFlagsRealistic();
-  void ProceedInputFlagsArcade();
-  void CalcLateralForces();
-  void ProceedUpDownFlags();
-  void UpdateCollisionLines() override;
+  double angular_velocity_ = 0;
+  double steering_angle_ = 0;
+  bool enable_drifts_ = true;
 };

@@ -1,5 +1,13 @@
 #include "game_object.h"
 
+GameObject::GameObject(const Vec2f& position,
+                       PixmapComponent* pixmap_component) :
+    position_(position),
+    collision_lines_(4),
+    pixmap_component_(pixmap_component) {
+  UpdateCollisionLines();
+}
+
 const std::vector<Line>& GameObject::GetCollisionLines() const {
   return collision_lines_;
 }
@@ -10,11 +18,6 @@ double GameObject::GetAngle() const {
 
 Vec2f GameObject::GetPosition() const {
   return position_;
-}
-
-GameObject::GameObject(const Vec2f& position) : position_(position),
-                                                collision_lines_(4) {
-  UpdateCollisionLines();
 }
 
 void GameObject::UpdateCollisionLines() {
@@ -29,5 +32,9 @@ void GameObject::UpdateCollisionLines() {
 }
 
 PixmapID GameObject::GetPixmapId() const {
+  return pixmap_component_->GetPixmapId();
+}
+
+PixmapID GameObject::PixmapComponent::GetPixmapId() const {
   return pixmap_id_;
 }

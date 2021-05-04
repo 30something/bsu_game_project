@@ -84,7 +84,7 @@ void Map::ProceedNewBonuses() {
   if (bonuses_.size() < kMaxBonusesAmount && !bonus_timer_.isActive()) {
     int position_index = QRandomGenerator::global()->
         bounded(static_cast<int>(bonuses_positions_.size()));
-    auto type(Bonus::BonusType(QRandomGenerator::global()->bounded(
+    auto type(BonusTypes(QRandomGenerator::global()->bounded(
         kAmountOfBonusTypes)));
     bonuses_.emplace_back(bonuses_positions_[position_index], type);
     bonus_timer_.start(

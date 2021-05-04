@@ -1,23 +1,38 @@
 #pragma once
 
-#include <map>
+#include <unordered_map>
+#include <vector>
 
-#include <QString>
+#include <QDirIterator>
+#include <QFileInfoList>
 #include <QPixmap>
 #include <QPoint>
+#include <QString>
 
-#include "src/helpers/pixmapIDs.h"
+#include "src/helpers/cars_colors.h"
+#include "src/helpers/game_object_states.h"
+#include "src/helpers/pixmap_categories.h"
+
+using PixmapID = int32_t;
 
 class PixmapLoader {
  public:
   explicit PixmapLoader(const QString& filepath);
   const QPixmap& GetPixmap(PixmapID id);
-  const QPoint& GetOffset(PixmapID id);
+  const QPixmap& GetMapPixmap();
 
  private:
   void InitPixmaps();
-  void InitOffsets();
+
   QString map_filepath_;
-  std::map<PixmapID, QPixmap> pixmaps_;
-  std::map<PixmapID, QPoint> offsets_;
+  QPixmap map_pixmap_;
+  std::unordered_map<CarStates, std::vector<QPixmap>> cars_pixmaps_;
+  std::unordered_map<MineStates, std::vector<QPixmap>> mines_pixmaps_;
+  std::unordered_map<BonusTypes, std::vector<QPixmap>> bonuses_pixmaps_;
+
+  // Masks and shifts used to decode the pixmap id
+  static constexpr int32_t kCategoryPixmapShift = 24;
+  static constexpr int32_t kStatePixmapMask = 16711680;
+  static constexpr int32_t kStatePixmapShift = 16;
+  static constexpr int32_t kNumberPixmapMask = 255;
 };

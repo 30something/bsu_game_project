@@ -22,7 +22,8 @@ find_package(Qt${QT_VERSION} COMPONENTS ${REQUIRED_LIBS} REQUIRED)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-Wall -Wextra -O0")
 
-set(SOURCES main.cpp
+set(SOURCES
+        main.cpp
         src/View/view.cpp
         "src/Main window/main_window.cpp"
         src/Menu/menu.cpp
@@ -53,12 +54,13 @@ set(SOURCES main.cpp
         src/Menu/end_game_stats.cpp
         src/View/view_info_updater.cpp
         src/helpers/cars_data.cpp
+        src/helpers/map_data.cpp
         )
 
 set(RESOURCES
         images.qrc
         map_data.qrc
-        src/helpers/map_data.cpp)
+        )
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 target_link_libraries(${PROJECT_NAME} ${REQUIRED_LIBS_QUALIFIED})
