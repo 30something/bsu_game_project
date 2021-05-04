@@ -6,7 +6,7 @@ PlayerTile::PlayerTile(QWidget* parent, const NetworkPlayer* player) :
     nickname_(new QLabel(QString::number(player->GetId()), this)),
     is_ready_(new QLabel(this)),
     main_layout_(new QHBoxLayout(this)) {
-  if(player->IsReady()) {
+  if (player->IsReady()) {
     is_ready_->setText("ready");
   } else {
     is_ready_->setText("not ready");
@@ -15,11 +15,7 @@ PlayerTile::PlayerTile(QWidget* parent, const NetworkPlayer* player) :
   main_layout_->addWidget(is_ready_);
 }
 
-void PlayerTile::UpdateInfo() {
-  if(player_->IsReady()) {
-    is_ready_->setText("ready");
-  } else {
-    is_ready_->setText("not ready");
-  }
-  nickname_->setText(QString::number(player_->GetId()));
+void PlayerTile::Highlight() {
+  setAutoFillBackground(true);
+  setPalette(QPalette(QColor(255, 200, 200)));
 }

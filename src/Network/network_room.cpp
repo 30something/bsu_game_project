@@ -5,7 +5,7 @@ NetworkRoom::NetworkRoom(QWidget* parent) :
     back_to_main_menu_(new QPushButton("Back to main", this)),
     try_connect_(new QPushButton("Connect", this)),
     ready_(new QPushButton("Ready", this)),
-    ip_(new QLineEdit("ip", this)),
+    ip_(new QLineEdit("127.0.0.1", this)),
     port_(new QLineEdit("5555", this)),
     nickname_(new QLineEdit("unnamed_player", this)),
     connection_status_(new QLabel("Not connected", this)),
@@ -79,10 +79,53 @@ void NetworkRoom::SetUpAndStartGame() {
 }
 
 void NetworkRoom::UpdatePlayersVector() {
-  auto id =
-      network_controller_->GetData().toInt();
-  auto* player = new NetworkPlayer(nullptr);
-  player->SetId(id);
-  other_players_.emplace_back(new PlayerTile(this, player));
-  players_layout_->addWidget(other_players_.back());
+  QString json =
+      network_controller_->GetData().toString();
+  auto data_vector = DecodePlayersVectorJson(json);
+
+  QLayoutItem* item;
+  while ((item = players_layout_->takeAt(0)) != nullptr) {
+    delete item->widget();
+    delete item;
+  }
+
+  players_.clear();
+  for (const auto& data : data_vector) {
+    auto* player = new NetworkPlayer(nullptr);
+    player->SetId(data.first);
+    player->SetIsReady(data.second);
+    players_.emplace_back(new PlayerTile(this, player));
+    players_layout_->addWidget(players_.back());
+  }
+  if(!is_first_packet_received) {
+    network_player_->SetId(players_.size() - 1);
+    is_first_packet_received = true;
+    if(network_player_->GetId() == 0) {
+      AddStartButton();
+    }
+  }
+  players_[network_player_->GetId()]->Highlight();
+}
+
+std::vector<std::pair<size_t, bool>>
+NetworkRoom::DecodePlayersVectorJson(const QString& json) {
+  QJsonObject json_object = QJsonDocument::fromJson(json.toUtf8()).object();
+  //array of ids and status ready
+  QJsonArray data_array = json_object["data"].toArray();
+  std::vector<std::pair<size_t, bool>> result;
+  for (const auto& data : data_array) {
+    QJsonObject data_obj = data.toObject();
+    result.emplace_back(data_obj["id"].toInt(),
+                        data_obj["status"].toBool());
+  }
+  return result;
+}
+
+void NetworkRoom::AddStartButton() {
+  auto* start_button = new QPushButton("Start Game", this);
+  buttons_layout_->addWidget(start_button);
+  connect(start_button,
+          &QPushButton::clicked,
+          this,
+          &NetworkRoom::SetUpAndStartGame);
 }

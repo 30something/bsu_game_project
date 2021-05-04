@@ -6,6 +6,9 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QLineEdit>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QJsonDocument>
 
 #include "network_player.h"
 #include "network_controller.h"
@@ -35,9 +38,10 @@ class NetworkRoom : public QWidget {
   QHBoxLayout* buttons_layout_;
   QVBoxLayout* players_layout_;
 
+  bool is_first_packet_received = false;
+
   NetworkPlayer* network_player_ = nullptr;
-  PlayerTile* player_tile_;
-  std::vector<PlayerTile*> other_players_;
+  std::vector<PlayerTile*> players_;
   NetworkController* network_controller_ = nullptr;
   void UpdatePlayersVector();
   void SetUpAndStartGame();
@@ -45,6 +49,10 @@ class NetworkRoom : public QWidget {
   void ConnectToServer();
   void SetUpLayouts();
   void ConnectEverything() const;
+  void AddStartButton();
+
+  static std::vector<std::pair<size_t, bool>>
+  DecodePlayersVectorJson(const QString& json);
 };
 
 

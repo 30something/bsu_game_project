@@ -8,7 +8,7 @@ class NetworkPlayer {
  public:
   explicit NetworkPlayer(QTcpSocket* p_socket);
   size_t GetId() const;
-  void SetId(size_t nickname);
+  void SetId(size_t id);
   QTcpSocket* Socket();
   bool IsReady() const;
   void SetIsReady(bool is_ready);

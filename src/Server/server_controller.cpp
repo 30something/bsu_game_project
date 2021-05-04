@@ -28,10 +28,25 @@ void ServerController::UpdateClientsInfo() {
   for(auto& player : players_) {
     NetworkData data;
     data.type = MessageType::kPlayersVector;
-    data.data = QVariant::fromValue(players_.back().GetId());
+    QString json_to_send = EncodePlayersVectorJson();
+    data.data = QVariant::fromValue(json_to_send);
     QByteArray arr;
     QDataStream data_stream(&arr, QIODevice::WriteOnly);
     data_stream << data.type << data.data;
     player.Socket()->write(arr);
   }
+}
+
+QString ServerController::EncodePlayersVectorJson() {
+  QJsonObject json_object;
+  //array of ids and status ready
+  QJsonArray array;
+  for(const auto& player : players_) {
+    QJsonObject array_cell;
+    array_cell.insert("id", QJsonValue::fromVariant(player.GetId()));
+    array_cell.insert("status", QJsonValue::fromVariant(player.IsReady()));
+    array.push_back(array_cell);
+  }
+  json_object.insert("data", array);
+  return QJsonDocument(json_object).toJson();
 }

@@ -11,7 +11,7 @@ class PlayerTile : public QWidget {
  Q_OBJECT
  public:
   PlayerTile(QWidget* parent, const NetworkPlayer* player);
-  void UpdateInfo();
+  void Highlight();
 
  private:
   const NetworkPlayer* player_;

@@ -4,8 +4,8 @@ size_t NetworkPlayer::GetId() const {
   return id_;
 }
 
-void NetworkPlayer::SetId(size_t nickname) {
-  id_ = nickname;
+void NetworkPlayer::SetId(size_t id) {
+  id_ = id;
 }
 
 QTcpSocket* NetworkPlayer::Socket() {
