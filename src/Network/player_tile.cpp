@@ -19,3 +19,7 @@ void PlayerTile::Highlight() {
   setAutoFillBackground(true);
   setPalette(QPalette(QColor(255, 200, 200)));
 }
+
+const NetworkPlayer* PlayerTile::GetPlayer() const {
+  return player_;
+}

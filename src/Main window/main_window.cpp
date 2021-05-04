@@ -101,6 +101,10 @@ void MainWindow::ConnectUI() {
           &NetworkRoom::ReturnToMainMenu,
           this,
           &MainWindow::CloseNetworkRoom);
+  connect(network_room_,
+          &NetworkRoom::StartGame,
+          this,
+          &MainWindow::StartGame);
   connect(menu_,
           &Menu::SettingsButtonPressed,
           this,

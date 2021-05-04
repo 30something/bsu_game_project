@@ -10,17 +10,19 @@
 class NetworkController : public QObject {
   Q_OBJECT
  public:
-  explicit NetworkController(QTcpSocket* socket);
+  explicit NetworkController(NetworkPlayer* player);
   void SendReadyStatus();
   QVariant GetData();
+  void SendStartSignal();
 
   signals:
   void StartGame();
   void GotPlayersVector();
+  void GotSignalToStart();
 
  private:
   void ParseData();
-  QTcpSocket* socket_;
+  NetworkPlayer* player_;
   QVariant q_variant_;
 };
 

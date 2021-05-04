@@ -12,7 +12,7 @@ class PlayerTile : public QWidget {
  public:
   PlayerTile(QWidget* parent, const NetworkPlayer* player);
   void Highlight();
-
+  const NetworkPlayer* GetPlayer() const;
  private:
   const NetworkPlayer* player_;
   QLabel* nickname_;

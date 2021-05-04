@@ -53,7 +53,7 @@ void NetworkRoom::ConnectToServer() {
   } else {
     connection_status_->setText("Connection Error");
   }
-  network_controller_ = new NetworkController(network_player_->Socket());
+  network_controller_ = new NetworkController(network_player_);
   connect(network_controller_,
           &NetworkController::StartGame,
           this,
@@ -62,12 +62,16 @@ void NetworkRoom::ConnectToServer() {
           &NetworkController::GotPlayersVector,
           this,
           &NetworkRoom::UpdatePlayersVector);
+  connect(network_controller_,
+          &NetworkController::GotSignalToStart,
+          this,
+          &NetworkRoom::SetUpAndStartGame);
 }
 
 void NetworkRoom::ChangeReadyStatus() {
   if (network_player_->Socket()->isOpen()) {
-    network_controller_->SendReadyStatus();
     network_player_->SetIsReady(!network_player_->IsReady());
+    network_controller_->SendReadyStatus();
   } else {
     connection_status_->setText("You are not connected!");
   }
@@ -127,5 +131,16 @@ void NetworkRoom::AddStartButton() {
   connect(start_button,
           &QPushButton::clicked,
           this,
-          &NetworkRoom::SetUpAndStartGame);
+          &NetworkRoom::PrepareForStart);
+}
+
+void NetworkRoom::PrepareForStart() {
+  for(const auto& player : players_) {
+    if(!player->GetPlayer()->IsReady()) {
+      connection_status_->setText("Error! Not everybody is ready");
+      return;
+    }
+  }
+  network_controller_->SendStartSignal();
+  SetUpAndStartGame();
 }

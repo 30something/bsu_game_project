@@ -21,7 +21,27 @@ void ServerController::ConnectClient() {
 }
 
 void ServerController::ReceiveClientData() {
-  //switch()
+  for(auto& player : players_) {
+    if(player.Socket()->bytesAvailable()) {
+      QByteArray arr = player.Socket()->readAll();
+      QDataStream data_stream(&arr, QIODevice::ReadOnly);
+      NetworkData data;
+      data_stream >> data.type;
+      data_stream >> data.data;
+      switch(data.type) {
+        case MessageType::kReadyStatus : {
+          size_t id = data.data.toInt();
+          players_[id].SetIsReady(!players_[id].IsReady());
+          UpdateClientsInfo();
+          break;
+        }
+        case MessageType::kSignalToStart : {
+          SendStartSignal();
+          break;
+        }
+      }
+    }
+  }
 }
 
 void ServerController::UpdateClientsInfo() {
@@ -49,4 +69,16 @@ QString ServerController::EncodePlayersVectorJson() {
   }
   json_object.insert("data", array);
   return QJsonDocument(json_object).toJson();
+}
+
+void ServerController::SendStartSignal() {
+  for(auto& player : players_) {
+    NetworkData data;
+    data.type = MessageType::kSignalToStart;
+    data.data = QVariant::fromValue(1);
+    QByteArray arr;
+    QDataStream data_stream(&arr, QIODevice::WriteOnly);
+    data_stream << data.type << data.data;
+    player.Socket()->write(arr);
+  }
 }

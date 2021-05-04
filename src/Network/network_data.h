@@ -2,7 +2,8 @@
 
 enum class MessageType {
   kPlayersVector,
-  kReadyStatus
+  kReadyStatus,
+  kSignalToStart
 };
 
 struct NetworkData {

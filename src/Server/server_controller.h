@@ -27,6 +27,7 @@ class ServerController : public QWidget {
   void ConnectClient();
   void ReceiveClientData();
   void UpdateClientsInfo();
+  void SendStartSignal();
 
   QString EncodePlayersVectorJson();
 };

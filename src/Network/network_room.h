@@ -45,6 +45,7 @@ class NetworkRoom : public QWidget {
   NetworkController* network_controller_ = nullptr;
   void UpdatePlayersVector();
   void SetUpAndStartGame();
+  void PrepareForStart();
   void ChangeReadyStatus();
   void ConnectToServer();
   void SetUpLayouts();
