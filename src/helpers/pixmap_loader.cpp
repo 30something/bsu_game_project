@@ -2,48 +2,62 @@
 
 PixmapLoader::PixmapLoader(const QString& filepath) : map_filepath_(filepath) {
   InitPixmaps();
-  InitOffsets();
 }
 
 void PixmapLoader::InitPixmaps() {
+  QFileInfoList standard_cars_list =
+      QDir(":resources/images/cars/standard_cars").entryInfoList();
+  for (const auto& standard_car : standard_cars_list) {
+    cars_pixmaps_[CarStates::kStandard].emplace_back(
+        QPixmap(standard_car.filePath()));
+  }
+  QFileInfoList shooting_cars_list =
+      QDir(":resources/images/cars/shooting_cars").entryInfoList();
+  for (const auto& shooting_car : shooting_cars_list) {
+    cars_pixmaps_[CarStates::kShooting].emplace_back(QPixmap(
+        shooting_car.filePath()));
+  }
+
   QString basic_path = ":resources/images/";
-  QPixmap car(basic_path + "cars/car1.png");
-  QPixmap dead_car(basic_path + "cars/car1_dead.png");
-  QPixmap shooting_car(basic_path + "cars/car1_shoot.png");
-  QPixmap mine(basic_path + "other_stuff/mine.png");
-  QPixmap exploded_mine(basic_path + "other_stuff/exploded_mine.png");
-  QPixmap health_bonus(basic_path + "other_stuff/hp.png");
-  QPixmap bullets_ammo_bonus(basic_path + "other_stuff/ammo.png");
-  QPixmap mines_bonus(basic_path + "other_stuff/mines_ammo.png");
-  QPixmap map(map_filepath_);
+  map_pixmap_ = QPixmap(map_filepath_);
 
-  pixmaps_[PixmapID::kCar] = car;
-  pixmaps_[PixmapID::kDeadCar] = dead_car;
-  pixmaps_[PixmapID::kMine] = mine;
-  pixmaps_[PixmapID::kExplodedMine] = exploded_mine;
-  pixmaps_[PixmapID::kShootingCar] = shooting_car;
-  pixmaps_[PixmapID::kBonusHealth] = health_bonus;
-  pixmaps_[PixmapID::kBonusBulletsAmmo] = bullets_ammo_bonus;
-  pixmaps_[PixmapID::kBonusMineAmmo] = mines_bonus;
-  pixmaps_[PixmapID::kMap] = map;
-}
-
-void PixmapLoader::InitOffsets() {
-  offsets_[PixmapID::kCar] = QPoint(-5, -10);
-  offsets_[PixmapID::kDeadCar] = QPoint(-5, -10);
-  offsets_[PixmapID::kShootingCar] = QPoint(-5, -16);
-  offsets_[PixmapID::kMine] = QPoint(-2, -2);
-  offsets_[PixmapID::kExplodedMine] = QPoint(-5, -5);
-  offsets_[PixmapID::kBonusHealth] = QPoint(-5, -5);
-  offsets_[PixmapID::kBonusBulletsAmmo] = QPoint(-5, -5);
-  offsets_[PixmapID::kBonusMineAmmo] = QPoint(-5, -5);
-  offsets_[PixmapID::kMap] = QPoint(0, 0);
+  cars_pixmaps_[CarStates::kDead].emplace_back(
+      QPixmap(basic_path + "cars/car_dead.png"));
+  mines_pixmaps_[MineStates::kStandard].emplace_back(
+      QPixmap(basic_path + "other_stuff/mine.png"));
+  mines_pixmaps_[MineStates::kExploded].emplace_back(
+      QPixmap(basic_path + "other_stuff/exploded_mine.png"));
+  bonuses_pixmaps_[BonusTypes::kHealth].emplace_back(
+      QPixmap(basic_path + "other_stuff/hp.png"));
+  bonuses_pixmaps_[BonusTypes::kBulletsAmmo].emplace_back(
+      QPixmap(basic_path + "other_stuff/ammo.png"));
+  bonuses_pixmaps_[BonusTypes::kMineAmmo].emplace_back(
+      QPixmap(basic_path + "other_stuff/mines_ammo.png"));
 }
 
 const QPixmap& PixmapLoader::GetPixmap(PixmapID id) {
-  return pixmaps_[id];
+  auto pixmap_category =
+      static_cast<PixmapCategories>(id >> kCategoryPixmapShift);
+  int32_t state_value = (id & kStatePixmapMask) >> kStatePixmapShift;
+  int32_t pixmap_number = id & kNumberPixmapMask;
+  switch (pixmap_category) {
+    case PixmapCategories::kCar: {
+      auto pixmap_state = static_cast<CarStates>(state_value);
+      return pixmap_state == CarStates::kDead ?
+             cars_pixmaps_[pixmap_state][0] :
+             cars_pixmaps_[pixmap_state][pixmap_number];
+    }
+    case PixmapCategories::kMine: {
+      auto pixmap_state = static_cast<MineStates>(state_value);
+      return mines_pixmaps_[pixmap_state][pixmap_number];
+    }
+    default: {
+      auto pixmap_state = static_cast<BonusTypes>(state_value);
+      return bonuses_pixmaps_[pixmap_state][pixmap_number];
+    }
+  }
 }
 
-const QPoint& PixmapLoader::GetOffset(PixmapID id) {
-  return offsets_[id];
+const QPixmap& PixmapLoader::GetMapPixmap() {
+  return map_pixmap_;
 }

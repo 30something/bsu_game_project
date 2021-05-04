@@ -5,6 +5,7 @@
 class Behavior {
  public:
   virtual void HandleTick(const GameObject*) = 0;
+  virtual ~Behavior() = default;
 
   bool IsFlagUp() const;
   bool IsFlagDown() const;

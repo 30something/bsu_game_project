@@ -22,7 +22,8 @@ find_package(Qt${QT_VERSION} COMPONENTS ${REQUIRED_LIBS} REQUIRED)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-Wall -Wextra -O0")
 
-set(SOURCES main.cpp
+set(SOURCES
+        main.cpp
         src/View/view.cpp
         "src/Main window/main_window.cpp"
         src/Menu/menu.cpp
@@ -57,12 +58,13 @@ set(SOURCES main.cpp
         src/Network/network_room.cpp
         src/Network/player_tile.cpp
         src/Network/network_controller.cpp
+        src/helpers/map_data.cpp
         )
 
 set(RESOURCES
         images.qrc
         map_data.qrc
-        src/helpers/map_data.cpp)
+        )
 
 set(SERVER_SOURCES
         src/Server/main.cpp

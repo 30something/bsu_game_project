@@ -19,7 +19,8 @@ static const JsonFilePaths json_file_paths;
 
 class ImageFilePaths {
  public:
-  std::vector<QString> file_paths;
+  std::vector<QString> maps_file_paths;
+  std::vector<QString> minimaps_file_paths;
   ImageFilePaths();
 };
 
