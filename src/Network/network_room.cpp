@@ -101,10 +101,10 @@ void NetworkRoom::UpdatePlayersVector() {
     players_.emplace_back(new PlayerTile(this, player));
     players_layout_->addWidget(players_.back());
   }
-  if(!is_first_packet_received) {
+  if (!is_first_packet_received) {
     network_player_->SetId(players_.size() - 1);
     is_first_packet_received = true;
-    if(network_player_->GetId() == 0) {
+    if (network_player_->GetId() == 0) {
       AddStartButton();
     }
   }
@@ -114,7 +114,6 @@ void NetworkRoom::UpdatePlayersVector() {
 std::vector<std::pair<size_t, bool>>
 NetworkRoom::DecodePlayersVectorJson(const QString& json) {
   QJsonObject json_object = QJsonDocument::fromJson(json.toUtf8()).object();
-  //array of ids and status ready
   QJsonArray data_array = json_object["data"].toArray();
   std::vector<std::pair<size_t, bool>> result;
   for (const auto& data : data_array) {
@@ -135,8 +134,8 @@ void NetworkRoom::AddStartButton() {
 }
 
 void NetworkRoom::PrepareForStart() {
-  for(const auto& player : players_) {
-    if(!player->GetPlayer()->IsReady()) {
+  for (const auto& player : players_) {
+    if (!player->GetPlayer()->IsReady()) {
       connection_status_->setText("Error! Not everybody is ready");
       return;
     }

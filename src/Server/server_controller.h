@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include <QWidget>
 #include <QTcpSocket>
 #include <QTcpServer>

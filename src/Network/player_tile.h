@@ -8,11 +8,12 @@
 #include "network_player.h"
 
 class PlayerTile : public QWidget {
- Q_OBJECT
+  Q_OBJECT
  public:
   PlayerTile(QWidget* parent, const NetworkPlayer* player);
   void Highlight();
   const NetworkPlayer* GetPlayer() const;
+
  private:
   const NetworkPlayer* player_;
   QLabel* nickname_;

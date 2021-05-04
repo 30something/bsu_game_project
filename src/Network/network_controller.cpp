@@ -23,7 +23,7 @@ void NetworkController::ParseData() {
   NetworkData data;
   data_stream >> data.type;
   data_stream >> data.data;
-  switch(data.type) {
+  switch (data.type) {
     case MessageType::kPlayersVector : {
       q_variant_ = data.data;
       emit GotPlayersVector();
@@ -43,7 +43,7 @@ QVariant NetworkController::GetData() {
 void NetworkController::SendStartSignal() {
   NetworkData data;
   data.type = MessageType::kSignalToStart;
-  data.data = QVariant::fromValue(player_->GetId());
+  data.data = QVariant::fromValue(static_cast<int>(player_->GetId()));
   QByteArray arr;
   QDataStream data_stream(&arr, QIODevice::WriteOnly);
   data_stream << data.type << data.data;

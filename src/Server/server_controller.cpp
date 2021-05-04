@@ -21,14 +21,14 @@ void ServerController::ConnectClient() {
 }
 
 void ServerController::ReceiveClientData() {
-  for(auto& player : players_) {
-    if(player.Socket()->bytesAvailable()) {
+  for (auto& player : players_) {
+    if (player.Socket()->bytesAvailable()) {
       QByteArray arr = player.Socket()->readAll();
       QDataStream data_stream(&arr, QIODevice::ReadOnly);
       NetworkData data;
       data_stream >> data.type;
       data_stream >> data.data;
-      switch(data.type) {
+      switch (data.type) {
         case MessageType::kReadyStatus : {
           size_t id = data.data.toInt();
           players_[id].SetIsReady(!players_[id].IsReady());
@@ -45,7 +45,7 @@ void ServerController::ReceiveClientData() {
 }
 
 void ServerController::UpdateClientsInfo() {
-  for(auto& player : players_) {
+  for (auto& player : players_) {
     NetworkData data;
     data.type = MessageType::kPlayersVector;
     QString json_to_send = EncodePlayersVectorJson();
@@ -59,12 +59,13 @@ void ServerController::UpdateClientsInfo() {
 
 QString ServerController::EncodePlayersVectorJson() {
   QJsonObject json_object;
-  //array of ids and status ready
   QJsonArray array;
-  for(const auto& player : players_) {
+  for (const auto& player : players_) {
     QJsonObject array_cell;
-    array_cell.insert("id", QJsonValue::fromVariant(player.GetId()));
-    array_cell.insert("status", QJsonValue::fromVariant(player.IsReady()));
+    array_cell.insert("id",
+                      QJsonValue::fromVariant(static_cast<int>(player.GetId())));
+    array_cell.insert("status",
+                      QJsonValue::fromVariant(player.IsReady()));
     array.push_back(array_cell);
   }
   json_object.insert("data", array);
@@ -72,7 +73,7 @@ QString ServerController::EncodePlayersVectorJson() {
 }
 
 void ServerController::SendStartSignal() {
-  for(auto& player : players_) {
+  for (auto& player : players_) {
     NetworkData data;
     data.type = MessageType::kSignalToStart;
     data.data = QVariant::fromValue(1);

@@ -15,7 +15,7 @@ class NetworkController : public QObject {
   QVariant GetData();
   void SendStartSignal();
 
-  signals:
+ signals:
   void StartGame();
   void GotPlayersVector();
   void GotSignalToStart();

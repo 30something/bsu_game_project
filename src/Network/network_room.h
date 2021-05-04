@@ -1,5 +1,8 @@
 #pragma once
 
+#include <utility>
+#include <vector>
+
 #include <QWidget>
 #include <QPushButton>
 #include <QLabel>
