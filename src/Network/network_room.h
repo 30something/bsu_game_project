@@ -18,7 +18,7 @@
 #include "player_tile.h"
 
 class NetworkRoom : public QWidget {
- Q_OBJECT
+  Q_OBJECT
 
  public:
   explicit NetworkRoom(QWidget* parent);

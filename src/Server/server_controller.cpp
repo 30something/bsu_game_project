@@ -61,12 +61,12 @@ QString ServerController::EncodePlayersVectorJson() {
   QJsonObject json_object;
   QJsonArray array;
   for (const auto& player : players_) {
-    QJsonObject array_cell;
-    array_cell.insert("id",
-                      QJsonValue::fromVariant(static_cast<int>(player.GetId())));
-    array_cell.insert("status",
-                      QJsonValue::fromVariant(player.IsReady()));
-    array.push_back(array_cell);
+    QJsonObject arr_cell;
+    arr_cell.insert("id",
+                    QJsonValue::fromVariant(static_cast<int>(player.GetId())));
+    arr_cell.insert("status",
+                    QJsonValue::fromVariant(player.IsReady()));
+    array.push_back(arr_cell);
   }
   json_object.insert("data", array);
   return QJsonDocument(json_object).toJson();
