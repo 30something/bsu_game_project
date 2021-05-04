@@ -1,11 +1,12 @@
 //  Kindly taken from https://github.com/abainbridge/car_sim
 #pragma once
 
-#include <vector>
 #include <algorithm>
 #include <cmath>
+#include <memory>
 #include <utility>
 #include <optional>
+#include <vector>
 
 #include <QPoint>
 
