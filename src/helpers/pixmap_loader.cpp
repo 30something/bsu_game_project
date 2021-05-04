@@ -7,13 +7,15 @@ PixmapLoader::PixmapLoader(const QString& filepath) : map_filepath_(filepath) {
 void PixmapLoader::InitPixmaps() {
   QFileInfoList standard_cars_list =
       QDir(":resources/images/cars/standard_cars").entryInfoList();
-  for (const auto& file : standard_cars_list) {
-    cars_pixmaps_[CarStates::kStandard].emplace_back(QPixmap(file.filePath()));
+  for (const auto& standard_car : standard_cars_list) {
+    cars_pixmaps_[CarStates::kStandard].emplace_back(
+        QPixmap(standard_car.filePath()));
   }
   QFileInfoList shooting_cars_list =
       QDir(":resources/images/cars/shooting_cars").entryInfoList();
-  for (const auto& file : shooting_cars_list) {
-    cars_pixmaps_[CarStates::kShooting].emplace_back(QPixmap(file.filePath()));
+  for (const auto& shooting_car : shooting_cars_list) {
+    cars_pixmaps_[CarStates::kShooting].emplace_back(QPixmap(
+        shooting_car.filePath()));
   }
 
   QString basic_path = ":resources/images/";

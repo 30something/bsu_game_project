@@ -5,8 +5,7 @@ Car::Car(QPoint position,
          Behavior* behavior,
          CarsColors car_color,
          bool enable_drifts) :
-    GameObject(Vec2f(position.x(), position.y()),
-               new CarPixmapComponent),
+    GameObject(Vec2f(position.x(), position.y()), new CarPixmapComponent),
     behavior_(behavior),
     car_color_(car_color),
     enable_drifts_(enable_drifts) {

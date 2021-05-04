@@ -1,8 +1,7 @@
 #include "mine.h"
 
 Mine::Mine(Vec2f position) :
-  GameObject(position,
-             new MinePixmapComponent) {
+  GameObject(position, new MinePixmapComponent) {
   dynamic_cast<MinePixmapComponent*>(pixmap_component_.get())->
       SetMinePixmapId(MineStates::kStandard);
 }

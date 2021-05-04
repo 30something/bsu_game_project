@@ -1,8 +1,7 @@
 #include "bonus.h"
 
 Bonus::Bonus(Vec2f point, BonusTypes type) :
-    GameObject(point,
-               new BonusPixmapComponent),
+    GameObject(point, new BonusPixmapComponent),
     type_(type) {
   dynamic_cast<BonusPixmapComponent*>(pixmap_component_.get())->
       SetBonusPixmapId(type_);
