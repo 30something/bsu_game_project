@@ -1,6 +1,6 @@
 #include "network_room.h"
 
-NetworkRoom::NetworkRoom(QWidget* parent) :
+NetworkRoom::NetworkRoom(QWidget* parent, GameMode* game_mode) :
     QWidget(parent),
     back_to_main_menu_(new QPushButton("Back to main", this)),
     try_connect_(new QPushButton("Connect", this)),
@@ -13,6 +13,7 @@ NetworkRoom::NetworkRoom(QWidget* parent) :
     connection_layout_(new QVBoxLayout()),
     buttons_layout_(new QHBoxLayout()),
     players_layout_(new QVBoxLayout()),
+    game_mode_(game_mode),
     network_player_(new NetworkPlayer(new QTcpSocket())) {
   SetUpLayouts();
   ConnectEverything();
@@ -78,7 +79,9 @@ void NetworkRoom::ChangeReadyStatus() {
 }
 
 void NetworkRoom::SetUpAndStartGame() {
-  // smth here
+  // TODO(dima_makarov) Add map selecctor here
+  game_mode_->network_players_amount = players_.size() - 1;
+  game_mode_->network_controller = network_controller_;
   emit StartGame();
 }
 
@@ -101,9 +104,9 @@ void NetworkRoom::UpdatePlayersVector() {
     players_.emplace_back(new PlayerTile(this, player));
     players_layout_->addWidget(players_.back());
   }
-  if (!is_first_packet_received) {
+  if (!is_first_packet_received_) {
     network_player_->SetId(players_.size() - 1);
-    is_first_packet_received = true;
+    is_first_packet_received_ = true;
     if (network_player_->GetId() == 0) {
       AddStartButton();
     }
@@ -141,5 +144,4 @@ void NetworkRoom::PrepareForStart() {
     }
   }
   network_controller_->SendStartSignal();
-  SetUpAndStartGame();
 }

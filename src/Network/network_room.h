@@ -16,12 +16,13 @@
 #include "network_player.h"
 #include "network_controller.h"
 #include "player_tile.h"
+#include "src/helpers/game_mode.h"
 
 class NetworkRoom : public QWidget {
   Q_OBJECT
 
  public:
-  explicit NetworkRoom(QWidget* parent);
+  explicit NetworkRoom(QWidget* parent, GameMode* game_mode);
   ~NetworkRoom() override = default;
 
  signals:
@@ -41,8 +42,8 @@ class NetworkRoom : public QWidget {
   QHBoxLayout* buttons_layout_;
   QVBoxLayout* players_layout_;
 
-  bool is_first_packet_received = false;
-
+  bool is_first_packet_received_ = false;
+  GameMode* game_mode_ = nullptr;
   NetworkPlayer* network_player_ = nullptr;
   std::vector<PlayerTile*> players_;
   NetworkController* network_controller_ = nullptr;

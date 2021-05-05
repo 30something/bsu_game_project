@@ -18,9 +18,11 @@
 #include "src/GameCore/Behaviors/first_player_behavior.h"
 #include "src/GameCore/Behaviors/second_player_behavior.h"
 #include "src/GameCore/Behaviors/bot_behavior.h"
+#include "src/GameCore/Behaviors/network_player_behavior.h"
 #include "input_controller.h"
 #include "src/helpers/wrapper_template.h"
 #include "src/helpers/cars_colors.h"
+#include "src/Network/network_controller.h"
 
 class GameController : public QObject {
   Q_OBJECT
@@ -39,6 +41,7 @@ class GameController : public QObject {
 
  private:
   void SetUpCars(const InputController* input_controller);
+  void SetUpCarsNetwork(const InputController* input_controller);
   void SetUpBots();
   void SetUpCarsAchievements();
   void ProceedCollisionsWithCars();
@@ -48,11 +51,13 @@ class GameController : public QObject {
   void UpdateCarsInfoAndCollisions(int time_millis);
   static void CollideCars(Car* car_1, Car* car_2);
   void EnableWeapons();
+  void SendCarData();
 
   static constexpr double kVelocityDecrease = 0.5;
   static constexpr double kDeviationDecrease = 0.5;
   static constexpr double kHPDecrease = 0.005;
   static constexpr double kMillisWeaponsEnable = 10000;
+  static constexpr double kMillisDataSend = 50;
 
   Map map_;
   Line finish_line_;
@@ -60,7 +65,10 @@ class GameController : public QObject {
   std::vector<CarAchievements> car_achievements_;
   std::set<uint32_t> remaining_cars_;
   GameMode* game_mode_ = nullptr;
+  Behavior* our_car_behavior_ = nullptr;
   WeaponHandler weapon_handler_;
   std::vector<WrapperBase<GameObject>*> game_objects_;
   QTimer weapons_timer_;
+  QTimer data_send_timer_;
+  NetworkController* network_controller_;
 };

@@ -59,7 +59,7 @@ set(SOURCES
         src/Network/player_tile.cpp
         src/Network/network_controller.cpp
         src/helpers/map_data.cpp
-        )
+        src/GameCore/Behaviors/network_player_behavior.cpp)
 
 set(RESOURCES
         images.qrc
@@ -69,7 +69,8 @@ set(RESOURCES
 set(SERVER_SOURCES
         src/Server/main.cpp
         src/Network/network_player.cpp
-        src/Server/server_controller.cpp)
+        src/Server/server_controller.cpp
+        src/helpers/vec2f.cpp)
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 add_executable(Death_Rally_Server ${SERVER_SOURCES})

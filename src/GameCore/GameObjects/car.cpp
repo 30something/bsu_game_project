@@ -295,6 +295,10 @@ void Car::UpdateCollisionLines() {
       Line(wheels_[2].GetPosition(), wheels_[3].GetPosition());
 }
 
+void Car::SetAngleVec(const Vec2f& angle_vec) {
+  angle_vec_ = angle_vec;
+}
+
 void Car::CarPixmapComponent::SetCarPixmapId(CarStates car_state,
                                              CarsColors car_color) {
   auto category_value = static_cast<int32_t>(PixmapCategories::kCar);

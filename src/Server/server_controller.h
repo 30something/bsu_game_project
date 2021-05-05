@@ -8,31 +8,32 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QTimerEvent>
 
 #include "src/Network/network_player.h"
 #include "src/Network/network_data.h"
 
-enum class GameState {
-  kLobby,
-  kRace
-};
-
 class ServerController : public QWidget {
-  Q_OBJECT
+ Q_OBJECT
  public:
   ServerController();
 
+  void timerEvent(QTimerEvent*) override;
+
  private:
   std::vector<NetworkPlayer> players_;
+  std::vector<PlayerCarData> players_cars_data_;
+
   QTcpServer server_;
-  GameState game_state = GameState::kLobby;
   void ConnectClient();
   void ReceiveClientData();
   void UpdateClientsInfo();
   void SendStartSignal();
-
+  void SendGameStateToAllPlayers();
+  QString EncodePlayersData();
   QString EncodePlayersVectorJson();
+  void DecodePlayerCarData(NetworkPlayer* player,
+                           const QString& json);
+  bool start_signal_sent_ = false;
+  static constexpr size_t kServerTimerInterval = 50;
 };
-
-
-

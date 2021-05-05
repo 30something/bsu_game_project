@@ -8,7 +8,7 @@ MainWindow::MainWindow(QMainWindow* parent) :
     game_mode_(new GameMode()),
     game_mode_selector_(new GameModeSelector(this, game_mode_)),
     settings_(new Settings(this)),
-    network_room_(new NetworkRoom(this)) {
+    network_room_(new NetworkRoom(this, game_mode_)) {
   setMinimumSize(mainwindow_sizes::kDefaultScreenSize);
   setWindowTitle("Death Rally");
   SetUpStackedWidget();

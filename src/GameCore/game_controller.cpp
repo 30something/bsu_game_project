@@ -6,9 +6,19 @@ GameController::GameController(GameMode* game_mode,
     map_(map_data::json_file_paths.file_paths[game_mode->map_index]),
     finish_line_(map_.GetFinishLine()),
     game_mode_(game_mode),
-    weapon_handler_() {
-  SetUpCars(input_controller);
-  SetUpBots();
+    weapon_handler_(),
+    network_controller_(game_mode->network_controller) {
+  if (network_controller_ != nullptr) {
+    SetUpCarsNetwork(input_controller);
+    data_send_timer_.start(kMillisDataSend);
+    connect(&data_send_timer_,
+            &QTimer::timeout,
+            this,
+            &GameController::SendCarData);
+  } else {
+    SetUpCars(input_controller);
+    SetUpBots();
+  }
   SetUpCarsAchievements();
   weapons_timer_.setSingleShot(true);
   weapons_timer_.start(kMillisWeaponsEnable);
@@ -37,6 +47,42 @@ void GameController::SetUpBots() {
         bot,
         static_cast<CarsColors>(i + 2),
         game_mode_->enable_drifting);
+  }
+}
+
+void GameController::SetUpCarsNetwork(const InputController* input_controller) {
+  for (size_t i = 0; i < network_controller_->GetId(); i++) {
+    auto* network_player_behavior = new NetworkPlayerBehavior(
+        network_controller_,
+        i);
+    cars_.emplace_back(
+        map_.GetPosAndAngles()[0].first,
+        map_.GetPosAndAngles()[0].second,
+        network_player_behavior,
+        static_cast<CarsColors>(0),
+        game_mode_->enable_drifting
+        );
+  }
+  Behavior* first_player_behavior =
+      new FirstPlayerBehavior(input_controller);
+  our_car_behavior_ = first_player_behavior;
+  cars_.emplace_back(
+      map_.GetPosAndAngles()[0].first,
+      map_.GetPosAndAngles()[0].second,
+      first_player_behavior,
+      static_cast<CarsColors>(0),
+      game_mode_->enable_drifting);
+  for (size_t i = network_controller_->GetId() + 1; i < game_mode_->network_players_amount + 1; i++) {
+    auto* network_player_behavior = new NetworkPlayerBehavior(
+        network_controller_,
+        i);
+    cars_.emplace_back(
+        map_.GetPosAndAngles()[0].first,
+        map_.GetPosAndAngles()[0].second,
+        network_player_behavior,
+        static_cast<CarsColors>(0),
+        game_mode_->enable_drifting
+    );
   }
 }
 
@@ -216,4 +262,17 @@ std::vector<CarAchievements> GameController::GetCarsData() const {
 
 void GameController::EnableWeapons() {
   weapon_handler_.SetEnableWeapons(true);
+}
+
+void GameController::SendCarData() {
+  PlayerCarData data;
+  data.angle = cars_[network_controller_->GetId()].GetAngleVec();
+  data.position = cars_[network_controller_->GetId()].GetPosition();
+  data.flag_up = our_car_behavior_->IsFlagUp();
+  data.flag_down = our_car_behavior_->IsFlagDown();
+  data.flag_left = our_car_behavior_->IsFlagLeft();
+  data.flag_right = our_car_behavior_->IsFlagRight();
+  data.flag_shoot = our_car_behavior_->IsFlagShoot();
+  data.flag_mine = our_car_behavior_->IsFlagMine();
+  network_controller_->SendCarData(data);
 }
