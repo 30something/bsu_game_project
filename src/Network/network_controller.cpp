@@ -77,11 +77,11 @@ void NetworkController::DecodePlayersCarData(const QVariant& q_variant) {
     QJsonObject data_obj = data.toObject();
     PlayerCarData car_data;
     QJsonObject angle_obj = data_obj["angle"].toObject();
-    car_data.angle = Vec2f(data_obj["x"].toDouble(),
-                           data_obj["y"].toDouble());
+    car_data.angle = Vec2f(angle_obj["x"].toDouble(),
+                           angle_obj["y"].toDouble());
     QJsonObject position_obj = data_obj["position"].toObject();
-    car_data.position = Vec2f(data_obj["x"].toDouble(),
-                           data_obj["y"].toDouble());
+    car_data.position = Vec2f(position_obj["x"].toDouble(),
+                           position_obj["y"].toDouble());
     car_data.flag_up = data_obj   ["flag_up"].toBool();
     car_data.flag_down = data_obj ["flag_down"].toBool();
     car_data.flag_left = data_obj ["flag_left"].toBool();
@@ -96,7 +96,7 @@ void NetworkController::DecodePlayersCarData(const QVariant& q_variant) {
 void NetworkController::SendCarData(PlayerCarData player_car_data) {
   QString json = EncodePlayerCarData(player_car_data);
   NetworkData data;
-  data.type = MessageType::kSignalToStart;
+  data.type = MessageType::kPlayersCarData;
   data.data = QVariant::fromValue(json);
   QByteArray arr;
   QDataStream data_stream(&arr, QIODevice::WriteOnly);

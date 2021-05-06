@@ -76,20 +76,17 @@ QString ServerController::EncodePlayersVectorJson() {
 }
 
 void ServerController::SendStartSignal() {
-  if (!start_signal_sent_) {
-    NetworkData data;
-    data.type = MessageType::kSignalToStart;
-    data.data = QVariant::fromValue(1);
-    QByteArray arr;
-    QDataStream data_stream(&arr, QIODevice::WriteOnly);
-    data_stream << data.type << data.data;
-    for (auto& player : players_) {
-      player.Socket()->write(arr);
-    }
-    startTimer(kServerTimerInterval);
-    players_cars_data_.reserve(players_.size());
-    start_signal_sent_ = true;
+  NetworkData data;
+  data.type = MessageType::kSignalToStart;
+  data.data = QVariant::fromValue(1);
+  QByteArray arr;
+  QDataStream data_stream(&arr, QIODevice::WriteOnly);
+  data_stream << data.type << data.data;
+  for (auto& player : players_) {
+    player.Socket()->write(arr);
   }
+  startTimer(kServerTimerInterval);
+  players_cars_data_.resize(players_.size());
 }
 
 void ServerController::timerEvent(QTimerEvent*) {
@@ -139,11 +136,11 @@ void ServerController::DecodePlayerCarData(NetworkPlayer* player,
   PlayerCarData car_data;
   QJsonObject data_obj = QJsonDocument::fromJson(json.toUtf8()).object();
   QJsonObject angle_obj = data_obj["angle"].toObject();
-  car_data.angle = Vec2f(data_obj["x"].toDouble(),
-                         data_obj["y"].toDouble());
+  car_data.angle = Vec2f(angle_obj["x"].toDouble(),
+                         angle_obj["y"].toDouble());
   QJsonObject position_obj = data_obj["position"].toObject();
-  car_data.position = Vec2f(data_obj["x"].toDouble(),
-                            data_obj["y"].toDouble());
+  car_data.position = Vec2f(position_obj["x"].toDouble(),
+                            position_obj["y"].toDouble());
   car_data.flag_up = data_obj["flag_up"].toBool();
   car_data.flag_down = data_obj["flag_down"].toBool();
   car_data.flag_left = data_obj["flag_left"].toBool();

@@ -34,6 +34,5 @@ class ServerController : public QWidget {
   QString EncodePlayersVectorJson();
   void DecodePlayerCarData(NetworkPlayer* player,
                            const QString& json);
-  bool start_signal_sent_ = false;
-  static constexpr size_t kServerTimerInterval = 50;
+  static constexpr size_t kServerTimerInterval = 20;
 };

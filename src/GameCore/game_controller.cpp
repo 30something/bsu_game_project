@@ -10,6 +10,7 @@ GameController::GameController(GameMode* game_mode,
     network_controller_(game_mode->network_controller) {
   if (network_controller_ != nullptr) {
     SetUpCarsNetwork(input_controller);
+    SendCarData();
     data_send_timer_.start(kMillisDataSend);
     connect(&data_send_timer_,
             &QTimer::timeout,
@@ -56,29 +57,30 @@ void GameController::SetUpCarsNetwork(const InputController* input_controller) {
         network_controller_,
         i);
     cars_.emplace_back(
-        map_.GetPosAndAngles()[0].first,
-        map_.GetPosAndAngles()[0].second,
+        map_.GetPosAndAngles()[i].first,
+        map_.GetPosAndAngles()[i].second,
         network_player_behavior,
         static_cast<CarsColors>(0),
         game_mode_->enable_drifting
-        );
+    );
   }
   Behavior* first_player_behavior =
       new FirstPlayerBehavior(input_controller);
   our_car_behavior_ = first_player_behavior;
   cars_.emplace_back(
-      map_.GetPosAndAngles()[0].first,
-      map_.GetPosAndAngles()[0].second,
+      map_.GetPosAndAngles()[network_controller_->GetId()].first,
+      map_.GetPosAndAngles()[network_controller_->GetId()].second,
       first_player_behavior,
       static_cast<CarsColors>(0),
       game_mode_->enable_drifting);
-  for (size_t i = network_controller_->GetId() + 1; i < game_mode_->network_players_amount + 1; i++) {
+  for (size_t i = network_controller_->GetId() + 1;
+       i < game_mode_->network_players_amount + 1; i++) {
     auto* network_player_behavior = new NetworkPlayerBehavior(
         network_controller_,
         i);
     cars_.emplace_back(
-        map_.GetPosAndAngles()[0].first,
-        map_.GetPosAndAngles()[0].second,
+        map_.GetPosAndAngles()[i].first,
+        map_.GetPosAndAngles()[i].second,
         network_player_behavior,
         static_cast<CarsColors>(0),
         game_mode_->enable_drifting
@@ -246,8 +248,12 @@ std::vector<WrapperBase<GameObject>*> GameController::GetGameObjects() const {
 
 std::vector<Vec2f> GameController::GetPlayersCarPositions() const {
   std::vector<Vec2f> result;
-  for (size_t i = 0; i < game_mode_->players_amount; i++) {
-    result.push_back(cars_[i].GetPosition());
+  if (network_controller_ != nullptr) {
+    result.push_back(cars_[network_controller_->GetId()].GetPosition());
+  } else {
+    for (size_t i = 0; i < game_mode_->players_amount; i++) {
+      result.push_back(cars_[i].GetPosition());
+    }
   }
   return result;
 }

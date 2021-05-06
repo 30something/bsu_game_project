@@ -57,7 +57,7 @@ class GameController : public QObject {
   static constexpr double kDeviationDecrease = 0.5;
   static constexpr double kHPDecrease = 0.005;
   static constexpr double kMillisWeaponsEnable = 10000;
-  static constexpr double kMillisDataSend = 50;
+  static constexpr double kMillisDataSend = 20;
 
   Map map_;
   Line finish_line_;
