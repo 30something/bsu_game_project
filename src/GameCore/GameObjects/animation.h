@@ -5,7 +5,6 @@
 
 class Animation : public GameObject {
  public:
-
   void GoToNextFrame();
   explicit Animation(Vec2f position, AnimationTypes animation_type);
   ~Animation() override = default;
