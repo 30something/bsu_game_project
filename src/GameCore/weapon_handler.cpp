@@ -1,4 +1,5 @@
 #include "weapon_handler.h"
+#include "src/helpers/game_object_states.h"
 
 void WeaponHandler::ShootBullet(Car* car, std::vector<Car>* cars) {
   std::optional<Line> shoot_trajectory = car->ShootBullet();
@@ -25,7 +26,8 @@ void WeaponHandler::PutMine(Car* car) {
   }
 }
 
-void WeaponHandler::ProceedWeapons(std::vector<Car>* cars) {
+void WeaponHandler::ProceedWeapons(std::vector<Car>* cars,
+                                   std::vector<Animation>* animations) {
   if (!enable_weapons_) {
     return;
   }
@@ -42,6 +44,8 @@ void WeaponHandler::ProceedWeapons(std::vector<Car>* cars) {
       for (auto& car : *cars) {
         if (physics::IsIntersects(car.GetCollisionLines(),
                                   mine.GetCollisionLines())) {
+          (*animations).emplace_back(mine.GetPosition(),
+                                     AnimationTypes::kExplosion);
           car.AddHitPoints(-kMineDamage);
           car.SetVelocity(Vec2f(car.GetVelocity()).Normalize() * -kMineSplash);
           mine.SetExploded();

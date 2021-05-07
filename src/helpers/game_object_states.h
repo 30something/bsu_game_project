@@ -16,3 +16,7 @@ enum class BonusTypes {
   kBulletsAmmo,
   kMineAmmo
 };
+
+enum class AnimationTypes {
+  kExplosion
+};

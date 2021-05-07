@@ -21,6 +21,7 @@
 #include "input_controller.h"
 #include "src/helpers/wrapper_template.h"
 #include "src/helpers/cars_colors.h"
+#include "src/GameCore/GameObjects/animation.h"
 
 class GameController : public QObject {
   Q_OBJECT
@@ -36,6 +37,8 @@ class GameController : public QObject {
 
   bool AllCarsFinished() const;
   std::vector<CarAchievements> GetCarsData() const;
+
+  void UpdateAnimations();
 
  private:
   void SetUpCars(const InputController* input_controller);
@@ -62,5 +65,6 @@ class GameController : public QObject {
   GameMode* game_mode_ = nullptr;
   WeaponHandler weapon_handler_;
   std::vector<WrapperBase<GameObject>*> game_objects_;
+  std::vector<Animation> animations_;
   QTimer weapons_timer_;
 };

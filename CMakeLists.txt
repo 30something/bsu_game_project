@@ -42,6 +42,7 @@ set(SOURCES
         src/GameCore/weapon_handler.cpp
         src/helpers/json_map_parser.cpp
         src/helpers/physics.cpp
+        src/GameCore/GameObjects/animation.cpp
         src/GameCore/GameObjects/bonus.cpp
         src/GameCore/GameObjects/game_object.cpp
         src/GameCore/GameObjects/mine.cpp

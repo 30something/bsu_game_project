@@ -22,6 +22,8 @@ GameController::GameController(GameMode* game_mode,
       new WrapperTemplate<GameObject, Bonus>(map_.GetActiveBonuses()));
   game_objects_.push_back(
       new WrapperTemplate<GameObject, Car>(cars_));
+  game_objects_.push_back(
+      new WrapperTemplate<GameObject, Animation>(animations_));
 }
 
 void GameController::SetUpBots() {
@@ -73,7 +75,7 @@ void GameController::SetUpCarsAchievements() {
 }
 
 void GameController::Tick(int time_millis) {
-  weapon_handler_.ProceedWeapons(&cars_);
+  weapon_handler_.ProceedWeapons(&cars_, &animations_);
   ProceedCollisionsWithCars();
   ProceedCollisionsWithFinish();
   ProceedFinishGame();
@@ -216,4 +218,15 @@ std::vector<CarAchievements> GameController::GetCarsData() const {
 
 void GameController::EnableWeapons() {
   weapon_handler_.SetEnableWeapons(true);
+}
+
+void GameController::UpdateAnimations() {
+  for (auto& animation : animations_) {
+    animation.GoToNextFrame();
+    if (animation.IsEnded()) {
+      animations_.erase(std::find(animations_.begin(),
+                                  animations_.end(),
+                                  animation));
+    }
+  }
 }

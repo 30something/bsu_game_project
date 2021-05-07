@@ -17,6 +17,13 @@ void PixmapLoader::InitPixmaps() {
     cars_pixmaps_[CarStates::kShooting].emplace_back(QPixmap(
         shooting_car.filePath()));
   }
+  QFileInfoList explosion_animation_list =
+      QDir(":resources/images/images_for_animations/explosion_animation"
+      ).entryInfoList();
+  for (const auto& explosion_animation_frame : explosion_animation_list) {
+    animation_pixmaps_[AnimationTypes::kExplosion].emplace_back(QPixmap(
+        explosion_animation_frame.filePath()));
+  }
 
   QString basic_path = ":resources/images/";
   map_pixmap_ = QPixmap(map_filepath_);
@@ -51,9 +58,13 @@ const QPixmap& PixmapLoader::GetPixmap(PixmapID id) {
       auto pixmap_state = static_cast<MineStates>(state_value);
       return mines_pixmaps_[pixmap_state][pixmap_number];
     }
-    default: {
+    case PixmapCategories::kBonus: {
       auto pixmap_state = static_cast<BonusTypes>(state_value);
       return bonuses_pixmaps_[pixmap_state][pixmap_number];
+    }
+    default: {
+      auto pixmap_state = static_cast<AnimationTypes>(state_value);
+      return animation_pixmaps_[pixmap_state][pixmap_number];
     }
   }
 }
