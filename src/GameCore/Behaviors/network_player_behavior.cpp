@@ -13,6 +13,7 @@ void NetworkPlayerBehavior::HandleTick(GameObject* game_object) {
     PlayerCarData our_data = network_controller_->GetPlayersData(our_id_);
     car->SetPosition(our_data.position);
     car->SetAngleVec(our_data.angle);
+    car->SetHitPoints(our_data.hp);
     flag_up_ = our_data.flag_up;
     flag_down_ = our_data.flag_down;
     flag_left_ = our_data.flag_left;

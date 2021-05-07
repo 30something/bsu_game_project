@@ -276,8 +276,10 @@ void GameController::EnableWeapons() {
 
 void GameController::SendCarData() {
   PlayerCarData data;
-  data.angle = cars_[network_controller_->GetId()].GetAngleVec();
-  data.position = cars_[network_controller_->GetId()].GetPosition();
+  size_t id = network_controller_->GetId();
+  data.angle = cars_[id].GetAngleVec();
+  data.position = cars_[id].GetPosition();
+  data.hp = cars_[id].GetHitPoints();
   data.flag_up = our_car_behavior_->IsFlagUp();
   data.flag_down = our_car_behavior_->IsFlagDown();
   data.flag_left = our_car_behavior_->IsFlagLeft();

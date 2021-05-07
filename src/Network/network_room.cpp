@@ -49,11 +49,12 @@ void NetworkRoom::SetUpLayouts() {
 
 void NetworkRoom::ConnectToServer() {
   network_player_->Socket()->connectToHost(ip_->text(), port_->text().toInt());
-  if (network_player_->Socket()->isOpen()) {
-    connection_status_->setText("Connected Successfully");
-  } else {
+  network_player_->Socket()->waitForConnected(100);
+  if (network_player_->Socket()->state() != QAbstractSocket::ConnectedState) {
     connection_status_->setText("Connection Error");
+    return;
   }
+  connection_status_->setText("Connected Successfully");
   network_controller_ = new NetworkController(network_player_);
   connect(network_controller_,
           &NetworkController::StartGame,
@@ -79,11 +80,11 @@ void NetworkRoom::ChangeReadyStatus() {
 }
 
 void NetworkRoom::SetUpAndStartGame() {
-  if(!already_started_) {
-    if(network_controller_->GetId() != 0){
+  if (!network_controller_->IsAlreadyStarted()) {
+    if (network_controller_->GetId() != 0) {
       DecodeGameModeData();
     }
-    already_started_ = true;
+    network_controller_->SetAlreadyStarted(true);
     game_mode_->network_players_amount = players_.size() - 1;
     game_mode_->network_controller = network_controller_;
     if (network_player_->GetId() == 0) {

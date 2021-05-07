@@ -20,6 +20,7 @@ struct NetworkData {
 struct PlayerCarData {
   Vec2f position;
   Vec2f angle;
+  double hp;
   bool flag_up;
   bool flag_down;
   bool flag_left;

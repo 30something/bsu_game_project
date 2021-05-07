@@ -44,7 +44,6 @@ class NetworkRoom : public QWidget {
   QVBoxLayout* players_layout_;
 
   bool is_first_packet_received_ = false;
-  bool already_started_ = false;
   GameMode* game_mode_ = nullptr;
   NetworkPlayer* network_player_ = nullptr;
   std::vector<PlayerTile*> players_;

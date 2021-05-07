@@ -82,13 +82,14 @@ void NetworkController::DecodePlayersCarData(const QVariant& q_variant) {
                            angle_obj["y"].toDouble());
     QJsonObject position_obj = data_obj["position"].toObject();
     car_data.position = Vec2f(position_obj["x"].toDouble(),
-                           position_obj["y"].toDouble());
-    car_data.flag_up = data_obj   ["flag_up"].toBool();
-    car_data.flag_down = data_obj ["flag_down"].toBool();
-    car_data.flag_left = data_obj ["flag_left"].toBool();
+                              position_obj["y"].toDouble());
+    car_data.hp = data_obj["hp"].toDouble();
+    car_data.flag_up = data_obj["flag_up"].toBool();
+    car_data.flag_down = data_obj["flag_down"].toBool();
+    car_data.flag_left = data_obj["flag_left"].toBool();
     car_data.flag_right = data_obj["flag_right"].toBool();
     car_data.flag_shoot = data_obj["flag_shoot"].toBool();
-    car_data.flag_mine = data_obj ["flag_mine"].toBool();
+    car_data.flag_mine = data_obj["flag_mine"].toBool();
     car_data.is_updated = true;
     players_cars_data_.push_back(car_data);
   }
@@ -115,6 +116,7 @@ QString NetworkController::EncodePlayerCarData(PlayerCarData data) {
   position_obj.insert("x", QJsonValue::fromVariant(data.position.GetX()));
   position_obj.insert("y", QJsonValue::fromVariant(data.position.GetY()));
   json_object.insert("position", position_obj);
+  json_object.insert("hp", QJsonValue::fromVariant(data.hp));
   json_object.insert("flag_up", QJsonValue::fromVariant(data.flag_up));
   json_object.insert("flag_down", QJsonValue::fromVariant(data.flag_down));
   json_object.insert("flag_left", QJsonValue::fromVariant(data.flag_left));
@@ -126,4 +128,12 @@ QString NetworkController::EncodePlayerCarData(PlayerCarData data) {
 
 size_t NetworkController::GetId() {
   return player_->GetId();
+}
+
+bool NetworkController::IsAlreadyStarted() const {
+  return already_started_;
+}
+
+void NetworkController::SetAlreadyStarted(bool already_started) {
+  already_started_ = already_started;
 }

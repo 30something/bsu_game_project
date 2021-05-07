@@ -21,6 +21,8 @@ class NetworkController : public QObject {
   PlayerCarData GetPlayersData(size_t id);
   void SendCarData(PlayerCarData player_car_data);
   size_t GetId();
+  bool IsAlreadyStarted() const;
+  void SetAlreadyStarted(bool already_started);
 
  signals:
   void StartGame();
@@ -34,4 +36,5 @@ class NetworkController : public QObject {
   NetworkPlayer* player_;
   QVariant q_variant_;
   std::vector<PlayerCarData> players_cars_data_;
+  bool already_started_ = false;
 };

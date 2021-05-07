@@ -133,6 +133,7 @@ QString ServerController::EncodePlayersData() {
     position_obj.insert("x", QJsonValue::fromVariant(data.position.GetX()));
     position_obj.insert("y", QJsonValue::fromVariant(data.position.GetY()));
     arr_cell.insert("position", position_obj);
+    arr_cell.insert("hp", QJsonValue::fromVariant(data.hp));
     arr_cell.insert("flag_up", QJsonValue::fromVariant(data.flag_up));
     arr_cell.insert("flag_down", QJsonValue::fromVariant(data.flag_down));
     arr_cell.insert("flag_left", QJsonValue::fromVariant(data.flag_left));
@@ -155,6 +156,7 @@ void ServerController::DecodePlayerCarData(NetworkPlayer* player,
   QJsonObject position_obj = data_obj["position"].toObject();
   car_data.position = Vec2f(position_obj["x"].toDouble(),
                             position_obj["y"].toDouble());
+  car_data.hp = data_obj["hp"].toDouble();
   car_data.flag_up = data_obj["flag_up"].toBool();
   car_data.flag_down = data_obj["flag_down"].toBool();
   car_data.flag_left = data_obj["flag_left"].toBool();
