@@ -1,12 +1,24 @@
 #include "server_controller.h"
 
 ServerController::ServerController() :
+    ip_(this),
     server_(this) {
   server_.listen(QHostAddress::Any, 5555);
   connect(&server_,
           &QTcpServer::newConnection,
           this,
           &ServerController::ConnectClient);
+  ShowOurIpAddresses();
+}
+
+void ServerController::ShowOurIpAddresses() {
+  QString ips;
+  QList<QHostAddress> addr = QNetworkInterface::allAddresses();
+  for(const auto& address : addr) {
+    ips += address.toString();
+    ips += '\n';
+  }
+  ip_.setText(ips);
 }
 
 void ServerController::ConnectClient() {
