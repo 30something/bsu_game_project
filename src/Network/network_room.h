@@ -28,6 +28,7 @@ class NetworkRoom : public QWidget {
  signals:
   void StartGame();
   void ReturnToMainMenu();
+  void OpenGameModeSelector();
 
  private:
   QPushButton* back_to_main_menu_;
@@ -43,6 +44,7 @@ class NetworkRoom : public QWidget {
   QVBoxLayout* players_layout_;
 
   bool is_first_packet_received_ = false;
+  bool already_started_ = false;
   GameMode* game_mode_ = nullptr;
   NetworkPlayer* network_player_ = nullptr;
   std::vector<PlayerTile*> players_;
@@ -58,6 +60,7 @@ class NetworkRoom : public QWidget {
 
   static std::vector<std::pair<size_t, bool>>
   DecodePlayersVectorJson(const QString& json);
+  void DecodeGameModeData();
 };
 
 

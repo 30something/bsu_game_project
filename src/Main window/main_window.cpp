@@ -56,7 +56,7 @@ void MainWindow::ReturnToMainMenu() {
   events_controller_ = nullptr;
 }
 
-void MainWindow::OpenMapSelector() {
+void MainWindow::OpenGameModeSelector() {
   stacked_widget_->setCurrentWidget(game_mode_selector_);
 }
 
@@ -84,7 +84,7 @@ void MainWindow::ConnectUI() {
   connect(menu_,
           &Menu::SinglePlayerPressed,
           this,
-          &MainWindow::OpenMapSelector);
+          &MainWindow::OpenGameModeSelector);
   connect(menu_,
           &Menu::MultiPlayerPressed,
           this,
@@ -105,6 +105,10 @@ void MainWindow::ConnectUI() {
           &NetworkRoom::StartGame,
           this,
           &MainWindow::StartGame);
+  connect(network_room_,
+          &NetworkRoom::OpenGameModeSelector,
+          this,
+          &MainWindow::OpenGameModeSelector);
   connect(menu_,
           &Menu::SettingsButtonPressed,
           this,

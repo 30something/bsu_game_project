@@ -30,7 +30,7 @@ class ServerController : public QWidget {
   void ConnectClient();
   void ReceiveClientData();
   void UpdateClientsInfo();
-  void SendStartSignal();
+  void SendStartSignal(QVariant data);
   void SendGameStateToAllPlayers();
   QString EncodePlayersData();
   QString EncodePlayersVectorJson();

@@ -79,10 +79,19 @@ void NetworkRoom::ChangeReadyStatus() {
 }
 
 void NetworkRoom::SetUpAndStartGame() {
-  // TODO(dima_makarov) Add map selecctor here
-  game_mode_->network_players_amount = players_.size() - 1;
-  game_mode_->network_controller = network_controller_;
-  emit StartGame();
+  if(!already_started_) {
+    if(network_controller_->GetId() != 0){
+      DecodeGameModeData();
+    }
+    already_started_ = true;
+    game_mode_->network_players_amount = players_.size() - 1;
+    game_mode_->network_controller = network_controller_;
+    if (network_player_->GetId() == 0) {
+      emit OpenGameModeSelector();
+    } else {
+      emit StartGame();
+    }
+  }
 }
 
 void NetworkRoom::UpdatePlayersVector() {
@@ -143,5 +152,14 @@ void NetworkRoom::PrepareForStart() {
       return;
     }
   }
-  network_controller_->SendStartSignal();
+  SetUpAndStartGame();
+}
+
+void NetworkRoom::DecodeGameModeData() {
+  QString json = network_controller_->GetData().toString();
+  QJsonObject json_object = QJsonDocument::fromJson(json.toUtf8()).object();
+  game_mode_->map_index = json_object["map_index"].toInt();
+  game_mode_->bots_amount = json_object["bots_amount"].toInt();
+  game_mode_->enable_drifting = json_object["enable_drifting"].toBool();
+  game_mode_->laps_amount = json_object["laps_amount"].toInt();
 }

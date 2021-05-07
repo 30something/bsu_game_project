@@ -52,6 +52,7 @@ class GameController : public QObject {
   static void CollideCars(Car* car_1, Car* car_2);
   void EnableWeapons();
   void SendCarData();
+  QString EncodeJson(GameMode* p_mode);
 
   static constexpr double kVelocityDecrease = 0.5;
   static constexpr double kDeviationDecrease = 0.5;

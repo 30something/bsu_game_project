@@ -30,6 +30,7 @@ void NetworkController::ParseData() {
       break;
     }
     case MessageType::kSignalToStart : {
+      q_variant_ = data.data;
       emit GotSignalToStart();
       break;
     }
@@ -44,10 +45,10 @@ QVariant NetworkController::GetData() {
   return q_variant_;
 }
 
-void NetworkController::SendStartSignal() {
+void NetworkController::SendStartSignal(const QString& json) {
   NetworkData data;
   data.type = MessageType::kSignalToStart;
-  data.data = QVariant::fromValue(static_cast<int>(player_->GetId()));
+  data.data = QVariant::fromValue(json);
   QByteArray arr;
   QDataStream data_stream(&arr, QIODevice::WriteOnly);
   data_stream << data.type << data.data;

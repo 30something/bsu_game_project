@@ -16,7 +16,7 @@ class NetworkController : public QObject {
   explicit NetworkController(NetworkPlayer* player);
   void SendReadyStatus();
   QVariant GetData();
-  void SendStartSignal();
+  void SendStartSignal(const QString& json);
   bool DataUpdated(size_t id);
   PlayerCarData GetPlayersData(size_t id);
   void SendCarData(PlayerCarData player_car_data);
@@ -35,6 +35,3 @@ class NetworkController : public QObject {
   QVariant q_variant_;
   std::vector<PlayerCarData> players_cars_data_;
 };
-
-
-

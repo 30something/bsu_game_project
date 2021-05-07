@@ -1,5 +1,7 @@
 #include "server_controller.h"
 
+#include <utility>
+
 ServerController::ServerController() :
     ip_(this),
     server_(this) {
@@ -48,7 +50,7 @@ void ServerController::ReceiveClientData() {
           break;
         }
         case MessageType::kSignalToStart : {
-          SendStartSignal();
+          SendStartSignal(data.data);
           break;
         }
         case MessageType::kPlayersCarData : {
@@ -87,10 +89,10 @@ QString ServerController::EncodePlayersVectorJson() {
   return QJsonDocument(json_object).toJson();
 }
 
-void ServerController::SendStartSignal() {
+void ServerController::SendStartSignal(QVariant q_variant) {
   NetworkData data;
   data.type = MessageType::kSignalToStart;
-  data.data = QVariant::fromValue(1);
+  data.data = std::move(q_variant);
   QByteArray arr;
   QDataStream data_stream(&arr, QIODevice::WriteOnly);
   data_stream << data.type << data.data;

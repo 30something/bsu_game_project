@@ -28,7 +28,7 @@ class MainWindow : public QMainWindow {
   void StartGame();
   void ReturnToMainMenu();
 
-  void OpenMapSelector();
+  void OpenGameModeSelector();
   void CloseMapSelector();
 
   void OpenNetworkRoom();

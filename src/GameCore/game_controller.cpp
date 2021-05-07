@@ -9,6 +9,7 @@ GameController::GameController(GameMode* game_mode,
     weapon_handler_(),
     network_controller_(game_mode->network_controller) {
   if (network_controller_ != nullptr) {
+    network_controller_->SendStartSignal(EncodeJson(game_mode_));
     SetUpCarsNetwork(input_controller);
     SendCarData();
     data_send_timer_.start(kMillisDataSend);
@@ -18,8 +19,8 @@ GameController::GameController(GameMode* game_mode,
             &GameController::SendCarData);
   } else {
     SetUpCars(input_controller);
-    SetUpBots();
   }
+  SetUpBots();
   SetUpCarsAchievements();
   weapons_timer_.setSingleShot(true);
   weapons_timer_.start(kMillisWeaponsEnable);
@@ -37,22 +38,25 @@ GameController::GameController(GameMode* game_mode,
 
 void GameController::SetUpBots() {
   for (size_t i = 0; i < game_mode_->bots_amount; i++) {
+    size_t id =
+        game_mode_->players_amount + game_mode_->network_players_amount + i;
     auto* bot = new BotBehavior(map_.GetBorders(),
                                 cars_,
                                 map_.GetWaypoints(),
                                 map_.GetNoGoLines(),
                                 game_mode_);
     cars_.emplace_back(
-        map_.GetPosAndAngles()[game_mode_->players_amount + i].first,
-        map_.GetPosAndAngles()[game_mode_->players_amount + i].second,
+        map_.GetPosAndAngles()[id].first,
+        map_.GetPosAndAngles()[id].second,
         bot,
-        static_cast<CarsColors>(i + 2),
+        static_cast<CarsColors>(id),
         game_mode_->enable_drifting);
   }
 }
 
 void GameController::SetUpCarsNetwork(const InputController* input_controller) {
-  for (size_t i = 0; i < network_controller_->GetId(); i++) {
+  size_t player_id = network_controller_->GetId();
+  for (size_t i = 0; i < player_id; i++) {
     auto* network_player_behavior = new NetworkPlayerBehavior(
         network_controller_,
         i);
@@ -60,7 +64,7 @@ void GameController::SetUpCarsNetwork(const InputController* input_controller) {
         map_.GetPosAndAngles()[i].first,
         map_.GetPosAndAngles()[i].second,
         network_player_behavior,
-        static_cast<CarsColors>(0),
+        static_cast<CarsColors>(i),
         game_mode_->enable_drifting
     );
   }
@@ -68,12 +72,12 @@ void GameController::SetUpCarsNetwork(const InputController* input_controller) {
       new FirstPlayerBehavior(input_controller);
   our_car_behavior_ = first_player_behavior;
   cars_.emplace_back(
-      map_.GetPosAndAngles()[network_controller_->GetId()].first,
-      map_.GetPosAndAngles()[network_controller_->GetId()].second,
+      map_.GetPosAndAngles()[player_id].first,
+      map_.GetPosAndAngles()[player_id].second,
       first_player_behavior,
-      static_cast<CarsColors>(0),
+      static_cast<CarsColors>(player_id),
       game_mode_->enable_drifting);
-  for (size_t i = network_controller_->GetId() + 1;
+  for (size_t i = player_id + 1;
        i < game_mode_->network_players_amount + 1; i++) {
     auto* network_player_behavior = new NetworkPlayerBehavior(
         network_controller_,
@@ -82,7 +86,7 @@ void GameController::SetUpCarsNetwork(const InputController* input_controller) {
         map_.GetPosAndAngles()[i].first,
         map_.GetPosAndAngles()[i].second,
         network_player_behavior,
-        static_cast<CarsColors>(0),
+        static_cast<CarsColors>(i),
         game_mode_->enable_drifting
     );
   }
@@ -281,4 +285,17 @@ void GameController::SendCarData() {
   data.flag_shoot = our_car_behavior_->IsFlagShoot();
   data.flag_mine = our_car_behavior_->IsFlagMine();
   network_controller_->SendCarData(data);
+}
+
+QString GameController::EncodeJson(GameMode* p_mode) {
+  QJsonObject json_object;
+  json_object.insert("map_index",
+                     QJsonValue::fromVariant(game_mode_->map_index));
+  json_object.insert("bots_amount",
+                     QJsonValue::fromVariant(game_mode_->bots_amount));
+  json_object.insert("laps_amount",
+                     QJsonValue::fromVariant(game_mode_->laps_amount));
+  json_object.insert("enable_drifting",
+                     QJsonValue::fromVariant(game_mode_->enable_drifting));
+  return QJsonDocument(json_object).toJson();
 }
