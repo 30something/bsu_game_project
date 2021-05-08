@@ -59,8 +59,9 @@ set(SOURCES
         )
 
 set(RESOURCES
-        images.qrc
-        map_data.qrc
+        qrc/main_images.qrc
+        qrc/map_data.qrc
+        qrc/qrc_animations/explosion_animation.qrc
         )
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})

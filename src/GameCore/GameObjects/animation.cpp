@@ -3,6 +3,15 @@
 Animation::Animation(Vec2f position, AnimationTypes type_of_animation) :
     GameObject(position, new AnimationPixmapComponent),
     animation_type_(type_of_animation) {
+  switch (type_of_animation) {
+    case AnimationTypes::kExplosion: {
+      last_frame_ = 4;
+      break;
+    }
+    default: {
+      last_frame_ = 0;
+    }
+  }
   dynamic_cast<AnimationPixmapComponent*>(pixmap_component_.get())->
       SetAnimationPixmapId(animation_type_, current_frame_);
 }
