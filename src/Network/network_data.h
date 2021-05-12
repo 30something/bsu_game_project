@@ -28,5 +28,4 @@ struct PlayerCarData {
   bool flag_shoot;
   bool flag_mine;
   bool is_updated;
-  size_t id;
 };

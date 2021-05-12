@@ -16,7 +16,7 @@ ServerController::ServerController() :
 void ServerController::ShowOurIpAddresses() {
   QString ips;
   QList<QHostAddress> addr = QNetworkInterface::allAddresses();
-  for(const auto& address : addr) {
+  for (const auto& address : addr) {
     ips += address.toString();
     ips += '\n';
   }
@@ -83,10 +83,8 @@ QString ServerController::EncodePlayersVectorJson() {
   QJsonArray array;
   for (size_t i = 0; i < players_.size(); i++) {
     QJsonObject arr_cell;
-    arr_cell.insert("id",
-                    QJsonValue::fromVariant(i));
-    arr_cell.insert("status",
-                    QJsonValue::fromVariant(players_[i].IsReady()));
+    arr_cell.insert("id", QJsonValue::fromVariant(static_cast<int>(i)));
+    arr_cell.insert("status", QJsonValue::fromVariant(players_[i].IsReady()));
     array.push_back(arr_cell);
   }
   json_object.insert("data", array);
@@ -171,15 +169,15 @@ void ServerController::DecodePlayerCarData(NetworkPlayer* player,
 }
 
 void ServerController::DisconnectClient() {
-  for(size_t i = 0; i < players_.size(); i++) {
-    if(players_[i].Socket()->state() == QAbstractSocket::UnconnectedState) {
+  for (size_t i = 0; i < players_.size(); i++) {
+    if (players_[i].Socket()->state() == QAbstractSocket::UnconnectedState) {
       players_.erase(players_.begin() + i);
-      if(!players_cars_data_.empty()){
+      if (!players_cars_data_.empty()) {
         players_cars_data_.erase(players_cars_data_.begin() + i);
       }
     }
   }
-  for(size_t i = 0; i < players_.size(); i++) {
+  for (size_t i = 0; i < players_.size(); i++) {
     players_[i].SetId(i);
   }
   UpdateClientsInfo();

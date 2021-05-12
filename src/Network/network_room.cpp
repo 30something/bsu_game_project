@@ -111,7 +111,7 @@ void NetworkRoom::UpdatePlayersVector() {
     delete item->widget();
     delete item;
   }
-  if(data_vector.size() < players_.size()) {
+  if (data_vector.size() < players_.size()) {
     Disconnect();
     return;
   }
@@ -175,7 +175,7 @@ void NetworkRoom::DecodeGameModeData() {
 }
 
 void NetworkRoom::Disconnect() {
-  if(network_player_->Socket()->state() != QAbstractSocket::ConnectedState) {
+  if (network_player_->Socket()->state() != QAbstractSocket::ConnectedState) {
     connection_status_->setText("You are not connected to disconnect!");
     return;
   }

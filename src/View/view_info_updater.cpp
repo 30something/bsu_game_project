@@ -52,6 +52,7 @@ void ViewInfoUpdater::UpdatePlayerInfoDescription(QPainter* painter,
 void ViewInfoUpdater::UpdateAllInfoDescription(QPainter* painter,
                                                const std::vector<QRect>& frames,
                                                double scale) {
+  // TODO(dima_makarov): fix info shown for network players
   for (int i = 0; i < static_cast<int>(frames.size()); i++) {
     UpdatePlayerInfoDescription(
         painter,

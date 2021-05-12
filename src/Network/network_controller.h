@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include <QObject>
 #include <QTcpSocket>
 #include <QDataStream>
@@ -12,6 +14,7 @@
 
 class NetworkController : public QObject {
   Q_OBJECT
+
  public:
   explicit NetworkController(NetworkPlayer* player);
   void SendReadyStatus();

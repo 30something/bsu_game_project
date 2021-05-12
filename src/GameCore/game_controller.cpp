@@ -65,8 +65,7 @@ void GameController::SetUpCarsNetwork(const InputController* input_controller) {
         map_.GetPosAndAngles()[i].second,
         network_player_behavior,
         static_cast<CarsColors>(i),
-        game_mode_->enable_drifting
-    );
+        game_mode_->enable_drifting);
   }
   Behavior* first_player_behavior =
       new FirstPlayerBehavior(input_controller);
@@ -87,8 +86,7 @@ void GameController::SetUpCarsNetwork(const InputController* input_controller) {
         map_.GetPosAndAngles()[i].second,
         network_player_behavior,
         static_cast<CarsColors>(i),
-        game_mode_->enable_drifting
-    );
+        game_mode_->enable_drifting);
   }
 }
 
