@@ -34,9 +34,9 @@ class NetworkRoom : public QWidget {
   QPushButton* back_to_main_menu_;
   QPushButton* try_connect_;
   QPushButton* ready_;
+  QPushButton* disconnect_;
+  QPushButton* start_button_ = nullptr;
   QLineEdit* ip_;
-  QLineEdit* port_;
-  QLineEdit* nickname_;
   QLabel* connection_status_;
   QVBoxLayout* main_layout_;
   QVBoxLayout* connection_layout_;
@@ -52,7 +52,8 @@ class NetworkRoom : public QWidget {
   void SetUpAndStartGame();
   void PrepareForStart();
   void ChangeReadyStatus();
-  void ConnectToServer();
+  void Connect();
+  void Disconnect();
   void SetUpLayouts();
   void ConnectEverything() const;
   void AddStartButton();

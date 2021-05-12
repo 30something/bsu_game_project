@@ -5,9 +5,8 @@ NetworkRoom::NetworkRoom(QWidget* parent, GameMode* game_mode) :
     back_to_main_menu_(new QPushButton("Back to main", this)),
     try_connect_(new QPushButton("Connect", this)),
     ready_(new QPushButton("Ready", this)),
+    disconnect_(new QPushButton("Disconnect", this)),
     ip_(new QLineEdit("127.0.0.1", this)),
-    port_(new QLineEdit("5555", this)),
-    nickname_(new QLineEdit("unnamed_player", this)),
     connection_status_(new QLabel("Not connected", this)),
     main_layout_(new QVBoxLayout(this)),
     connection_layout_(new QVBoxLayout()),
@@ -27,11 +26,15 @@ void NetworkRoom::ConnectEverything() const {
   connect(try_connect_,
           &QPushButton::clicked,
           this,
-          &NetworkRoom::ConnectToServer);
+          &NetworkRoom::Connect);
   connect(ready_,
           &QPushButton::clicked,
           this,
           &NetworkRoom::ChangeReadyStatus);
+  connect(disconnect_,
+          &QPushButton::clicked,
+          this,
+          &NetworkRoom::Disconnect);
 }
 
 void NetworkRoom::SetUpLayouts() {
@@ -39,16 +42,19 @@ void NetworkRoom::SetUpLayouts() {
   main_layout_->addLayout(connection_layout_);
   main_layout_->addLayout(players_layout_);
   connection_layout_->addWidget(ip_);
-  connection_layout_->addWidget(port_);
-  connection_layout_->addWidget(nickname_);
   connection_layout_->addWidget(connection_status_);
+  connection_layout_->addWidget(disconnect_);
   connection_layout_->addWidget(try_connect_);
   buttons_layout_->addWidget(back_to_main_menu_);
   buttons_layout_->addWidget(ready_);
 }
 
-void NetworkRoom::ConnectToServer() {
-  network_player_->Socket()->connectToHost(ip_->text(), port_->text().toInt());
+void NetworkRoom::Connect() {
+  if (network_player_->Socket()->state() == QAbstractSocket::ConnectedState) {
+    connection_status_->setText("Already connected");
+    return;
+  }
+  network_player_->Socket()->connectToHost(ip_->text(), 5555);
   network_player_->Socket()->waitForConnected(100);
   if (network_player_->Socket()->state() != QAbstractSocket::ConnectedState) {
     connection_status_->setText("Connection Error");
@@ -105,7 +111,10 @@ void NetworkRoom::UpdatePlayersVector() {
     delete item->widget();
     delete item;
   }
-
+  if(data_vector.size() < players_.size()) {
+    Disconnect();
+    return;
+  }
   players_.clear();
   for (const auto& data : data_vector) {
     auto* player = new NetworkPlayer(nullptr);
@@ -138,9 +147,9 @@ NetworkRoom::DecodePlayersVectorJson(const QString& json) {
 }
 
 void NetworkRoom::AddStartButton() {
-  auto* start_button = new QPushButton("Start Game", this);
-  buttons_layout_->addWidget(start_button);
-  connect(start_button,
+  start_button_ = new QPushButton("Start Game", this);
+  buttons_layout_->addWidget(start_button_);
+  connect(start_button_,
           &QPushButton::clicked,
           this,
           &NetworkRoom::PrepareForStart);
@@ -163,4 +172,26 @@ void NetworkRoom::DecodeGameModeData() {
   game_mode_->bots_amount = json_object["bots_amount"].toInt();
   game_mode_->enable_drifting = json_object["enable_drifting"].toBool();
   game_mode_->laps_amount = json_object["laps_amount"].toInt();
+}
+
+void NetworkRoom::Disconnect() {
+  if(network_player_->Socket()->state() != QAbstractSocket::ConnectedState) {
+    connection_status_->setText("You are not connected to disconnect!");
+    return;
+  }
+  network_player_->Socket()->disconnectFromHost();
+  QLayoutItem* item;
+  while ((item = players_layout_->takeAt(0)) != nullptr) {
+    delete item->widget();
+    delete item;
+  }
+  connection_status_->setText("Disconnected from the server");
+  buttons_layout_->removeWidget(start_button_);
+  delete start_button_;
+  start_button_ = nullptr;
+  players_.clear();
+  network_player_->SetIsReady(false);
+  delete network_controller_;
+  network_controller_ = nullptr;
+  is_first_packet_received_ = false;
 }

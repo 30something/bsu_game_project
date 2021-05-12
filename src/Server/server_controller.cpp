@@ -31,6 +31,10 @@ void ServerController::ConnectClient() {
           &QTcpSocket::readyRead,
           this,
           &ServerController::ReceiveClientData);
+  connect(players_.back().Socket(),
+          &QTcpSocket::disconnected,
+          this,
+          &ServerController::DisconnectClient);
   UpdateClientsInfo();
 }
 
@@ -77,12 +81,12 @@ void ServerController::UpdateClientsInfo() {
 QString ServerController::EncodePlayersVectorJson() {
   QJsonObject json_object;
   QJsonArray array;
-  for (const auto& player : players_) {
+  for (size_t i = 0; i < players_.size(); i++) {
     QJsonObject arr_cell;
     arr_cell.insert("id",
-                    QJsonValue::fromVariant(static_cast<int>(player.GetId())));
+                    QJsonValue::fromVariant(i));
     arr_cell.insert("status",
-                    QJsonValue::fromVariant(player.IsReady()));
+                    QJsonValue::fromVariant(players_[i].IsReady()));
     array.push_back(arr_cell);
   }
   json_object.insert("data", array);
@@ -164,4 +168,19 @@ void ServerController::DecodePlayerCarData(NetworkPlayer* player,
   car_data.flag_shoot = data_obj["flag_shoot"].toBool();
   car_data.flag_mine = data_obj["flag_mine"].toBool();
   players_cars_data_[player->GetId()] = car_data;
+}
+
+void ServerController::DisconnectClient() {
+  for(size_t i = 0; i < players_.size(); i++) {
+    if(players_[i].Socket()->state() == QAbstractSocket::UnconnectedState) {
+      players_.erase(players_.begin() + i);
+      if(!players_cars_data_.empty()){
+        players_cars_data_.erase(players_cars_data_.begin() + i);
+      }
+    }
+  }
+  for(size_t i = 0; i < players_.size(); i++) {
+    players_[i].SetId(i);
+  }
+  UpdateClientsInfo();
 }

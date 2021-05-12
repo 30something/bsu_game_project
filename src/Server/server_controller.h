@@ -28,6 +28,7 @@ class ServerController : public QWidget {
   QLabel ip_;
   QTcpServer server_;
   void ConnectClient();
+  void DisconnectClient();
   void ReceiveClientData();
   void UpdateClientsInfo();
   void SendStartSignal(QVariant data);
