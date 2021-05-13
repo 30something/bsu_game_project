@@ -18,6 +18,7 @@
 
 class Map : public QObject {
   Q_OBJECT
+
  public:
   explicit Map(GameMode* game_mode);
   void HandleCarTick(Car* car);

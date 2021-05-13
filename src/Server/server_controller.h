@@ -17,6 +17,7 @@
 
 class ServerController : public QWidget {
   Q_OBJECT
+
  public:
   ServerController();
 

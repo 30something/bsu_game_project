@@ -1,10 +1,12 @@
 #pragma once
 
+#include <vector>
+
 #include <QVariant>
 #include <QTcpSocket>
 
 #include "src/helpers/vec2f.h"
-#include "src/network/network_player.h"
+#include "src/Network/network_player.h"
 
 enum class MessageType {
   kPlayersVector,
