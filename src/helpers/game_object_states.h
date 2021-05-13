@@ -3,7 +3,11 @@
 enum class CarStates {
   kDead,
   kStandard,
-  kShooting
+  kShooting,
+  kDamaged,
+  kDamagedAndShooting,
+  kHealthy,
+  kHealthyAndShooting
 };
 
 enum class MineStates {
@@ -18,5 +22,6 @@ enum class BonusTypes {
 };
 
 enum class AnimationTypes {
-  kExplosion
+  kExplosion,
+  kFire
 };

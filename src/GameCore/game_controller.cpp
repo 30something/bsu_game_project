@@ -90,6 +90,14 @@ void GameController::UpdateCarsInfoAndCollisions(int time_millis) {
     car_achievements_[i].current_showed_velocity =
         cars_[i].GetVelocity().GetLength();
     if (cars_[i].GetHitPoints() < physics::kAlmostZero) {
+      if ((cars_[i].IsDead())
+          && (!(car_achievements_[i].is_done_animation_of_death))
+          && (car_achievements_[i].current_showed_velocity
+              < CarsData::kMinVisibleVelocity)) {
+        car_achievements_[i].is_done_animation_of_death = true;
+        animations_.emplace_back(cars_[i].GetPosition(),
+                                 AnimationTypes::kFire);
+      }
       cars_[i].BecomeDead();
       remaining_cars_.erase(i);
     }

@@ -8,4 +8,5 @@ struct CarAchievements {
   double current_showed_velocity = 0;
   double launched_finish_deviation = 0;
   bool is_collide_with_finish = false;
+  bool is_done_animation_of_death = false;
 };

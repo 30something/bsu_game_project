@@ -28,6 +28,7 @@ class Animation : public GameObject {
 
   AnimationTypes animation_type_;
   int32_t current_frame_ = 0;
-  int32_t last_frame_ = 4;
+  int32_t last_frame_ = 0;
+  int32_t amount_of_frame_renderings = 0;
   bool is_ended_ = false;
 };

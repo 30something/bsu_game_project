@@ -15,6 +15,7 @@
 #include "src/helpers/line.h"
 #include "src/helpers/physics.h"
 #include "src/helpers/cars_colors.h"
+#include "src/helpers/animations_info.h"
 #include "game_object.h"
 #include "src/GameCore/Behaviors/behavior.h"
 
@@ -41,6 +42,7 @@ class Car : public GameObject {
   const Vec2f& GetAngleVec() const;
   bool IsPuttingMine() const;
   bool IsShooting() const;
+  bool IsDead() const;
   void SetVelocity(const Vec2f& velocity);
   void SetPosition(const Vec2f& position);
   void AddHitPoints(double hit_points_);
@@ -65,6 +67,7 @@ class Car : public GameObject {
   void CalcLateralForces();
   void ProceedUpDownFlags();
   void UpdateCollisionLines() override;
+  void ChoosePixmap();
 
   static constexpr int32_t kPutMineOffset = -15;
   static constexpr double kShootingRange = 100;
@@ -96,7 +99,11 @@ class Car : public GameObject {
   size_t bullets_amount_ = 1000;
   size_t mines_amount_ = 10;
   size_t mines_tick_timer_ = 0;
+  size_t frames_for_changing_hitpoints_ =
+      last_frames_for_animations::kChangingHitPointsAnimationLastFrame;
   double angular_velocity_ = 0;
   double steering_angle_ = 0;
   bool enable_drifts_ = true;
+  bool are_hit_points_changing_ = false;
+  bool was_health_increased = false;
 };

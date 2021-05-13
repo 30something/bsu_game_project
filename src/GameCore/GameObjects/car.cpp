@@ -95,10 +95,10 @@ void Car::Tick(int time_millisec) {
   } else {
     ArcadeStep(time_millisec);
   }
-  if (bullets_amount_ == 0 || !behavior_->IsFlagShoot()) {
-    dynamic_cast<CarPixmapComponent*>(pixmap_component_.get())->
-        SetCarPixmapId(CarStates::kStandard, car_color_);
+  if (frames_for_changing_hitpoints_ == 0) {
+    are_hit_points_changing_ = false;
   }
+  ChoosePixmap();
   mines_tick_timer_++;
   UpdateCollisionLines();
 }
@@ -225,6 +225,10 @@ double Car::GetMinesAmount() const {
 
 void Car::AddHitPoints(double hit_points) {
   hit_points_ += hit_points;
+  are_hit_points_changing_ = true;
+  frames_for_changing_hitpoints_ =
+      last_frames_for_animations::kChangingHitPointsAnimationLastFrame;
+  was_health_increased = (hit_points >= 0);
 }
 
 void Car::AddBulletsAmount(double bullets_amount) {
@@ -284,6 +288,10 @@ bool Car::IsPuttingMine() const {
   return behavior_->IsFlagMine() && mines_tick_timer_ >= kMineDelayTicks;
 }
 
+bool Car::IsDead() const {
+  return hit_points_ <= 0;
+}
+
 void Car::UpdateCollisionLines() {
   collision_lines_[0] =
       Line(wheels_[0].GetPosition(), wheels_[1].GetPosition());
@@ -293,6 +301,32 @@ void Car::UpdateCollisionLines() {
       Line(wheels_[1].GetPosition(), wheels_[3].GetPosition());
   collision_lines_[3] =
       Line(wheels_[2].GetPosition(), wheels_[3].GetPosition());
+}
+
+void Car::ChoosePixmap() {
+  if (are_hit_points_changing_) {
+    frames_for_changing_hitpoints_--;
+    if (bullets_amount_ == 0 || !behavior_->IsFlagShoot()) {
+      if (was_health_increased) {
+        dynamic_cast<CarPixmapComponent*>(pixmap_component_.get())->
+            SetCarPixmapId(CarStates::kHealthy, car_color_);
+      } else {
+        dynamic_cast<CarPixmapComponent*>(pixmap_component_.get())->
+            SetCarPixmapId(CarStates::kDamaged, car_color_);
+      }
+    } else {
+      if (was_health_increased) {
+        dynamic_cast<CarPixmapComponent*>(pixmap_component_.get())->
+            SetCarPixmapId(CarStates::kHealthyAndShooting, car_color_);
+      } else {
+        dynamic_cast<CarPixmapComponent*>(pixmap_component_.get())->
+            SetCarPixmapId(CarStates::kDamagedAndShooting, car_color_);
+      }
+    }
+  } else if (bullets_amount_ == 0 || !behavior_->IsFlagShoot()) {
+    dynamic_cast<CarPixmapComponent*>(pixmap_component_.get())->
+        SetCarPixmapId(CarStates::kStandard, car_color_);
+  }
 }
 
 void Car::CarPixmapComponent::SetCarPixmapId(CarStates car_state,

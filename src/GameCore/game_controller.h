@@ -15,6 +15,7 @@
 #include "weapon_handler.h"
 #include "src/helpers/json_map_parser.h"
 #include "src/helpers/car_achievements.h"
+#include "src/helpers/cars_data.h"
 #include "src/GameCore/Behaviors/first_player_behavior.h"
 #include "src/GameCore/Behaviors/second_player_behavior.h"
 #include "src/GameCore/Behaviors/bot_behavior.h"
