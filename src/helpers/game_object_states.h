@@ -12,7 +12,7 @@ enum class MineStates {
 };
 
 enum class BonusTypes {
-  kHealth,
-  kBulletsAmmo,
-  kMineAmmo
+  kHealth = 0,
+  kBulletsAmmo = 1,
+  kMineAmmo = 2
 };

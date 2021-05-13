@@ -26,16 +26,19 @@ class NetworkController : public QObject {
   size_t GetId();
   bool IsAlreadyStarted() const;
   void SetAlreadyStarted(bool already_started);
+  void SendNewBonusData(Vec2f position, int type);
 
  signals:
   void StartGame();
   void GotPlayersVector();
   void GotSignalToStart();
+  void GotNewBonusData();
 
  private:
   void ParseData();
   void DecodePlayersCarData(const QVariant& q_variant);
   static QString EncodePlayerCarData(PlayerCarData data);
+  static QString EncodeNewBonusData(Vec2f position, int type);
   NetworkPlayer* player_;
   QVariant q_variant_;
   std::vector<PlayerCarData> players_cars_data_;

@@ -9,7 +9,8 @@ enum class MessageType {
   kPlayersVector,
   kReadyStatus,
   kSignalToStart,
-  kPlayersCarData
+  kPlayersCarData,
+  kNewBonusData
 };
 
 struct NetworkData {

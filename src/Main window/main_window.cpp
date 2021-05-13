@@ -54,6 +54,9 @@ void MainWindow::ReturnToMainMenu() {
              &MainWindow::ReturnToMainMenu);
   delete events_controller_;
   events_controller_ = nullptr;
+  if(game_mode_->network_controller != nullptr) {
+    game_mode_->network_controller->SetAlreadyStarted(false);
+  }
 }
 
 void MainWindow::OpenGameModeSelector() {

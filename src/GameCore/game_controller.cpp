@@ -3,7 +3,7 @@
 GameController::GameController(GameMode* game_mode,
                                InputController* input_controller) :
     QObject(nullptr),
-    map_(map_data::json_file_paths.file_paths[game_mode->map_index]),
+    map_(game_mode),
     finish_line_(map_.GetFinishLine()),
     game_mode_(game_mode),
     weapon_handler_(),

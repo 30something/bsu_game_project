@@ -38,6 +38,11 @@ void NetworkController::ParseData() {
       DecodePlayersCarData(data.data);
       break;
     }
+    case MessageType::kNewBonusData : {
+      q_variant_ = data.data;
+      emit GotNewBonusData();
+      break;
+    }
   }
 }
 
@@ -136,4 +141,23 @@ bool NetworkController::IsAlreadyStarted() const {
 
 void NetworkController::SetAlreadyStarted(bool already_started) {
   already_started_ = already_started;
+}
+
+void NetworkController::SendNewBonusData(Vec2f position, int type) {
+  QString json = EncodeNewBonusData(position, type);
+  NetworkData data;
+  data.type = MessageType::kNewBonusData;
+  data.data = QVariant::fromValue(json);
+  QByteArray arr;
+  QDataStream data_stream(&arr, QIODevice::WriteOnly);
+  data_stream << data.type << data.data;
+  player_->Socket()->write(arr);
+}
+
+QString NetworkController::EncodeNewBonusData(Vec2f position, int type) {
+  QJsonObject json_object;
+  json_object.insert("x", QJsonValue::fromVariant(position.GetX()));
+  json_object.insert("y", QJsonValue::fromVariant(position.GetY()));
+  json_object.insert("type", QJsonValue::fromVariant(type));
+  return QJsonDocument(json_object).toJson();
 }

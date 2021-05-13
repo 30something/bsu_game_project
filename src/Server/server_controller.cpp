@@ -54,11 +54,17 @@ void ServerController::ReceiveClientData() {
           break;
         }
         case MessageType::kSignalToStart : {
+          players_cars_data_.clear();
           SendStartSignal(data.data);
           break;
         }
         case MessageType::kPlayersCarData : {
           DecodePlayerCarData(&player, data.data.toString());
+          break;
+        }
+        case MessageType::kNewBonusData : {
+          SendBonusData(data.data);
+          break;
         }
       }
     }
@@ -181,4 +187,16 @@ void ServerController::DisconnectClient() {
     players_[i].SetId(i);
   }
   UpdateClientsInfo();
+}
+
+void ServerController::SendBonusData(QVariant q_variant) {
+  NetworkData data;
+  data.type = MessageType::kNewBonusData;
+  data.data = std::move(q_variant);
+  QByteArray arr;
+  QDataStream data_stream(&arr, QIODevice::WriteOnly);
+  data_stream << data.type << data.data;
+  for (auto& player : players_) {
+    player.Socket()->write(arr);
+  }
 }
