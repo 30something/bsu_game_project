@@ -5,12 +5,16 @@
 #include <QPushButton>
 #include <QWidget>
 
+#include "src/helpers/cars_data.h"
+
 class EndGameStats : public QWidget {
   Q_OBJECT
 
  public:
   explicit EndGameStats(QWidget* parent = nullptr);
   ~EndGameStats() override = default;
+
+  void ShowStats(const CarsData& cars_data);
 
  signals:
   void ReturnToMainMenu();

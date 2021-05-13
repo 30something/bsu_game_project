@@ -215,11 +215,11 @@ double Car::GetHitPoints() const {
   return hit_points_;
 }
 
-double Car::GetBulletsAmount() const {
+size_t Car::GetBulletsAmount() const {
   return bullets_amount_;
 }
 
-double Car::GetMinesAmount() const {
+size_t Car::GetMinesAmount() const {
   return mines_amount_;
 }
 
@@ -227,11 +227,11 @@ void Car::AddHitPoints(double hit_points) {
   hit_points_ += hit_points;
 }
 
-void Car::AddBulletsAmount(double bullets_amount) {
+void Car::AddBulletsAmount(size_t bullets_amount) {
   bullets_amount_ += bullets_amount;
 }
 
-void Car::AddMinesAmount(double mines_amount) {
+void Car::AddMinesAmount(size_t mines_amount) {
   mines_amount_ += mines_amount;
 }
 

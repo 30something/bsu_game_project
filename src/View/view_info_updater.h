@@ -35,7 +35,6 @@ class ViewInfoUpdater {
 
  private:
   GameMode* game_mode_ = nullptr;
-  QWidget* parent_ = nullptr;
   QLabel* start_label_ = nullptr;
   QLayout* layout_ = nullptr;
 

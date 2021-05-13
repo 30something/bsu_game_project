@@ -82,7 +82,7 @@ void EventsController::UpdateStartInfo() {
 
 void EventsController::ShowEndGameStats() {
   finish_pause_timer_.stop();
-  end_game_stats_->show();
+  end_game_stats_->ShowStats(CarsData(game_controller_->GetCarsData()));
 }
 
 void EventsController::LaunchStartCountdownTimer() {

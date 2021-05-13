@@ -33,8 +33,8 @@ class Car : public GameObject {
   std::optional<Line> ShootBullet();
 
   double GetHitPoints() const;
-  double GetBulletsAmount() const;
-  double GetMinesAmount() const;
+  size_t GetBulletsAmount() const;
+  size_t GetMinesAmount() const;
   double GetAngle() const override;
   const std::vector<Line>& GetCollisionLines() const override;
   const Vec2f& GetVelocity() const;
@@ -44,8 +44,8 @@ class Car : public GameObject {
   void SetVelocity(const Vec2f& velocity);
   void SetPosition(const Vec2f& position);
   void AddHitPoints(double hit_points_);
-  void AddBulletsAmount(double bullets_amount_);
-  void AddMinesAmount(double mines_amount_);
+  void AddBulletsAmount(size_t bullets_amount_);
+  void AddMinesAmount(size_t mines_amount_);
   void EnableInput(bool flag);
   void BecomeDead();
 

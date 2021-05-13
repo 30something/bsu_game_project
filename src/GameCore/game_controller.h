@@ -53,6 +53,7 @@ class GameController : public QObject {
   static constexpr double kDeviationDecrease = 0.5;
   static constexpr double kHPDecrease = 0.005;
   static constexpr double kMillisWeaponsEnable = 10000;
+  static constexpr size_t kMillisPerCarTimeUpdate = 5;
 
   Map map_;
   Line finish_line_;
@@ -63,4 +64,5 @@ class GameController : public QObject {
   WeaponHandler weapon_handler_;
   std::vector<WrapperBase<GameObject>*> game_objects_;
   QTimer weapons_timer_;
+  int32_t next_position_to_finish_ = 1;
 };

@@ -85,6 +85,13 @@ void GameController::UpdateCarsInfoAndCollisions(int time_millis) {
   for (uint32_t i = 0; i < cars_.size(); i++) {
     map_.HandleCarTick(&cars_[i]);
     cars_[i].Tick(time_millis);
+    car_achievements_[i].hit_points_ = cars_[i].GetHitPoints();
+    car_achievements_[i].bullets_amount_ = cars_[i].GetBulletsAmount();
+    car_achievements_[i].mines_amount_ = cars_[i].GetMinesAmount();
+    if (!car_achievements_[i].is_finished
+        && remaining_cars_.find(i) != remaining_cars_.end()) {
+      car_achievements_[i].elapsed_millis_time += kMillisPerCarTimeUpdate;
+    }
     car_achievements_[i].current_showed_velocity =
         cars_[i].GetVelocity().GetLength();
     if (cars_[i].GetHitPoints() < physics::kAlmostZero) {
@@ -159,6 +166,8 @@ void GameController::ProceedFinishGame() {
   std::vector<uint32_t> deleted_cars;
   for (auto i : remaining_cars_) {
     if (car_achievements_[i].laps_counter > game_mode_->laps_amount) {
+      car_achievements_[i].finish_position = next_position_to_finish_++;
+      car_achievements_[i].is_finished = true;
       cars_[i].EnableInput(false);
       deleted_cars.push_back(i);
     }
