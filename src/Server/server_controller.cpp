@@ -72,16 +72,9 @@ void ServerController::ReceiveClientData() {
 }
 
 void ServerController::UpdateClientsInfo() {
-  for (auto& player : players_) {
-    NetworkData data;
-    data.type = MessageType::kPlayersVector;
-    QString json_to_send = EncodePlayersVectorJson();
-    data.data = QVariant::fromValue(json_to_send);
-    QByteArray arr;
-    QDataStream data_stream(&arr, QIODevice::WriteOnly);
-    data_stream << data.type << data.data;
-    player.Socket()->write(arr);
-  }
+  network::WriteDataForAll(&players_,
+                           QVariant::fromValue(EncodePlayersVectorJson()),
+                           MessageType::kPlayersVector);
 }
 
 QString ServerController::EncodePlayersVectorJson() {
@@ -98,15 +91,9 @@ QString ServerController::EncodePlayersVectorJson() {
 }
 
 void ServerController::SendStartSignal(QVariant q_variant) {
-  NetworkData data;
-  data.type = MessageType::kSignalToStart;
-  data.data = std::move(q_variant);
-  QByteArray arr;
-  QDataStream data_stream(&arr, QIODevice::WriteOnly);
-  data_stream << data.type << data.data;
-  for (auto& player : players_) {
-    player.Socket()->write(arr);
-  }
+  network::WriteDataForAll(&players_,
+                           q_variant,
+                           MessageType::kSignalToStart);
   startTimer(kServerTimerInterval);
   players_cars_data_.resize(players_.size());
 }
@@ -117,15 +104,9 @@ void ServerController::timerEvent(QTimerEvent*) {
 
 void ServerController::SendGameStateToAllPlayers() {
   QString json = EncodePlayersData();
-  NetworkData data;
-  data.type = MessageType::kPlayersCarData;
-  data.data = QVariant::fromValue(json);
-  QByteArray arr;
-  QDataStream data_stream(&arr, QIODevice::WriteOnly);
-  data_stream << data.type << data.data;
-  for (auto& player : players_) {
-    player.Socket()->write(arr);
-  }
+  network::WriteDataForAll(&players_,
+                           QVariant::fromValue(EncodePlayersData()),
+                           MessageType::kPlayersCarData);
 }
 
 QString ServerController::EncodePlayersData() {
@@ -190,13 +171,7 @@ void ServerController::DisconnectClient() {
 }
 
 void ServerController::SendBonusData(QVariant q_variant) {
-  NetworkData data;
-  data.type = MessageType::kNewBonusData;
-  data.data = std::move(q_variant);
-  QByteArray arr;
-  QDataStream data_stream(&arr, QIODevice::WriteOnly);
-  data_stream << data.type << data.data;
-  for (auto& player : players_) {
-    player.Socket()->write(arr);
-  }
+  network::WriteDataForAll(&players_,
+                           q_variant,
+                           MessageType::kNewBonusData);
 }

@@ -8,13 +8,9 @@ NetworkController::NetworkController(NetworkPlayer* player) : player_(player) {
 }
 
 void NetworkController::SendReadyStatus() {
-  NetworkData data;
-  data.type = MessageType::kReadyStatus;
-  data.data = QVariant::fromValue(player_->GetId());
-  QByteArray arr;
-  QDataStream data_stream(&arr, QIODevice::WriteOnly);
-  data_stream << data.type << data.data;
-  player_->Socket()->write(arr);
+  network::WriteData(player_->Socket(),
+                     QVariant::fromValue(player_->GetId()),
+                     MessageType::kReadyStatus);
 }
 
 void NetworkController::ParseData() {
@@ -51,13 +47,9 @@ QVariant NetworkController::GetData() {
 }
 
 void NetworkController::SendStartSignal(const QString& json) {
-  NetworkData data;
-  data.type = MessageType::kSignalToStart;
-  data.data = QVariant::fromValue(json);
-  QByteArray arr;
-  QDataStream data_stream(&arr, QIODevice::WriteOnly);
-  data_stream << data.type << data.data;
-  player_->Socket()->write(arr);
+  network::WriteData(player_->Socket(),
+                     QVariant::fromValue(json),
+                     MessageType::kSignalToStart);
 }
 
 bool NetworkController::DataUpdated(size_t id) {
@@ -101,14 +93,9 @@ void NetworkController::DecodePlayersCarData(const QVariant& q_variant) {
 }
 
 void NetworkController::SendCarData(PlayerCarData player_car_data) {
-  QString json = EncodePlayerCarData(player_car_data);
-  NetworkData data;
-  data.type = MessageType::kPlayersCarData;
-  data.data = QVariant::fromValue(json);
-  QByteArray arr;
-  QDataStream data_stream(&arr, QIODevice::WriteOnly);
-  data_stream << data.type << data.data;
-  player_->Socket()->write(arr);
+  network::WriteData(player_->Socket(),
+                     QVariant::fromValue(EncodePlayerCarData(player_car_data)),
+                     MessageType::kPlayersCarData);
 }
 
 QString NetworkController::EncodePlayerCarData(PlayerCarData data) {
@@ -144,14 +131,9 @@ void NetworkController::SetAlreadyStarted(bool already_started) {
 }
 
 void NetworkController::SendNewBonusData(Vec2f position, int type) {
-  QString json = EncodeNewBonusData(position, type);
-  NetworkData data;
-  data.type = MessageType::kNewBonusData;
-  data.data = QVariant::fromValue(json);
-  QByteArray arr;
-  QDataStream data_stream(&arr, QIODevice::WriteOnly);
-  data_stream << data.type << data.data;
-  player_->Socket()->write(arr);
+  network::WriteData(player_->Socket(),
+                     QVariant::fromValue(EncodeNewBonusData(position, type)),
+                     MessageType::kNewBonusData);
 }
 
 QString NetworkController::EncodeNewBonusData(Vec2f position, int type) {

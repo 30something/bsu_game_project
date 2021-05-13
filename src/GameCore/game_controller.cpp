@@ -9,7 +9,7 @@ GameController::GameController(GameMode* game_mode,
     weapon_handler_(),
     network_controller_(game_mode->network_controller) {
   if (network_controller_ != nullptr) {
-    network_controller_->SendStartSignal(EncodeJson(game_mode_));
+    network_controller_->SendStartSignal(EncodeJson());
     SetUpCarsNetwork(input_controller);
     SendCarData();
     data_send_timer_.start(kMillisDataSend);
@@ -287,7 +287,7 @@ void GameController::SendCarData() {
   network_controller_->SendCarData(data);
 }
 
-QString GameController::EncodeJson(GameMode* p_mode) {
+QString GameController::EncodeJson() {
   QJsonObject json_object;
   json_object.insert("map_index",
                      QJsonValue::fromVariant(game_mode_->map_index));
