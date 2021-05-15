@@ -8,15 +8,12 @@ GameController::GameController(GameMode* game_mode,
     game_mode_(game_mode),
     weapon_handler_(),
     network_controller_(game_mode->network_controller) {
+  cars_.reserve(game_mode_->bots_amount
+                    + game_mode->network_players_amount
+                    + game_mode_->players_amount);
   if (network_controller_ != nullptr) {
     network_controller_->SendStartSignal(EncodeJson());
     SetUpCarsNetwork(input_controller);
-    SendCarData();
-    data_send_timer_.start(kMillisDataSend);
-    connect(&data_send_timer_,
-            &QTimer::timeout,
-            this,
-            &GameController::SendCarData);
   } else {
     SetUpCars(input_controller);
   }
@@ -69,13 +66,15 @@ void GameController::SetUpCarsNetwork(const InputController* input_controller) {
   }
   Behavior* first_player_behavior =
       new FirstPlayerBehavior(input_controller);
-  our_car_behavior_ = first_player_behavior;
   cars_.emplace_back(
       map_.GetPosAndAngles()[player_id].first,
       map_.GetPosAndAngles()[player_id].second,
       first_player_behavior,
       static_cast<CarsColors>(player_id),
       game_mode_->enable_drifting);
+  new ClientCarDataSender(&cars_.back(),
+                          network_controller_,
+                          first_player_behavior);
   for (size_t i = player_id + 1;
        i < game_mode_->network_players_amount + 1; i++) {
     auto* network_player_behavior = new NetworkPlayerBehavior(
@@ -270,21 +269,6 @@ std::vector<CarAchievements> GameController::GetCarsData() const {
 
 void GameController::EnableWeapons() {
   weapon_handler_.SetEnableWeapons(true);
-}
-
-void GameController::SendCarData() {
-  PlayerCarData data;
-  size_t id = network_controller_->GetId();
-  data.angle = cars_[id].GetAngleVec();
-  data.position = cars_[id].GetPosition();
-  data.hp = cars_[id].GetHitPoints();
-  data.flag_up = our_car_behavior_->IsFlagUp();
-  data.flag_down = our_car_behavior_->IsFlagDown();
-  data.flag_left = our_car_behavior_->IsFlagLeft();
-  data.flag_right = our_car_behavior_->IsFlagRight();
-  data.flag_shoot = our_car_behavior_->IsFlagShoot();
-  data.flag_mine = our_car_behavior_->IsFlagMine();
-  network_controller_->SendCarData(data);
 }
 
 QString GameController::EncodeJson() {

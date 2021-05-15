@@ -59,7 +59,8 @@ set(SOURCES
         src/Network/player_tile.cpp
         src/Network/network_controller.cpp
         src/helpers/map_data.cpp
-        src/GameCore/Behaviors/network_player_behavior.cpp)
+        src/GameCore/Behaviors/network_player_behavior.cpp
+        src/helpers/client_car_data_sender.cpp)
 
 set(RESOURCES
         images.qrc
