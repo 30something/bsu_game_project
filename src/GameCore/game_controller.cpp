@@ -11,7 +11,7 @@ GameController::GameController(GameMode* game_mode,
   cars_.reserve(game_mode_->bots_amount
                     + game_mode->network_players_amount
                     + game_mode_->players_amount);
-  if (network_controller_ != nullptr) {
+  if (network_controller_) {
     network_controller_->SendStartSignal(EncodeJson());
     SetUpCarsNetwork(input_controller);
   } else {
@@ -77,9 +77,8 @@ void GameController::SetUpCarsNetwork(const InputController* input_controller) {
                           first_player_behavior);
   for (size_t i = player_position + 1;
        i < game_mode_->network_players_amount + 1; i++) {
-    auto* network_player_behavior = new NetworkPlayerBehavior(
-        network_controller_,
-        i);
+    auto* network_player_behavior =
+        new NetworkPlayerBehavior(network_controller_, i);
     cars_.emplace_back(
         map_.GetPosAndAngles()[i].first,
         map_.GetPosAndAngles()[i].second,
@@ -249,7 +248,7 @@ std::vector<WrapperBase<GameObject>*> GameController::GetGameObjects() const {
 
 std::vector<Vec2f> GameController::GetPlayersCarPositions() const {
   std::vector<Vec2f> result;
-  if (network_controller_ != nullptr) {
+  if (network_controller_) {
     result.push_back(cars_[network_controller_->GetId()].GetPosition());
   } else {
     for (size_t i = 0; i < game_mode_->players_amount; i++) {

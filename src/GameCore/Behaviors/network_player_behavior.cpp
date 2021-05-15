@@ -1,8 +1,8 @@
 #include "network_player_behavior.h"
 
 NetworkPlayerBehavior::NetworkPlayerBehavior(
-    NetworkController* network_controller,
-    size_t our_id) :
+                                      NetworkController* network_controller,
+                                      size_t our_id) :
     network_controller_(network_controller),
     our_id_(our_id) {
 }

@@ -15,5 +15,3 @@ class NetworkPlayerBehavior : public Behavior {
   NetworkController* network_controller_ = nullptr;
   size_t our_id_;
 };
-
-

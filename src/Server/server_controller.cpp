@@ -4,6 +4,7 @@ ServerController::ServerController() :
     ip_(this),
     server_(this) {
   server_.listen(QHostAddress::Any, network::kPort);
+  resize(300,100);
   connect(&server_,
           &QTcpServer::newConnection,
           this,

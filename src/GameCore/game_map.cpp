@@ -149,10 +149,8 @@ const Line& Map::GetFinishLine() const {
 void Map::ProceedNewBonusFromNetwork() {
   QString json = game_mode_->network_controller->GetData().toString();
   QJsonObject json_object = QJsonDocument::fromJson(json.toUtf8()).object();
-  Vec2f position;
-  position.Set(
-      json_object["x"].toDouble(),
-      json_object["y"].toDouble());
+  Vec2f position (json_object["x"].toDouble(),
+                  json_object["y"].toDouble());
   BonusTypes type = static_cast<BonusTypes>(json_object["type"].toInt());
   bonuses_.emplace_back(position, type);
 }
