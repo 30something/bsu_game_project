@@ -14,7 +14,7 @@
 #include <QNetworkInterface>
 
 #include "src/Network/network_player.h"
-#include "src/Network/network_data.h"
+#include "src/Network/network_helpers.h"
 
 class ServerController : public QWidget {
   Q_OBJECT
@@ -30,18 +30,12 @@ class ServerController : public QWidget {
   QLabel ip_;
   QTcpServer server_;
 
-  static constexpr size_t kServerTimerInterval = 20;
-
   void ConnectClient();
   void DisconnectClient();
   void ReceiveClientData();
   void UpdateClientsInfo();
-  void SendStartSignal(QVariant data);
+  void SendStartSignal(const QVariant& data);
   void SendGameStateToAllPlayers();
   void SendBonusData(QVariant data);
-  QString EncodePlayersData();
-  QString EncodePlayersVectorJson();
   void ShowOurIpAddresses();
-  void DecodePlayerCarData(NetworkPlayer* player,
-                           const QString& json);
 };

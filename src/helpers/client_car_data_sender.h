@@ -19,7 +19,6 @@ class ClientCarDataSender : public QObject {
   Car* car_;
   NetworkController* network_controller_;
   Behavior* behavior_;
-  static constexpr double kMillisDataSend = 20;
 
   void SendCarData();
 };

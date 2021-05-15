@@ -9,7 +9,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 
-#include "network_data.h"
+#include "network_helpers.h"
 #include "network_player.h"
 
 class NetworkController : public QObject {
@@ -36,9 +36,6 @@ class NetworkController : public QObject {
 
  private:
   void ParseData();
-  void DecodePlayersCarData(const QVariant& q_variant);
-  static QString EncodePlayerCarData(PlayerCarData data);
-  static QString EncodeNewBonusData(Vec2f position, int type);
   NetworkPlayer* player_;
   QVariant q_variant_;
   std::vector<PlayerCarData> players_cars_data_;

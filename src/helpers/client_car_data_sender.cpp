@@ -7,7 +7,7 @@ ClientCarDataSender::ClientCarDataSender(Car* car,
     car_(car),
     network_controller_(network_controller),
     behavior_(behavior) {
-  startTimer(kMillisDataSend);
+  startTimer(network::kMillisDataSend);
 }
 
 void ClientCarDataSender::timerEvent(QTimerEvent*) {

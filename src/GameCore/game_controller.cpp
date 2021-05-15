@@ -12,7 +12,11 @@ GameController::GameController(GameMode* game_mode,
                     + game_mode->network_players_amount
                     + game_mode_->players_amount);
   if (network_controller_) {
-    network_controller_->SendStartSignal(EncodeJson());
+    network_controller_->SendStartSignal(JsonHelper::EncodeGameModeJson(
+        game_mode->map_index,
+        game_mode->bots_amount,
+        game_mode->laps_amount,
+        game_mode->enable_drifting));
     SetUpCarsNetwork(input_controller);
   } else {
     SetUpCars(input_controller);
@@ -268,17 +272,4 @@ std::vector<CarAchievements> GameController::GetCarsData() const {
 
 void GameController::EnableWeapons() {
   weapon_handler_.SetEnableWeapons(true);
-}
-
-QString GameController::EncodeJson() {
-  QJsonObject json_object;
-  json_object.insert("map_index",
-                     QJsonValue::fromVariant(game_mode_->map_index));
-  json_object.insert("bots_amount",
-                     QJsonValue::fromVariant(game_mode_->bots_amount));
-  json_object.insert("laps_amount",
-                     QJsonValue::fromVariant(game_mode_->laps_amount));
-  json_object.insert("enable_drifting",
-                     QJsonValue::fromVariant(game_mode_->enable_drifting));
-  return QJsonDocument(json_object).toJson();
 }

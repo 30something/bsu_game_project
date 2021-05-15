@@ -58,14 +58,7 @@ class NetworkRoom : public QWidget {
   void SetUpLayouts();
   void ConnectButtons() const;
   void AddStartButton();
+  void DecodeGameModeData();
 
   static constexpr int kMillisWaitForConnection = 100;
-
-  static std::vector<std::pair<size_t, bool>>
-
-  DecodePlayersVectorJson(const QString& json);
-  void DecodeGameModeData();
 };
-
-
-

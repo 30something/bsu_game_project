@@ -104,7 +104,7 @@ void NetworkRoom::SetUpAndStartGame() {
 void NetworkRoom::UpdatePlayersVector() {
   QString json =
       network_controller_->GetData().toString();
-  auto data_vector = DecodePlayersVectorJson(json);
+  auto data_vector = JsonHelper::DecodePlayersVectorJson(json);
 
   QLayoutItem* item;
   while ((item = players_layout_->takeAt(0)) != nullptr) {
@@ -131,19 +131,6 @@ void NetworkRoom::UpdatePlayersVector() {
     }
   }
   players_[network_player_->GetId()]->Highlight();
-}
-
-std::vector<std::pair<size_t, bool>>
-NetworkRoom::DecodePlayersVectorJson(const QString& json) {
-  QJsonObject json_object = QJsonDocument::fromJson(json.toUtf8()).object();
-  QJsonArray data_array = json_object["data"].toArray();
-  std::vector<std::pair<size_t, bool>> result;
-  for (const auto& data : data_array) {
-    QJsonObject data_obj = data.toObject();
-    result.emplace_back(data_obj["id"].toInt(),
-                        data_obj["status"].toBool());
-  }
-  return result;
 }
 
 void NetworkRoom::AddStartButton() {

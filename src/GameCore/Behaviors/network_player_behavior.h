@@ -3,7 +3,7 @@
 #include "behavior.h"
 #include "src/GameCore/GameObjects/car.h"
 #include "src/Network/network_controller.h"
-#include "src/Network/network_data.h"
+#include "src/Network/network_helpers.h"
 
 class NetworkPlayerBehavior : public Behavior {
  public:
