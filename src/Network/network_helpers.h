@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <utility>
 
 #include <QVariant>
 #include <QTcpSocket>
@@ -155,8 +156,8 @@ struct JsonHelper {
     return QJsonDocument(json_object).toJson();
   }
 
-
-  static QString EncodePlayersVectorJson(const std::vector<NetworkPlayer>& players) {
+  static QString
+  EncodePlayersVectorJson(const std::vector<NetworkPlayer>& players) {
     QJsonObject json_object;
     QJsonArray array;
     for (size_t i = 0; i < players.size(); i++) {
@@ -195,6 +196,7 @@ struct JsonHelper {
     json_object.insert("data", array);
     return QJsonDocument(json_object).toJson();
   }
+
   static PlayerCarData
   DecodePlayerCarData(const QString& json) {
     PlayerCarData car_data;
@@ -213,6 +215,6 @@ struct JsonHelper {
     car_data.flag_right = data_obj["flag_right"].toBool();
     car_data.flag_shoot = data_obj["flag_shoot"].toBool();
     car_data.flag_mine = data_obj["flag_mine"].toBool();
-  return car_data;
+    return car_data;
   }
 };
