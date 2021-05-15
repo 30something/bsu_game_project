@@ -48,6 +48,7 @@ class NetworkRoom : public QWidget {
   NetworkPlayer* network_player_ = nullptr;
   std::vector<PlayerTile*> players_;
   NetworkController* network_controller_ = nullptr;
+
   void UpdatePlayersVector();
   void SetUpAndStartGame();
   void PrepareForStart();
@@ -55,10 +56,13 @@ class NetworkRoom : public QWidget {
   void Connect();
   void Disconnect();
   void SetUpLayouts();
-  void ConnectEverything() const;
+  void ConnectButtons() const;
   void AddStartButton();
 
+  static constexpr int kMillisWaitForConnection = 100;
+
   static std::vector<std::pair<size_t, bool>>
+
   DecodePlayersVectorJson(const QString& json);
   void DecodeGameModeData();
 };

@@ -52,8 +52,8 @@ void GameController::SetUpBots() {
 }
 
 void GameController::SetUpCarsNetwork(const InputController* input_controller) {
-  size_t player_id = network_controller_->GetId();
-  for (size_t i = 0; i < player_id; i++) {
+  size_t player_position = network_controller_->GetId();
+  for (size_t i = 0; i < player_position; i++) {
     auto* network_player_behavior = new NetworkPlayerBehavior(
         network_controller_,
         i);
@@ -67,15 +67,15 @@ void GameController::SetUpCarsNetwork(const InputController* input_controller) {
   Behavior* first_player_behavior =
       new FirstPlayerBehavior(input_controller);
   cars_.emplace_back(
-      map_.GetPosAndAngles()[player_id].first,
-      map_.GetPosAndAngles()[player_id].second,
+      map_.GetPosAndAngles()[player_position].first,
+      map_.GetPosAndAngles()[player_position].second,
       first_player_behavior,
-      static_cast<CarsColors>(player_id),
+      static_cast<CarsColors>(player_position),
       game_mode_->enable_drifting);
   new ClientCarDataSender(&cars_.back(),
                           network_controller_,
                           first_player_behavior);
-  for (size_t i = player_id + 1;
+  for (size_t i = player_position + 1;
        i < game_mode_->network_players_amount + 1; i++) {
     auto* network_player_behavior = new NetworkPlayerBehavior(
         network_controller_,

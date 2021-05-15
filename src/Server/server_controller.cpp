@@ -1,11 +1,9 @@
 #include "server_controller.h"
 
-#include <utility>
-
 ServerController::ServerController() :
     ip_(this),
     server_(this) {
-  server_.listen(QHostAddress::Any, 5555);
+  server_.listen(QHostAddress::Any, network::kPort);
   connect(&server_,
           &QTcpServer::newConnection,
           this,
@@ -24,7 +22,6 @@ void ServerController::ShowOurIpAddresses() {
 }
 
 void ServerController::ConnectClient() {
-  qDebug() << "somebody connected";
   players_.emplace_back(server_.nextPendingConnection());
   players_.back().SetId(players_.size() - 1);
   connect(players_.back().Socket(),
@@ -94,7 +91,7 @@ void ServerController::SendStartSignal(QVariant q_variant) {
   network::WriteDataForAll(&players_,
                            q_variant,
                            MessageType::kSignalToStart);
-  startTimer(kServerTimerInterval);
+  startTimer(network::kMillisDataSend);
   players_cars_data_.resize(players_.size());
 }
 

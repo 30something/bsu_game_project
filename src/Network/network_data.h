@@ -38,20 +38,22 @@ struct network {
   static void WriteData(QTcpSocket* socket,
                  const QVariant& q_variant,
                  MessageType type) {
-    socket->write(GetDataStruct(q_variant, type));
+    socket->write(GetDataBytes(q_variant, type));
   }
 
   static void WriteDataForAll(std::vector<NetworkPlayer>* players_,
                               const QVariant& q_variant,
                               MessageType type) {
     for (auto& player : *players_) {
-      player.Socket()->write(GetDataStruct(q_variant, type));
+      player.Socket()->write(GetDataBytes(q_variant, type));
     }
   }
+  static constexpr int kPort = 5555;
+  static constexpr int kMillisDataSend = 20;
 
  private:
-  static QByteArray GetDataStruct(const QVariant& q_variant,
-                                  const MessageType& type) {
+  static QByteArray GetDataBytes(const QVariant& q_variant,
+                                 const MessageType& type) {
     NetworkData data;
     data.type = type;
     data.data = q_variant;

@@ -15,10 +15,10 @@ NetworkRoom::NetworkRoom(QWidget* parent, GameMode* game_mode) :
     game_mode_(game_mode),
     network_player_(new NetworkPlayer(new QTcpSocket())) {
   SetUpLayouts();
-  ConnectEverything();
+  ConnectButtons();
 }
 
-void NetworkRoom::ConnectEverything() const {
+void NetworkRoom::ConnectButtons() const {
   connect(back_to_main_menu_,
           &QPushButton::clicked,
           this,
@@ -54,8 +54,8 @@ void NetworkRoom::Connect() {
     connection_status_->setText("Already connected");
     return;
   }
-  network_player_->Socket()->connectToHost(ip_->text(), 5555);
-  network_player_->Socket()->waitForConnected(100);
+  network_player_->Socket()->connectToHost(ip_->text(), network::kPort);
+  network_player_->Socket()->waitForConnected(kMillisWaitForConnection);
   if (network_player_->Socket()->state() != QAbstractSocket::ConnectedState) {
     connection_status_->setText("Connection Error");
     return;
