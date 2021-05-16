@@ -19,7 +19,7 @@ class BotBehavior : public Behavior {
                        const std::vector<Vec2f>& waypoints,
                        const std::vector<Line>& no_go_lines,
                        GameMode* gamemode);
-  void HandleTick(const GameObject* our_car) override;
+  void HandleTick(GameObject* our_car) override;
 
  private:
   const std::vector<std::vector<QPoint>>& borders_;

@@ -126,3 +126,10 @@ void EventsController::LaunchFinishTimer() {
           &EventsController::ShowEndGameStats);
   finish_pause_timer_.start(kMillisInSecond);
 }
+
+EventsController::~EventsController() {
+  delete game_controller_;
+  delete view_;
+  delete view_info_updater_;
+  delete end_game_stats_;
+}

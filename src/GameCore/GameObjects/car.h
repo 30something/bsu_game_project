@@ -41,8 +41,10 @@ class Car : public GameObject {
   const Vec2f& GetAngleVec() const;
   bool IsPuttingMine() const;
   bool IsShooting() const;
+  void SetAngleVec(const Vec2f& angle_vec);
   void SetVelocity(const Vec2f& velocity);
   void SetPosition(const Vec2f& position);
+  void SetHitPoints(double hp);
   void AddHitPoints(double hit_points_);
   void AddBulletsAmount(double bullets_amount_);
   void AddMinesAmount(double mines_amount_);

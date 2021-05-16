@@ -1,7 +1,9 @@
 #include "game_map.h"
 
-Map::Map(const QString& json_filepath) {
-  JsonMapParser parser(json_filepath);
+Map::Map(GameMode* game_mode) :
+    game_mode_(game_mode) {
+  JsonMapParser
+      parser(map_data::json_file_paths.file_paths[game_mode->map_index]);
   borders_ = parser.GetBorders();
   waypoints_ = parser.GetWaypoints();
   no_go_lines_ = parser.GetNoGoLines();
@@ -12,6 +14,13 @@ Map::Map(const QString& json_filepath) {
       QRandomGenerator::global()->bounded(kMaxMilliSecondsForNewBonus)
           + kMinMilliSecondForNewBonus);
   finish_line_ = parser.GetFinishLine();
+  if (game_mode->network_controller != nullptr
+      && game_mode->network_controller->GetId() != 0) {
+    connect(game_mode->network_controller,
+            &NetworkController::GotNewBonusData,
+            this,
+            &Map::ProceedNewBonusFromNetwork);
+  }
 }
 
 void Map::HandleCarTick(Car* car) {
@@ -81,6 +90,10 @@ void Map::ProceedCollisions(Car* car) {
 }
 
 void Map::ProceedNewBonuses() {
+  NetworkController* network = game_mode_->network_controller;
+  if (network != nullptr && network->GetId() != 0) {
+    return;
+  }
   if (bonuses_.size() < kMaxBonusesAmount && !bonus_timer_.isActive()) {
     int position_index = QRandomGenerator::global()->
         bounded(static_cast<int>(bonuses_positions_.size()));
@@ -90,6 +103,10 @@ void Map::ProceedNewBonuses() {
     bonus_timer_.start(
         QRandomGenerator::global()->bounded(kMaxMilliSecondsForNewBonus)
             + kMinMilliSecondForNewBonus);
+    if (network != nullptr) {
+      network->SendNewBonusData(bonuses_positions_[position_index],
+                                static_cast<int>(type));
+    }
   }
 }
 
@@ -127,4 +144,13 @@ const std::vector<std::pair<QPoint, double>>& Map::GetPosAndAngles() const {
 
 const Line& Map::GetFinishLine() const {
   return finish_line_;
+}
+
+void Map::ProceedNewBonusFromNetwork() {
+  QString json = game_mode_->network_controller->GetData().toString();
+  QJsonObject json_object = QJsonDocument::fromJson(json.toUtf8()).object();
+  Vec2f position(json_object["x"].toDouble(),
+                 json_object["y"].toDouble());
+  BonusTypes type = static_cast<BonusTypes>(json_object["type"].toInt());
+  bonuses_.emplace_back(position, type);
 }

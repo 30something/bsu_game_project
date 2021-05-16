@@ -12,7 +12,7 @@ BotBehavior::BotBehavior(const std::vector<std::vector<QPoint>>& borders,
     game_mode_(gamemode) {
 }
 
-void BotBehavior::HandleTick(const GameObject* car) {
+void BotBehavior::HandleTick(GameObject* car) {
   car_ = dynamic_cast<const Car*>(car);
   closest_index_ = FindIndexOfClosestWaypoint(*car_);
   ProceedDistancesToBorders();

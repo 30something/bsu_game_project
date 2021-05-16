@@ -14,7 +14,8 @@ class Menu : public QWidget {
   ~Menu() override = default;
 
  signals:
-  void StartButtonPressed();
+  void SinglePlayerPressed();
+  void MultiPlayerPressed();
   void SettingsButtonPressed();
   void ExitButtonPressed();
 
@@ -25,7 +26,8 @@ class Menu : public QWidget {
 
   QVBoxLayout* main_layout_ = nullptr;
   QLabel* name_label_ = nullptr;
-  QPushButton* start_game_button_ = nullptr;
+  QPushButton* single_player_button_ = nullptr;
+  QPushButton* multi_player_button_ = nullptr;
   QPushButton* settings_button_ = nullptr;
   QPushButton* credits_button_ = nullptr;
   QPushButton* exit_button_ = nullptr;

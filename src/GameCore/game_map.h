@@ -16,9 +16,11 @@
 #include "src/helpers/json_map_parser.h"
 #include "src/GameCore/GameObjects/bonus.h"
 
-class Map {
+class Map : public QObject {
+  Q_OBJECT
+
  public:
-  explicit Map(const QString& json_filepath);
+  explicit Map(GameMode* game_mode);
   void HandleCarTick(Car* car);
   const std::vector<Bonus>& GetActiveBonuses() const;
   const std::vector<std::vector<QPoint>>& GetBorders() const;
@@ -32,6 +34,7 @@ class Map {
   void ProceedActiveBonuses(Car* car);
   void ProceedNewBonuses();
   void ProceedCollisions(Car*);
+  void ProceedNewBonusFromNetwork();
 
   static size_t FindIndexOfMinimalDistance(QPoint, const std::vector<QPoint>&);
   static void HandleCarCrashIntoBorder(Car* car, const Vec2f& point);
@@ -52,4 +55,5 @@ class Map {
   std::vector<Bonus> bonuses_;
   Line finish_line_;
   QTimer bonus_timer_;
+  GameMode* game_mode_;
 };
