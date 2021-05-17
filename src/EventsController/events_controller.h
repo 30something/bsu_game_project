@@ -47,6 +47,7 @@ class EventsController : public QWidget {
   void LaunchGameTimers();
   void LaunchFinishTimer();
   void PrepareEndGameStats();
+  void UpdateFinishStats();
 
   enum class Actions {
     kOpenOrCloseMenu = Qt::Key_Escape,
@@ -62,6 +63,7 @@ class EventsController : public QWidget {
   QTimer controller_timer_;
   QTimer finish_pause_timer_;
   QTimer finish_check_timer_;
+  QTimer finish_info_update_timer_;
   InputController input_controller_;
   GameController* game_controller_ = nullptr;
   View* view_ = nullptr;
@@ -70,6 +72,7 @@ class EventsController : public QWidget {
   GameStatus game_status_ = GameStatus::kRunning;
 
   static constexpr int kMillisInSecond = 1000;
+  static constexpr int kMillisPerFinishInfoUpdate = 20;
   static constexpr int kMillisPerFrame = 15;
   static constexpr int kMillisPerPhysicsTick = 5;
 };

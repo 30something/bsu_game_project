@@ -1,5 +1,6 @@
 #include "game_mode_selector.h"
 #include "src/helpers/sizes.h"
+#include <iostream>
 
 GameModeSelector::GameModeSelector(QWidget* parent, GameMode* game_mode) :
     QWidget(parent),
@@ -9,6 +10,15 @@ GameModeSelector::GameModeSelector(QWidget* parent, GameMode* game_mode) :
     right_(new QPushButton("Next", this)),
     main_layout_(new QVBoxLayout(this)),
     picture_layout_(new QHBoxLayout),
+    cars_choose_layout_(new QVBoxLayout),
+    first_player_label_(new QLabel("Choose first player's car:")),
+    second_player_label_(new QLabel("Choose second player's car:")),
+    first_left_(new QPushButton("Previous")),
+    first_right_(new QPushButton("Next")),
+    second_left_(new QPushButton("Previous")),
+    second_right_(new QPushButton("Next")),
+    first_player_info_layout_(new QHBoxLayout),
+    second_player_info_layout_(new QHBoxLayout),
     players_label_(new QLabel("Choose number of players: ", this)),
     laps_label_(new QLabel("Choose number of laps: ", this)),
     bots_label_(new QLabel("Choose number of bots: ", this)),
@@ -18,26 +28,42 @@ GameModeSelector::GameModeSelector(QWidget* parent, GameMode* game_mode) :
     bots_layout_(new QHBoxLayout),
     boxes_layout_(new QVBoxLayout),
     buttons_layout_(new QHBoxLayout),
-    stacked_widget_(new QStackedWidget(this)),
+    map_stacked_widget_(new QStackedWidget(this)),
+    first_car_stacked_widget_(new QStackedWidget(this)),
+    second_car_stacked_widget_(new QStackedWidget(this)),
     game_mode_(game_mode),
     number_of_players_(new QComboBox(this)),
     number_of_laps_(new QComboBox(this)),
     number_of_bots_(new QComboBox(this)) {
   for (const auto& image : map_data::image_file_paths.minimaps_file_paths) {
-    stacked_widget_->addWidget(new MapSelectorTile(stacked_widget_, image));
+    map_stacked_widget_->addWidget(new MapSelectorTile(map_stacked_widget_,
+                                                       image));
+  }
+  QFileInfoList standard_cars_list =
+      QDir(":resources/images/cars/standard_cars").entryInfoList();
+  for (const auto& image : standard_cars_list) {
+    first_car_stacked_widget_->addWidget(new ImageSelectorTile(
+        first_car_stacked_widget_,
+        image.filePath()));
+    second_car_stacked_widget_->addWidget(new ImageSelectorTile(
+        second_car_stacked_widget_,
+        image.filePath()));
   }
   SetSizes();
   PrepareComboBoxes();
   SetUpLayouts();
-  stacked_widget_->setCurrentIndex(0);
+  map_stacked_widget_->setCurrentIndex(0);
+  first_car_stacked_widget_->setCurrentIndex(0);
+  second_car_stacked_widget_->setCurrentIndex(0);
+  second_car_stacked_widget_->hide();
   ConnectUI();
 }
 
 void GameModeSelector::resizeEvent(QResizeEvent*) {
-  stacked_widget_->setGeometry(width() / kMinimapStartXDivisionCoef,
-                               height() / kMinimapStartYDivisionCoef,
-                               width() / kMinimapWidthDivisionCoef,
-                               height() / kMinimapHeightDivisionCoef);
+  map_stacked_widget_->setGeometry(width() / kMinimapStartXDivisionCoef,
+                                   height() / kMinimapStartYDivisionCoef,
+                                   width() / kMinimapWidthDivisionCoef,
+                                   height() / kMinimapHeightDivisionCoef);
 }
 
 void GameModeSelector::SetSizes() {
@@ -45,6 +71,10 @@ void GameModeSelector::SetSizes() {
   back_to_main_menu_->setMinimumSize(button_sizes::kDefaultButtonSize);
   left_->setMinimumSize(button_sizes::kMapSelectorsSize);
   right_->setMinimumSize(button_sizes::kMapSelectorsSize);
+  first_left_->setMinimumSize(button_sizes::kSmallChooseButtonSize);
+  first_right_->setMinimumSize(button_sizes::kSmallChooseButtonSize);
+  second_left_->setMinimumSize(button_sizes::kSmallChooseButtonSize);
+  second_right_->setMinimumSize(button_sizes::kSmallChooseButtonSize);
   number_of_players_->setMinimumSize(combo_boxes_sizes::kComboBoxDefaultSize);
   number_of_laps_->setMinimumSize(combo_boxes_sizes::kComboBoxDefaultSize);
   number_of_bots_->setMinimumSize(combo_boxes_sizes::kComboBoxDefaultSize);
@@ -62,25 +92,69 @@ void GameModeSelector::PrepareComboBoxes() {
   }
 }
 
-void GameModeSelector::SwitchRight() {
-  if (game_mode_->map_index
-      >= map_data::image_file_paths.minimaps_file_paths.size() - 1) {
-    game_mode_->map_index = 0;
-  } else {
-    game_mode_->map_index++;
-  }
-  stacked_widget_->setCurrentIndex(game_mode_->map_index);
-  repaint();
-}
-
-void GameModeSelector::SwitchLeft() {
+void GameModeSelector::SwitchMapLeft() {
   if (game_mode_->map_index <= 0) {
     game_mode_->map_index =
         map_data::image_file_paths.minimaps_file_paths.size() - 1;
   } else {
     game_mode_->map_index--;
   }
-  stacked_widget_->setCurrentIndex(game_mode_->map_index);
+  map_stacked_widget_->setCurrentIndex(game_mode_->map_index);
+  repaint();
+}
+
+void GameModeSelector::SwitchMapRight() {
+  if (game_mode_->map_index
+      >= map_data::image_file_paths.minimaps_file_paths.size() - 1) {
+    game_mode_->map_index = 0;
+  } else {
+    game_mode_->map_index++;
+  }
+  map_stacked_widget_->setCurrentIndex(game_mode_->map_index);
+  repaint();
+}
+
+void GameModeSelector::SwitchFirstCarLeft() {
+  if (game_mode_->first_player_car_number <= 0) {
+    game_mode_->first_player_car_number = 7;
+  } else {
+    game_mode_->first_player_car_number--;
+  }
+  first_car_stacked_widget_->setCurrentIndex(
+      game_mode_->first_player_car_number);
+  repaint();
+}
+
+void GameModeSelector::SwitchFirstCarRight() {
+  if (game_mode_->first_player_car_number >= 7) {
+    game_mode_->first_player_car_number = 0;
+  } else {
+    game_mode_->first_player_car_number++;
+  }
+  first_car_stacked_widget_->setCurrentIndex(
+      game_mode_->first_player_car_number);
+  repaint();
+}
+
+void GameModeSelector::SwitchSecondCarLeft() {
+  if (game_mode_->second_player_car_number <= 0) {
+    game_mode_->second_player_car_number = 7;
+  } else {
+    game_mode_->second_player_car_number--;
+  }
+  second_car_stacked_widget_->setCurrentIndex(
+      game_mode_->second_player_car_number);
+  repaint();
+}
+
+void GameModeSelector::SwitchSecondCarRight() {
+  if (game_mode_->second_player_car_number >= 7) {
+    game_mode_->second_player_car_number = 0;
+  } else {
+    game_mode_->second_player_car_number++;
+  }
+  second_car_stacked_widget_->setCurrentIndex(
+      game_mode_->second_player_car_number);
   repaint();
 }
 
@@ -91,16 +165,48 @@ void GameModeSelector::ApplySettings() {
   game_mode_->enable_drifting = enable_drifts_->isChecked();
 }
 
+void GameModeSelector::ApplyPlayersSettings() {
+  if (cars_choose_layout_->count() == 1) {
+    cars_choose_layout_->addLayout(second_player_info_layout_);
+    second_player_label_->show();
+    second_left_->show();
+    second_car_stacked_widget_->show();
+    second_right_->show();
+  } else {
+    cars_choose_layout_->removeItem(second_player_info_layout_);
+    second_player_label_->hide();
+    second_right_->hide();
+    second_car_stacked_widget_->hide();
+    second_left_->hide();
+  }
+}
+
 void GameModeSelector::SetUpLayouts() {
   main_layout_->addStretch(10);
   main_layout_->addLayout(picture_layout_);
   main_layout_->addStretch(20);
+  main_layout_->addLayout(cars_choose_layout_);
+  main_layout_->addStretch(1);
   main_layout_->addLayout(boxes_layout_);
   main_layout_->addStretch(1);
   main_layout_->addLayout(buttons_layout_);
   picture_layout_->addWidget(left_, 1, Qt::AlignCenter);
   picture_layout_->addStretch(1);
   picture_layout_->addWidget(right_, 1, Qt::AlignCenter);
+  cars_choose_layout_->addLayout(first_player_info_layout_);
+  first_player_info_layout_->addStretch(3);
+  first_player_info_layout_->addWidget(first_player_label_, 1, Qt::AlignCenter);
+  first_player_info_layout_->addWidget(first_left_, 1, Qt::AlignCenter);
+  first_player_info_layout_->addWidget(first_car_stacked_widget_);
+  first_player_info_layout_->addWidget(first_right_, 1, Qt::AlignCenter);
+  first_player_info_layout_->addStretch(3);
+  second_player_info_layout_->addStretch(3);
+  second_player_info_layout_->addWidget(second_player_label_, 1,
+                                        Qt::AlignCenter);
+  second_player_info_layout_->addWidget(second_left_, 1, Qt::AlignCenter);
+  second_player_info_layout_->addWidget(second_car_stacked_widget_);
+  second_player_info_layout_->addWidget(second_right_, 1, Qt::AlignCenter);
+  second_player_info_layout_->addStretch(3);
   players_layout_->addStretch(2);
   players_layout_->addWidget(players_label_, 1, Qt::AlignCenter);
   players_layout_->addWidget(number_of_players_, 1, Qt::AlignCenter);
@@ -125,11 +231,27 @@ void GameModeSelector::ConnectUI() {
   connect(left_,
           &QPushButton::clicked,
           this,
-          &GameModeSelector::SwitchLeft);
+          &GameModeSelector::SwitchMapLeft);
   connect(right_,
           &QPushButton::clicked,
           this,
-          &GameModeSelector::SwitchRight);
+          &GameModeSelector::SwitchMapRight);
+  connect(first_left_,
+          &QPushButton::clicked,
+          this,
+          &GameModeSelector::SwitchFirstCarLeft);
+  connect(first_right_,
+          &QPushButton::clicked,
+          this,
+          &GameModeSelector::SwitchFirstCarRight);
+  connect(second_left_,
+          &QPushButton::clicked,
+          this,
+          &GameModeSelector::SwitchSecondCarLeft);
+  connect(second_right_,
+          &QPushButton::clicked,
+          this,
+          &GameModeSelector::SwitchSecondCarRight);
   connect(start_game_,
           &QPushButton::clicked,
           this,
@@ -142,6 +264,10 @@ void GameModeSelector::ConnectUI() {
           QOverload<int>::of(&QComboBox::currentIndexChanged),
           this,
           &GameModeSelector::ApplySettings);
+  connect(number_of_players_,
+          QOverload<int>::of(&QComboBox::currentIndexChanged),
+          this,
+          &GameModeSelector::ApplyPlayersSettings);
   connect(number_of_laps_,
           QOverload<int>::of(&QComboBox::currentIndexChanged),
           this,

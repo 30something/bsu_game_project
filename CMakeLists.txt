@@ -39,6 +39,7 @@ set(SOURCES
         src/GameCore/game_map.cpp
         src/Menu/game_mode_selector.cpp
         src/Menu/map_selector_tile.cpp
+        src/Menu/image_selector_tile.cpp
         src/GameCore/weapon_handler.cpp
         src/helpers/json_map_parser.cpp
         src/helpers/physics.cpp

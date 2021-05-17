@@ -8,6 +8,7 @@
 #include <QCheckBox>
 
 #include "map_selector_tile.h"
+#include "image_selector_tile.h"
 #include "src/helpers/map_data.h"
 #include "src/helpers/game_mode.h"
 
@@ -30,9 +31,14 @@ class GameModeSelector : public QWidget {
   void ConnectUI();
   void PrepareComboBoxes();
 
-  void SwitchRight();
-  void SwitchLeft();
+  void SwitchMapRight();
+  void SwitchMapLeft();
+  void SwitchFirstCarLeft();
+  void SwitchFirstCarRight();
+  void SwitchSecondCarLeft();
+  void SwitchSecondCarRight();
   void ApplySettings();
+  void ApplyPlayersSettings();
 
   QPushButton* start_game_;
   QPushButton* back_to_main_menu_;
@@ -40,6 +46,15 @@ class GameModeSelector : public QWidget {
   QPushButton* right_;
   QVBoxLayout* main_layout_;
   QHBoxLayout* picture_layout_;
+  QVBoxLayout* cars_choose_layout_;
+  QLabel* first_player_label_;
+  QLabel* second_player_label_;
+  QPushButton* first_left_;
+  QPushButton* first_right_;
+  QPushButton* second_left_;
+  QPushButton* second_right_;
+  QHBoxLayout* first_player_info_layout_;
+  QHBoxLayout* second_player_info_layout_;
   QLabel* players_label_;
   QLabel* laps_label_;
   QLabel* bots_label_;
@@ -49,7 +64,9 @@ class GameModeSelector : public QWidget {
   QHBoxLayout* bots_layout_;
   QVBoxLayout* boxes_layout_;
   QHBoxLayout* buttons_layout_;
-  QStackedWidget* stacked_widget_;
+  QStackedWidget* map_stacked_widget_;
+  QStackedWidget* first_car_stacked_widget_;
+  QStackedWidget* second_car_stacked_widget_;
   GameMode* game_mode_ = nullptr;
   QComboBox* number_of_players_ = nullptr;
   QComboBox* number_of_laps_ = nullptr;

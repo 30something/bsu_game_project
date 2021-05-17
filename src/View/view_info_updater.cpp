@@ -54,13 +54,18 @@ void ViewInfoUpdater::UpdatePlayerInfoDescription(QPainter* painter,
                     y_pos + 3 * kDescriptionOffset,
                     QString::fromStdString("HP: " +
                         std::to_string(cars_data_.GetHP(index))));
-  size_t elapsed_time = cars_data_.GetElapsedTime(index);
   painter->drawText(x_pos,
                     y_pos + 4 * kDescriptionOffset,
-                    QString::fromStdString("Elapsed time: " +
-                        std::to_string(elapsed_time / 60000) + "." +
-                        std::to_string((elapsed_time / 1000) % 60) + "." +
-                        std::to_string(elapsed_time % 1000)));
+                    GetEditedTimeInfo(index));
+  if (cars_data_.GetFinishPosition(index) < INT32_MAX) {
+    painter->drawText(x_pos,
+                      y_pos + 5 * kDescriptionOffset,
+                      GetEditedFinishInfo(index));
+  } else if (cars_data_.GetHP(index) == 0) {
+    painter->drawText(x_pos,
+                      y_pos + 5 * kDescriptionOffset,
+                      QString::fromStdString("Oops, you've exploded!"));
+  }
 }
 
 void ViewInfoUpdater::UpdateAllInfoDescription(QPainter* painter,
@@ -77,4 +82,47 @@ void ViewInfoUpdater::UpdateAllInfoDescription(QPainter* painter,
 
 bool ViewInfoUpdater::GetStartState() const {
   return is_game_started_;
+}
+
+QString ViewInfoUpdater::GetEditedTimeInfo(int index) const {
+  size_t elapsed_time = cars_data_.GetElapsedTime(index);
+  size_t minutes = elapsed_time / 60000;
+  size_t seconds = (elapsed_time / 1000) % 60;
+  size_t millis = elapsed_time % 1000;
+  std::string minutes_str;
+  std::string seconds_str;
+  std::string millis_str;
+  if (minutes < 10) {
+    minutes_str += "0";
+  }
+  minutes_str += std::to_string(minutes);
+  if (seconds < 10) {
+    seconds_str += "0";
+  }
+  seconds_str += std::to_string(seconds);
+  if (millis < 100) {
+    millis_str += "0";
+  }
+  if (millis < 10) {
+    millis_str += "0";
+  }
+  millis_str += std::to_string(millis);
+  return QString::fromStdString("Elapsed time: " +
+      minutes_str + ":" + seconds_str + ":" + millis_str);
+}
+
+QString ViewInfoUpdater::GetEditedFinishInfo(int index) const {
+  int32_t finish_position = cars_data_.GetFinishPosition(index);
+  std::string pos_with_prefix = std::to_string(finish_position);
+  if (finish_position == 1) {
+    pos_with_prefix += "st";
+  } else if (finish_position == 2) {
+    pos_with_prefix += "nd";
+  } else if (finish_position == 3) {
+    pos_with_prefix += "rd";
+  } else {
+    pos_with_prefix += "th";
+  }
+  return QString::fromStdString(
+      "You finished on " + pos_with_prefix + " position!");
 }

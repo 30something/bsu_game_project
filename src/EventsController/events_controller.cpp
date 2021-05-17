@@ -25,7 +25,7 @@ void EventsController::ViewTimerEvent() {
 
 void EventsController::FinishCheckEvent() {
   if (game_status_ == GameStatus::kRunning
-      && game_controller_->AllCarsFinished()) {
+      && game_controller_->IsGameFinished()) {
     finish_check_timer_.stop();
     LaunchFinishTimer();
   }
@@ -82,7 +82,7 @@ void EventsController::UpdateStartInfo() {
 
 void EventsController::ShowEndGameStats() {
   finish_pause_timer_.stop();
-  end_game_stats_->ShowStats(CarsData(game_controller_->GetCarsData()));
+  finish_info_update_timer_.start(kMillisPerFinishInfoUpdate);
 }
 
 void EventsController::LaunchStartCountdownTimer() {
@@ -106,6 +106,10 @@ void EventsController::LaunchGameTimers() {
           &QTimer::timeout,
           this,
           &EventsController::FinishCheckEvent);
+  connect(&finish_info_update_timer_,
+          &QTimer::timeout,
+          this,
+          &EventsController::UpdateFinishStats);
   controller_timer_.start(kMillisPerPhysicsTick);
   view_timer_.start(kMillisPerFrame);
   finish_check_timer_.start(kMillisPerPhysicsTick);
@@ -117,6 +121,10 @@ void EventsController::PrepareEndGameStats() {
           this,
           &EventsController::ReturnToMainMenu);
   end_game_stats_->close();
+}
+
+void EventsController::UpdateFinishStats() {
+  end_game_stats_->UpdateStats(CarsData(game_controller_->GetCarsData()));
 }
 
 void EventsController::LaunchFinishTimer() {

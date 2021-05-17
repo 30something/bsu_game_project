@@ -14,7 +14,7 @@ class EndGameStats : public QWidget {
   explicit EndGameStats(QWidget* parent = nullptr);
   ~EndGameStats() override = default;
 
-  void ShowStats(const CarsData& cars_data);
+  void UpdateStats(const CarsData& cars_data);
 
  signals:
   void ReturnToMainMenu();
@@ -22,5 +22,6 @@ class EndGameStats : public QWidget {
  private:
   QLabel* stats_label_ = nullptr;
   QVBoxLayout* layout_ = nullptr;
+  QVBoxLayout* positions_layout_ = nullptr;
   QPushButton* return_to_main_menu_button_ = nullptr;
 };

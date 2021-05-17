@@ -34,7 +34,7 @@ class GameController : public QObject {
   std::vector<WrapperBase<GameObject>*> GetGameObjects() const;
   std::vector<Vec2f> GetPlayersCarPositions() const;
 
-  bool AllCarsFinished() const;
+  bool IsGameFinished() const;
   std::vector<CarAchievements> GetCarsData() const;
 
  private:
@@ -60,6 +60,7 @@ class GameController : public QObject {
   std::vector<Car> cars_;
   std::vector<CarAchievements> car_achievements_;
   std::set<uint32_t> remaining_cars_;
+  std::set<uint32_t> remaining_players_;
   GameMode* game_mode_ = nullptr;
   WeaponHandler weapon_handler_;
   std::vector<WrapperBase<GameObject>*> game_objects_;

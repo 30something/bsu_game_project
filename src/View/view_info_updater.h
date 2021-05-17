@@ -34,6 +34,9 @@ class ViewInfoUpdater {
   bool GetStartState() const;
 
  private:
+  QString GetEditedTimeInfo(int index) const;
+  QString GetEditedFinishInfo(int index) const;
+
   GameMode* game_mode_ = nullptr;
   QLabel* start_label_ = nullptr;
   QLayout* layout_ = nullptr;

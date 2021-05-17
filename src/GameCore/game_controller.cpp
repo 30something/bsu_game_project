@@ -25,6 +25,17 @@ GameController::GameController(GameMode* game_mode,
 }
 
 void GameController::SetUpBots() {
+  std::set<CarsColors> colors_set;
+  for (size_t i = 0; i < game_mode_->players_amount + game_mode_->bots_amount;
+       i++) {
+    colors_set.insert(static_cast<CarsColors>(i));
+  }
+  colors_set.erase(static_cast<CarsColors>(
+                       game_mode_->first_player_car_number));
+  if (game_mode_->players_amount > 1) {
+    colors_set.erase(static_cast<CarsColors>(
+                         game_mode_->second_player_car_number));
+  }
   for (size_t i = 0; i < game_mode_->bots_amount; i++) {
     auto* bot = new BotBehavior(map_.GetBorders(),
                                 cars_,
@@ -35,8 +46,9 @@ void GameController::SetUpBots() {
         map_.GetPosAndAngles()[game_mode_->players_amount + i].first,
         map_.GetPosAndAngles()[game_mode_->players_amount + i].second,
         bot,
-        static_cast<CarsColors>(i + 2),
+        static_cast<CarsColors>(*colors_set.begin()),
         game_mode_->enable_drifting);
+    colors_set.erase(colors_set.begin());
   }
 }
 
@@ -47,7 +59,7 @@ void GameController::SetUpCars(const InputController* input_controller) {
       map_.GetPosAndAngles()[0].first,
       map_.GetPosAndAngles()[0].second,
       first_player_behavior,
-      static_cast<CarsColors>(0),
+      static_cast<CarsColors>(game_mode_->first_player_car_number),
       game_mode_->enable_drifting);
   if (game_mode_->players_amount > 1) {
     Behavior* second_player_behavior =
@@ -56,7 +68,7 @@ void GameController::SetUpCars(const InputController* input_controller) {
         map_.GetPosAndAngles()[1].first,
         map_.GetPosAndAngles()[1].second,
         second_player_behavior,
-        static_cast<CarsColors>(1),
+        static_cast<CarsColors>(game_mode_->second_player_car_number),
         game_mode_->enable_drifting);
   }
 }
@@ -65,6 +77,9 @@ void GameController::SetUpCarsAchievements() {
   car_achievements_.resize(cars_.size());
   for (uint32_t i = 0; i < cars_.size(); i++) {
     remaining_cars_.insert(i);
+    if (i < game_mode_->players_amount) {
+      remaining_players_.insert(i);
+    }
     car_achievements_[i].launched_finish_deviation =
         physics::CalculateLineDeviation(cars_[i].GetPosition().GetX(),
                                         cars_[i].GetPosition().GetY(),
@@ -97,6 +112,9 @@ void GameController::UpdateCarsInfoAndCollisions(int time_millis) {
     if (cars_[i].GetHitPoints() < physics::kAlmostZero) {
       cars_[i].BecomeDead();
       remaining_cars_.erase(i);
+      if (i < game_mode_->players_amount) {
+        remaining_players_.erase(i);
+      }
     }
   }
 }
@@ -174,6 +192,9 @@ void GameController::ProceedFinishGame() {
   }
   for (auto i : deleted_cars) {
     remaining_cars_.erase(i);
+    if (i < game_mode_->players_amount) {
+      remaining_players_.erase(i);
+    }
   }
 }
 
@@ -215,8 +236,8 @@ std::vector<Vec2f> GameController::GetPlayersCarPositions() const {
   return result;
 }
 
-bool GameController::AllCarsFinished() const {
-  return remaining_cars_.empty();
+bool GameController::IsGameFinished() const {
+  return remaining_players_.empty();
 }
 
 std::vector<CarAchievements> GameController::GetCarsData() const {

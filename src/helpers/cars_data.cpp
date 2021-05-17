@@ -27,3 +27,7 @@ double CarsData::GetHP(int index) const {
 size_t CarsData::GetElapsedTime(int index) const {
   return cars_data[index].elapsed_millis_time;
 }
+
+int32_t CarsData::GetFinishPosition(int index) const {
+  return cars_data[index].finish_position;
+}
