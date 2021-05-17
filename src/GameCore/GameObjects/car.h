@@ -20,7 +20,7 @@
 
 class Car : public GameObject {
  public:
-  Car(QPoint position,
+  Car(Vec2f position,
       double angle,
       Behavior* behavior,
       CarsColors car_color,
@@ -33,8 +33,6 @@ class Car : public GameObject {
   std::optional<Line> ShootBullet();
 
   double GetHitPoints() const;
-  double GetBulletsAmount() const;
-  double GetMinesAmount() const;
   double GetAngle() const override;
   const std::vector<Line>& GetCollisionLines() const override;
   const Vec2f& GetVelocity() const;

@@ -1,14 +1,18 @@
 #include "bot_behavior.h"
 
-BotBehavior::BotBehavior(const std::vector<std::vector<QPoint>>& borders,
+BotBehavior::BotBehavior(const std::vector<std::vector<Vec2f>>& borders,
                          const std::vector<Car>& cars,
                          const std::vector<Vec2f>& waypoints,
                          const std::vector<Line>& no_go_lines,
+                         const std::vector<CarAchievements>& car_achievements,
+                         size_t id,
                          GameMode* gamemode) :
     borders_(borders),
     cars_(cars),
     waypoints_(waypoints),
     no_go_lines_(no_go_lines),
+    car_achievements_(car_achievements),
+    id_(id),
     game_mode_(gamemode) {
 }
 
@@ -107,26 +111,20 @@ double BotBehavior::FindMinDistanceToBorder(Vec2f angle_vec,
   for (const auto& border : borders_) {
     for (size_t j = 0; j < border.size(); j++) {
       size_t border_i = (j == border.size() - 1 ? 0 : j + 1);
-      Line border_line(border[j].x(),
-                       border[j].y(),
-                       border[border_i].x(),
-                       border[border_i].y());
+      Line border_line(border[j].GetX(),
+                       border[j].GetY(),
+                       border[border_i].GetX(),
+                       border[border_i].GetY());
       if (physics::IsIntersects(search_line, border_line)) {
         Vec2f point = physics::FindIntersectionPoint(search_line, border_line);
-        distances.push_back(physics::Distance(QPoint(point.GetX(),
-                                                     point.GetY()),
-                                              QPoint(car_position.GetX(),
-                                                     car_position.GetY())));
+        distances.push_back(physics::Distance(point, car_position));
       }
     }
   }
   for (auto line : no_go_lines_) {
     if (physics::IsIntersects(search_line, line)) {
       Vec2f point = physics::FindIntersectionPoint(search_line, line);
-      distances.push_back(physics::Distance(QPoint(point.GetX(),
-                                                   point.GetY()),
-                                            QPoint(car_position.GetX(),
-                                                   car_position.GetY())));
+      distances.push_back(physics::Distance(point, car_position));
     }
   }
   if (distances.empty()) {
@@ -151,10 +149,7 @@ bool BotBehavior::AnyCarInBack() const {
 size_t BotBehavior::FindIndexOfClosestWaypoint(const Car& car) const {
   std::vector<double> distances;
   for (auto waypoint : waypoints_) {
-    distances.push_back(physics::Distance(QPoint(waypoint.GetX(),
-                                                 waypoint.GetY()),
-                                          QPoint(car.GetPosition().GetX(),
-                                                 car.GetPosition().GetY())));
+    distances.push_back(physics::Distance(waypoint, car.GetPosition()));
   }
   return GetMinimalElementIndex(distances);
 }
@@ -177,24 +172,26 @@ bool BotBehavior::CheckCarInDirection(Vec2f position, Vec2f angle_vec) const {
 }
 
 void BotBehavior::ProceedDistanceToPlayerCar() {
+  size_t closest_players_car_index = FindClosestPlayersCar();
   size_t car_closest_index =
-      FindIndexOfClosestWaypoint(cars_[FindClosestPlayersCar()]);
+      FindIndexOfClosestWaypoint(cars_[closest_players_car_index]);
+  car_closest_index += car_achievements_[closest_players_car_index].laps_counter
+      * waypoints_.size();
+  size_t closest_index = closest_index_;
+  closest_index += car_achievements_[id_].laps_counter * waypoints_.size();
   size_t speed_coefficient =
-      std::abs(static_cast<int64_t>(closest_index_ - car_closest_index));
-  if (speed_coefficient > waypoints_.size() - 2) {
-    speed_coefficient -= waypoints_.size();
-  }
+      std::abs(static_cast<int64_t>(closest_index - car_closest_index));
   speed_coefficient *= kSpeedCoefficientMultiplier;
   if (speed_coefficient > kMaxSpeedCoefficient) {
     speed_coefficient = kMaxSpeedCoefficient;
   }
-  if (closest_index_ > car_closest_index) {
+  if (closest_index > car_closest_index) {
     max_speed_ = kMaxSpeed - speed_coefficient;
   }
-  if (closest_index_ < car_closest_index) {
+  if (closest_index < car_closest_index) {
     max_speed_ = kMaxSpeed + speed_coefficient;
   }
-  if (closest_index_ == car_closest_index) {
+  if (closest_index == car_closest_index) {
     max_speed_ = kMaxSpeed;
   }
 }
@@ -202,10 +199,8 @@ void BotBehavior::ProceedDistanceToPlayerCar() {
 size_t BotBehavior::FindClosestPlayersCar() {
   std::vector<double> distances;
   for (size_t i = 0; i < game_mode_->players_amount; i++) {
-    distances.push_back(physics::Distance(QPoint(cars_[i].GetPosition().GetX(),
-                                                 cars_[i].GetPosition().GetY()),
-                                          QPoint(car_->GetPosition().GetX(),
-                                                 car_->GetPosition().GetY())));
+    distances.push_back(physics::Distance(cars_[i].GetPosition(),
+                                          car_->GetPosition()));
   }
   return GetMinimalElementIndex(distances);
 }

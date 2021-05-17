@@ -200,7 +200,6 @@ struct JsonHelper {
   static PlayerCarData
   DecodePlayerCarData(const QString& json) {
     PlayerCarData car_data;
-    std::vector<PlayerCarData> result;
     QJsonObject data_obj = QJsonDocument::fromJson(json.toUtf8()).object();
     QJsonObject angle_obj = data_obj["angle"].toObject();
     car_data.angle = Vec2f(angle_obj["x"].toDouble(),

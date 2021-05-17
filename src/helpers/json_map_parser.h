@@ -17,8 +17,8 @@
 class JsonMapParser {
  public:
   explicit JsonMapParser(const QString& filepath);
-  std::vector<std::vector<QPoint>> GetBorders();
-  std::vector<std::pair<QPoint, double>> GetCarStartPositionsAndAngles();
+  std::vector<std::vector<Vec2f>> GetBorders();
+  std::vector<std::pair<Vec2f, double>> GetCarStartPositionsAndAngles();
   Line GetFinishLine();
   std::vector<Vec2f> GetWaypoints();
   std::vector<Line> GetNoGoLines();

@@ -10,12 +10,12 @@ JsonMapParser::JsonMapParser(const QString& filepath) {
   json_ = doc.object();
 }
 
-std::vector<std::vector<QPoint>> JsonMapParser::GetBorders() {
-  std::vector<std::vector<QPoint>> result;
+std::vector<std::vector<Vec2f>> JsonMapParser::GetBorders() {
+  std::vector<std::vector<Vec2f>> result;
   QJsonArray borders_array = json_["border_coords"].toArray();
   for (const auto& border : borders_array) {
     QJsonArray coords = border.toArray();
-    std::vector<QPoint> border_vector;
+    std::vector<Vec2f> border_vector;
     for (const auto& coordinate : coords) {
       QJsonObject coord_pair = coordinate.toObject();
       border_vector.emplace_back(
@@ -27,14 +27,14 @@ std::vector<std::vector<QPoint>> JsonMapParser::GetBorders() {
   return result;
 }
 
-std::vector<std::pair<QPoint, double>>
+std::vector<std::pair<Vec2f, double>>
 JsonMapParser::GetCarStartPositionsAndAngles() {
-  std::vector<std::pair<QPoint, double>> result;
+  std::vector<std::pair<Vec2f, double>> result;
   QJsonArray positions_array = json_["car_start_positions"].toArray();
   for (const auto& position : positions_array) {
     QJsonObject position_obj = position.toObject();
     result.emplace_back(
-        std::make_pair(QPoint(position_obj["x"].toInt(),
+        std::make_pair(Vec2f(position_obj["x"].toInt(),
                               position_obj["y"].toInt()),
                        position_obj["angle"].toDouble()));
   }

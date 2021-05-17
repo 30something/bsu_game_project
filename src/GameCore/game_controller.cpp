@@ -45,6 +45,8 @@ void GameController::SetUpBots() {
                                 cars_,
                                 map_.GetWaypoints(),
                                 map_.GetNoGoLines(),
+                                car_achievements_,
+                                id,
                                 game_mode_);
     cars_.emplace_back(
         map_.GetPosAndAngles()[id].first,
