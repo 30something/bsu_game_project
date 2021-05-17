@@ -1,6 +1,5 @@
 #include "game_mode_selector.h"
 #include "src/helpers/sizes.h"
-#include <iostream>
 
 GameModeSelector::GameModeSelector(QWidget* parent, GameMode* game_mode) :
     QWidget(parent),
@@ -35,12 +34,15 @@ GameModeSelector::GameModeSelector(QWidget* parent, GameMode* game_mode) :
     number_of_players_(new QComboBox(this)),
     number_of_laps_(new QComboBox(this)),
     number_of_bots_(new QComboBox(this)) {
+  number_of_maps_pixmaps_ =
+      map_data::image_file_paths.minimaps_file_paths.size();
   for (const auto& image : map_data::image_file_paths.minimaps_file_paths) {
     map_stacked_widget_->addWidget(new MapSelectorTile(map_stacked_widget_,
                                                        image));
   }
   QFileInfoList standard_cars_list =
       QDir(":resources/images/cars/standard_cars").entryInfoList();
+  number_of_cars_pixmaps_ = standard_cars_list.count();
   for (const auto& image : standard_cars_list) {
     first_car_stacked_widget_->addWidget(new ImageSelectorTile(
         first_car_stacked_widget_,
@@ -93,9 +95,8 @@ void GameModeSelector::PrepareComboBoxes() {
 }
 
 void GameModeSelector::SwitchMapLeft() {
-  if (game_mode_->map_index <= 0) {
-    game_mode_->map_index =
-        map_data::image_file_paths.minimaps_file_paths.size() - 1;
+  if (game_mode_->map_index == 0) {
+    game_mode_->map_index = number_of_maps_pixmaps_ - 1;
   } else {
     game_mode_->map_index--;
   }
@@ -104,8 +105,7 @@ void GameModeSelector::SwitchMapLeft() {
 }
 
 void GameModeSelector::SwitchMapRight() {
-  if (game_mode_->map_index
-      >= map_data::image_file_paths.minimaps_file_paths.size() - 1) {
+  if (game_mode_->map_index >= number_of_maps_pixmaps_ - 1) {
     game_mode_->map_index = 0;
   } else {
     game_mode_->map_index++;
@@ -115,8 +115,8 @@ void GameModeSelector::SwitchMapRight() {
 }
 
 void GameModeSelector::SwitchFirstCarLeft() {
-  if (game_mode_->first_player_car_number <= 0) {
-    game_mode_->first_player_car_number = 7;
+  if (game_mode_->first_player_car_number == 0) {
+    game_mode_->first_player_car_number = number_of_cars_pixmaps_ - 1;
   } else {
     game_mode_->first_player_car_number--;
   }
@@ -126,7 +126,7 @@ void GameModeSelector::SwitchFirstCarLeft() {
 }
 
 void GameModeSelector::SwitchFirstCarRight() {
-  if (game_mode_->first_player_car_number >= 7) {
+  if (game_mode_->first_player_car_number >= number_of_cars_pixmaps_ - 1) {
     game_mode_->first_player_car_number = 0;
   } else {
     game_mode_->first_player_car_number++;
@@ -137,8 +137,8 @@ void GameModeSelector::SwitchFirstCarRight() {
 }
 
 void GameModeSelector::SwitchSecondCarLeft() {
-  if (game_mode_->second_player_car_number <= 0) {
-    game_mode_->second_player_car_number = 7;
+  if (game_mode_->second_player_car_number == 0) {
+    game_mode_->second_player_car_number = number_of_cars_pixmaps_ - 1;
   } else {
     game_mode_->second_player_car_number--;
   }
@@ -148,7 +148,7 @@ void GameModeSelector::SwitchSecondCarLeft() {
 }
 
 void GameModeSelector::SwitchSecondCarRight() {
-  if (game_mode_->second_player_car_number >= 7) {
+  if (game_mode_->second_player_car_number >= number_of_cars_pixmaps_ - 1) {
     game_mode_->second_player_car_number = 0;
   } else {
     game_mode_->second_player_car_number++;

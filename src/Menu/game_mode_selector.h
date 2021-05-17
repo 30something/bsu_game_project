@@ -72,6 +72,9 @@ class GameModeSelector : public QWidget {
   QComboBox* number_of_laps_ = nullptr;
   QComboBox* number_of_bots_ = nullptr;
 
+  uint32_t number_of_maps_pixmaps_ = 0;
+  uint32_t number_of_cars_pixmaps_ = 0;
+
   static constexpr uint32_t kMaxPlayersAmount = 2;
   static constexpr uint32_t kMaxLapsAmount = 10;
   static constexpr uint32_t kMaxBotsAmount = 6;

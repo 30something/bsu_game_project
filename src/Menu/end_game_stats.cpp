@@ -1,6 +1,5 @@
 #include "end_game_stats.h"
 #include "src/helpers/sizes.h"
-#include <iostream>
 
 EndGameStats::EndGameStats(QWidget* parent) :
     QWidget(parent),

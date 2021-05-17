@@ -13,8 +13,8 @@ GameController::GameController(GameMode* game_mode,
                     + game_mode_->players_amount);
   if (network_controller_) {
     network_controller_->SendStartSignal(JsonHelper::EncodeGameModeJson(
-        game_mode->map_index,
-        game_mode->bots_amount,
+        static_cast<int>(game_mode->map_index),
+        static_cast<int>(game_mode->bots_amount),
         game_mode->laps_amount,
         game_mode->enable_drifting));
     SetUpCarsNetwork(input_controller);
