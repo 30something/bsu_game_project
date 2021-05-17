@@ -70,16 +70,8 @@ double Vec2f::GetX() const {
   return x_;
 }
 
-void Vec2f::SetX(double _x) {
-  Vec2f::x_ = _x;
-}
-
 double Vec2f::GetY() const {
   return y_;
-}
-
-void Vec2f::SetY(double _y) {
-  Vec2f::y_ = _y;
 }
 
 Vec2f& Vec2f::operator*=(double b) {

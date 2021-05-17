@@ -1,11 +1,11 @@
 #include "car.h"
 
-Car::Car(QPoint position,
+Car::Car(Vec2f position,
          double angle,
          Behavior* behavior,
          CarsColors car_color,
          bool enable_drifts) :
-    GameObject(Vec2f(position.x(), position.y()), new CarPixmapComponent),
+    GameObject(position, new CarPixmapComponent),
     behavior_(behavior),
     car_color_(car_color),
     enable_drifts_(enable_drifts) {
@@ -215,14 +215,6 @@ double Car::GetHitPoints() const {
   return hit_points_;
 }
 
-double Car::GetBulletsAmount() const {
-  return bullets_amount_;
-}
-
-double Car::GetMinesAmount() const {
-  return mines_amount_;
-}
-
 void Car::AddHitPoints(double hit_points) {
   hit_points_ += hit_points;
 }
@@ -240,7 +232,7 @@ const Vec2f& Car::GetAngleVec() const {
 }
 
 bool Car::IsShooting() const {
-  if (bullets_amount_ <= 0) {
+  if (bullets_amount_ == 0) {
     return false;
   }
   return behavior_->IsFlagShoot();

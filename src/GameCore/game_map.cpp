@@ -44,8 +44,8 @@ void Map::HandleCarCrashIntoBorder(Car* car, const Vec2f& point) {
 
 void Map::CalculateBonusesPositions() {
   for (const auto& first : borders_[0]) {
-    QPoint second = borders_[1][FindIndexOfMinimalDistance(first, borders_[1])];
-    Line line(first.x(), first.y(), second.x(), second.y());
+    Vec2f second = borders_[1][FindIndexOfMinimalDistance(first, borders_[1])];
+    Line line(first.GetX(), first.GetY(), second.GetX(), second.GetY());
     Vec2f point = physics::GetRandomPointOnLine(line,
                                                 kBonusSpawnDeadZone,
                                                 kBonusSpawnDeadZone);
@@ -53,8 +53,8 @@ void Map::CalculateBonusesPositions() {
   }
 }
 
-size_t Map::FindIndexOfMinimalDistance(QPoint first,
-                                       const std::vector<QPoint>& second) {
+size_t Map::FindIndexOfMinimalDistance(Vec2f first,
+                                       const std::vector<Vec2f>& second) {
   double min_distance = physics::Distance(first, second[0]);
   int minimal_index = 0;
   for (size_t i = 0; i < second.size(); i++) {
@@ -75,10 +75,10 @@ void Map::ProceedCollisions(Car* car) {
       for (size_t j = 0; j < border.size(); j++) {
         Line l2;
         size_t border_i = (j == border.size() - 1 ? 0 : j + 1);
-        l2.x1 = border[j].x();
-        l2.y1 = border[j].y();
-        l2.x2 = border[border_i].x();
-        l2.y2 = border[border_i].y();
+        l2.x1 = border[j].GetX();
+        l2.y1 = border[j].GetY();
+        l2.x2 = border[border_i].GetX();
+        l2.y2 = border[border_i].GetY();
         if (physics::IsIntersects(lines[i], l2)) {
           Vec2f point = physics::FindIntersectionPoint(lines[i], l2);
           HandleCarCrashIntoBorder(car, point);
@@ -126,7 +126,7 @@ const std::vector<Bonus>& Map::GetActiveBonuses() const {
   return bonuses_;
 }
 
-const std::vector<std::vector<QPoint>>& Map::GetBorders() const {
+const std::vector<std::vector<Vec2f>>& Map::GetBorders() const {
   return borders_;
 }
 
@@ -138,7 +138,7 @@ const std::vector<Line>& Map::GetNoGoLines() const {
   return no_go_lines_;
 }
 
-const std::vector<std::pair<QPoint, double>>& Map::GetPosAndAngles() const {
+const std::vector<std::pair<Vec2f, double>>& Map::GetPosAndAngles() const {
   return pos_and_angles_;
 }
 
