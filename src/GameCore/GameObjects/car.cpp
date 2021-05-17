@@ -1,11 +1,11 @@
 #include "car.h"
 
-Car::Car(QPoint position,
+Car::Car(Vec2f position,
          double angle,
          Behavior* behavior,
          CarsColors car_color,
          bool enable_drifts) :
-    GameObject(Vec2f(position.x(), position.y()), new CarPixmapComponent),
+    GameObject(position, new CarPixmapComponent),
     behavior_(behavior),
     car_color_(car_color),
     enable_drifts_(enable_drifts) {
@@ -240,7 +240,7 @@ const Vec2f& Car::GetAngleVec() const {
 }
 
 bool Car::IsShooting() const {
-  if (bullets_amount_ <= 0) {
+  if (bullets_amount_ == 0) {
     return false;
   }
   return behavior_->IsFlagShoot();
@@ -293,6 +293,14 @@ void Car::UpdateCollisionLines() {
       Line(wheels_[1].GetPosition(), wheels_[3].GetPosition());
   collision_lines_[3] =
       Line(wheels_[2].GetPosition(), wheels_[3].GetPosition());
+}
+
+void Car::SetAngleVec(const Vec2f& angle_vec) {
+  angle_vec_ = angle_vec;
+}
+
+void Car::SetHitPoints(double hp) {
+  hit_points_ = hp;
 }
 
 void Car::CarPixmapComponent::SetCarPixmapId(CarStates car_state,

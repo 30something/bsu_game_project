@@ -18,9 +18,12 @@
 #include "src/GameCore/Behaviors/first_player_behavior.h"
 #include "src/GameCore/Behaviors/second_player_behavior.h"
 #include "src/GameCore/Behaviors/bot_behavior.h"
+#include "src/GameCore/Behaviors/network_player_behavior.h"
 #include "input_controller.h"
 #include "src/helpers/wrapper_template.h"
 #include "src/helpers/cars_colors.h"
+#include "src/Network/network_controller.h"
+#include "src/helpers/client_car_data_sender.h"
 
 class GameController : public QObject {
   Q_OBJECT
@@ -39,6 +42,7 @@ class GameController : public QObject {
 
  private:
   void SetUpCars(const InputController* input_controller);
+  void SetUpCarsNetwork(const InputController* input_controller);
   void SetUpBots();
   void SetUpCarsAchievements();
   void ProceedCollisionsWithCars();
@@ -65,5 +69,6 @@ class GameController : public QObject {
   WeaponHandler weapon_handler_;
   std::vector<WrapperBase<GameObject>*> game_objects_;
   QTimer weapons_timer_;
+  NetworkController* network_controller_;
   int32_t next_position_to_finish_ = 1;
 };

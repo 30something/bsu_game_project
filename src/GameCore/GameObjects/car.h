@@ -20,7 +20,7 @@
 
 class Car : public GameObject {
  public:
-  Car(QPoint position,
+  Car(Vec2f position,
       double angle,
       Behavior* behavior,
       CarsColors car_color,
@@ -41,8 +41,10 @@ class Car : public GameObject {
   const Vec2f& GetAngleVec() const;
   bool IsPuttingMine() const;
   bool IsShooting() const;
+  void SetAngleVec(const Vec2f& angle_vec);
   void SetVelocity(const Vec2f& velocity);
   void SetPosition(const Vec2f& position);
+  void SetHitPoints(double hp);
   void AddHitPoints(double hit_points_);
   void AddBulletsAmount(size_t bullets_amount_);
   void AddMinesAmount(size_t mines_amount_);

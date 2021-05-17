@@ -21,7 +21,7 @@ class EventsController : public QWidget {
 
  public:
   explicit EventsController(QWidget* parent, GameMode* game_mode);
-  ~EventsController() override = default;
+  ~EventsController() override;
 
   void paintEvent(QPaintEvent*) override;
   void resizeEvent(QResizeEvent*) override;

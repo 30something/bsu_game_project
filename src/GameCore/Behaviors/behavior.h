@@ -4,7 +4,7 @@
 
 class Behavior {
  public:
-  virtual void HandleTick(const GameObject*) = 0;
+  virtual void HandleTick(GameObject*) = 0;
   virtual ~Behavior() = default;
 
   bool IsFlagUp() const;

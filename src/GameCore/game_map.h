@@ -16,15 +16,17 @@
 #include "src/helpers/json_map_parser.h"
 #include "src/GameCore/GameObjects/bonus.h"
 
-class Map {
+class Map : public QObject {
+  Q_OBJECT
+
  public:
-  explicit Map(const QString& json_filepath);
+  explicit Map(GameMode* game_mode);
   void HandleCarTick(Car* car);
   const std::vector<Bonus>& GetActiveBonuses() const;
-  const std::vector<std::vector<QPoint>>& GetBorders() const;
+  const std::vector<std::vector<Vec2f>>& GetBorders() const;
   const std::vector<Vec2f>& GetWaypoints() const;
   const std::vector<Line>& GetNoGoLines() const;
-  const std::vector<std::pair<QPoint, double>>& GetPosAndAngles() const;
+  const std::vector<std::pair<Vec2f, double>>& GetPosAndAngles() const;
   const Line& GetFinishLine() const;
 
  private:
@@ -32,8 +34,9 @@ class Map {
   void ProceedActiveBonuses(Car* car);
   void ProceedNewBonuses();
   void ProceedCollisions(Car*);
+  void ProceedNewBonusFromNetwork();
 
-  static size_t FindIndexOfMinimalDistance(QPoint, const std::vector<QPoint>&);
+  static size_t FindIndexOfMinimalDistance(Vec2f, const std::vector<Vec2f>&);
   static void HandleCarCrashIntoBorder(Car* car, const Vec2f& point);
 
   static constexpr double kVelocityDecrease = 0.9;
@@ -44,12 +47,13 @@ class Map {
   static constexpr int kMinMilliSecondForNewBonus = 1000;
   static constexpr double kBonusSpawnDeadZone = 0.1;
 
-  std::vector<std::vector<QPoint>> borders_;
+  std::vector<std::vector<Vec2f>> borders_;
   std::vector<Vec2f> waypoints_;
   std::vector<Line> no_go_lines_;
-  std::vector<std::pair<QPoint, double>> pos_and_angles_;
+  std::vector<std::pair<Vec2f, double>> pos_and_angles_;
   std::vector<Vec2f> bonuses_positions_;
   std::vector<Bonus> bonuses_;
   Line finish_line_;
   QTimer bonus_timer_;
+  GameMode* game_mode_;
 };

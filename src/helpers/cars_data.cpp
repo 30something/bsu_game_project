@@ -1,7 +1,7 @@
 #include "cars_data.h"
 
-CarsData::CarsData(const std::vector<CarAchievements>& new_cars_data) {
-  cars_data = new_cars_data;
+CarsData::CarsData(std::vector<CarAchievements> new_cars_data)
+    : cars_data(std::move(new_cars_data)) {
 }
 
 double CarsData::GetVelocity(int index) const {
