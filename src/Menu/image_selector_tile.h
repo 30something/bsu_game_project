@@ -1,13 +1,13 @@
 #pragma once
 
+#include <cmath>
+
 #include <QWidget>
 #include <QPaintEvent>
 #include <QPainter>
 
-#include <cmath>
-
 class ImageSelectorTile : public QWidget {
- Q_OBJECT
+  Q_OBJECT
 
  public:
   ImageSelectorTile(QWidget* parent,

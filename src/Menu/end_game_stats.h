@@ -1,5 +1,9 @@
 #pragma once
 
+#include <algorithm>
+#include <string>
+#include <vector>
+
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QPushButton>

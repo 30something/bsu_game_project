@@ -80,6 +80,7 @@ void GameController::SetUpCarsAchievements() {
     if (i < game_mode_->players_amount) {
       remaining_players_.insert(i);
     }
+    car_achievements_[i].car_number = i;
     car_achievements_[i].launched_finish_deviation =
         physics::CalculateLineDeviation(cars_[i].GetPosition().GetX(),
                                         cars_[i].GetPosition().GetY(),

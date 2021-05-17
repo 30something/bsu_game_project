@@ -27,8 +27,15 @@ void EndGameStats::UpdateStats(const CarsData& cars_data) {
             });
   for (int i = 0; i < static_cast<int>(cars_achievements.size()); i++) {
     std::string temp_string = std::to_string(i + 1) + ") ";
+    temp_string += std::to_string(cars_achievements[i].car_number + 1) + " - ";
     if (cars_achievements[i].is_finished) {
-      temp_string += std::to_string(cars_achievements[i].elapsed_millis_time);
+      size_t overall_millis = cars_achievements[i].elapsed_millis_time;
+      size_t minutes = overall_millis / 60000;
+      size_t seconds = (overall_millis % 60000) / 1000;
+      size_t millis = overall_millis % 1000;
+      temp_string += std::to_string(minutes) + " min " +
+          std::to_string(seconds) + " sec " +
+          std::to_string(millis) + " ms";
     } else if (cars_achievements[i].hit_points_ <= 0) {
       temp_string += "Dead";
     } else {
