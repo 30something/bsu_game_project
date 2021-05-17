@@ -185,13 +185,13 @@ void BotBehavior::ProceedDistanceToPlayerCar() {
   if (speed_coefficient > kMaxSpeedCoefficient) {
     speed_coefficient = kMaxSpeedCoefficient;
   }
-  if (closest_index_ > car_closest_index) {
+  if (closest_index > car_closest_index) {
     max_speed_ = kMaxSpeed - speed_coefficient;
   }
-  if (closest_index_ < car_closest_index) {
+  if (closest_index < car_closest_index) {
     max_speed_ = kMaxSpeed + speed_coefficient;
   }
-  if (closest_index_ == car_closest_index) {
+  if (closest_index == car_closest_index) {
     max_speed_ = kMaxSpeed;
   }
 }
