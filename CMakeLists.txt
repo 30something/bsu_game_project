@@ -64,12 +64,12 @@ set(SOURCES
         src/helpers/client_car_data_sender.cpp)
 
 set(RESOURCES
-        qrc/qrc_animations/explosion_animation.qrc
-        qrc/qrc_animations/fire_animation.qrc
-        qrc/qrc_main_images/cars.qrc
-        qrc/qrc_main_images/maps.qrc
-        qrc/map_data.qrc
-        qrc/other_images.qrc
+        explosion_animation.qrc
+        fire_animation.qrc
+        cars.qrc
+        maps.qrc
+        map_data.qrc
+        other_images.qrc
         )
 
 set(SERVER_SOURCES

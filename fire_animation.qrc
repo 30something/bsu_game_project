@@ -1,0 +1,23 @@
+<RCC>
+    <qresource>
+        <file>resources/images/images_for_animations/fire_animation/fire000.png</file>
+        <file>resources/images/images_for_animations/fire_animation/fire001.png</file>
+        <file>resources/images/images_for_animations/fire_animation/fire002.png</file>
+        <file>resources/images/images_for_animations/fire_animation/fire003.png</file>
+        <file>resources/images/images_for_animations/fire_animation/fire004.png</file>
+        <file>resources/images/images_for_animations/fire_animation/fire005.png</file>
+        <file>resources/images/images_for_animations/fire_animation/fire006.png</file>
+        <file>resources/images/images_for_animations/fire_animation/fire007.png</file>
+        <file>resources/images/images_for_animations/fire_animation/fire008.png</file>
+        <file>resources/images/images_for_animations/fire_animation/fire009.png</file>
+        <file>resources/images/images_for_animations/fire_animation/fire010.png</file>
+        <file>resources/images/images_for_animations/fire_animation/fire011.png</file>
+        <file>resources/images/images_for_animations/fire_animation/fire012.png</file>
+        <file>resources/images/images_for_animations/fire_animation/fire013.png</file>
+        <file>resources/images/images_for_animations/fire_animation/fire014.png</file>
+        <file>resources/images/images_for_animations/fire_animation/fire015.png</file>
+        <file>resources/images/images_for_animations/fire_animation/fire016.png</file>
+        <file>resources/images/images_for_animations/fire_animation/fire017.png</file>
+        <file>resources/images/images_for_animations/fire_animation/fire018.png</file>
+    </qresource>
+</RCC>
