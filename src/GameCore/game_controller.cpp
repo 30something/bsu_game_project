@@ -3,11 +3,24 @@
 GameController::GameController(GameMode* game_mode,
                                InputController* input_controller) :
     QObject(nullptr),
-    map_(map_data::json_file_paths.file_paths[game_mode->map_index]),
+    map_(game_mode),
     finish_line_(map_.GetFinishLine()),
     game_mode_(game_mode),
-    weapon_handler_() {
-  SetUpCars(input_controller);
+    weapon_handler_(),
+    network_controller_(game_mode->network_controller) {
+  cars_.reserve(game_mode_->bots_amount
+                    + game_mode->network_players_amount
+                    + game_mode_->players_amount);
+  if (network_controller_) {
+    network_controller_->SendStartSignal(JsonHelper::EncodeGameModeJson(
+        game_mode->map_index,
+        game_mode->bots_amount,
+        game_mode->laps_amount,
+        game_mode->enable_drifting));
+    SetUpCarsNetwork(input_controller);
+  } else {
+    SetUpCars(input_controller);
+  }
   SetUpBots();
   SetUpCarsAchievements();
   weapons_timer_.setSingleShot(true);
@@ -28,16 +41,57 @@ GameController::GameController(GameMode* game_mode,
 
 void GameController::SetUpBots() {
   for (size_t i = 0; i < game_mode_->bots_amount; i++) {
+    size_t id =
+        game_mode_->players_amount + game_mode_->network_players_amount + i;
     auto* bot = new BotBehavior(map_.GetBorders(),
                                 cars_,
                                 map_.GetWaypoints(),
                                 map_.GetNoGoLines(),
+                                car_achievements_,
+                                id,
                                 game_mode_);
     cars_.emplace_back(
-        map_.GetPosAndAngles()[game_mode_->players_amount + i].first,
-        map_.GetPosAndAngles()[game_mode_->players_amount + i].second,
+        map_.GetPosAndAngles()[id].first,
+        map_.GetPosAndAngles()[id].second,
         bot,
-        static_cast<CarsColors>(i + 2),
+        static_cast<CarsColors>(id),
+        game_mode_->enable_drifting);
+  }
+}
+
+void GameController::SetUpCarsNetwork(const InputController* input_controller) {
+  size_t player_position = network_controller_->GetId();
+  for (size_t i = 0; i < player_position; i++) {
+    auto* network_player_behavior = new NetworkPlayerBehavior(
+        network_controller_,
+        i);
+    cars_.emplace_back(
+        map_.GetPosAndAngles()[i].first,
+        map_.GetPosAndAngles()[i].second,
+        network_player_behavior,
+        static_cast<CarsColors>(i),
+        game_mode_->enable_drifting);
+  }
+  Behavior* first_player_behavior =
+      new FirstPlayerBehavior(input_controller);
+  cars_.emplace_back(
+      map_.GetPosAndAngles()[player_position].first,
+      map_.GetPosAndAngles()[player_position].second,
+      first_player_behavior,
+      static_cast<CarsColors>(player_position),
+      game_mode_->enable_drifting);
+  new ClientCarDataSender(&cars_.back(),
+                          network_controller_,
+                          first_player_behavior);
+  for (size_t i = player_position + 1;
+       i < game_mode_->network_players_amount + 1; i++) {
+    auto* network_player_behavior =
+        new NetworkPlayerBehavior(network_controller_, i);
+    cars_.emplace_back(
+        map_.GetPosAndAngles()[i].first,
+        map_.GetPosAndAngles()[i].second,
+        network_player_behavior,
+        static_cast<CarsColors>(i),
         game_mode_->enable_drifting);
   }
 }
@@ -208,8 +262,12 @@ std::vector<WrapperBase<GameObject>*> GameController::GetGameObjects() const {
 
 std::vector<Vec2f> GameController::GetPlayersCarPositions() const {
   std::vector<Vec2f> result;
-  for (size_t i = 0; i < game_mode_->players_amount; i++) {
-    result.push_back(cars_[i].GetPosition());
+  if (network_controller_) {
+    result.push_back(cars_[network_controller_->GetId()].GetPosition());
+  } else {
+    for (size_t i = 0; i < game_mode_->players_amount; i++) {
+      result.push_back(cars_[i].GetPosition());
+    }
   }
   return result;
 }

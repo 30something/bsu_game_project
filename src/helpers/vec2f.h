@@ -10,9 +10,7 @@ class Vec2f {
 
  public:
   double GetX() const;
-  void SetX(double _x);
   double GetY() const;
-  void SetY(double _y);
 
  public:
   Vec2f() : x_(0.0), y_(0.0) {

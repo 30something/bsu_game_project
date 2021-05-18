@@ -15,8 +15,8 @@ if (NOT CMAKE_PREFIX_PATH)
 endif ()
 
 set(QT_VERSION 5)
-set(REQUIRED_LIBS Core Widgets)
-set(REQUIRED_LIBS_QUALIFIED Qt5::Core Qt5::Widgets)
+set(REQUIRED_LIBS Core Widgets Network)
+set(REQUIRED_LIBS_QUALIFIED Qt5::Core Qt5::Widgets Qt5::Network)
 find_package(Qt${QT_VERSION} COMPONENTS ${REQUIRED_LIBS} REQUIRED)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -55,8 +55,13 @@ set(SOURCES
         src/Menu/end_game_stats.cpp
         src/View/view_info_updater.cpp
         src/helpers/cars_data.cpp
+        src/Network/network_player.cpp
+        src/Network/network_room.cpp
+        src/Network/player_tile.cpp
+        src/Network/network_controller.cpp
         src/helpers/map_data.cpp
-        )
+        src/GameCore/Behaviors/network_player_behavior.cpp
+        src/helpers/client_car_data_sender.cpp)
 
 set(RESOURCES
         qrc/qrc_animations/explosion_animation.qrc
@@ -67,5 +72,13 @@ set(RESOURCES
         qrc/other_images.qrc
         )
 
+set(SERVER_SOURCES
+        src/Server/main.cpp
+        src/Network/network_player.cpp
+        src/Server/server_controller.cpp
+        src/helpers/vec2f.cpp)
+
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
+add_executable(Death_Rally_Server ${SERVER_SOURCES})
 target_link_libraries(${PROJECT_NAME} ${REQUIRED_LIBS_QUALIFIED})
+target_link_libraries(Death_Rally_Server ${REQUIRED_LIBS_QUALIFIED})

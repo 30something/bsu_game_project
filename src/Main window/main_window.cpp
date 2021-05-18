@@ -1,5 +1,4 @@
 #include "main_window.h"
-#include "src/helpers/sizes.h"
 
 MainWindow::MainWindow(QMainWindow* parent) :
     QMainWindow(parent),
@@ -8,7 +7,8 @@ MainWindow::MainWindow(QMainWindow* parent) :
     menu_(new Menu(this)),
     game_mode_(new GameMode()),
     game_mode_selector_(new GameModeSelector(this, game_mode_)),
-    settings_(new Settings(this)) {
+    settings_(new Settings(this)),
+    network_room_(new NetworkRoom(this, game_mode_)) {
   setMinimumSize(mainwindow_sizes::kDefaultScreenSize);
   setWindowTitle("Death Rally");
   SetUpStackedWidget();
@@ -54,9 +54,12 @@ void MainWindow::ReturnToMainMenu() {
              &MainWindow::ReturnToMainMenu);
   delete events_controller_;
   events_controller_ = nullptr;
+  if(game_mode_->network_controller != nullptr) {
+    game_mode_->network_controller->SetAlreadyStarted(false);
+  }
 }
 
-void MainWindow::OpenMapSelector() {
+void MainWindow::OpenGameModeSelector() {
   stacked_widget_->setCurrentWidget(game_mode_selector_);
 }
 
@@ -64,18 +67,31 @@ void MainWindow::CloseMapSelector() {
   stacked_widget_->setCurrentWidget(menu_);
 }
 
+void MainWindow::OpenNetworkRoom() {
+  stacked_widget_->setCurrentWidget(network_room_);
+}
+
+void MainWindow::CloseNetworkRoom() {
+  stacked_widget_->setCurrentWidget(menu_);
+}
+
 void MainWindow::SetUpStackedWidget() {
   stacked_widget_->addWidget(menu_);
   stacked_widget_->addWidget(game_mode_selector_);
   stacked_widget_->addWidget(settings_);
+  stacked_widget_->addWidget(network_room_);
   stacked_widget_->setCurrentWidget(menu_);
 }
 
 void MainWindow::ConnectUI() {
   connect(menu_,
-          &Menu::StartButtonPressed,
+          &Menu::SinglePlayerPressed,
           this,
-          &MainWindow::OpenMapSelector);
+          &MainWindow::OpenGameModeSelector);
+  connect(menu_,
+          &Menu::MultiPlayerPressed,
+          this,
+          &MainWindow::OpenNetworkRoom);
   connect(game_mode_selector_,
           &GameModeSelector::StartGame,
           this,
@@ -84,6 +100,18 @@ void MainWindow::ConnectUI() {
           &GameModeSelector::ReturnToMainMenu,
           this,
           &MainWindow::CloseMapSelector);
+  connect(network_room_,
+          &NetworkRoom::ReturnToMainMenu,
+          this,
+          &MainWindow::CloseNetworkRoom);
+  connect(network_room_,
+          &NetworkRoom::StartGame,
+          this,
+          &MainWindow::StartGame);
+  connect(network_room_,
+          &NetworkRoom::OpenGameModeSelector,
+          this,
+          &MainWindow::OpenGameModeSelector);
   connect(menu_,
           &Menu::SettingsButtonPressed,
           this,

@@ -11,27 +11,32 @@
 #include "src/GameCore/GameObjects/bonus.h"
 #include "src/helpers/physics.h"
 #include "src/helpers/game_mode.h"
+#include "src/helpers/car_achievements.h"
 
 class BotBehavior : public Behavior {
  public:
-  explicit BotBehavior(const std::vector<std::vector<QPoint>>& borders,
+  explicit BotBehavior(const std::vector<std::vector<Vec2f>>& borders,
                        const std::vector<Car>& cars,
                        const std::vector<Vec2f>& waypoints,
                        const std::vector<Line>& no_go_lines,
+                       const std::vector<CarAchievements>& car_achievements,
+                       size_t id,
                        GameMode* gamemode);
-  void HandleTick(const GameObject* our_car) override;
+  void HandleTick(GameObject* our_car) override;
 
  private:
-  const std::vector<std::vector<QPoint>>& borders_;
+  const std::vector<std::vector<Vec2f>>& borders_;
   const std::vector<Car>& cars_;
   const std::vector<Vec2f>& waypoints_;
   const std::vector<Line>& no_go_lines_;
+  const std::vector<CarAchievements>& car_achievements_;
 
   const Car* car_ = nullptr;
   double front_distance_ = 0;
   double left_distance_ = 0;
   double right_distance_ = 0;
   size_t closest_index_ = 0;
+  size_t id_ = 0;
   GameMode* game_mode_ = nullptr;
 
   void ProceedDistancesToBorders();
