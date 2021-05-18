@@ -1,4 +1,3 @@
-#include <iostream>
 #include "animation.h"
 #include "src/helpers/animations_info.h"
 
@@ -12,7 +11,7 @@ Animation::Animation(Vec2f position, AnimationTypes type_of_animation) :
           frame_renderings::kExplosionAnimationFrameRenderings;
       break;
     }
-    case AnimationTypes::kFire: {
+    default: {
       is_cyclic_ = true;
       first_frame_of_cycle_ =
           first_frame_of_cycle::kFireAnimationFirstCycleFrame;
@@ -20,9 +19,6 @@ Animation::Animation(Vec2f position, AnimationTypes type_of_animation) :
       amount_of_frame_renderings_ =
           frame_renderings::kFireAnimationFrameRenderings;
       break;
-    }
-    default: {
-      last_frame_ = 0;
     }
   }
   dynamic_cast<AnimationPixmapComponent*>(pixmap_component_.get())->
@@ -49,7 +45,7 @@ void Animation::GoToNextFrame() {
     if (is_cyclic_) {
       current_frame_ = first_frame_of_cycle_;
     } else {
-    is_ended_ = true;
+      is_ended_ = true;
     }
     return;
   }

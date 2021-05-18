@@ -145,8 +145,8 @@ void GameController::UpdateCarsInfoAndCollisions(int time_millis) {
         cars_[i].GetVelocity().GetLength();
     if (cars_[i].GetHitPoints() < physics::kAlmostZero) {
       if ((cars_[i].IsDead())
-          && (!(car_achievements_[i].is_done_animation_of_death))) {
-        car_achievements_[i].is_done_animation_of_death = true;
+          && (!(car_achievements_[i].animation_of_death_state))) {
+        car_achievements_[i].animation_of_death_state = true;
         animations_.emplace_back(cars_[i].GetPositionPointer(),
                                  AnimationTypes::kFire);
       }
