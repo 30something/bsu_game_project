@@ -18,8 +18,8 @@ void PixmapLoader::InitPixmaps() {
         shooting_car.filePath()));
   }
   QFileInfoList explosion_animation_list =
-      QDir(":resources/images/images_for_animations/explosion_animation")
-          .entryInfoList();
+      QDir(":resources/images/images_for_animations/explosion_animation"
+      ).entryInfoList();
   for (const auto& explosion_animation_frame : explosion_animation_list) {
     animation_pixmaps_[AnimationTypes::kExplosion].emplace_back(QPixmap(
         explosion_animation_frame.filePath()));
@@ -48,7 +48,7 @@ void PixmapLoader::InitPixmaps() {
   mines_pixmaps_[MineStates::kStandard].emplace_back(
       QPixmap(basic_path + "other_stuff/mine.png"));
   mines_pixmaps_[MineStates::kExploded].emplace_back(
-      QPixmap(basic_path + "other_stuff/exploded_mine.png"));
+      QPixmap(basic_path + "other_stuff/explosion_trace.png"));
   bonuses_pixmaps_[BonusTypes::kHealth].emplace_back(
       QPixmap(basic_path + "other_stuff/hp.png"));
   bonuses_pixmaps_[BonusTypes::kBulletsAmmo].emplace_back(

@@ -91,11 +91,9 @@ void GameController::UpdateCarsInfoAndCollisions(int time_millis) {
         cars_[i].GetVelocity().GetLength();
     if (cars_[i].GetHitPoints() < physics::kAlmostZero) {
       if ((cars_[i].IsDead())
-          && (!(car_achievements_[i].is_done_animation_of_death))
-          && (car_achievements_[i].current_showed_velocity
-              < CarsData::kMinVisibleVelocity)) {
+          && (!(car_achievements_[i].is_done_animation_of_death))) {
         car_achievements_[i].is_done_animation_of_death = true;
-        animations_.emplace_back(cars_[i].GetPosition(),
+        animations_.emplace_back(cars_[i].GetPositionPointer(),
                                  AnimationTypes::kFire);
       }
       cars_[i].BecomeDead();
@@ -231,10 +229,9 @@ void GameController::EnableWeapons() {
 void GameController::UpdateAnimations() {
   for (auto& animation : animations_) {
     animation.GoToNextFrame();
-    if (animation.IsEnded()) {
-      animations_.erase(std::find(animations_.begin(),
-                                  animations_.end(),
-                                  animation));
-    }
   }
+  std::remove_if(animations_.begin(), animations_.end(),
+                 [](const Animation& animation) {
+                   return animation.IsEnded();
+                 });
 }

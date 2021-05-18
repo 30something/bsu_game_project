@@ -96,7 +96,7 @@ void Car::Tick(int time_millisec) {
     ArcadeStep(time_millisec);
   }
   if (frames_for_changing_hitpoints_ == 0) {
-    are_hit_points_changing_ = false;
+    showing_health_change_state = false;
   }
   ChoosePixmap();
   mines_tick_timer_++;
@@ -215,20 +215,14 @@ double Car::GetHitPoints() const {
   return hit_points_;
 }
 
-double Car::GetBulletsAmount() const {
-  return bullets_amount_;
-}
-
-double Car::GetMinesAmount() const {
-  return mines_amount_;
-}
-
 void Car::AddHitPoints(double hit_points) {
   hit_points_ += hit_points;
-  are_hit_points_changing_ = true;
+  if (std::abs(hit_points) + 10e-6 >= kMinSignificantDamage) {
+    showing_health_change_state = true;
+  }
   frames_for_changing_hitpoints_ =
       last_frames_for_animations::kChangingHitPointsAnimationLastFrame;
-  was_health_increased = (hit_points >= 0);
+  health_increasing_state = (hit_points + 10e-6 >= 0);
 }
 
 void Car::AddBulletsAmount(double bullets_amount) {
@@ -304,10 +298,10 @@ void Car::UpdateCollisionLines() {
 }
 
 void Car::ChoosePixmap() {
-  if (are_hit_points_changing_) {
+  if (showing_health_change_state) {
     frames_for_changing_hitpoints_--;
     if (bullets_amount_ == 0 || !behavior_->IsFlagShoot()) {
-      if (was_health_increased) {
+      if (health_increasing_state) {
         dynamic_cast<CarPixmapComponent*>(pixmap_component_.get())->
             SetCarPixmapId(CarStates::kHealthy, car_color_);
       } else {
@@ -315,7 +309,7 @@ void Car::ChoosePixmap() {
             SetCarPixmapId(CarStates::kDamaged, car_color_);
       }
     } else {
-      if (was_health_increased) {
+      if (health_increasing_state) {
         dynamic_cast<CarPixmapComponent*>(pixmap_component_.get())->
             SetCarPixmapId(CarStates::kHealthyAndShooting, car_color_);
       } else {

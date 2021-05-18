@@ -34,8 +34,6 @@ class Car : public GameObject {
   std::optional<Line> ShootBullet();
 
   double GetHitPoints() const;
-  double GetBulletsAmount() const;
-  double GetMinesAmount() const;
   double GetAngle() const override;
   const std::vector<Line>& GetCollisionLines() const override;
   const Vec2f& GetVelocity() const;
@@ -88,6 +86,7 @@ class Car : public GameObject {
   static constexpr double kMinAngularVelocityThreshold = 0.1;
   static constexpr double kMineDelayTicks = 500;
   static constexpr double kTickRotationAngle = 0.015;
+  static constexpr double kMinSignificantDamage = 0.3;
 
   std::vector<Wheel> wheels_{4};
   std::shared_ptr<Behavior> behavior_ = nullptr;
@@ -104,6 +103,6 @@ class Car : public GameObject {
   double angular_velocity_ = 0;
   double steering_angle_ = 0;
   bool enable_drifts_ = true;
-  bool are_hit_points_changing_ = false;
-  bool was_health_increased = false;
+  bool showing_health_change_state = false;
+  bool health_increasing_state = false;
 };

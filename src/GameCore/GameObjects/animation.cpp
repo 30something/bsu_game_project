@@ -1,3 +1,4 @@
+#include <iostream>
 #include "animation.h"
 #include "src/helpers/animations_info.h"
 
@@ -7,13 +8,16 @@ Animation::Animation(Vec2f position, AnimationTypes type_of_animation) :
   switch (type_of_animation) {
     case AnimationTypes::kExplosion: {
       last_frame_ = last_frames_for_animations::kExplosionAnimationLastFrame;
-      amount_of_frame_renderings =
+      amount_of_frame_renderings_ =
           frame_renderings::kExplosionAnimationFrameRenderings;
       break;
     }
     case AnimationTypes::kFire: {
+      is_cyclic_ = true;
+      first_frame_of_cycle_ =
+          first_frame_of_cycle::kFireAnimationFirstCycleFrame;
       last_frame_ = last_frames_for_animations::kFireAnimationLastFrame;
-      amount_of_frame_renderings =
+      amount_of_frame_renderings_ =
           frame_renderings::kFireAnimationFrameRenderings;
       break;
     }
@@ -25,16 +29,28 @@ Animation::Animation(Vec2f position, AnimationTypes type_of_animation) :
       SetAnimationPixmapId(animation_type_, current_frame_);
 }
 
+Animation::Animation(const Vec2f* position_of_attached_object,
+                     AnimationTypes animation_type)
+    : Animation(*position_of_attached_object, animation_type) {
+  position_of_attached_object_ = position_of_attached_object;
+}
+
 void Animation::GoToNextFrame() {
-  static int32_t counter_of_renderings = 0;
-  if (counter_of_renderings == amount_of_frame_renderings) {
+  if (position_of_attached_object_ != nullptr) {
+    position_ = *position_of_attached_object_;
+  }
+  if (counter_of_renderings_ == amount_of_frame_renderings_) {
     current_frame_++;
-    counter_of_renderings = 0;
+    counter_of_renderings_ = 0;
   } else {
-    counter_of_renderings++;
+    counter_of_renderings_++;
   }
   if (current_frame_ > last_frame_) {
+    if (is_cyclic_) {
+      current_frame_ = first_frame_of_cycle_;
+    } else {
     is_ended_ = true;
+    }
     return;
   }
   dynamic_cast<AnimationPixmapComponent*>(pixmap_component_.get())->

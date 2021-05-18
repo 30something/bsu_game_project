@@ -35,6 +35,10 @@ PixmapID GameObject::GetPixmapId() const {
   return pixmap_component_->GetPixmapId();
 }
 
+const Vec2f* GameObject::GetPositionPointer() const {
+  return &position_;
+}
+
 PixmapID GameObject::PixmapComponent::GetPixmapId() const {
   return pixmap_id_;
 }
