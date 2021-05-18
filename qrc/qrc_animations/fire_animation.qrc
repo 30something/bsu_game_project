@@ -1,23 +1,23 @@
 <RCC>
     <qresource>
-        <file>..\..\resources/images/images_for_animations/fire_animation/fire00.png</file>
-        <file>..\..\resources/images/images_for_animations/fire_animation/fire01.png</file>
-        <file>..\..\resources/images/images_for_animations/fire_animation/fire02.png</file>
-        <file>..\..\resources/images/images_for_animations/fire_animation/fire03.png</file>
-        <file>..\..\resources/images/images_for_animations/fire_animation/fire04.png</file>
-        <file>..\..\resources/images/images_for_animations/fire_animation/fire05.png</file>
-        <file>..\..\resources/images/images_for_animations/fire_animation/fire06.png</file>
-        <file>..\..\resources/images/images_for_animations/fire_animation/fire07.png</file>
-        <file>..\..\resources/images/images_for_animations/fire_animation/fire08.png</file>
-        <file>..\..\resources/images/images_for_animations/fire_animation/fire09.png</file>
-        <file>..\..\resources/images/images_for_animations/fire_animation/fire10.png</file>
-        <file>..\..\resources/images/images_for_animations/fire_animation/fire11.png</file>
-        <file>..\..\resources/images/images_for_animations/fire_animation/fire12.png</file>
-        <file>..\..\resources/images/images_for_animations/fire_animation/fire13.png</file>
-        <file>..\..\resources/images/images_for_animations/fire_animation/fire14.png</file>
-        <file>..\..\resources/images/images_for_animations/fire_animation/fire15.png</file>
-        <file>..\..\resources/images/images_for_animations/fire_animation/fire16.png</file>
-        <file>..\..\resources/images/images_for_animations/fire_animation/fire17.png</file>
-        <file>..\..\resources/images/images_for_animations/fire_animation/fire18.png</file>
+        <file>..\..\resources/images/images_for_animations/fire_animation/fire000.png</file>
+        <file>..\..\resources/images/images_for_animations/fire_animation/fire001.png</file>
+        <file>..\..\resources/images/images_for_animations/fire_animation/fire002.png</file>
+        <file>..\..\resources/images/images_for_animations/fire_animation/fire003.png</file>
+        <file>..\..\resources/images/images_for_animations/fire_animation/fire004.png</file>
+        <file>..\..\resources/images/images_for_animations/fire_animation/fire005.png</file>
+        <file>..\..\resources/images/images_for_animations/fire_animation/fire006.png</file>
+        <file>..\..\resources/images/images_for_animations/fire_animation/fire007.png</file>
+        <file>..\..\resources/images/images_for_animations/fire_animation/fire008.png</file>
+        <file>..\..\resources/images/images_for_animations/fire_animation/fire009.png</file>
+        <file>..\..\resources/images/images_for_animations/fire_animation/fire010.png</file>
+        <file>..\..\resources/images/images_for_animations/fire_animation/fire011.png</file>
+        <file>..\..\resources/images/images_for_animations/fire_animation/fire012.png</file>
+        <file>..\..\resources/images/images_for_animations/fire_animation/fire013.png</file>
+        <file>..\..\resources/images/images_for_animations/fire_animation/fire014.png</file>
+        <file>..\..\resources/images/images_for_animations/fire_animation/fire015.png</file>
+        <file>..\..\resources/images/images_for_animations/fire_animation/fire016.png</file>
+        <file>..\..\resources/images/images_for_animations/fire_animation/fire017.png</file>
+        <file>..\..\resources/images/images_for_animations/fire_animation/fire018.png</file>
     </qresource>
 </RCC>

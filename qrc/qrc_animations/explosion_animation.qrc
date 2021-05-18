@@ -1,20 +1,20 @@
 <RCC>
     <qresource>
-        <file>..\..\resources/images/images_for_animations/explosion_animation/explosion00.png</file>
-        <file>..\..\resources/images/images_for_animations/explosion_animation/explosion01.png</file>
-        <file>..\..\resources/images/images_for_animations/explosion_animation/explosion02.png</file>
-        <file>..\..\resources/images/images_for_animations/explosion_animation/explosion03.png</file>
-        <file>..\..\resources/images/images_for_animations/explosion_animation/explosion04.png</file>
-        <file>..\..\resources/images/images_for_animations/explosion_animation/explosion05.png</file>
-        <file>..\..\resources/images/images_for_animations/explosion_animation/explosion06.png</file>
-        <file>..\..\resources/images/images_for_animations/explosion_animation/explosion07.png</file>
-        <file>..\..\resources/images/images_for_animations/explosion_animation/explosion08.png</file>
-        <file>..\..\resources/images/images_for_animations/explosion_animation/explosion09.png</file>
-        <file>..\..\resources/images/images_for_animations/explosion_animation/explosion10.png</file>
-        <file>..\..\resources/images/images_for_animations/explosion_animation/explosion11.png</file>
-        <file>..\..\resources/images/images_for_animations/explosion_animation/explosion12.png</file>
-        <file>..\..\resources/images/images_for_animations/explosion_animation/explosion13.png</file>
-        <file>..\..\resources/images/images_for_animations/explosion_animation/explosion14.png</file>
-        <file>..\..\resources/images/images_for_animations/explosion_animation/explosion15.png</file>
+        <file>..\..\resources/images/images_for_animations/explosion_animation/explosion000.png</file>
+        <file>..\..\resources/images/images_for_animations/explosion_animation/explosion001.png</file>
+        <file>..\..\resources/images/images_for_animations/explosion_animation/explosion002.png</file>
+        <file>..\..\resources/images/images_for_animations/explosion_animation/explosion003.png</file>
+        <file>..\..\resources/images/images_for_animations/explosion_animation/explosion004.png</file>
+        <file>..\..\resources/images/images_for_animations/explosion_animation/explosion005.png</file>
+        <file>..\..\resources/images/images_for_animations/explosion_animation/explosion006.png</file>
+        <file>..\..\resources/images/images_for_animations/explosion_animation/explosion007.png</file>
+        <file>..\..\resources/images/images_for_animations/explosion_animation/explosion008.png</file>
+        <file>..\..\resources/images/images_for_animations/explosion_animation/explosion009.png</file>
+        <file>..\..\resources/images/images_for_animations/explosion_animation/explosion010.png</file>
+        <file>..\..\resources/images/images_for_animations/explosion_animation/explosion011.png</file>
+        <file>..\..\resources/images/images_for_animations/explosion_animation/explosion012.png</file>
+        <file>..\..\resources/images/images_for_animations/explosion_animation/explosion013.png</file>
+        <file>..\..\resources/images/images_for_animations/explosion_animation/explosion014.png</file>
+        <file>..\..\resources/images/images_for_animations/explosion_animation/explosion015.png</file>
     </qresource>
 </RCC>

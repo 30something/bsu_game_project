@@ -1,4 +1,5 @@
 #include "car.h"
+#include "src/helpers/other_constants.h"
 
 Car::Car(Vec2f position,
          double angle,
@@ -217,12 +218,12 @@ double Car::GetHitPoints() const {
 
 void Car::AddHitPoints(double hit_points) {
   hit_points_ += hit_points;
-  if (std::abs(hit_points) + 10e-6 >= kMinSignificantDamage) {
+  if (std::abs(hit_points) + kEps >= kMinSignificantDamage) {
     showing_health_change_state = true;
   }
   frames_for_changing_hitpoints_ =
       last_frames_for_animations::kChangingHitPointsAnimationLastFrame;
-  health_increasing_state = (hit_points + 10e-6 >= 0);
+  health_increasing_state = (hit_points + kEps >= 0);
 }
 
 void Car::AddBulletsAmount(double bullets_amount) {
