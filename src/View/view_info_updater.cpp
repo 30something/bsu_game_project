@@ -8,6 +8,7 @@ ViewInfoUpdater::ViewInfoUpdater(QWidget* parent,
     laps_amount_(game_mode_->laps_amount) {
   layout_->setAlignment(Qt::AlignCenter);
   start_label_->setAlignment(Qt::AlignCenter);
+  start_label_->setFont(fonts::kStartInfoFont);
   layout_->addWidget(start_label_);
 }
 
@@ -41,7 +42,9 @@ void ViewInfoUpdater::UpdatePlayerInfoDescription(QPainter* painter,
                     QString::fromStdString("Velocity: " +
                         std::to_string(cars_data_.GetVelocity(index)) +
                         ", Laps: " +
-                        std::to_string(cars_data_.GetLapsCounter(index))
+                        std::to_string(std::min(
+                            static_cast<int>(laps_amount_),
+                            cars_data_.GetLapsCounter(index)))
                         + " / " +
                         std::to_string(laps_amount_)));
   painter->drawText(x_pos,

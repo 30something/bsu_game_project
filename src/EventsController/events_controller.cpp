@@ -66,6 +66,7 @@ void EventsController::SetUnsetPause() {
   } else {
     emit StopGamePause();
     game_status_ = GameStatus::kRunning;
+    input_controller_.ResetAllKeys();
     setFocus();
   }
 }

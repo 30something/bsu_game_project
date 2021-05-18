@@ -36,6 +36,7 @@ class NetworkController : public QObject {
 
  private:
   void ParseData();
+
   NetworkPlayer* player_;
   QVariant q_variant_;
   std::vector<PlayerCarData> players_cars_data_;

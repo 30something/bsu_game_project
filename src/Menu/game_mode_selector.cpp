@@ -51,6 +51,7 @@ GameModeSelector::GameModeSelector(QWidget* parent, GameMode* game_mode) :
         second_car_stacked_widget_,
         image.filePath()));
   }
+  SetFonts();
   SetSizes();
   PrepareComboBoxes();
   SetUpLayouts();
@@ -66,6 +67,26 @@ void GameModeSelector::resizeEvent(QResizeEvent*) {
                                    height() / kMinimapStartYDivisionCoef,
                                    width() / kMinimapWidthDivisionCoef,
                                    height() / kMinimapHeightDivisionCoef);
+}
+
+void GameModeSelector::SetFonts() {
+  first_player_label_->setFont(fonts::kDefaultLabelFont);
+  second_player_label_->setFont(fonts::kDefaultLabelFont);
+  players_label_->setFont(fonts::kDefaultLabelFont);
+  laps_label_->setFont(fonts::kDefaultLabelFont);
+  bots_label_->setFont(fonts::kDefaultLabelFont);
+  start_game_->setFont(fonts::kDefaultButtonFont);
+  back_to_main_menu_->setFont(fonts::kDefaultButtonFont);
+  left_->setFont(fonts::kDefaultButtonFont);
+  right_->setFont(fonts::kDefaultButtonFont);
+  first_left_->setFont(fonts::kDefaultButtonFont);
+  first_right_->setFont(fonts::kDefaultButtonFont);
+  second_left_->setFont(fonts::kDefaultButtonFont);
+  second_right_->setFont(fonts::kDefaultButtonFont);
+  enable_drifts_->setFont(fonts::kDefaultButtonFont);
+  number_of_players_->setFont(fonts::kDefaultButtonFont);
+  number_of_laps_->setFont(fonts::kDefaultButtonFont);
+  number_of_bots_->setFont(fonts::kDefaultButtonFont);
 }
 
 void GameModeSelector::SetSizes() {
@@ -186,7 +207,6 @@ void GameModeSelector::SetUpLayouts() {
   main_layout_->addLayout(picture_layout_);
   main_layout_->addStretch(20);
   main_layout_->addLayout(cars_choose_layout_);
-  main_layout_->addStretch(1);
   main_layout_->addLayout(boxes_layout_);
   main_layout_->addStretch(1);
   main_layout_->addLayout(buttons_layout_);

@@ -10,6 +10,8 @@
 #include <QWidget>
 
 #include "src/helpers/cars_data.h"
+#include "src/helpers/fonts.h"
+#include "src/helpers/sizes.h"
 
 class EndGameStats : public QWidget {
   Q_OBJECT

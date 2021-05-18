@@ -1,5 +1,4 @@
 #include "end_game_stats.h"
-#include "src/helpers/sizes.h"
 
 EndGameStats::EndGameStats(QWidget* parent) :
     QWidget(parent),
@@ -9,6 +8,8 @@ EndGameStats::EndGameStats(QWidget* parent) :
     return_to_main_menu_button_(new QPushButton("Return to main menu", this)) {
   layout_->setAlignment(Qt::AlignCenter);
   return_to_main_menu_button_->setMinimumSize(button_sizes::kDefaultButtonSize);
+  stats_label_->setFont(fonts::kDefaultInfoFont);
+  return_to_main_menu_button_->setFont(fonts::kDefaultButtonFont);
   layout_->addWidget(stats_label_, 5, Qt::AlignCenter);
   layout_->addLayout(positions_layout_);
   layout_->addWidget(return_to_main_menu_button_, 5, Qt::AlignCenter);
@@ -32,8 +33,10 @@ void EndGameStats::UpdateStats(const CarsData& cars_data) {
       size_t minutes = overall_millis / 60000;
       size_t seconds = (overall_millis % 60000) / 1000;
       size_t millis = overall_millis % 1000;
-      temp_string += std::to_string(minutes) + " min " +
-          std::to_string(seconds) + " sec " +
+      if (minutes > 0) {
+        temp_string += std::to_string(minutes) + " min ";
+      }
+      temp_string += std::to_string(seconds) + " sec " +
           std::to_string(millis) + " ms";
     } else if (cars_achievements[i].hit_points_ <= 0) {
       temp_string += "Dead";
@@ -46,6 +49,8 @@ void EndGameStats::UpdateStats(const CarsData& cars_data) {
     } else {
       positions_layout_->addWidget(
           new QLabel(QString::fromStdString(temp_string)), 1, Qt::AlignCenter);
+      qobject_cast<QLabel*>(positions_layout_->itemAt(i)->widget())->setFont(
+          fonts::kDefaultInfoFont);
     }
   }
   show();

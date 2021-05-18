@@ -11,6 +11,7 @@
 #include "src/View/view.h"
 #include "src/helpers/game_mode.h"
 #include "src/helpers/cars_data.h"
+#include "src/helpers/fonts.h"
 
 class ViewInfoUpdater {
  public:

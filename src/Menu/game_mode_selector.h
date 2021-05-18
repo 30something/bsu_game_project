@@ -11,6 +11,7 @@
 #include "image_selector_tile.h"
 #include "src/helpers/map_data.h"
 #include "src/helpers/game_mode.h"
+#include "src/helpers/fonts.h"
 
 class GameModeSelector : public QWidget {
   Q_OBJECT
@@ -26,6 +27,7 @@ class GameModeSelector : public QWidget {
  private:
   void resizeEvent(QResizeEvent*) override;
 
+  void SetFonts();
   void SetSizes();
   void SetUpLayouts();
   void ConnectUI();
