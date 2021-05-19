@@ -33,6 +33,22 @@ GameModeSelector::GameModeSelector(QWidget* parent, GameMode* game_mode) :
     number_of_players_(new QComboBox(this)),
     number_of_laps_(new QComboBox(this)),
     number_of_bots_(new QComboBox(this)) {
+  InitializeImages();
+  SetFonts();
+  SetSizes();
+  PrepareComboBoxes();
+  SetUpLayouts();
+  ConnectUI();
+}
+
+void GameModeSelector::resizeEvent(QResizeEvent*) {
+  map_stacked_widget_->setGeometry(width() / kMinimapStartXDivisionCoef,
+                                   height() / kMinimapStartYDivisionCoef,
+                                   width() / kMinimapWidthDivisionCoef,
+                                   height() / kMinimapHeightDivisionCoef);
+}
+
+void GameModeSelector::InitializeImages() {
   number_of_maps_pixmaps_ =
       map_data::image_file_paths.minimaps_file_paths.size();
   for (const auto& image : map_data::image_file_paths.minimaps_file_paths) {
@@ -50,22 +66,10 @@ GameModeSelector::GameModeSelector(QWidget* parent, GameMode* game_mode) :
         second_car_stacked_widget_,
         image.filePath()));
   }
-  SetFonts();
-  SetSizes();
-  PrepareComboBoxes();
-  SetUpLayouts();
   map_stacked_widget_->setCurrentIndex(0);
   first_car_stacked_widget_->setCurrentIndex(0);
   second_car_stacked_widget_->setCurrentIndex(0);
   second_car_stacked_widget_->hide();
-  ConnectUI();
-}
-
-void GameModeSelector::resizeEvent(QResizeEvent*) {
-  map_stacked_widget_->setGeometry(width() / kMinimapStartXDivisionCoef,
-                                   height() / kMinimapStartYDivisionCoef,
-                                   width() / kMinimapWidthDivisionCoef,
-                                   height() / kMinimapHeightDivisionCoef);
 }
 
 void GameModeSelector::SetFonts() {

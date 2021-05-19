@@ -1,4 +1,5 @@
 #include "view_info_updater.h"
+#include <iostream>
 
 ViewInfoUpdater::ViewInfoUpdater(QWidget* parent,
                                  GameMode* game_mode) :
@@ -37,8 +38,10 @@ void ViewInfoUpdater::UpdatePlayerInfoDescription(QPainter* painter,
                                                   int x_pos,
                                                   int y_pos,
                                                   int index) {
+  int32_t description_offset = fonts::kDefaultInfoFont.pointSize();
+  painter->setFont(fonts::kDefaultInfoFont);
   painter->drawText(x_pos,
-                    y_pos + kDescriptionOffset,
+                    y_pos + description_offset,
                     QString::fromStdString("Velocity: " +
                         std::to_string(cars_data_.GetVelocity(index)) +
                         ", Laps: " +
@@ -48,25 +51,25 @@ void ViewInfoUpdater::UpdatePlayerInfoDescription(QPainter* painter,
                         + " / " +
                         std::to_string(laps_amount_)));
   painter->drawText(x_pos,
-                    y_pos + 2 * kDescriptionOffset,
+                    y_pos + 2 * description_offset,
                     QString::fromStdString("Bullets: " +
                         std::to_string(cars_data_.GetBulletsAmount(index)) +
                         ", Mines: " +
                         std::to_string(cars_data_.GetMinesAmount(index))));
   painter->drawText(x_pos,
-                    y_pos + 3 * kDescriptionOffset,
+                    y_pos + 3 * description_offset,
                     QString::fromStdString("HP: " +
                         std::to_string(cars_data_.GetHP(index))));
   painter->drawText(x_pos,
-                    y_pos + 4 * kDescriptionOffset,
+                    y_pos + 4 * description_offset,
                     GetEditedTimeInfo(index));
   if (cars_data_.GetFinishPosition(index) > 0) {
     painter->drawText(x_pos,
-                      y_pos + 5 * kDescriptionOffset,
+                      y_pos + 5 * description_offset,
                       GetEditedFinishInfo(index));
   } else if (cars_data_.GetHP(index) == 0) {
     painter->drawText(x_pos,
-                      y_pos + 5 * kDescriptionOffset,
+                      y_pos + 5 * description_offset,
                       QString::fromStdString("Oops, you've exploded!"));
   }
 }
@@ -89,10 +92,11 @@ bool ViewInfoUpdater::GetStartState() const {
 }
 
 QString ViewInfoUpdater::GetEditedTimeInfo(int index) const {
-  size_t elapsed_time = cars_data_.GetElapsedTime(index);
-  size_t minutes = elapsed_time / 60000;
-  size_t seconds = (elapsed_time / 1000) % 60;
-  size_t millis = elapsed_time % 1000;
+  std::vector<size_t> parsed_time = physics::TimeParse(
+      cars_data_.GetElapsedTime(index));
+  size_t minutes = parsed_time[0];
+  size_t seconds = parsed_time[1];
+  size_t millis = parsed_time[2];
   std::string minutes_str;
   std::string seconds_str;
   std::string millis_str;
@@ -116,17 +120,26 @@ QString ViewInfoUpdater::GetEditedTimeInfo(int index) const {
 }
 
 QString ViewInfoUpdater::GetEditedFinishInfo(int index) const {
-  int32_t finish_position = cars_data_.GetFinishPosition(index);
-  std::string pos_with_prefix = std::to_string(finish_position);
-  if (finish_position == 1) {
-    pos_with_prefix += "st";
-  } else if (finish_position == 2) {
-    pos_with_prefix += "nd";
-  } else if (finish_position == 3) {
-    pos_with_prefix += "rd";
-  } else {
-    pos_with_prefix += "th";
-  }
+  auto finish_position = cars_data_.GetFinishPosition(index);
+  auto pos_with_prefix = std::to_string(finish_position) +
+      GetPrefix(finish_position);
   return QString::fromStdString(
       "You finished on " + pos_with_prefix + " position!");
+}
+
+std::string ViewInfoUpdater::GetPrefix(int value) {
+  switch (value) {
+    case 1: {
+      return "st";
+    }
+    case 2: {
+      return "nd";
+    }
+    case 3: {
+      return "rd";
+    }
+    default: {
+      return "th";
+    }
+  }
 }

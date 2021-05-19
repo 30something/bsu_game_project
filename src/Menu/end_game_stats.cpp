@@ -8,7 +8,7 @@ EndGameStats::EndGameStats(QWidget* parent) :
     return_to_main_menu_button_(new QPushButton("Return to main menu", this)) {
   layout_->setAlignment(Qt::AlignCenter);
   return_to_main_menu_button_->setMinimumSize(button_sizes::kDefaultButtonSize);
-  stats_label_->setFont(fonts::kDefaultInfoFont);
+  stats_label_->setFont(fonts::kDefaultStatsFont);
   return_to_main_menu_button_->setFont(fonts::kDefaultButtonFont);
   layout_->addWidget(stats_label_, 5, Qt::AlignCenter);
   layout_->addLayout(positions_layout_);
@@ -17,42 +17,61 @@ EndGameStats::EndGameStats(QWidget* parent) :
           &QPushButton::clicked,
           this,
           &EndGameStats::ReturnToMainMenu);
+  connect(&finish_info_update_timer_,
+          &QTimer::timeout,
+          this,
+          &EndGameStats::UpdateStats);
 }
 
-void EndGameStats::UpdateStats(const CarsData& cars_data) {
-  std::vector<CarAchievements> cars_achievements = cars_data.cars_data;
-  std::sort(cars_achievements.begin(), cars_achievements.end(),
+void EndGameStats::LaunchFinishStats() {
+  finish_info_update_timer_.start(kMillisPerFinishInfoUpdate);
+}
+
+void EndGameStats::UpdateData(const CarsData& cars_data) {
+  cars_data_ = cars_data;
+}
+
+void EndGameStats::UpdateStats() {
+  emit DataRequest();
+  std::sort(cars_data_.cars_data.begin(), cars_data_.cars_data.end(),
             [](CarAchievements first, CarAchievements second) {
-              return first.finish_position > 0 &&
-                  (first.finish_position < second.finish_position);
+              return !second.finish_position || (first.finish_position > 0 &&
+                  first.finish_position < second.finish_position);
             });
-  for (int i = 0; i < static_cast<int>(cars_achievements.size()); i++) {
-    std::string temp_string = std::to_string(i + 1) + ") ";
-    temp_string += std::to_string(cars_achievements[i].car_number + 1) + " - ";
-    if (cars_achievements[i].is_finished) {
-      size_t overall_millis = cars_achievements[i].elapsed_millis_time;
-      size_t minutes = overall_millis / 60000;
-      size_t seconds = (overall_millis % 60000) / 1000;
-      size_t millis = overall_millis % 1000;
-      if (minutes > 0) {
-        temp_string += std::to_string(minutes) + " min ";
-      }
-      temp_string += std::to_string(seconds) + " sec " +
-          std::to_string(millis) + " ms";
-    } else if (cars_achievements[i].hit_points_ <= 0) {
-      temp_string += "Dead";
-    } else {
-      temp_string += "Not finished";
-    }
+  for (int i = 0; i < static_cast<int>(cars_data_.cars_data.size()); i++) {
+    std::string stats_string = CreateStatsString(i);
     if (positions_layout_->count() > i) {
       qobject_cast<QLabel*>(positions_layout_->itemAt(i)->widget())->setText(
-          QString::fromStdString(temp_string));
+          QString::fromStdString(stats_string));
     } else {
       positions_layout_->addWidget(
-          new QLabel(QString::fromStdString(temp_string)), 1, Qt::AlignCenter);
+          new QLabel(QString::fromStdString(stats_string)), 1, Qt::AlignCenter);
       qobject_cast<QLabel*>(positions_layout_->itemAt(i)->widget())->setFont(
-          fonts::kDefaultInfoFont);
+          fonts::kDefaultStatsFont);
     }
   }
   show();
+}
+
+std::string EndGameStats::CreateStatsString(int index) {
+  auto temp_string = std::to_string(index + 1) + ") ";
+  temp_string += std::to_string(
+      cars_data_.cars_data[index].car_number + 1) + " - ";
+  if (cars_data_.cars_data[index].is_finished) {
+    std::vector<size_t> parsed_time = physics::TimeParse(
+        cars_data_.cars_data[index].elapsed_millis_time);
+    size_t minutes = parsed_time[0];
+    size_t seconds = parsed_time[1];
+    size_t millis = parsed_time[2];
+    if (minutes > 0) {
+      temp_string += std::to_string(minutes) + " min ";
+    }
+    temp_string += std::to_string(seconds) + " sec " +
+        std::to_string(millis) + " ms";
+  } else if (cars_data_.cars_data[index].hit_points_ <= 0) {
+    temp_string += "Dead";
+  } else {
+    temp_string += "Not finished";
+  }
+  return temp_string;
 }

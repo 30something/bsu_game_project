@@ -28,6 +28,7 @@ class GameModeSelector : public QWidget {
  private:
   void resizeEvent(QResizeEvent*) override;
 
+  void InitializeImages();
   void SetFonts();
   void SetSizes();
   void SetUpLayouts();
