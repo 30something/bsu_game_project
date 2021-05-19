@@ -43,27 +43,18 @@ void Map::HandleCarCrashIntoBorder(Car* car, const Vec2f& point) {
 }
 
 void Map::CalculateBonusesPositions() {
-  for (const auto& first : borders_[0]) {
-    Vec2f second = borders_[1][FindIndexOfMinimalDistance(first, borders_[1])];
-    Line line(first.GetX(), first.GetY(), second.GetX(), second.GetY());
-    Vec2f point = physics::GetRandomPointOnLine(line,
-                                                kBonusSpawnDeadZone,
-                                                kBonusSpawnDeadZone);
-    bonuses_positions_.push_back(point);
+  for (const auto& waypoint : waypoints_) {
+    Vec2f rand_point = waypoint;
+    int32_t center_deviation_x =
+        QRandomGenerator::global()->bounded(2 * kMaxBonusSpawnDeviation) -
+            kMaxBonusSpawnDeviation;
+    int32_t center_deviation_y =
+        QRandomGenerator::global()->bounded(2 * kMaxBonusSpawnDeviation) -
+            kMaxBonusSpawnDeviation;
+    rand_point.Set(waypoint.GetX() + center_deviation_x,
+                   waypoint.GetY() + center_deviation_y);
+    bonuses_positions_.emplace_back(rand_point);
   }
-}
-
-size_t Map::FindIndexOfMinimalDistance(Vec2f first,
-                                       const std::vector<Vec2f>& second) {
-  double min_distance = physics::Distance(first, second[0]);
-  int minimal_index = 0;
-  for (size_t i = 0; i < second.size(); i++) {
-    if (physics::Distance(first, second[i]) < min_distance) {
-      min_distance = physics::Distance(first, second[i]);
-      minimal_index = i;
-    }
-  }
-  return minimal_index;
 }
 
 void Map::ProceedCollisions(Car* car) {

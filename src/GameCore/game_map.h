@@ -15,6 +15,7 @@
 #include "src/helpers/game_mode.h"
 #include "src/helpers/json_map_parser.h"
 #include "src/GameCore/GameObjects/bonus.h"
+#include "src/helpers/physics.h"
 
 class Map : public QObject {
   Q_OBJECT
@@ -36,16 +37,15 @@ class Map : public QObject {
   void ProceedCollisions(Car*);
   void ProceedNewBonusFromNetwork();
 
-  static size_t FindIndexOfMinimalDistance(Vec2f, const std::vector<Vec2f>&);
   static void HandleCarCrashIntoBorder(Car* car, const Vec2f& point);
 
   static constexpr double kVelocityDecrease = 0.9;
   static constexpr double kHPDecrease = 0.001;
   static constexpr size_t kMaxBonusesAmount = 5;
-  static constexpr int kAmountOfBonusTypes = 3;
-  static constexpr int kMaxMilliSecondsForNewBonus = 10000;
-  static constexpr int kMinMilliSecondForNewBonus = 1000;
-  static constexpr double kBonusSpawnDeadZone = 0.1;
+  static constexpr int32_t kMaxBonusSpawnDeviation = 10;
+  static constexpr int32_t kAmountOfBonusTypes = 3;
+  static constexpr int32_t kMaxMilliSecondsForNewBonus = 10000;
+  static constexpr int32_t kMinMilliSecondForNewBonus = 1000;
 
   std::vector<std::vector<Vec2f>> borders_;
   std::vector<Vec2f> waypoints_;
