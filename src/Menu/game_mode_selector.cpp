@@ -1,5 +1,4 @@
 #include "game_mode_selector.h"
-#include "src/helpers/sizes.h"
 
 GameModeSelector::GameModeSelector(QWidget* parent, GameMode* game_mode) :
     QWidget(parent),

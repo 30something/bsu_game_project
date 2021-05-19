@@ -18,4 +18,6 @@ class ImageSelectorTile : public QWidget {
   void paintEvent(QPaintEvent*) override;
 
   QPixmap* pixmap_ = nullptr;
+  static constexpr int32_t kImageOffsetX = 0;
+  static constexpr int32_t kImageOffsetY = 6;
 };

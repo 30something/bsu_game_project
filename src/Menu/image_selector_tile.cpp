@@ -14,5 +14,6 @@ ImageSelectorTile::ImageSelectorTile(QWidget* parent,
 
 void ImageSelectorTile::paintEvent(QPaintEvent*) {
   QPainter qp(this);
-  qp.drawPixmap(0, 6, *pixmap_, 0, 0, pixmap_->width(), pixmap_->height());
+  qp.drawPixmap(kImageOffsetX, kImageOffsetY,
+                *pixmap_, 0, 0, pixmap_->width(), pixmap_->height());
 }

@@ -12,6 +12,7 @@
 #include "src/helpers/map_data.h"
 #include "src/helpers/game_mode.h"
 #include "src/helpers/fonts.h"
+#include "src/helpers/sizes.h"
 
 class GameModeSelector : public QWidget {
   Q_OBJECT

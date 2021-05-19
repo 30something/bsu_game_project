@@ -60,7 +60,7 @@ void ViewInfoUpdater::UpdatePlayerInfoDescription(QPainter* painter,
   painter->drawText(x_pos,
                     y_pos + 4 * kDescriptionOffset,
                     GetEditedTimeInfo(index));
-  if (cars_data_.GetFinishPosition(index) < INT32_MAX) {
+  if (cars_data_.GetFinishPosition(index) > 0) {
     painter->drawText(x_pos,
                       y_pos + 5 * kDescriptionOffset,
                       GetEditedFinishInfo(index));

@@ -23,7 +23,8 @@ void EndGameStats::UpdateStats(const CarsData& cars_data) {
   std::vector<CarAchievements> cars_achievements = cars_data.cars_data;
   std::sort(cars_achievements.begin(), cars_achievements.end(),
             [](CarAchievements first, CarAchievements second) {
-              return first.finish_position < second.finish_position;
+              return first.finish_position > 0 &&
+                  (first.finish_position < second.finish_position);
             });
   for (int i = 0; i < static_cast<int>(cars_achievements.size()); i++) {
     std::string temp_string = std::to_string(i + 1) + ") ";
