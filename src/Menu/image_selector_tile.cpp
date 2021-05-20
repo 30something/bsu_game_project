@@ -1,7 +1,6 @@
 #include "image_selector_tile.h"
 
-ImageSelectorTile::ImageSelectorTile(QWidget* parent,
-                                 const QString& filename) :
+ImageSelectorTile::ImageSelectorTile(QWidget* parent, const QString& filename) :
     QWidget(parent),
     pixmap_(new QPixmap(filename)) {
   QTransform transform;
@@ -14,6 +13,5 @@ ImageSelectorTile::ImageSelectorTile(QWidget* parent,
 
 void ImageSelectorTile::paintEvent(QPaintEvent*) {
   QPainter qp(this);
-  qp.drawPixmap(kImageOffsetX, kImageOffsetY,
-                *pixmap_, 0, 0, pixmap_->width(), pixmap_->height());
+  qp.drawPixmap(0, 0, *pixmap_, 0, 0, pixmap_->width(), pixmap_->height());
 }

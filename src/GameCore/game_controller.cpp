@@ -149,21 +149,25 @@ void GameController::UpdateCarsInfoAndCollisions(int time_millis) {
   for (uint32_t i = 0; i < cars_.size(); i++) {
     map_.HandleCarTick(&cars_[i]);
     cars_[i].Tick(time_millis);
-    car_achievements_[i].hit_points_ = cars_[i].GetHitPoints();
-    car_achievements_[i].bullets_amount_ = cars_[i].GetBulletsAmount();
-    car_achievements_[i].mines_amount_ = cars_[i].GetMinesAmount();
-    if (!car_achievements_[i].is_finished
-        && remaining_cars_.find(i) != remaining_cars_.end()) {
-      car_achievements_[i].elapsed_millis_time += kMillisPerCarTimeUpdate;
-    }
-    car_achievements_[i].current_showed_velocity =
-        cars_[i].GetVelocity().GetLength();
+    UpdateCarAchievements(i, cars_[i]);
     if (cars_[i].GetHitPoints() < physics::kAlmostZero) {
       cars_[i].BecomeDead();
       remaining_cars_.erase(i);
       remaining_players_.erase(i);
     }
   }
+}
+
+void GameController::UpdateCarAchievements(uint32_t index, const Car& car) {
+  car_achievements_[index].hit_points_ = car.GetHitPoints();
+  car_achievements_[index].bullets_amount_ = car.GetBulletsAmount();
+  car_achievements_[index].mines_amount_ = car.GetMinesAmount();
+  if (!car_achievements_[index].is_finished
+      && remaining_cars_.find(index) != remaining_cars_.end()) {
+    car_achievements_[index].elapsed_millis_time += kMillisPerCarTimeUpdate;
+  }
+  car_achievements_[index].current_showed_velocity =
+      cars_[index].GetVelocity().GetLength();
 }
 
 void GameController::RecalculateDeviations() {

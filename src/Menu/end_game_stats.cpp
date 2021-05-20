@@ -6,10 +6,14 @@ EndGameStats::EndGameStats(QWidget* parent) :
     layout_(new QVBoxLayout(this)),
     positions_layout_(new QVBoxLayout),
     return_to_main_menu_button_(new QPushButton("Return to main menu", this)) {
-  layout_->setAlignment(Qt::AlignCenter);
-  return_to_main_menu_button_->setMinimumSize(button_sizes::kDefaultButtonSize);
+  SetInfo();
+}
+
+void EndGameStats::SetInfo() {
   stats_label_->setFont(fonts::kDefaultStatsFont);
+  return_to_main_menu_button_->setMinimumSize(button_sizes::kDefaultButtonSize);
   return_to_main_menu_button_->setFont(fonts::kDefaultButtonFont);
+  layout_->setAlignment(Qt::AlignCenter);
   layout_->addWidget(stats_label_, 5, Qt::AlignCenter);
   layout_->addLayout(positions_layout_);
   layout_->addWidget(return_to_main_menu_button_, 5, Qt::AlignCenter);

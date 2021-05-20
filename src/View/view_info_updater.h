@@ -38,7 +38,7 @@ class ViewInfoUpdater {
  private:
   QString GetEditedTimeInfo(int index) const;
   QString GetEditedFinishInfo(int index) const;
-  static std::string GetPrefix(int value);
+  static std::string GetSuffix(int value);
 
   GameMode* game_mode_ = nullptr;
   QLabel* start_label_ = nullptr;

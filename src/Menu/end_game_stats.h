@@ -31,6 +31,7 @@ class EndGameStats : public QWidget {
 
  private:
   void UpdateStats();
+  void SetInfo();
   std::string CreateStatsString(int index);
 
   QLabel* stats_label_ = nullptr;

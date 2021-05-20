@@ -54,6 +54,7 @@ class GameController : public QObject {
   void ProceedFinishGame();
   void RecalculateDeviations();
   void UpdateCarsInfoAndCollisions(int time_millis);
+  void UpdateCarAchievements(uint32_t index, const Car& car);
   void EnableWeapons();
   static void CollideCars(Car* car_1, Car* car_2);
   std::set<CarsColors> SetBotsColors() const;
