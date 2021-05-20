@@ -121,10 +121,10 @@ QString ViewInfoUpdater::GetEditedTimeInfo(int index) const {
 
 QString ViewInfoUpdater::GetEditedFinishInfo(int index) const {
   auto finish_position = cars_data_.GetFinishPosition(index);
-  auto pos_with_prefix = std::to_string(finish_position) +
+  auto pos_with_suffix = std::to_string(finish_position) +
       GetSuffix(finish_position);
   return QString::fromStdString(
-      "You finished on " + pos_with_prefix + " position!");
+      "You finished on " + pos_with_suffix + " position!");
 }
 
 std::string ViewInfoUpdater::GetSuffix(int value) {
