@@ -44,7 +44,6 @@ class Car : public GameObject {
   void SetAngleVec(const Vec2f& angle_vec);
   void SetVelocity(const Vec2f& velocity);
   void SetPosition(const Vec2f& position);
-  void SetHitPoints(double hp);
   void AddHitPoints(double hit_points_);
   void AddBulletsAmount(size_t bullets_amount_);
   void AddMinesAmount(size_t mines_amount_);
@@ -69,6 +68,7 @@ class Car : public GameObject {
   void UpdateCollisionLines() override;
 
   static constexpr int32_t kPutMineOffset = -15;
+  static constexpr int32_t kMineDelayTicks = 500;
   static constexpr double kShootingRange = 100;
   static constexpr double kAccelFactor = 2.0;
   static constexpr double kFrictionFactor = 0.5;
@@ -85,7 +85,6 @@ class Car : public GameObject {
   static constexpr double kMaxSlipAngleRadians = 0.07;
   static constexpr double kMinVelocityThreshold = 5;
   static constexpr double kMinAngularVelocityThreshold = 0.1;
-  static constexpr double kMineDelayTicks = 500;
   static constexpr double kTickRotationAngle = 0.015;
 
   std::vector<Wheel> wheels_{4};

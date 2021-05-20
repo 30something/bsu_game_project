@@ -38,6 +38,7 @@ class ViewInfoUpdater {
  private:
   QString GetEditedTimeInfo(int index) const;
   QString GetEditedFinishInfo(int index) const;
+  static std::string GetSuffix(int value);
 
   GameMode* game_mode_ = nullptr;
   QLabel* start_label_ = nullptr;
@@ -47,6 +48,4 @@ class ViewInfoUpdater {
   int seconds_before_start_ = 5;
   bool is_game_started_ = false;
   CarsData cars_data_;
-
-  static constexpr int kDescriptionOffset = 10;
 };

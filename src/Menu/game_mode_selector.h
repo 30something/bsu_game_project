@@ -8,7 +8,7 @@
 #include <QCheckBox>
 
 #include "map_selector_tile.h"
-#include "image_selector_tile.h"
+#include "image_selector.h"
 #include "src/helpers/map_data.h"
 #include "src/helpers/game_mode.h"
 #include "src/helpers/fonts.h"
@@ -28,6 +28,7 @@ class GameModeSelector : public QWidget {
  private:
   void resizeEvent(QResizeEvent*) override;
 
+  void InitializeImages();
   void SetFonts();
   void SetSizes();
   void SetUpLayouts();
@@ -36,10 +37,6 @@ class GameModeSelector : public QWidget {
 
   void SwitchMapRight();
   void SwitchMapLeft();
-  void SwitchFirstCarLeft();
-  void SwitchFirstCarRight();
-  void SwitchSecondCarLeft();
-  void SwitchSecondCarRight();
   void ApplySettings();
   void ApplyPlayersSettings();
 
@@ -52,10 +49,6 @@ class GameModeSelector : public QWidget {
   QVBoxLayout* cars_choose_layout_;
   QLabel* first_player_label_;
   QLabel* second_player_label_;
-  QPushButton* first_left_;
-  QPushButton* first_right_;
-  QPushButton* second_left_;
-  QPushButton* second_right_;
   QHBoxLayout* first_player_info_layout_;
   QHBoxLayout* second_player_info_layout_;
   QLabel* players_label_;
@@ -68,15 +61,14 @@ class GameModeSelector : public QWidget {
   QVBoxLayout* boxes_layout_;
   QHBoxLayout* buttons_layout_;
   QStackedWidget* map_stacked_widget_;
-  QStackedWidget* first_car_stacked_widget_;
-  QStackedWidget* second_car_stacked_widget_;
   GameMode* game_mode_ = nullptr;
+  ImageSelector* first_car_selector_;
+  ImageSelector* second_car_selector_;
   QComboBox* number_of_players_ = nullptr;
   QComboBox* number_of_laps_ = nullptr;
   QComboBox* number_of_bots_ = nullptr;
 
   uint32_t number_of_maps_pixmaps_ = 0;
-  uint32_t number_of_cars_pixmaps_ = 0;
 
   static constexpr uint32_t kMaxPlayersAmount = 2;
   static constexpr uint32_t kMaxLapsAmount = 10;
@@ -85,5 +77,5 @@ class GameModeSelector : public QWidget {
   static constexpr int32_t kMinimapStartXDivisionCoef = 3;
   static constexpr int32_t kMinimapStartYDivisionCoef = 30;
   static constexpr int32_t kMinimapWidthDivisionCoef = 3;
-  static constexpr int32_t kMinimapHeightDivisionCoef = 2;
+  static constexpr double kMinimapHeightDivisionCoef = 2.3;
 };

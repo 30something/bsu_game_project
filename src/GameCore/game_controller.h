@@ -41,6 +41,10 @@ class GameController : public QObject {
   std::vector<CarAchievements> GetCarsData() const;
 
  private:
+  void AddCar(Vec2f position,
+              double angle,
+              Behavior* behavior,
+              CarsColors car_color);
   void SetUpCars(const InputController* input_controller);
   void SetUpCarsNetwork(const InputController* input_controller);
   void SetUpBots();
@@ -50,8 +54,10 @@ class GameController : public QObject {
   void ProceedFinishGame();
   void RecalculateDeviations();
   void UpdateCarsInfoAndCollisions(int time_millis);
-  static void CollideCars(Car* car_1, Car* car_2);
+  void UpdateCarAchievements(uint32_t index, const Car& car);
   void EnableWeapons();
+  static void CollideCars(Car* car_1, Car* car_2);
+  std::set<CarsColors> SetBotsColors() const;
 
   static constexpr double kVelocityDecrease = 0.5;
   static constexpr double kDeviationDecrease = 0.5;
