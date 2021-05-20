@@ -29,6 +29,7 @@ class ServerController : public QWidget {
   std::vector<PlayerCarData> players_cars_data_;
   QLabel ip_;
   QTcpServer server_;
+  int timer_id = -1;
 
   void ConnectClient();
   void DisconnectClient();

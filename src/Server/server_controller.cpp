@@ -1,4 +1,5 @@
 #include "server_controller.h"
+#include <iostream>
 
 ServerController::ServerController() :
     ip_(this),
@@ -81,7 +82,10 @@ void ServerController::SendStartSignal(const QVariant& q_variant) {
   network::WriteDataForAll(&players_,
                            q_variant,
                            MessageType::kSignalToStart);
-  startTimer(network::kMillisDataSend);
+  if(timer_id == -1) {
+    timer_id = startTimer(network::kMillisDataSend);
+  }
+  players_cars_data_.clear();
   players_cars_data_.resize(players_.size());
 }
 
@@ -107,6 +111,9 @@ void ServerController::DisconnectClient() {
   }
   for (size_t i = 0; i < players_.size(); i++) {
     players_[i].SetId(i);
+  }
+  if(players_cars_data_.empty()) {
+    killTimer(timer_id);
   }
   UpdateClientsInfo();
 }

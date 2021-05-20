@@ -102,8 +102,7 @@ void NetworkRoom::SetUpAndStartGame() {
 }
 
 void NetworkRoom::UpdatePlayersVector() {
-  QString json =
-      network_controller_->GetData().toString();
+  QString json = network_controller_->GetData().toString();
   auto data_vector = JsonHelper::DecodePlayersVectorJson(json);
 
   QLayoutItem* item;

@@ -30,7 +30,7 @@ class GameController : public QObject {
 
  public:
   explicit GameController(GameMode* game_mode, InputController*);
-  ~GameController() override = default;
+  ~GameController() override;
 
   void Tick(int time_millis);
 
@@ -68,4 +68,5 @@ class GameController : public QObject {
   std::vector<WrapperBase<GameObject>*> game_objects_;
   QTimer weapons_timer_;
   NetworkController* network_controller_;
+  ClientCarDataSender* client_car_data_sender_ = nullptr;
 };

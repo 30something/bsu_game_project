@@ -12,11 +12,13 @@ GameController::GameController(GameMode* game_mode,
                     + game_mode->network_players_amount
                     + game_mode_->players_amount);
   if (network_controller_) {
-    network_controller_->SendStartSignal(JsonHelper::EncodeGameModeJson(
-        game_mode->map_index,
-        game_mode->bots_amount,
-        game_mode->laps_amount,
-        game_mode->enable_drifting));
+    if(network_controller_->GetId() == 0) {
+      network_controller_->SendStartSignal(JsonHelper::EncodeGameModeJson(
+          game_mode->map_index,
+          game_mode->bots_amount,
+          game_mode->laps_amount,
+          game_mode->enable_drifting));
+    }
     SetUpCarsNetwork(input_controller);
   } else {
     SetUpCars(input_controller);
@@ -78,7 +80,7 @@ void GameController::SetUpCarsNetwork(const InputController* input_controller) {
       first_player_behavior,
       static_cast<CarsColors>(player_position),
       game_mode_->enable_drifting);
-  new ClientCarDataSender(&cars_.back(),
+  client_car_data_sender_ = new ClientCarDataSender(&cars_.back(),
                           network_controller_,
                           first_player_behavior);
   for (size_t i = player_position + 1;
@@ -274,4 +276,8 @@ std::vector<CarAchievements> GameController::GetCarsData() const {
 
 void GameController::EnableWeapons() {
   weapon_handler_.SetEnableWeapons(true);
+}
+
+GameController::~GameController() {
+  delete client_car_data_sender_;
 }

@@ -1,4 +1,5 @@
 #include "network_controller.h"
+#include <iostream>
 
 NetworkController::NetworkController(NetworkPlayer* player) : player_(player) {
   connect(player_->Socket(),
@@ -21,20 +22,24 @@ void NetworkController::ParseData() {
   data_stream >> data.data;
   switch (data.type) {
     case MessageType::kPlayersVector : {
+      std::cout << "got players vector" << std::endl;
       q_variant_ = data.data;
       emit GotPlayersVector();
       break;
     }
     case MessageType::kSignalToStart : {
+      std::cout << "got signal to start" << std::endl;
       q_variant_ = data.data;
       emit GotSignalToStart();
       break;
     }
     case MessageType::kPlayersCarData : {
+      std::cout << "got players car data" << std::endl;
       players_cars_data_ = JsonHelper::DecodePlayersCarData(data.data);
       break;
     }
     case MessageType::kNewBonusData : {
+      std::cout << "got new bonus data" << std::endl;
       q_variant_ = data.data;
       emit GotNewBonusData();
       break;
@@ -47,6 +52,7 @@ QVariant NetworkController::GetData() {
 }
 
 void NetworkController::SendStartSignal(const QString& json) {
+  std::cout << "sended start signal" << std::endl;
   network::WriteData(player_->Socket(),
                      QVariant::fromValue(json),
                      MessageType::kSignalToStart);
