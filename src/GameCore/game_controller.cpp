@@ -7,10 +7,10 @@ GameController::GameController(GameMode* game_mode,
     finish_line_(map_.GetFinishLine()),
     game_mode_(game_mode),
     weapon_handler_(),
-    network_controller_(game_mode->network_controller) {
-  cars_.reserve(game_mode_->bots_amount
-                    + game_mode->network_players_amount
-                    + game_mode_->players_amount);
+    network_controller_(game_mode_->network_controller) {
+  cars_.reserve(game_mode_->network_players_amount
+                    + game_mode_->players_amount
+                    + game_mode_->bots_amount);
   if (network_controller_) {
     if (network_controller_->GetId() == 0) {
       network_controller_->SendStartSignal(JsonHelper::EncodeGameModeJson(
@@ -127,7 +127,7 @@ void GameController::SetUpCarsAchievements() {
   car_achievements_.resize(cars_.size());
   for (uint32_t i = 0; i < cars_.size(); i++) {
     remaining_cars_.insert(i);
-    if (i < game_mode_->players_amount) {
+    if (i < game_mode_->players_amount + game_mode_->network_players_amount) {
       remaining_players_.insert(i);
     }
     car_achievements_[i].car_number = i;
