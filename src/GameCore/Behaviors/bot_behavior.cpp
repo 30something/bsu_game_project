@@ -198,7 +198,9 @@ void BotBehavior::ProceedDistanceToPlayerCar() {
 
 size_t BotBehavior::FindClosestPlayersCar() {
   std::vector<double> distances;
-  for (size_t i = 0; i < game_mode_->players_amount; i++) {
+  for (size_t i = 0;
+       i < game_mode_->players_amount + game_mode_->network_players_amount;
+       i++) {
     distances.push_back(physics::Distance(cars_[i].GetPosition(),
                                           car_->GetPosition()));
   }
