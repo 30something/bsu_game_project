@@ -98,9 +98,9 @@ void GameController::SetUpCarsNetwork(const InputController* input_controller) {
          map_.GetPosAndAngles()[player_position].second,
          first_player_behavior,
          static_cast<CarsColors>(player_position));
-  new ClientCarDataSender(&cars_.back(),
-                          network_controller_,
-                          first_player_behavior);
+  client_car_data_sender_ = new ClientCarDataSender(&cars_.back(),
+                                                    network_controller_,
+                                                    first_player_behavior);
   for (size_t i = player_position + 1;
        i < game_mode_->network_players_amount + 1; i++) {
     AddCar(map_.GetPosAndAngles()[i].first,

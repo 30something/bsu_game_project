@@ -112,6 +112,10 @@ void MainWindow::ConnectUI() {
           &NetworkRoom::OpenGameModeSelector,
           this,
           &MainWindow::OpenGameModeSelector);
+  connect(network_room_,
+          &NetworkRoom::ExitDisconnected,
+          this,
+          &MainWindow::ReturnToMainMenu);
   connect(menu_,
           &Menu::SettingsButtonPressed,
           this,
