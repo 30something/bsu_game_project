@@ -177,7 +177,7 @@ void NetworkRoom::Disconnect() {
     connection_status_->setText("You are not connected to disconnect!");
     return;
   }
-  if(network_controller_->IsAlreadyStarted()) {
+  if (network_controller_->IsAlreadyStarted()) {
     emit ExitDisconnected();
   }
   network_player_->Socket()->disconnectFromHost();
