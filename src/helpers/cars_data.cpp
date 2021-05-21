@@ -31,3 +31,7 @@ size_t CarsData::GetElapsedTime(int index) const {
 int32_t CarsData::GetFinishPosition(int index) const {
   return cars_data[index].finish_position;
 }
+
+uint32_t CarsData::GetCurrentOrderPosition(int index) const {
+  return cars_data[index].current_order_position;
+}

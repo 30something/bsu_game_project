@@ -17,6 +17,7 @@ struct CarsData {
   double GetHP(int index) const;
   size_t GetElapsedTime(int index) const;
   int32_t GetFinishPosition(int index) const;
+  uint32_t GetCurrentOrderPosition(int index) const;
 
   std::vector<CarAchievements> cars_data;
   static constexpr double kMinVisibleVelocity = 5;

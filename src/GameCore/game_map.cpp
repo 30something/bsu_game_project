@@ -8,7 +8,6 @@ Map::Map(GameMode* game_mode) :
   waypoints_ = parser.GetWaypoints();
   no_go_lines_ = parser.GetNoGoLines();
   pos_and_angles_ = parser.GetCarStartPositionsAndAngles();
-  CalculateBonusesPositions();
   bonus_timer_.setSingleShot(true);
   bonus_timer_.start(
       QRandomGenerator::global()->bounded(kMaxMilliSecondsForNewBonus)
@@ -42,21 +41,6 @@ void Map::HandleCarCrashIntoBorder(Car* car, const Vec2f& point) {
   car->SetPosition(position + deviation);
 }
 
-void Map::CalculateBonusesPositions() {
-  for (const auto& waypoint : waypoints_) {
-    Vec2f rand_point = waypoint;
-    int32_t center_deviation_x =
-        QRandomGenerator::global()->bounded(2 * kMaxBonusSpawnDeviation) -
-            kMaxBonusSpawnDeviation;
-    int32_t center_deviation_y =
-        QRandomGenerator::global()->bounded(2 * kMaxBonusSpawnDeviation) -
-            kMaxBonusSpawnDeviation;
-    rand_point.Set(waypoint.GetX() + center_deviation_x,
-                   waypoint.GetY() + center_deviation_y);
-    bonuses_positions_.emplace_back(rand_point);
-  }
-}
-
 void Map::ProceedCollisions(Car* car) {
   // For every line of the car find the interceptions
   // with every line of the borders
@@ -87,16 +71,24 @@ void Map::ProceedNewBonuses() {
   }
   if (bonuses_.size() < kMaxBonusesAmount && !bonus_timer_.isActive()) {
     int position_index = QRandomGenerator::global()->
-        bounded(static_cast<int>(bonuses_positions_.size()));
+        bounded(static_cast<int>(waypoints_.size()));
     auto type(BonusTypes(QRandomGenerator::global()->bounded(
         kAmountOfBonusTypes)));
-    bonuses_.emplace_back(bonuses_positions_[position_index], type);
+    Vec2f rand_point = waypoints_[position_index];
+    int32_t center_deviation_x =
+        QRandomGenerator::global()->bounded(2 * kMaxBonusSpawnDeviation) -
+            kMaxBonusSpawnDeviation;
+    int32_t center_deviation_y =
+        QRandomGenerator::global()->bounded(2 * kMaxBonusSpawnDeviation) -
+            kMaxBonusSpawnDeviation;
+    rand_point.Set(rand_point.GetX() + center_deviation_x,
+                   rand_point.GetY() + center_deviation_y);
+    bonuses_.emplace_back(rand_point, type);
     bonus_timer_.start(
         QRandomGenerator::global()->bounded(kMaxMilliSecondsForNewBonus)
             + kMinMilliSecondForNewBonus);
     if (network != nullptr) {
-      network->SendNewBonusData(bonuses_positions_[position_index],
-                                static_cast<int>(type));
+      network->SendNewBonusData(rand_point, static_cast<int>(type));
     }
   }
 }
@@ -135,6 +127,27 @@ const std::vector<std::pair<Vec2f, double>>& Map::GetPosAndAngles() const {
 
 const Line& Map::GetFinishLine() const {
   return finish_line_;
+}
+
+const Vec2f& Map::GetNextWaypoint(uint32_t index) const {
+  return waypoints_[++index % waypoints_.size()];
+}
+
+uint32_t Map::GetWaypointsNumber() const {
+  return waypoints_.size();
+}
+
+uint32_t Map::GetNearestWaypointIndex(const Vec2f& point) const {
+  uint32_t result_index = 0;
+  double result_distance = physics::Distance(point, waypoints_[0]);
+  for (uint32_t i = 1; i < waypoints_.size(); i++) {
+    double current_distance = physics::Distance(point, waypoints_[i]);
+    if (current_distance < result_distance) {
+      result_distance = current_distance;
+      result_index = i;
+    }
+  }
+  return result_index;
 }
 
 void Map::ProceedNewBonusFromNetwork() {

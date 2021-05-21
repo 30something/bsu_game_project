@@ -6,7 +6,9 @@ ViewInfoUpdater::ViewInfoUpdater(QWidget* parent,
     game_mode_(game_mode),
     start_label_(new QLabel("Get ready!", parent)),
     layout_(new QVBoxLayout(parent)),
-    laps_amount_(game_mode_->laps_amount) {
+    laps_amount_(game_mode_->laps_amount),
+    players_amount_(game_mode_->players_amount + game_mode_->bots_amount +
+        game_mode_->network_players_amount) {
   layout_->setAlignment(Qt::AlignCenter);
   start_label_->setAlignment(Qt::AlignCenter);
   start_label_->setFont(fonts::kStartInfoFont);
@@ -48,7 +50,7 @@ void ViewInfoUpdater::UpdatePlayerInfoDescription(QPainter* painter,
                         std::to_string(std::min(
                             static_cast<int>(laps_amount_),
                             cars_data_.GetLapsCounter(index)))
-                        + " / " +
+                                               + " / " +
                         std::to_string(laps_amount_)));
   painter->drawText(x_pos,
                     y_pos + 2 * description_offset,
@@ -63,13 +65,19 @@ void ViewInfoUpdater::UpdatePlayerInfoDescription(QPainter* painter,
   painter->drawText(x_pos,
                     y_pos + 4 * description_offset,
                     GetEditedTimeInfo(index));
+  painter->drawText(x_pos,
+                    y_pos + 5 * description_offset,
+                    QString::fromStdString(
+                        "Current position: " + std::to_string(
+                            cars_data_.GetCurrentOrderPosition(index)) + " / " +
+                            std::to_string(players_amount_)));
   if (cars_data_.GetFinishPosition(index) > 0) {
     painter->drawText(x_pos,
-                      y_pos + 5 * description_offset,
+                      y_pos + 6 * description_offset,
                       GetEditedFinishInfo(index));
   } else if (cars_data_.GetHP(index) == 0) {
     painter->drawText(x_pos,
-                      y_pos + 5 * description_offset,
+                      y_pos + 6 * description_offset,
                       QString::fromStdString("Oops, you've exploded!"));
   }
 }

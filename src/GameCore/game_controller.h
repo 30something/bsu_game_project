@@ -53,6 +53,7 @@ class GameController : public QObject {
   void ProceedCollisionsWithFinish();
   void ProceedFinishGame();
   void RecalculateDeviations();
+  void UpdateOrderPositions();
   void UpdateCarsInfoAndCollisions(int time_millis);
   void UpdateCarAchievements(uint32_t index, const Car& car);
   void EnableWeapons();
