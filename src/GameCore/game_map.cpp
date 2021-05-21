@@ -111,7 +111,7 @@ void Map::ProceedNewBonuses() {
 }
 
 void Map::ProceedActiveBonuses(Car* car) {
-  for(size_t i = 0; i < bonuses_.size(); i++) {
+  for (size_t i = 0; i < bonuses_.size(); i++) {
     if (physics::IsIntersects(car->GetCollisionLines(),
                               bonuses_[i].GetCollisionLines())) {
       bonuses_[i].ApplyTo(car);

@@ -82,7 +82,7 @@ void ServerController::SendStartSignal(const QVariant& q_variant) {
   network::WriteDataForAll(&players_,
                            q_variant,
                            MessageType::kSignalToStart);
-  if(timer_id == -1) {
+  if (timer_id == -1) {
     timer_id = startTimer(network::kMillisDataSend);
   }
   players_cars_data_.clear();
@@ -112,7 +112,7 @@ void ServerController::DisconnectClient() {
   for (size_t i = 0; i < players_.size(); i++) {
     players_[i].SetId(i);
   }
-  if(players_cars_data_.empty()) {
+  if (players_cars_data_.empty()) {
     killTimer(timer_id);
   }
   UpdateClientsInfo();

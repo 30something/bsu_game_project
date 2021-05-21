@@ -12,7 +12,7 @@ GameController::GameController(GameMode* game_mode,
                     + game_mode->network_players_amount
                     + game_mode_->players_amount);
   if (network_controller_) {
-    if(network_controller_->GetId() == 0) {
+    if (network_controller_->GetId() == 0) {
       network_controller_->SendStartSignal(JsonHelper::EncodeGameModeJson(
           game_mode->map_index,
           game_mode->bots_amount,
@@ -81,8 +81,8 @@ void GameController::SetUpCarsNetwork(const InputController* input_controller) {
       static_cast<CarsColors>(player_position),
       game_mode_->enable_drifting);
   client_car_data_sender_ = new ClientCarDataSender(&cars_.back(),
-                          network_controller_,
-                          first_player_behavior);
+                                                    network_controller_,
+                                                    first_player_behavior);
   for (size_t i = player_position + 1;
        i < game_mode_->network_players_amount + 1; i++) {
     auto* network_player_behavior =
