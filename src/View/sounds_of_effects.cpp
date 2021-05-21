@@ -13,8 +13,8 @@ Effects::Effects(QWidget *parent) : QWidget(parent),
             "qrc:/resources/sounds/weapon/no_bullets.wav"));
 }
 
-void Effects::PlayBonus(bool play_bonus) {
-    if (play_bonus) {
+void Effects::PlayBonus(bool is_playing) {
+    if (is_playing) {
         QMediaPlayer *player = new QMediaPlayer(this);
         QMediaPlaylist *playlist = new QMediaPlaylist(player);
         player->setPlaylist(playlist);
@@ -25,23 +25,32 @@ void Effects::PlayBonus(bool play_bonus) {
     }
 }
 
-void Effects::PlayShooting(bool using_gun, bool bullets) {
+void Effects::PlayShooting(bool using_gun, bool bullets, bool enable_weapons, bool pause) {
+    if (!enable_weapons) {
+        sound_player_->stop();
+        return;
+    }
+    if (pause) {
+        sound_player_->pause();
+        return;
+    }
     if (using_gun) {
         if (bullets && !(sound_playlist_->currentIndex() == 0 &&
                          sound_player_->state() ==
                          QMediaPlayer::PlayingState)) {
             sound_playlist_->setPlaybackMode(
                     QMediaPlaylist::CurrentItemInLoop);
+            sound_player_->stop();
             sound_playlist_->setCurrentIndex(0);
-            sound_player_->play();
         } else if (!bullets && !(sound_playlist_->currentIndex() == 1 &&
                                  sound_player_->state() ==
                                  QMediaPlayer::PlayingState)) {
             sound_playlist_->setPlaybackMode(
                     QMediaPlaylist::CurrentItemOnce);
+            sound_player_->stop();
             sound_playlist_->setCurrentIndex(1);
-            sound_player_->play();
         }
+        sound_player_->play();
     } else if (sound_playlist_->currentIndex() != 1) {
         sound_player_->stop();
     }

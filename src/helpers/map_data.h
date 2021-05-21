@@ -2,20 +2,28 @@
 
 #include <vector>
 #include <utility>
+
+#include <QDirIterator>
+#include <QFileInfoList>
 #include <QString>
 
 namespace map_data {
 
-static const std::vector<QString> json_filepaths{
-    {":resources/Jsons/map_1_data.json"},
-    {":resources/Jsons/map_2_data.json"},
-    {":resources/Jsons/map_3_data.json"}
+class JsonFilePaths {
+ public:
+  std::vector<QString> file_paths;
+  JsonFilePaths();
 };
 
-static const std::vector<QString> image_filepaths{
-    {":resources/images/maps/map_1.jpg"},
-    {":resources/images/maps/map_2.jpg"},
-    {":resources/images/maps/map_3.jpg"}
+static const JsonFilePaths json_file_paths;
+
+class ImageFilePaths {
+ public:
+  std::vector<QString> maps_file_paths;
+  std::vector<QString> minimaps_file_paths;
+  ImageFilePaths();
 };
+
+static const ImageFilePaths image_file_paths;
 
 }  // namespace map_data

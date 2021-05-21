@@ -1,0 +1,65 @@
+#pragma once
+
+#include <utility>
+#include <vector>
+
+#include <QTextStream>
+#include <QRandomGenerator>
+#include <QFile>
+#include <QTimer>
+
+#include "src/helpers/vec2f.h"
+#include "src/helpers/line.h"
+#include "src/GameCore/GameObjects/car.h"
+#include "src/helpers/map_data.h"
+#include "src/helpers/game_mode.h"
+#include "src/helpers/json_map_parser.h"
+#include "src/GameCore/GameObjects/bonus.h"
+
+class Map : public QObject {
+  Q_OBJECT
+
+ public:
+  explicit Map(GameMode* game_mode);
+  void HandleCarTick(Car* car);
+  const std::vector<Bonus>& GetActiveBonuses() const;
+  const std::vector<std::vector<QPoint>>& GetBorders() const;
+  const std::vector<Vec2f>& GetWaypoints() const;
+  const std::vector<Line>& GetNoGoLines() const;
+  const std::vector<std::pair<QPoint, double>>& GetPosAndAngles() const;
+  const Line& GetFinishLine() const;
+
+  void SetNoBonusIsApplied();
+  bool BonusIsApplied() const;
+
+ private:
+  void CalculateBonusesPositions();
+  void ProceedActiveBonuses(Car* car);
+  void ProceedNewBonuses();
+  void ProceedCollisions(Car*);
+  void ProceedNewBonusFromNetwork();
+
+  static size_t FindIndexOfMinimalDistance(QPoint, const std::vector<QPoint>&);
+  static void HandleCarCrashIntoBorder(Car* car, const Vec2f& point);
+
+  static constexpr double kVelocityDecrease = 0.9;
+  static constexpr double kHPDecrease = 0.001;
+  static constexpr size_t kMaxBonusesAmount = 5;
+  static constexpr int kAmountOfBonusTypes = 3;
+  static constexpr int kMaxMilliSecondsForNewBonus = 10000;
+  static constexpr int kMinMilliSecondForNewBonus = 1000;
+  static constexpr double kBonusSpawnDeadZone = 0.1;
+
+  std::vector<std::vector<QPoint>> borders_;
+  std::vector<Vec2f> waypoints_;
+  std::vector<Line> no_go_lines_;
+  std::vector<std::pair<QPoint, double>> pos_and_angles_;
+  std::vector<Vec2f> bonuses_positions_;
+  std::vector<Bonus> bonuses_;
+  Line finish_line_;
+  QTimer bonus_timer_;
+  GameMode* game_mode_;
+
+  bool bonus_is_applied_ = false;
+
+};

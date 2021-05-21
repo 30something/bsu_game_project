@@ -12,9 +12,9 @@ class Brake : public QWidget {
     explicit Brake(QWidget* parent = nullptr);
     ~Brake() override = default;
 
-    void Play(double coefficient);
+    void Play(double speed_parameter, bool pause);
  private:
     QMediaPlaylist* sound_playlist_;
     QMediaPlayer* sound_player_;
-    int volume_;
+    int volume_ = 0;
 };

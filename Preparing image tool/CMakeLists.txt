@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(qttest)
+project(prepare_image_tool)
 
 set(CMAKE_CXX_STANDARD 17)
 

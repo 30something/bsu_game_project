@@ -13,7 +13,7 @@ class Effects : public QWidget {
     ~Effects() override = default;
 
     void PlayBonus(bool play_bonus);
-    void PlayShooting(bool using_gun, bool bullets);
+    void PlayShooting(bool using_gun, bool bullets, bool enable_weapons, bool pause);
     void PlayMine(bool play_mine);
     void PlayCarExplosion(bool play_car_explosion);
  private:
