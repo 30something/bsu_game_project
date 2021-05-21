@@ -82,8 +82,8 @@ void ViewInfoUpdater::UpdateAllInfoDescription(QPainter* painter,
   if (game_mode_->network_controller != nullptr) {
     UpdatePlayerInfoDescription(
         painter,
-        frames[network_id_].left() / scale,
-        frames[network_id_].top() / scale,
+        frames[0].left() / scale,
+        frames[0].top() / scale,
         network_id_);
   } else {
     for (int32_t i = 0; i < static_cast<int>(frames.size()); i++) {
