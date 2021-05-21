@@ -6,6 +6,7 @@
 #include <QHBoxLayout>
 
 #include "network_player.h"
+#include "src/helpers/fonts.h"
 
 class PlayerTile : public QWidget {
   Q_OBJECT

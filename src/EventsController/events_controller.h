@@ -47,6 +47,7 @@ class EventsController : public QWidget {
   void LaunchGameTimers();
   void LaunchFinishTimer();
   void PrepareEndGameStats();
+  void SendFinishData();
 
   enum class Actions {
     kOpenOrCloseMenu = Qt::Key_Escape,

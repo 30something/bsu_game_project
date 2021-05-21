@@ -79,3 +79,8 @@ Vec2f physics::GetRandomPointOnLine(Line line, double lower, double upper) {
   dy *= scalar;
   return Vec2f(line.x1 - dx, line.y1 - dy);
 }
+
+std::vector<size_t> physics::TimeParse(size_t millis) {
+  // Returns vector of size 3 with minutes, seconds and millis accordingly
+  return {millis / 60000, (millis % 60000) / 1000, millis % 1000};
+}

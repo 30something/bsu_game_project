@@ -25,7 +25,7 @@ void EventsController::ViewTimerEvent() {
 
 void EventsController::FinishCheckEvent() {
   if (game_status_ == GameStatus::kRunning
-      && game_controller_->AllCarsFinished()) {
+      && game_controller_->IsGameFinished()) {
     finish_check_timer_.stop();
     LaunchFinishTimer();
   }
@@ -66,6 +66,7 @@ void EventsController::SetUnsetPause() {
   } else {
     emit StopGamePause();
     game_status_ = GameStatus::kRunning;
+    input_controller_.ResetAllKeys();
     setFocus();
   }
 }
@@ -82,7 +83,7 @@ void EventsController::UpdateStartInfo() {
 
 void EventsController::ShowEndGameStats() {
   finish_pause_timer_.stop();
-  end_game_stats_->show();
+  end_game_stats_->LaunchFinishStats();
 }
 
 void EventsController::LaunchStartCountdownTimer() {
@@ -116,7 +117,15 @@ void EventsController::PrepareEndGameStats() {
           &EndGameStats::ReturnToMainMenu,
           this,
           &EventsController::ReturnToMainMenu);
+  connect(end_game_stats_,
+          &EndGameStats::DataRequest,
+          this,
+          &EventsController::SendFinishData);
   end_game_stats_->close();
+}
+
+void EventsController::SendFinishData() {
+  end_game_stats_->UpdateData(CarsData(game_controller_->GetCarsData()));
 }
 
 void EventsController::LaunchFinishTimer() {

@@ -23,6 +23,12 @@ void InputController::HandleKeyReleaseEvent(QKeyEvent* event) {
   SetKeyConditions(event, false);
 }
 
+void InputController::ResetAllKeys() {
+  for (auto& condition : keys_condition_) {
+    condition.second = false;
+  }
+}
+
 const std::map<KeyID, bool>& InputController::GetKeysCondition() const {
   return keys_condition_;
 }

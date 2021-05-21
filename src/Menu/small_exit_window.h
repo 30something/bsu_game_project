@@ -6,6 +6,9 @@
 #include <QSize>
 #include <QWidget>
 
+#include "src/helpers/sizes.h"
+#include "src/helpers/fonts.h"
+
 class SmallExitWindow : public QWidget {
   Q_OBJECT
 
@@ -18,6 +21,7 @@ class SmallExitWindow : public QWidget {
   void ReturnToMainMenu();
 
  private:
+  void SetFonts();
   void SetSizes();
   void SetUpLayout();
   void ConnectUI();

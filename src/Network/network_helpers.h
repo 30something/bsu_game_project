@@ -70,9 +70,9 @@ struct network {
 };
 
 struct JsonHelper {
-  static QString EncodeGameModeJson(int map_index,
-                                    int bots_amount,
-                                    int laps_amount,
+  static QString EncodeGameModeJson(uint32_t map_index,
+                                    uint32_t bots_amount,
+                                    int32_t laps_amount,
                                     bool enable_drifting) {
     QJsonObject json_object;
     json_object.insert("map_index",
