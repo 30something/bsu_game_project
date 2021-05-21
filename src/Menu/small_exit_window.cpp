@@ -1,5 +1,4 @@
 #include "small_exit_window.h"
-#include "src/helpers/sizes.h"
 
 SmallExitWindow::SmallExitWindow(QWidget* parent)
     : QWidget(parent),
@@ -8,10 +7,17 @@ SmallExitWindow::SmallExitWindow(QWidget* parent)
       question_(new QLabel("Go to main menu?", main_widget_)),
       yes_button_(new QPushButton("YES", main_widget_)),
       no_button_(new QPushButton("NO", main_widget_)) {
+  SetFonts();
   SetSizes();
   main_widget_->move(0, 0);
   SetUpLayout();
   ConnectUI();
+}
+
+void SmallExitWindow::SetFonts() {
+  question_->setFont(fonts::kDefaultLabelFont);
+  yes_button_->setFont(fonts::kDefaultButtonFont);
+  no_button_->setFont(fonts::kDefaultButtonFont);
 }
 
 void SmallExitWindow::SetSizes() {

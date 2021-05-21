@@ -6,7 +6,10 @@
 #include <QSlider>
 #include <QCheckBox>
 #include <QVBoxLayout>
+#include <QHBoxLayout>
 #include <QWidget>
+
+#include "src/helpers/fonts.h"
 
 class Settings : public QWidget {
   Q_OBJECT
@@ -21,6 +24,7 @@ class Settings : public QWidget {
   void MakeDefaultScreenSize();
 
  private:
+  void SetFonts();
   void SetSizes();
   void SetUpLayout();
   void ConnectUI();
@@ -28,6 +32,8 @@ class Settings : public QWidget {
   void CommitSettingsChanges();
 
   QVBoxLayout* main_layout_;
+  QHBoxLayout* music_layout_;
+  QHBoxLayout* sound_layout_;
   QLabel* music_;
   QSlider* music_volume_;
   QLabel* sound_effects_;

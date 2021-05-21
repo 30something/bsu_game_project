@@ -1,5 +1,4 @@
 #include "pause_menu.h"
-#include "src/helpers/sizes.h"
 
 PauseMenu::PauseMenu(QWidget* parent)
     : QWidget(parent),
@@ -9,6 +8,7 @@ PauseMenu::PauseMenu(QWidget* parent)
       continue_button_(new QPushButton("CONTINUE", this)),
       small_exit_window_(new SmallExitWindow(this)) {
   setStyleSheet("background-color : red");
+  SetFonts();
   SetSizes();
   SetUpLayout();
   small_exit_window_->setStyleSheet("background-color : yellow;"
@@ -36,19 +36,24 @@ void PauseMenu::Close() {
   close();
 }
 
+void PauseMenu::SetFonts() {
+  settings_button_->setFont(fonts::kDefaultButtonFont);
+  exit_button_->setFont(fonts::kDefaultButtonFont);
+  continue_button_->setFont(fonts::kDefaultButtonFont);
+}
+
 void PauseMenu::SetSizes() {
-  resize(menu_sizes::kPauseMenuSize);
   settings_button_->setMinimumSize(button_sizes::kPauseMenuMinButtonSize);
   continue_button_->setMinimumSize(button_sizes::kPauseMenuMinButtonSize);
   exit_button_->setMinimumSize(button_sizes::kPauseMenuMinButtonSize);
 }
 
 void PauseMenu::SetUpLayout() {
-  main_layout_->addStretch(5);
+  main_layout_->addStretch(10);
   main_layout_->addWidget(settings_button_, 1, Qt::AlignCenter);
   main_layout_->addWidget(continue_button_, 1, Qt::AlignCenter);
   main_layout_->addWidget(exit_button_, 1, Qt::AlignCenter);
-  main_layout_->addStretch(5);
+  main_layout_->addStretch(10);
 }
 
 void PauseMenu::ConnectUI() {

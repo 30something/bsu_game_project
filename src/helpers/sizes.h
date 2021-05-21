@@ -24,6 +24,7 @@ constexpr QSize kDefaultScreenSize(800, 600);
 namespace button_sizes {
 
 constexpr QSize kDefaultButtonSize(300, 60);
+constexpr QSize kSmallChooseButtonSize(100, 20);
 constexpr QSize kMapSelectorsSize(200, 60);
 constexpr QSize kSettingsMinButtonSize(200, 65);
 constexpr QSize kPauseMenuMinButtonSize(300, 45);

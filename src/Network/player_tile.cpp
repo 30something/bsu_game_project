@@ -6,6 +6,8 @@ PlayerTile::PlayerTile(QWidget* parent, const NetworkPlayer* player) :
     nickname_(new QLabel(QString::number(player->GetId()), this)),
     is_ready_(new QLabel(this)),
     main_layout_(new QHBoxLayout(this)) {
+  nickname_->setFont(fonts::kDefaultLabelFont);
+  is_ready_->setFont(fonts::kDefaultLabelFont);
   if (player->IsReady()) {
     is_ready_->setText("ready");
   } else {

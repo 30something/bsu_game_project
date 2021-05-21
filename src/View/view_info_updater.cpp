@@ -1,14 +1,15 @@
 #include "view_info_updater.h"
+#include <iostream>
 
 ViewInfoUpdater::ViewInfoUpdater(QWidget* parent,
                                  GameMode* game_mode) :
     game_mode_(game_mode),
-    parent_(parent),
     start_label_(new QLabel("Get ready!", parent)),
     layout_(new QVBoxLayout(parent)),
     laps_amount_(game_mode_->laps_amount) {
   layout_->setAlignment(Qt::AlignCenter);
   start_label_->setAlignment(Qt::AlignCenter);
+  start_label_->setFont(fonts::kStartInfoFont);
   layout_->addWidget(start_label_);
 }
 
@@ -17,9 +18,7 @@ void ViewInfoUpdater::Repaint(QPainter* painter,
                               const std::vector<QRect>& frames,
                               double scale) {
   cars_data_ = cars_data;
-  UpdateAllInfoDescription(painter,
-                           frames,
-                           scale);
+  UpdateAllInfoDescription(painter, frames, scale);
 }
 
 void ViewInfoUpdater::UpdateStartInfo() {
@@ -39,14 +38,40 @@ void ViewInfoUpdater::UpdatePlayerInfoDescription(QPainter* painter,
                                                   int x_pos,
                                                   int y_pos,
                                                   int index) {
+  int32_t description_offset = fonts::kDefaultInfoFont.pointSize();
+  painter->setFont(fonts::kDefaultInfoFont);
   painter->drawText(x_pos,
-                    y_pos,
+                    y_pos + description_offset,
                     QString::fromStdString("Velocity: " +
                         std::to_string(cars_data_.GetVelocity(index)) +
                         ", Laps: " +
-                        std::to_string(cars_data_.GetLapsCounter(index))
+                        std::to_string(std::min(
+                            static_cast<int>(laps_amount_),
+                            cars_data_.GetLapsCounter(index)))
                         + " / " +
                         std::to_string(laps_amount_)));
+  painter->drawText(x_pos,
+                    y_pos + 2 * description_offset,
+                    QString::fromStdString("Bullets: " +
+                        std::to_string(cars_data_.GetBulletsAmount(index)) +
+                        ", Mines: " +
+                        std::to_string(cars_data_.GetMinesAmount(index))));
+  painter->drawText(x_pos,
+                    y_pos + 3 * description_offset,
+                    QString::fromStdString("HP: " +
+                        std::to_string(cars_data_.GetHP(index))));
+  painter->drawText(x_pos,
+                    y_pos + 4 * description_offset,
+                    GetEditedTimeInfo(index));
+  if (cars_data_.GetFinishPosition(index) > 0) {
+    painter->drawText(x_pos,
+                      y_pos + 5 * description_offset,
+                      GetEditedFinishInfo(index));
+  } else if (cars_data_.GetHP(index) == 0) {
+    painter->drawText(x_pos,
+                      y_pos + 5 * description_offset,
+                      QString::fromStdString("Oops, you've exploded!"));
+  }
 }
 
 void ViewInfoUpdater::UpdateAllInfoDescription(QPainter* painter,
@@ -57,11 +82,64 @@ void ViewInfoUpdater::UpdateAllInfoDescription(QPainter* painter,
     UpdatePlayerInfoDescription(
         painter,
         frames[i].left() / scale,
-        frames[i].top() / scale + kDescriptionOffset,
+        frames[i].top() / scale,
         i);
   }
 }
 
 bool ViewInfoUpdater::GetStartState() const {
   return is_game_started_;
+}
+
+QString ViewInfoUpdater::GetEditedTimeInfo(int index) const {
+  std::vector<size_t> parsed_time = physics::TimeParse(
+      cars_data_.GetElapsedTime(index));
+  size_t minutes = parsed_time[0];
+  size_t seconds = parsed_time[1];
+  size_t millis = parsed_time[2];
+  std::string minutes_str;
+  std::string seconds_str;
+  std::string millis_str;
+  if (minutes < 10) {
+    minutes_str += "0";
+  }
+  minutes_str += std::to_string(minutes);
+  if (seconds < 10) {
+    seconds_str += "0";
+  }
+  seconds_str += std::to_string(seconds);
+  if (millis < 100) {
+    millis_str += "0";
+  }
+  if (millis < 10) {
+    millis_str += "0";
+  }
+  millis_str += std::to_string(millis);
+  return QString::fromStdString("Elapsed time: " +
+      minutes_str + ":" + seconds_str + ":" + millis_str);
+}
+
+QString ViewInfoUpdater::GetEditedFinishInfo(int index) const {
+  auto finish_position = cars_data_.GetFinishPosition(index);
+  auto pos_with_suffix = std::to_string(finish_position) +
+      GetSuffix(finish_position);
+  return QString::fromStdString(
+      "You finished on " + pos_with_suffix + " position!");
+}
+
+std::string ViewInfoUpdater::GetSuffix(int value) {
+  switch (value) {
+    case 1: {
+      return "st";
+    }
+    case 2: {
+      return "nd";
+    }
+    case 3: {
+      return "rd";
+    }
+    default: {
+      return "th";
+    }
+  }
 }
