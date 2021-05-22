@@ -35,6 +35,7 @@ class NetworkController : public QObject {
   void GotNewBonusData();
 
  private:
+  void DecodePlayersCarData(const QVariant& q_variant);
   void ParseData();
 
   NetworkPlayer* player_;

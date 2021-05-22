@@ -30,7 +30,7 @@ class GameController : public QObject {
 
  public:
   explicit GameController(GameMode* game_mode, InputController*);
-  ~GameController() override = default;
+  ~GameController() override;
 
   void Tick(int time_millis);
 
@@ -77,4 +77,5 @@ class GameController : public QObject {
   QTimer weapons_timer_;
   NetworkController* network_controller_;
   int32_t next_position_to_finish_ = 1;
+  ClientCarDataSender* client_car_data_sender_ = nullptr;
 };

@@ -45,7 +45,8 @@ class ViewInfoUpdater {
   QLayout* layout_ = nullptr;
 
   uint32_t laps_amount_ = 0;
-  int seconds_before_start_ = 5;
+  int32_t seconds_before_start_ = 5;
+  int32_t network_id_ = 0;
   bool is_game_started_ = false;
   CarsData cars_data_;
 };
