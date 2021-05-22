@@ -16,7 +16,7 @@ void PixmapLoader::InitPixmaps() {
   QFileInfoList animations_folders_list =
       QDir(":resources/images/images_for_animations").entryInfoList();
   auto animation_type = static_cast<AnimationTypes>(0);
-  for (const auto& folder: animations_folders_list) {
+  for (const auto& folder : animations_folders_list) {
     QFileInfoList animation_list = QDir(folder.filePath()).entryInfoList();
     for (const auto& animation_frame : animation_list) {
       animation_pixmaps_[animation_type].emplace_back(QPixmap(

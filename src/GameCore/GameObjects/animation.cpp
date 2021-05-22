@@ -1,3 +1,5 @@
+#include <string>
+
 #include "animation.h"
 #include "src/helpers/animations_info.h"
 
