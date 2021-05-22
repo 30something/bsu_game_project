@@ -38,10 +38,10 @@ void ViewInfoUpdater::UpdateStartInfo() {
   }
 }
 
-void ViewInfoUpdater::UpdatePlayerInfoDescription(QPainter* painter,
-                                                  int x_pos,
-                                                  int y_pos,
-                                                  int index) {
+void ViewInfoUpdater::UpdateTopInfo(QPainter* painter,
+                                    int x_pos,
+                                    int y_pos,
+                                    int index) {
   int32_t description_offset = fonts::kDefaultInfoFont.pointSize();
   painter->setFont(fonts::kDefaultInfoFont);
   painter->drawText(x_pos,
@@ -56,50 +56,63 @@ void ViewInfoUpdater::UpdatePlayerInfoDescription(QPainter* painter,
                         std::to_string(laps_amount_)));
   painter->drawText(x_pos,
                     y_pos + 2 * description_offset,
-                    QString::fromStdString("Bullets: " +
-                        std::to_string(cars_data_.GetBulletsAmount(index)) +
-                        ", Mines: " +
-                        std::to_string(cars_data_.GetMinesAmount(index))));
-  painter->drawText(x_pos,
-                    y_pos + 3 * description_offset,
-                    QString::fromStdString("HP: " +
-                        std::to_string(cars_data_.GetHP(index))));
-  painter->drawText(x_pos,
-                    y_pos + 4 * description_offset,
                     GetEditedTimeInfo(index));
   painter->drawText(x_pos,
-                    y_pos + 5 * description_offset,
+                    y_pos + 3 * description_offset,
                     QString::fromStdString(
                         "Current position: " + std::to_string(
                             cars_data_.GetCurrentOrderPosition(index)) + " / " +
                             std::to_string(players_amount_)));
   if (cars_data_.GetFinishPosition(index) > 0) {
     painter->drawText(x_pos,
-                      y_pos + 6 * description_offset,
+                      y_pos + 4 * description_offset,
                       GetEditedFinishInfo(index));
   } else if (cars_data_.GetHP(index) == 0) {
     painter->drawText(x_pos,
-                      y_pos + 6 * description_offset,
+                      y_pos + 4 * description_offset,
                       QString::fromStdString("Oops, you've exploded!"));
   }
+}
+
+void ViewInfoUpdater::UpdateBottomInfo(QPainter* painter,
+                                       int x_pos,
+                                       int y_pos,
+                                       int index) {
+  int32_t description_offset = fonts::kDefaultInfoFont.pointSize();
+  painter->drawText(x_pos,
+                    y_pos - description_offset,
+                    QString::fromStdString(
+                        "HP: " + std::to_string(cars_data_.GetHP(index))));
+  painter->drawText(x_pos,
+                    y_pos,
+                    QString::fromStdString("Bullets: " +
+                        std::to_string(cars_data_.GetBulletsAmount(index)) +
+                        ", Mines: " +
+                        std::to_string(cars_data_.GetMinesAmount(index))));
 }
 
 void ViewInfoUpdater::UpdateAllInfoDescription(QPainter* painter,
                                                const std::vector<QRect>& frames,
                                                double scale) {
   if (game_mode_->network_controller != nullptr) {
-    UpdatePlayerInfoDescription(
-        painter,
-        frames[0].left() / scale,
-        frames[0].top() / scale,
-        network_id_);
+    UpdateTopInfo(painter,
+                  frames[0].left() / scale,
+                  frames[0].top() / scale,
+                  network_id_);
+    UpdateBottomInfo(painter,
+                     frames[0].left() / scale,
+                     frames[0].bottom() / scale,
+                     network_id_);
   } else {
     for (int32_t i = 0; i < static_cast<int>(frames.size()); i++) {
-      UpdatePlayerInfoDescription(
-          painter,
-          frames[i].left() / scale,
-          frames[i].top() / scale,
-          i);
+      UpdateTopInfo(painter,
+                    frames[i].left() / scale,
+                    frames[i].top() / scale,
+                    i);
+      UpdateBottomInfo(painter,
+                       frames[i].left() / scale,
+                       frames[i].bottom() / scale,
+                       i);
     }
   }
 }

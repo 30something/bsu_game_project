@@ -23,19 +23,22 @@ class ViewInfoUpdater {
                const CarsData& cars_data,
                const std::vector<QRect>& frames,
                double scale);
-
   void UpdateStartInfo();
-  void UpdateAllInfoDescription(QPainter* painter,
-                                const std::vector<QRect>& frames,
-                                double scale);
-  void UpdatePlayerInfoDescription(QPainter* painter,
-                                   int x_pos,
-                                   int y_pos,
-                                   int index);
-
   bool GetStartState() const;
 
  private:
+  void UpdateAllInfoDescription(QPainter* painter,
+                                const std::vector<QRect>& frames,
+                                double scale);
+  void UpdateTopInfo(QPainter* painter,
+                     int x_pos,
+                     int y_pos,
+                     int index);
+  void UpdateBottomInfo(QPainter* painter,
+                        int x_pos,
+                        int y_pos,
+                        int index);
+
   QString GetEditedTimeInfo(int index) const;
   QString GetEditedFinishInfo(int index) const;
   static std::string GetSuffix(int value);
