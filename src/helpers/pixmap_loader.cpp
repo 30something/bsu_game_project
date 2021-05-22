@@ -1,3 +1,4 @@
+#include <iostream>
 #include "pixmap_loader.h"
 
 PixmapLoader::PixmapLoader(const QString& filepath) : map_filepath_(filepath) {
@@ -11,25 +12,18 @@ void PixmapLoader::InitPixmaps() {
     cars_pixmaps_[CarStates::kStandard].emplace_back(
         QPixmap(standard_car.filePath()));
   }
-  QFileInfoList shooting_cars_list =
-      QDir(":resources/images/cars/shooting_cars").entryInfoList();
-  for (const auto& shooting_car : shooting_cars_list) {
-    cars_pixmaps_[CarStates::kShooting].emplace_back(QPixmap(
-        shooting_car.filePath()));
-  }
-  QFileInfoList explosion_animation_list =
-      QDir(":resources/images/images_for_animations/explosion_animation")
-          .entryInfoList();
-  for (const auto& explosion_animation_frame : explosion_animation_list) {
-    animation_pixmaps_[AnimationTypes::kExplosion].emplace_back(QPixmap(
-        explosion_animation_frame.filePath()));
-  }
-  QFileInfoList fire_animation_list =
-      QDir(":resources/images/images_for_animations/fire_animation")
-          .entryInfoList();
-  for (const auto& fire_animation_frame : fire_animation_list) {
-    animation_pixmaps_[AnimationTypes::kFire].emplace_back(QPixmap(
-        fire_animation_frame.filePath()));
+
+  QFileInfoList animations_folders_list =
+      QDir(":resources/images/images_for_animations").entryInfoList();
+  auto animation_type = static_cast<AnimationTypes>(0);
+  for (const auto& folder: animations_folders_list) {
+    QFileInfoList animation_list = QDir(folder.filePath()).entryInfoList();
+    for (const auto& animation_frame : animation_list) {
+      animation_pixmaps_[animation_type].emplace_back(QPixmap(
+          animation_frame.filePath()));
+    }
+    animation_type =
+        static_cast<AnimationTypes>(static_cast<int>(animation_type) + 1);
   }
 
   QString basic_path = ":resources/images/";
@@ -41,10 +35,6 @@ void PixmapLoader::InitPixmaps() {
       QPixmap(basic_path + "cars/damaged_car.png"));
   cars_pixmaps_[CarStates::kHealthy].emplace_back(
       QPixmap(basic_path + "cars/healthy_car.png"));
-  cars_pixmaps_[CarStates::kHealthyAndShooting].emplace_back(
-      QPixmap(basic_path + "cars/healthy_shooting_car.png"));
-  cars_pixmaps_[CarStates::kDamagedAndShooting].emplace_back(
-      QPixmap(basic_path + "cars/damaged_shooting_car.png"));
   mines_pixmaps_[MineStates::kStandard].emplace_back(
       QPixmap(basic_path + "other_stuff/mine.png"));
   mines_pixmaps_[MineStates::kExploded].emplace_back(
@@ -65,8 +55,7 @@ const QPixmap& PixmapLoader::GetPixmap(PixmapID id) {
   switch (pixmap_category) {
     case PixmapCategories::kCar: {
       auto pixmap_state = static_cast<CarStates>(state_value);
-      if ((pixmap_state == CarStates::kStandard)
-          || (pixmap_state == CarStates::kShooting)) {
+      if (pixmap_state == CarStates::kStandard) {
         return cars_pixmaps_[pixmap_state][pixmap_number];
       } else {
         return cars_pixmaps_[pixmap_state][0];

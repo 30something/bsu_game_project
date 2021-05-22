@@ -18,6 +18,7 @@
 #include "src/helpers/animations_info.h"
 #include "game_object.h"
 #include "src/GameCore/Behaviors/behavior.h"
+#include "src/GameCore/GameObjects/animation.h"
 
 class Car : public GameObject {
  public:
@@ -38,9 +39,9 @@ class Car : public GameObject {
   const std::vector<Line>& GetCollisionLines() const override;
   const Vec2f& GetVelocity() const;
   const Vec2f& GetAngleVec() const;
+  const Vec2f* GetAngleVecPointer() const;
   bool IsPuttingMine() const;
   bool IsShooting() const;
-  bool IsDead() const;
   void SetAngleVec(const Vec2f& angle_vec);
   void SetVelocity(const Vec2f& velocity);
   void SetPosition(const Vec2f& position);
@@ -56,6 +57,18 @@ class Car : public GameObject {
    public:
     void SetCarPixmapId(CarStates car_state, CarsColors car_color);
     ~CarPixmapComponent() override = default;
+    size_t GetFramesForChangingHitpoints() const;
+    bool GetShowingHealthChangeState() const;
+    void SetFramesForChangingHitPoints(size_t frames_for_changing_hitpoints);
+    void SetShowingHealthChangeState(bool showing_health_change_state);
+    void DecrementFramesForChangingHitpoints();
+
+    static constexpr size_t kChangingHitPointsAnimationLastFrame = 40;
+
+   private:
+    size_t frames_for_changing_hitpoints_ =
+        kChangingHitPointsAnimationLastFrame;
+    bool showing_health_change_state_ = false;
   };
 
   void UpdateWheelsPosAndOrientation();
@@ -95,16 +108,13 @@ class Car : public GameObject {
   Vec2f angle_vec_;
   Vec2f velocity_;
   CarsColors car_color_;
-
+  CarPixmapComponent* car_pixmap_component_ = nullptr;
   double hit_points_ = 200;
   size_t bullets_amount_ = 1000;
   size_t mines_amount_ = 10;
   size_t mines_tick_timer_ = 0;
-  size_t frames_for_changing_hitpoints_ =
-      last_frames_for_animations::kChangingHitPointsAnimationLastFrame;
   double angular_velocity_ = 0;
   double steering_angle_ = 0;
   bool enable_drifts_ = true;
-  bool showing_health_change_state = false;
   bool health_increasing_state = false;
 };

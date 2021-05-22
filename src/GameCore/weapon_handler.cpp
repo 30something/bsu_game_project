@@ -1,5 +1,4 @@
 #include "weapon_handler.h"
-#include "src/helpers/game_object_states.h"
 
 void WeaponHandler::ShootBullet(Car* car, std::vector<Car>* cars) {
   std::optional<Line> shoot_trajectory = car->ShootBullet();
@@ -26,17 +25,28 @@ void WeaponHandler::PutMine(Car* car) {
   }
 }
 
-void WeaponHandler::ProceedWeapons(std::vector<Car>* cars,
-                                   std::vector<Animation>* animations) {
+void WeaponHandler::ProceedWeapons(
+    std::vector<Car>* cars,
+    std::vector<CarAchievements>* car_achievements,
+    std::vector<Animation>* animations) {
   if (!enable_weapons_) {
     return;
   }
-  for (auto& car : *cars) {
-    if (car.IsShooting()) {
-      ShootBullet(&car, cars);
+  for (size_t i = 0; i < cars->size(); i++) {
+    if (cars->at(i).IsShooting()) {
+      ShootBullet(&(cars->at(i)), cars);
+      if (!(car_achievements->at(i).animation_of_shooting_state)) {
+        car_achievements->at(i).animation_of_shooting_state = true;
+        animations->emplace_back(
+            AnimationTypes::kShooting, cars->at(i).GetPositionPointer(),
+            cars->at(i).GetAngleVecPointer(),
+            &(car_achievements->at(i).animation_of_shooting_state));
+      }
+    } else {
+      car_achievements->at(i).animation_of_shooting_state = false;
     }
-    if (car.IsPuttingMine()) {
-      PutMine(&car);
+    if (cars->at(i).IsPuttingMine()) {
+      PutMine(&(cars->at(i)));
     }
   }
   for (auto& mine : mines_) {
@@ -44,8 +54,8 @@ void WeaponHandler::ProceedWeapons(std::vector<Car>* cars,
       for (auto& car : *cars) {
         if (physics::IsIntersects(car.GetCollisionLines(),
                                   mine.GetCollisionLines())) {
-          (*animations).emplace_back(mine.GetPosition(),
-                                     AnimationTypes::kExplosion);
+          animations->emplace_back(AnimationTypes::kExplosion,
+                                   mine.GetPosition());
           car.AddHitPoints(-kMineDamage);
           car.SetVelocity(Vec2f(car.GetVelocity()).Normalize() * -kMineSplash);
           mine.SetExploded();

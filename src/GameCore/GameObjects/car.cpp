@@ -10,6 +10,8 @@ Car::Car(Vec2f position,
     behavior_(behavior),
     car_color_(car_color),
     enable_drifts_(enable_drifts) {
+  car_pixmap_component_ =
+      dynamic_cast<CarPixmapComponent*> (pixmap_component_.get());
   velocity_.Set(physics::kAlmostZero, physics::kAlmostZero);
   angle_vec_.Set(1.0, 0.0);
   angle_vec_.Rotate(angle);
@@ -17,8 +19,7 @@ Car::Car(Vec2f position,
   for (auto& wheel : wheels_) {
     wheel.SetPreviousPosition(wheel.GetPosition());
   }
-  dynamic_cast<CarPixmapComponent*>(pixmap_component_.get())->
-      SetCarPixmapId(CarStates::kStandard, car_color_);
+  car_pixmap_component_->SetCarPixmapId(CarStates::kStandard, car_color_);
 }
 
 void Car::ProceedInputFlagsArcade() {
@@ -96,8 +97,8 @@ void Car::Tick(int time_millisec) {
   } else {
     ArcadeStep(time_millisec);
   }
-  if (frames_for_changing_hitpoints_ == 0) {
-    showing_health_change_state = false;
+  if (car_pixmap_component_->GetFramesForChangingHitpoints() == 0) {
+    car_pixmap_component_->SetShowingHealthChangeState(false);
   }
   ChoosePixmap();
   mines_tick_timer_++;
@@ -219,10 +220,12 @@ double Car::GetHitPoints() const {
 void Car::AddHitPoints(double hit_points) {
   hit_points_ += hit_points;
   if (std::abs(hit_points) + kEps >= kMinSignificantDamage) {
-    showing_health_change_state = true;
+    car_pixmap_component_->SetShowingHealthChangeState(true);
+  } else if (car_pixmap_component_->GetShowingHealthChangeState()) {
+    return;
   }
-  frames_for_changing_hitpoints_ =
-      last_frames_for_animations::kChangingHitPointsAnimationLastFrame;
+  car_pixmap_component_->SetFramesForChangingHitPoints(
+      CarPixmapComponent::kChangingHitPointsAnimationLastFrame);
   health_increasing_state = (hit_points + kEps >= 0);
 }
 
@@ -238,6 +241,10 @@ const Vec2f& Car::GetAngleVec() const {
   return angle_vec_;
 }
 
+const Vec2f* Car::GetAngleVecPointer() const {
+  return &angle_vec_;
+}
+
 bool Car::IsShooting() const {
   if (bullets_amount_ == 0) {
     return false;
@@ -247,8 +254,7 @@ bool Car::IsShooting() const {
 
 void Car::BecomeDead() {
   behavior_->EnableInput(false);
-  dynamic_cast<CarPixmapComponent*>(pixmap_component_.get())->
-      SetCarPixmapId(CarStates::kDead, car_color_);
+  car_pixmap_component_->SetCarPixmapId(CarStates::kDead, car_color_);
 }
 
 std::optional<Vec2f> Car::DropMine() {
@@ -264,8 +270,6 @@ std::optional<Vec2f> Car::DropMine() {
 
 std::optional<Line> Car::ShootBullet() {
   if (bullets_amount_ > 0) {
-    dynamic_cast<CarPixmapComponent*>(pixmap_component_.get())->
-        SetCarPixmapId(CarStates::kShooting, car_color_);
     bullets_amount_--;
     return Line(
         position_.GetX(),
@@ -273,18 +277,12 @@ std::optional<Line> Car::ShootBullet() {
         angle_vec_.GetX() * kShootingRange + position_.GetX(),
         angle_vec_.GetY() * kShootingRange + position_.GetY());
   } else {
-    dynamic_cast<CarPixmapComponent*>(pixmap_component_.get())->
-        SetCarPixmapId(CarStates::kStandard, car_color_);
     return std::nullopt;
   }
 }
 
 bool Car::IsPuttingMine() const {
   return behavior_->IsFlagMine() && mines_tick_timer_ >= kMineDelayTicks;
-}
-
-bool Car::IsDead() const {
-  return hit_points_ <= 0;
 }
 
 void Car::UpdateCollisionLines() {
@@ -299,28 +297,15 @@ void Car::UpdateCollisionLines() {
 }
 
 void Car::ChoosePixmap() {
-  if (showing_health_change_state) {
-    frames_for_changing_hitpoints_--;
-    if (bullets_amount_ == 0 || !behavior_->IsFlagShoot()) {
-      if (health_increasing_state) {
-        dynamic_cast<CarPixmapComponent*>(pixmap_component_.get())->
-            SetCarPixmapId(CarStates::kHealthy, car_color_);
-      } else {
-        dynamic_cast<CarPixmapComponent*>(pixmap_component_.get())->
-            SetCarPixmapId(CarStates::kDamaged, car_color_);
-      }
+  if (car_pixmap_component_->GetShowingHealthChangeState()) {
+    car_pixmap_component_->DecrementFramesForChangingHitpoints();
+    if (health_increasing_state) {
+      car_pixmap_component_->SetCarPixmapId(CarStates::kHealthy, car_color_);
     } else {
-      if (health_increasing_state) {
-        dynamic_cast<CarPixmapComponent*>(pixmap_component_.get())->
-            SetCarPixmapId(CarStates::kHealthyAndShooting, car_color_);
-      } else {
-        dynamic_cast<CarPixmapComponent*>(pixmap_component_.get())->
-            SetCarPixmapId(CarStates::kDamagedAndShooting, car_color_);
-      }
+      car_pixmap_component_->SetCarPixmapId(CarStates::kDamaged, car_color_);
     }
-  } else if (bullets_amount_ == 0 || !behavior_->IsFlagShoot()) {
-    dynamic_cast<CarPixmapComponent*>(pixmap_component_.get())->
-        SetCarPixmapId(CarStates::kStandard, car_color_);
+  } else {
+    car_pixmap_component_->SetCarPixmapId(CarStates::kStandard, car_color_);
   }
 }
 
@@ -339,4 +324,26 @@ void Car::CarPixmapComponent::SetCarPixmapId(CarStates car_state,
   auto car_color_value = static_cast<int32_t>(car_color);
   pixmap_id_ = (category_value << 24) + (car_state_value << 16) +
       car_color_value;
+}
+
+size_t Car::CarPixmapComponent::GetFramesForChangingHitpoints() const {
+  return frames_for_changing_hitpoints_;
+}
+
+bool Car::CarPixmapComponent::GetShowingHealthChangeState() const {
+  return showing_health_change_state_;
+}
+
+void Car::CarPixmapComponent::SetFramesForChangingHitPoints(
+    size_t frames_for_changing_hitpoints) {
+  frames_for_changing_hitpoints_ = frames_for_changing_hitpoints;
+}
+
+void Car::CarPixmapComponent::SetShowingHealthChangeState(
+    bool showing_health_change_state) {
+  showing_health_change_state_ = showing_health_change_state;
+}
+
+void Car::CarPixmapComponent::DecrementFramesForChangingHitpoints() {
+  frames_for_changing_hitpoints_--;
 }

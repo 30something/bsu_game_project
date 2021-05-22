@@ -3,11 +3,8 @@
 enum class CarStates {
   kDead,
   kStandard,
-  kShooting,
   kDamaged,
-  kDamagedAndShooting,
-  kHealthy,
-  kHealthyAndShooting
+  kHealthy
 };
 
 enum class MineStates {
@@ -21,7 +18,9 @@ enum class BonusTypes {
   kMineAmmo
 };
 
+// alphabet order is important here to correct reading from directory
 enum class AnimationTypes {
   kExplosion,
-  kFire
+  kFire,
+  kShooting
 };

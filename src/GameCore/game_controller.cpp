@@ -129,7 +129,7 @@ void GameController::SetUpCarsAchievements() {
 }
 
 void GameController::Tick(int time_millis) {
-  weapon_handler_.ProceedWeapons(&cars_, &animations_);
+  weapon_handler_.ProceedWeapons(&cars_, &car_achievements_, &animations_);
   ProceedCollisionsWithCars();
   ProceedCollisionsWithFinish();
   ProceedFinishGame();
@@ -144,11 +144,10 @@ void GameController::UpdateCarsInfoAndCollisions(int time_millis) {
     car_achievements_[i].current_showed_velocity =
         cars_[i].GetVelocity().GetLength();
     if (cars_[i].GetHitPoints() < physics::kAlmostZero) {
-      if ((cars_[i].IsDead())
-          && (!(car_achievements_[i].animation_of_death_state))) {
+      if (!(car_achievements_[i].animation_of_death_state)) {
         car_achievements_[i].animation_of_death_state = true;
-        animations_.emplace_back(cars_[i].GetPositionPointer(),
-                                 AnimationTypes::kFire);
+        animations_.emplace_back(AnimationTypes::kFire,
+                                 cars_[i].GetPositionPointer());
       }
       cars_[i].BecomeDead();
       remaining_cars_.erase(i);
@@ -288,8 +287,8 @@ void GameController::UpdateAnimations() {
   for (auto& animation : animations_) {
     animation.GoToNextFrame();
   }
-  std::remove_if(animations_.begin(), animations_.end(),
-                 [](const Animation& animation) {
-                   return animation.IsEnded();
-                 });
+  animations_.erase(std::remove_if(animations_.begin(), animations_.end(),
+                                   [](const Animation& animation) {
+                                     return animation.IsEnded();
+                                   }), animations_.end());
 }

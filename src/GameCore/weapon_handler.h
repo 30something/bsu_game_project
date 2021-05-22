@@ -6,6 +6,7 @@
 #include "src/GameCore/GameObjects/mine.h"
 #include "src/GameCore/GameObjects/car.h"
 #include "src/GameCore/GameObjects/animation.h"
+#include "src/helpers/car_achievements.h"
 
 class WeaponHandler {
  public:
@@ -13,6 +14,7 @@ class WeaponHandler {
   ~WeaponHandler() = default;
   void PutMine(Car* car);
   void ProceedWeapons(std::vector<Car>* cars,
+                      std::vector<CarAchievements>* car_achievements,
                       std::vector<Animation>* animations);
   const std::vector<Mine>& GetMines() const;
   void SetEnableWeapons(bool enable_weapons);

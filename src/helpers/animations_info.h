@@ -1,22 +1,18 @@
 #pragma once
 
-namespace last_frames_for_animations {
+#include <map>
 
-constexpr int32_t kExplosionAnimationLastFrame = 15;
-constexpr int32_t kFireAnimationLastFrame = 18;
-constexpr int32_t kChangingHitPointsAnimationLastFrame = 40;
+#include "game_object_states.h"
 
-}  // last_frames_for_animations
+namespace animations_info {
 
-namespace frame_renderings {
+const char symbol_for_separation = '_';
 
-constexpr int32_t kExplosionAnimationFrameRenderings = 2;
-constexpr int32_t kFireAnimationFrameRenderings = 3;
+// last frame -> amount of frame renderings -> is cyclic -> first cycle frame
+const std::map<AnimationTypes, std::string> animations_info = {
+    {AnimationTypes::kExplosion, "15_2_0"},
+    {AnimationTypes::kFire, "18_3_1_8"},
+    {AnimationTypes::kShooting, "4_3_1_0"}
+};
 
-}  // frame_renderings
-
-namespace first_frame_of_cycle {
-
-constexpr int32_t kFireAnimationFirstCycleFrame = 8;
-
-}  // first_frame_of_cycle
+}  // namespace animations_info

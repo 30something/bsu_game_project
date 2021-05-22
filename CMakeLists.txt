@@ -66,11 +66,11 @@ set(SOURCES
 set(RESOURCES
         explosion_animation.qrc
         fire_animation.qrc
+        shooting_animation.qrc
         cars.qrc
         maps.qrc
         map_data.qrc
-        other_images.qrc
-        )
+        other_images.qrc)
 
 set(SERVER_SOURCES
         src/Server/main.cpp

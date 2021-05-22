@@ -2,17 +2,7 @@
     <qresource>
         <file>resources/images/cars/car_dead.png</file>
         <file>resources/images/cars/damaged_car.png</file>
-        <file>resources/images/cars/damaged_shooting_car.png</file>
         <file>resources/images/cars/healthy_car.png</file>
-        <file>resources/images/cars/healthy_shooting_car.png</file>
-        <file>resources/images/cars/shooting_cars/car1_shoot.png</file>
-        <file>resources/images/cars/shooting_cars/car2_shoot.png</file>
-        <file>resources/images/cars/shooting_cars/car3_shoot.png</file>
-        <file>resources/images/cars/shooting_cars/car4_shoot.png</file>
-        <file>resources/images/cars/shooting_cars/car5_shoot.png</file>
-        <file>resources/images/cars/shooting_cars/car6_shoot.png</file>
-        <file>resources/images/cars/shooting_cars/car7_shoot.png</file>
-        <file>resources/images/cars/shooting_cars/car8_shoot.png</file>
         <file>resources/images/cars/standard_cars/car1.png</file>
         <file>resources/images/cars/standard_cars/car2.png</file>
         <file>resources/images/cars/standard_cars/car3.png</file>

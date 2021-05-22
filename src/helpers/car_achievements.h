@@ -9,4 +9,5 @@ struct CarAchievements {
   double launched_finish_deviation = 0;
   bool is_collide_with_finish = false;
   bool animation_of_death_state = false;
+  bool animation_of_shooting_state = false;
 };
