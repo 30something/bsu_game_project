@@ -7,16 +7,18 @@ GameController::GameController(GameMode* game_mode,
     finish_line_(map_.GetFinishLine()),
     game_mode_(game_mode),
     weapon_handler_(),
-    network_controller_(game_mode->network_controller) {
-  cars_.reserve(game_mode_->bots_amount
-                    + game_mode->network_players_amount
-                    + game_mode_->players_amount);
+    network_controller_(game_mode_->network_controller) {
+  cars_.reserve(game_mode_->network_players_amount
+                    + game_mode_->players_amount
+                    + game_mode_->bots_amount);
   if (network_controller_) {
-    network_controller_->SendStartSignal(JsonHelper::EncodeGameModeJson(
-        game_mode->map_index,
-        game_mode->bots_amount,
-        game_mode->laps_amount,
-        game_mode->enable_drifting));
+    if (network_controller_->GetId() == 0) {
+      network_controller_->SendStartSignal(JsonHelper::EncodeGameModeJson(
+          game_mode->map_index,
+          game_mode->bots_amount,
+          game_mode->laps_amount,
+          game_mode->enable_drifting));
+    }
     SetUpCarsNetwork(input_controller);
   } else {
     SetUpCars(input_controller);
@@ -98,9 +100,9 @@ void GameController::SetUpCarsNetwork(const InputController* input_controller) {
          map_.GetPosAndAngles()[player_position].second,
          first_player_behavior,
          static_cast<CarsColors>(player_position));
-  new ClientCarDataSender(&cars_.back(),
-                          network_controller_,
-                          first_player_behavior);
+  client_car_data_sender_ = new ClientCarDataSender(&cars_.back(),
+                                                    network_controller_,
+                                                    first_player_behavior);
   for (size_t i = player_position + 1;
        i < game_mode_->network_players_amount + 1; i++) {
     AddCar(map_.GetPosAndAngles()[i].first,
@@ -127,7 +129,7 @@ void GameController::SetUpCarsAchievements() {
   car_achievements_.resize(cars_.size());
   for (uint32_t i = 0; i < cars_.size(); i++) {
     remaining_cars_.insert(i);
-    if (i < game_mode_->players_amount) {
+    if (i < game_mode_->players_amount + game_mode_->network_players_amount) {
       remaining_players_.insert(i);
     }
     car_achievements_[i].car_number = i;
@@ -316,4 +318,8 @@ void GameController::UpdateAnimations() {
                                    [](const Animation& animation) {
                                      return animation.IsEnded();
                                    }), animations_.end());
+}
+
+GameController::~GameController() {
+  delete client_car_data_sender_;
 }

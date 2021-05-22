@@ -111,13 +111,13 @@ void Map::ProceedNewBonuses() {
 }
 
 void Map::ProceedActiveBonuses(Car* car) {
-  for (auto& bonus : bonuses_) {
+  for (size_t i = 0; i < bonuses_.size(); i++) {
     if (physics::IsIntersects(car->GetCollisionLines(),
-                              bonus.GetCollisionLines())) {
-      bonus.ApplyTo(car);
+                              bonuses_[i].GetCollisionLines())) {
+      bonuses_[i].ApplyTo(car);
       bonuses_.erase(std::find(bonuses_.begin(),
                                bonuses_.end(),
-                               bonus));
+                               bonuses_[i]));
     }
   }
 }

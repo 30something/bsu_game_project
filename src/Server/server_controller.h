@@ -29,6 +29,7 @@ class ServerController : public QWidget {
   std::vector<PlayerCarData> players_cars_data_;
   QLabel ip_;
   QTcpServer server_;
+  int timer_id_ = -1;
 
   void ConnectClient();
   void DisconnectClient();
@@ -36,6 +37,6 @@ class ServerController : public QWidget {
   void UpdateClientsInfo();
   void SendStartSignal(const QVariant& data);
   void SendGameStateToAllPlayers();
-  void SendBonusData(QVariant data);
+  void SendBonusData(const QVariant& data);
   void ShowOurIpAddresses();
 };

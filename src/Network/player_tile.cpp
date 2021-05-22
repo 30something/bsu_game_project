@@ -9,9 +9,9 @@ PlayerTile::PlayerTile(QWidget* parent, const NetworkPlayer* player) :
   nickname_->setFont(fonts::kDefaultLabelFont);
   is_ready_->setFont(fonts::kDefaultLabelFont);
   if (player->IsReady()) {
-    is_ready_->setText("ready");
+    is_ready_->setText("Ready");
   } else {
-    is_ready_->setText("not ready");
+    is_ready_->setText("Not ready");
   }
   main_layout_->addWidget(nickname_);
   main_layout_->addWidget(is_ready_);

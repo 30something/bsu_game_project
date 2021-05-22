@@ -113,8 +113,7 @@ void NetworkRoom::SetUpAndStartGame() {
 }
 
 void NetworkRoom::UpdatePlayersVector() {
-  QString json =
-      network_controller_->GetData().toString();
+  QString json = network_controller_->GetData().toString();
   auto data_vector = JsonHelper::DecodePlayersVectorJson(json);
 
   QLayoutItem* item;
@@ -177,6 +176,9 @@ void NetworkRoom::Disconnect() {
   if (network_player_->Socket()->state() != QAbstractSocket::ConnectedState) {
     connection_status_->setText("You are not connected to disconnect!");
     return;
+  }
+  if (network_controller_->IsAlreadyStarted()) {
+    emit ExitDisconnected();
   }
   network_player_->Socket()->disconnectFromHost();
   QLayoutItem* item;

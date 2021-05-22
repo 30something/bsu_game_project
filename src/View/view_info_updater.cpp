@@ -1,5 +1,4 @@
 #include "view_info_updater.h"
-#include <iostream>
 
 ViewInfoUpdater::ViewInfoUpdater(QWidget* parent,
                                  GameMode* game_mode) :
@@ -11,6 +10,9 @@ ViewInfoUpdater::ViewInfoUpdater(QWidget* parent,
   start_label_->setAlignment(Qt::AlignCenter);
   start_label_->setFont(fonts::kStartInfoFont);
   layout_->addWidget(start_label_);
+  if (game_mode_->network_controller != nullptr) {
+    network_id_ = game_mode_->network_controller->GetId();
+  }
 }
 
 void ViewInfoUpdater::Repaint(QPainter* painter,
@@ -77,13 +79,20 @@ void ViewInfoUpdater::UpdatePlayerInfoDescription(QPainter* painter,
 void ViewInfoUpdater::UpdateAllInfoDescription(QPainter* painter,
                                                const std::vector<QRect>& frames,
                                                double scale) {
-  // TODO(dima_makarov): fix info shown for network players
-  for (int i = 0; i < static_cast<int>(frames.size()); i++) {
+  if (game_mode_->network_controller != nullptr) {
     UpdatePlayerInfoDescription(
         painter,
-        frames[i].left() / scale,
-        frames[i].top() / scale,
-        i);
+        frames[0].left() / scale,
+        frames[0].top() / scale,
+        network_id_);
+  } else {
+    for (int32_t i = 0; i < static_cast<int>(frames.size()); i++) {
+      UpdatePlayerInfoDescription(
+          painter,
+          frames[i].left() / scale,
+          frames[i].top() / scale,
+          i);
+    }
   }
 }
 
