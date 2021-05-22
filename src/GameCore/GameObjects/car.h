@@ -41,7 +41,7 @@ class Car : public GameObject {
   const Vec2f& GetVelocity() const;
   const Vec2f& GetAngleVec() const;
 
-  std::pair<double, Motion> GetParametersForEngineSound() const;
+  std::pair<double, Motion>  GetParametersForEngineSound() const;
   double GetParameterForDriftSound() const;
   double GetParameterForBrakeSound() const;
 

@@ -9,7 +9,7 @@ class Drift : public QWidget {
     Q_OBJECT
 
  public:
-    explicit Drift(QWidget* parent = nullptr);
+    explicit Drift(QWidget* parent = nullptr, int index = 0);
     ~Drift() override = default;
 
     void Play(double speed_parameter, bool car_is_alive, bool pause);

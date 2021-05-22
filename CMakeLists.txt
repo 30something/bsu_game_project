@@ -65,6 +65,7 @@ set(SOURCES
         src/View/engine_sound.cpp
         src/View/drift_sound.cpp
         src/View/brake_sound.cpp
+        src/View/shooting_sound.cpp
         src/View/sounds_of_effects.cpp)
 
 set(RESOURCES

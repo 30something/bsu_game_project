@@ -15,7 +15,7 @@ class WeaponHandler {
   const std::vector<Mine>& GetMines() const;
   void SetEnableWeapons(bool enable_weapons);
   bool GetEnableWeapons() const;
-  bool MineIsExploded() const;
+  std::vector<bool> CarsOnMines() const;
 
  private:
   std::vector<Mine> mines_;
@@ -25,5 +25,5 @@ class WeaponHandler {
   static constexpr double kBulletDamage = 0.1;
   static constexpr double kMineDamage = 20;
 
-  bool mine_of_first_car_is_exploded_ = false;
+  std::vector<bool> cars_on_mines_;
 };

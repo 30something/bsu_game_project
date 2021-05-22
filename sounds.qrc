@@ -1,17 +1,82 @@
 <RCC>
     <qresource>
-        <file>resources/sounds/car_sounds/idle_speed.wav</file>
-        <file>resources/sounds/car_sounds/main_engine.wav</file>
-        <file>resources/sounds/car_sounds/reversed_engine.wav</file>
-        <file>resources/sounds/car_sounds/drift.wav</file>
-        <file>resources/sounds/car_sounds/drift_loop.wav</file>
-        <file>resources/sounds/car_sounds/car_brake.wav</file>
+        <file>resources/sounds/car_sounds/idle_speed/idle_speed0.wav</file>
+        <file>resources/sounds/car_sounds/idle_speed/idle_speed1.wav</file>
+        <file>resources/sounds/car_sounds/idle_speed/idle_speed2.wav</file>
+        <file>resources/sounds/car_sounds/idle_speed/idle_speed3.wav</file>
+        <file>resources/sounds/car_sounds/idle_speed/idle_speed4.wav</file>
+        <file>resources/sounds/car_sounds/idle_speed/idle_speed5.wav</file>
+        <file>resources/sounds/car_sounds/idle_speed/idle_speed6.wav</file>
+        <file>resources/sounds/car_sounds/idle_speed/idle_speed7.wav</file>
+
+        <file>resources/sounds/car_sounds/main_engine/main_engine0.wav</file>
+        <file>resources/sounds/car_sounds/main_engine/main_engine1.wav</file>
+        <file>resources/sounds/car_sounds/main_engine/main_engine2.wav</file>
+        <file>resources/sounds/car_sounds/main_engine/main_engine3.wav</file>
+        <file>resources/sounds/car_sounds/main_engine/main_engine4.wav</file>
+        <file>resources/sounds/car_sounds/main_engine/main_engine5.wav</file>
+        <file>resources/sounds/car_sounds/main_engine/main_engine6.wav</file>
+        <file>resources/sounds/car_sounds/main_engine/main_engine7.wav</file>
+
+        <file>resources/sounds/car_sounds/reversed_engine/reversed_engine0.wav</file>
+        <file>resources/sounds/car_sounds/reversed_engine/reversed_engine1.wav</file>
+        <file>resources/sounds/car_sounds/reversed_engine/reversed_engine2.wav</file>
+        <file>resources/sounds/car_sounds/reversed_engine/reversed_engine3.wav</file>
+        <file>resources/sounds/car_sounds/reversed_engine/reversed_engine4.wav</file>
+        <file>resources/sounds/car_sounds/reversed_engine/reversed_engine5.wav</file>
+        <file>resources/sounds/car_sounds/reversed_engine/reversed_engine6.wav</file>
+        <file>resources/sounds/car_sounds/reversed_engine/reversed_engine7.wav</file>
+
+
+        <file>resources/sounds/car_sounds/drift/drift0.wav</file>
+        <file>resources/sounds/car_sounds/drift/drift1.wav</file>
+<!--        <file>resources/sounds/car_sounds/drift/drift2.wav</file>-->
+<!--        <file>resources/sounds/car_sounds/drift/drift3.wav</file>-->
+<!--        <file>resources/sounds/car_sounds/drift/drift4.wav</file>-->
+<!--        <file>resources/sounds/car_sounds/drift/drift5.wav</file>-->
+<!--        <file>resources/sounds/car_sounds/drift/drift6.wav</file>-->
+<!--        <file>resources/sounds/car_sounds/drift/drift7.wav</file>-->
+
+        <file>resources/sounds/car_sounds/drift_loop/drift_loop0.wav</file>
+        <file>resources/sounds/car_sounds/drift_loop/drift_loop1.wav</file>
+<!--        <file>resources/sounds/car_sounds/drift_loop/drift_loop2.wav</file>-->
+<!--        <file>resources/sounds/car_sounds/drift_loop/drift_loop3.wav</file>-->
+<!--        <file>resources/sounds/car_sounds/drift_loop/drift_loop4.wav</file>-->
+<!--        <file>resources/sounds/car_sounds/drift_loop/drift_loop5.wav</file>-->
+<!--        <file>resources/sounds/car_sounds/drift_loop/drift_loop6.wav</file>-->
+<!--        <file>resources/sounds/car_sounds/drift_loop/drift_loop7.wav</file>-->
+
+
+        <file>resources/sounds/car_sounds/car_brake/car_brake0.wav</file>
+        <file>resources/sounds/car_sounds/car_brake/car_brake1.wav</file>
+<!--        <file>resources/sounds/car_sounds/car_brake/car_brake2.wav</file>-->
+<!--        <file>resources/sounds/car_sounds/car_brake/car_brake3.wav</file>-->
+<!--        <file>resources/sounds/car_sounds/car_brake/car_brake4.wav</file>-->
+<!--        <file>resources/sounds/car_sounds/car_brake/car_brake5.wav</file>-->
+<!--        <file>resources/sounds/car_sounds/car_brake/car_brake6.wav</file>-->
+<!--        <file>resources/sounds/car_sounds/car_brake/car_brake7.wav</file>-->
+<!--        -->
 
         <file>resources/sounds/effects/bonus.wav</file>
         <file>resources/sounds/effects/car_explosion.wav</file>
 
-        <file>resources/sounds/weapon/gunshot_sound.wav</file>
+        <file>resources/sounds/weapon/gunshot_sound/gunshot_sound0.wav</file>
+        <file>resources/sounds/weapon/gunshot_sound/gunshot_sound1.wav</file>
+<!--        <file>resources/sounds/weapon/gunshot_sound/gunshot_sound2.wav</file>-->
+<!--        <file>resources/sounds/weapon/gunshot_sound/gunshot_sound3.wav</file>-->
+<!--        <file>resources/sounds/weapon/gunshot_sound/gunshot_sound4.wav</file>-->
+<!--        <file>resources/sounds/weapon/gunshot_sound/gunshot_sound5.wav</file>-->
+<!--        <file>resources/sounds/weapon/gunshot_sound/gunshot_sound6.wav</file>-->
+<!--        <file>resources/sounds/weapon/gunshot_sound/gunshot_sound7.wav</file>-->
+        <file>resources/sounds/weapon/no_bullets/no_bullets0.wav</file>
+        <file>resources/sounds/weapon/no_bullets/no_bullets1.wav</file>
+<!--        <file>resources/sounds/weapon/no_bullets/no_bullets2.wav</file>-->
+<!--        <file>resources/sounds/weapon/no_bullets/no_bullets3.wav</file>-->
+<!--        <file>resources/sounds/weapon/no_bullets/no_bullets4.wav</file>-->
+<!--        <file>resources/sounds/weapon/no_bullets/no_bullets5.wav</file>-->
+<!--        <file>resources/sounds/weapon/no_bullets/no_bullets6.wav</file>-->
+<!--        <file>resources/sounds/weapon/no_bullets/no_bullets7.wav</file>-->
+
         <file>resources/sounds/weapon/mine.wav</file>
-        <file>resources/sounds/weapon/no_bullets.wav</file>
     </qresource>
 </RCC>

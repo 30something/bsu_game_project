@@ -15,6 +15,7 @@
 #include "drift_sound.h"
 #include "brake_sound.h"
 #include "sounds_of_effects.h"
+#include "shooting_sound.h"
 
 
 class View {
@@ -29,11 +30,11 @@ class View {
   std::vector<QRect> GetFrames() const;
   double GetScale() const;
 
-  void PlayEngine(double speed_parameter, Motion motion_parameter, bool pause);
-  void PlayDrift(double speed_parameter, bool car_is_alive, bool pause);
-  void PlayBrake(double coefficient, bool pause);
+  void PlayEngine(const std::vector<EngineParameters>& engine_parameters, bool pause);
+  void PlayDrift(std::vector<DriftParameters> drift_parameters, bool pause);
+  void PlayBrake(std::vector<double> brake_parameters, bool pause);
   void PlayBonus(bool play_bonus);
-  void PlayShooting(bool using_gun, bool bullets, bool enable_weapons, bool pause);
+  void PlayShooting(std::vector<ShootingParameters> shooting_parameters, bool pause);
   void PlayMine(bool play_mine);
   void PlayCarExplosion(bool play_car_explosion);
 
@@ -55,9 +56,12 @@ class View {
   uint32_t players_amount_ = 0;
   double scale_ = 0;
 
-  Engine* engine_sound_;
-  Drift* drift_sound_;
-  Brake* brake_sound_;
   Effects* sounds_of_effects_;
   GameController* model_;
+
+  std::vector<Engine*> engine_sounds_;
+  std::vector<Drift*> drift_sounds_;
+  std::vector<Brake*> brake_sounds_;
+  std::vector<Shooting*> shooting_sounds_;
+
 };

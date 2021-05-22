@@ -1,13 +1,17 @@
 #include "brake_sound.h"
 #include <QDebug>
 
-Brake::Brake(QWidget *parent) : QWidget(parent),
+Brake::Brake(QWidget *parent, int index) : QWidget(parent),
                                 sound_playlist_(new QMediaPlaylist(this)),
                                 sound_player_(new QMediaPlayer(this)) {
     sound_player_->setPlaylist(sound_playlist_);
-    sound_playlist_->
-            addMedia(QUrl(
-            "qrc:/resources/sounds/car_sounds/car_brake.wav"));
+
+    std::string brake_file =
+            "qrc:/resources/sounds/car_sounds/car_brake/car_brake" +
+            std::to_string(index) + ".wav";
+
+    sound_playlist_->addMedia(QUrl(QString(brake_file.c_str())));
+
     sound_playlist_->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);
 }
 

@@ -24,6 +24,7 @@
 #include "src/helpers/cars_colors.h"
 #include "src/Network/network_controller.h"
 #include "src/helpers/client_car_data_sender.h"
+#include "src/helpers/parameters_for_sounds.h"
 
 class GameController : public QObject {
   Q_OBJECT
@@ -40,12 +41,14 @@ class GameController : public QObject {
   bool AllCarsFinished() const;
   std::vector<CarAchievements> GetCarsData() const;
 
-  std::pair<double, Motion> GetParametersForEngineSound() const;
-  std::vector<bool> GetParametersForShootingSound() const;
-  std::pair<double, bool> GetParametersForDriftSound() const;
-  double GetParameterForBrakeSound() const;
+  std::vector<EngineParameters> GetParametersForEngineSound() const;
+  std::vector<ShootingParameters> GetParametersForShootingSound() const;
+  std::vector<DriftParameters> GetParametersForDriftSound() const;
+  std::vector<double>  GetParametersForBrakeSound() const;
+  uint32_t GetCarsAmount() const;
+  uint32_t GetPlayersAmount() const;
   bool BonusIsApplied() const;
-  bool BonusOfFirstCarIsApplied() const;
+  bool BonusOfPlayersIsApplied() const;
   bool MineIsExploded() const;
   bool CarIsExploded() const;
 
@@ -79,6 +82,6 @@ class GameController : public QObject {
   QTimer weapons_timer_;
   NetworkController* network_controller_;
 
-  bool first_car_is_exploded_ = false;
-  bool bonus_of_first_car_is_applied_ = false;
+  bool car_is_exploded_ = false;
+  bool bonus_is_applied_ = false;
 };

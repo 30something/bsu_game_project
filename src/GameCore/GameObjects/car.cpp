@@ -260,7 +260,8 @@ std::pair<double, Motion> Car::GetParametersForEngineSound() const {
                                              Motion::kForwardMotion);
         }
     }
-    return std::pair<double, Motion>(speed_parameter, Motion::kIsDead);
+    return std::pair<double, Motion>(speed_parameter,
+                                     Motion::kIsDead);
 }
 
 double Car::GetParameterForDriftSound() const {

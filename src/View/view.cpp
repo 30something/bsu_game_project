@@ -5,11 +5,29 @@ View::View(QWidget* events_controller, GameController* model, GameMode* game_mod
     pixmap_loader_(
         map_data::image_file_paths.maps_file_paths[game_mode->map_index]),
     players_amount_(game_mode->players_amount),
-    engine_sound_(new Engine(events_controller)),
-    drift_sound_(new Drift(events_controller)),
-    brake_sound_(new Brake(events_controller)),
-    sounds_of_effects_(new Effects(events_controller)),
-    model_(model) {}
+    sounds_of_effects_(),
+    model_(model) {
+
+    engine_sounds_.reserve(model_->GetCarsAmount());
+    for (uint32_t i = 0; i < model_->GetCarsAmount(); i++) {
+        engine_sounds_.push_back(new Engine(events_controller, i));
+    }
+
+    drift_sounds_.reserve(model_->GetPlayersAmount());
+    for (uint32_t i = 0; i < model_->GetPlayersAmount(); i++) {
+        drift_sounds_.push_back(new Drift(events_controller, i));
+    }
+
+    brake_sounds_.reserve(model_->GetPlayersAmount());
+    for (uint32_t i = 0; i < model_->GetPlayersAmount(); i++) {
+        brake_sounds_.push_back(new Brake(events_controller, i));
+    }
+
+    shooting_sounds_.reserve(model_->GetPlayersAmount());
+    for (uint32_t i = 0; i < model_->GetPlayersAmount(); i++) {
+        shooting_sounds_.push_back(new Shooting(events_controller, i));
+    }
+}
 
 void View::Repaint(const std::vector<WrapperBase<GameObject>*>& objects,
                    const std::vector<Vec2f>& cars_positions,
@@ -100,24 +118,41 @@ void View::resizeEvent(int width, int height) {
   UpdateFrames(width, height);
 }
 
-void View::PlayEngine(double speed_parameter, Motion motion_parameter, bool pause) {
-    engine_sound_->Play(speed_parameter, motion_parameter, pause);
+void View::PlayEngine(const std::vector<EngineParameters>& engine_parameters, bool pause) {
+    for (uint32_t i = 0; i < model_->GetCarsAmount(); i++) {
+        engine_sounds_.at(i)->Play(engine_parameters.at(i).speed_parameter,
+                                   engine_parameters.at(i).motion_parameter,
+                                   engine_parameters.at(i).play,
+                                   pause);
+    }
+
 }
 
-void View::PlayDrift(double speed_parameter, bool car_is_alive, bool pause) {
-    drift_sound_->Play(speed_parameter, car_is_alive, pause);
+void View::PlayDrift(std::vector<DriftParameters> drift_parameters, bool pause) {
+    for (uint32_t i = 0; i < model_->GetPlayersAmount(); i++) {
+        drift_sounds_.at(i)->Play(drift_parameters.at(i).speed_parameter,
+                                   drift_parameters.at(i).enable_drifting,
+                                   pause);
+    }
 }
 
-void View::PlayBrake(double coefficient, bool pause) {
-    brake_sound_->Play(coefficient, pause);
+void View::PlayBrake(std::vector<double> brake_parameters, bool pause) {
+    for (uint32_t i = 0; i < model_->GetPlayersAmount(); i++) {
+        brake_sounds_.at(i)->Play(brake_parameters.at(i), pause);
+    }
 }
 
 void View::PlayBonus(bool play_bonus) {
     sounds_of_effects_->PlayBonus(play_bonus);
 }
 
-void View::PlayShooting(bool using_gun, bool bullets, bool enable_weapons, bool pause) {
-    sounds_of_effects_->PlayShooting(using_gun, bullets, enable_weapons, pause);
+void View::PlayShooting(std::vector<ShootingParameters> shooting_parameters, bool pause) {
+    for (uint32_t i = 0; i < model_->GetPlayersAmount(); i++) {
+        shooting_sounds_.at(i)->Play(shooting_parameters.at(i).using_gun,
+                                  shooting_parameters.at(i).bullets,
+                                  shooting_parameters.at(i).enable_weapons,
+                                  pause);
+    }
 }
 
 void View::PlayMine(bool play_mine) {

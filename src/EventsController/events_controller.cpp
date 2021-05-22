@@ -141,20 +141,16 @@ void EventsController::PlaySounds() {
     if (game_status_ == GameStatus::kRunning) {
         pause = false;
     }
-    view_->PlayEngine(game_controller_->GetParametersForEngineSound().first,
-                      game_controller_->GetParametersForEngineSound().second,
+    view_->PlayEngine(game_controller_->GetParametersForEngineSound(),
                       pause);
-    view_->PlayDrift(game_controller_->GetParametersForDriftSound().first,
-                     game_controller_->GetParametersForDriftSound().second,
+    view_->PlayDrift(game_controller_->GetParametersForDriftSound(),
                      pause);
-    view_->PlayBrake(game_controller_->GetParameterForBrakeSound(),
+    view_->PlayBrake(game_controller_->GetParametersForBrakeSound(),
                      pause);
 
-    view_->PlayBonus(game_controller_->BonusOfFirstCarIsApplied());
+    view_->PlayBonus(game_controller_->BonusOfPlayersIsApplied());
     view_->PlayShooting(
-            game_controller_->GetParametersForShootingSound().at(0),
-            game_controller_->GetParametersForShootingSound().at(1),
-            game_controller_->GetParametersForShootingSound().at(2),
+            game_controller_->GetParametersForShootingSound(),
             pause);
     view_->PlayMine(game_controller_->MineIsExploded());
     view_->PlayCarExplosion(game_controller_->CarIsExploded());

@@ -9,7 +9,7 @@ class Brake : public QWidget {
     Q_OBJECT
 
  public:
-    explicit Brake(QWidget* parent = nullptr);
+    explicit Brake(QWidget* parent = nullptr, int index = 0);
     ~Brake() override = default;
 
     void Play(double speed_parameter, bool pause);
