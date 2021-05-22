@@ -30,6 +30,7 @@ class NetworkRoom : public QWidget {
   void StartGame();
   void ReturnToMainMenu();
   void OpenGameModeSelector();
+  void ExitDisconnected();
 
  private:
   void UpdatePlayersVector();
