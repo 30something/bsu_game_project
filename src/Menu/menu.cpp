@@ -1,5 +1,4 @@
 #include "menu.h"
-#include "src/helpers/sizes.h"
 
 Menu::Menu(QWidget* parent) :
     QWidget(parent),
@@ -10,9 +9,19 @@ Menu::Menu(QWidget* parent) :
     settings_button_(new QPushButton("Settings", this)),
     credits_button_(new QPushButton("Credits", this)),
     exit_button_(new QPushButton("Exit", this)) {
+  SetFonts();
   SetSizes();
   SetUpLayout();
   ConnectUI();
+}
+
+void Menu::SetFonts() {
+  name_label_->setFont(fonts::kGameNameLabelFont);
+  single_player_button_->setFont(fonts::kDefaultButtonFont);
+  multi_player_button_->setFont(fonts::kDefaultButtonFont);
+  settings_button_->setFont(fonts::kDefaultButtonFont);
+  credits_button_->setFont(fonts::kDefaultButtonFont);
+  exit_button_->setFont(fonts::kDefaultButtonFont);
 }
 
 void Menu::SetSizes() {

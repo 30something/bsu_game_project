@@ -14,6 +14,7 @@ NetworkRoom::NetworkRoom(QWidget* parent, GameMode* game_mode) :
     players_layout_(new QVBoxLayout()),
     game_mode_(game_mode),
     network_player_(new NetworkPlayer(new QTcpSocket())) {
+  SetFonts();
   SetUpLayouts();
   ConnectButtons();
 }
@@ -41,12 +42,22 @@ void NetworkRoom::SetUpLayouts() {
   main_layout_->addLayout(buttons_layout_);
   main_layout_->addLayout(connection_layout_);
   main_layout_->addLayout(players_layout_);
+  connection_status_->setAlignment(Qt::AlignCenter);
   connection_layout_->addWidget(ip_);
   connection_layout_->addWidget(connection_status_);
   connection_layout_->addWidget(disconnect_);
   connection_layout_->addWidget(try_connect_);
   buttons_layout_->addWidget(back_to_main_menu_);
   buttons_layout_->addWidget(ready_);
+}
+
+void NetworkRoom::SetFonts() {
+  back_to_main_menu_->setFont(fonts::kDefaultButtonFont);
+  try_connect_->setFont(fonts::kDefaultButtonFont);
+  ready_->setFont(fonts::kDefaultButtonFont);
+  disconnect_->setFont(fonts::kDefaultButtonFont);
+  ip_->setFont(fonts::kDefaultLabelFont);
+  connection_status_->setFont(fonts::kDefaultLabelFont);
 }
 
 void NetworkRoom::Connect() {
@@ -135,6 +146,7 @@ void NetworkRoom::UpdatePlayersVector() {
 
 void NetworkRoom::AddStartButton() {
   start_button_ = new QPushButton("Start Game", this);
+  start_button_->setFont(fonts::kDefaultButtonFont);
   buttons_layout_->addWidget(start_button_);
   connect(start_button_,
           &QPushButton::clicked,

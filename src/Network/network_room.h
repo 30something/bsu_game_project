@@ -17,6 +17,7 @@
 #include "network_controller.h"
 #include "player_tile.h"
 #include "src/helpers/game_mode.h"
+#include "src/helpers/fonts.h"
 
 class NetworkRoom : public QWidget {
   Q_OBJECT
@@ -31,6 +32,18 @@ class NetworkRoom : public QWidget {
   void OpenGameModeSelector();
 
  private:
+  void UpdatePlayersVector();
+  void SetUpAndStartGame();
+  void PrepareForStart();
+  void ChangeReadyStatus();
+  void Connect();
+  void Disconnect();
+  void SetUpLayouts();
+  void SetFonts();
+  void ConnectButtons() const;
+  void AddStartButton();
+  void DecodeGameModeData();
+
   QPushButton* back_to_main_menu_;
   QPushButton* try_connect_;
   QPushButton* ready_;
@@ -48,17 +61,6 @@ class NetworkRoom : public QWidget {
   NetworkPlayer* network_player_ = nullptr;
   std::vector<PlayerTile*> players_;
   NetworkController* network_controller_ = nullptr;
-
-  void UpdatePlayersVector();
-  void SetUpAndStartGame();
-  void PrepareForStart();
-  void ChangeReadyStatus();
-  void Connect();
-  void Disconnect();
-  void SetUpLayouts();
-  void ConnectButtons() const;
-  void AddStartButton();
-  void DecodeGameModeData();
 
   static constexpr int kMillisWaitForConnection = 100;
 };

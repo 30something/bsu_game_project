@@ -39,12 +39,16 @@ class GameController : public QObject {
   std::vector<WrapperBase<GameObject>*> GetGameObjects() const;
   std::vector<Vec2f> GetPlayersCarPositions() const;
 
-  bool AllCarsFinished() const;
+  bool IsGameFinished() const;
   std::vector<CarAchievements> GetCarsData() const;
 
   void UpdateAnimations();
 
  private:
+  void AddCar(Vec2f position,
+              double angle,
+              Behavior* behavior,
+              CarsColors car_color);
   void SetUpCars(const InputController* input_controller);
   void SetUpCarsNetwork(const InputController* input_controller);
   void SetUpBots();
@@ -54,23 +58,28 @@ class GameController : public QObject {
   void ProceedFinishGame();
   void RecalculateDeviations();
   void UpdateCarsInfoAndCollisions(int time_millis);
-  static void CollideCars(Car* car_1, Car* car_2);
+  void UpdateCarAchievements(uint32_t index, const Car& car);
   void EnableWeapons();
+  static void CollideCars(Car* car_1, Car* car_2);
+  std::set<CarsColors> SetBotsColors() const;
 
   static constexpr double kVelocityDecrease = 0.5;
   static constexpr double kDeviationDecrease = 0.5;
   static constexpr double kHPDecrease = 0.005;
   static constexpr double kMillisWeaponsEnable = 10000;
+  static constexpr size_t kMillisPerCarTimeUpdate = 5;
 
   Map map_;
   Line finish_line_;
   std::vector<Car> cars_;
   std::vector<CarAchievements> car_achievements_;
   std::set<uint32_t> remaining_cars_;
+  std::set<uint32_t> remaining_players_;
   GameMode* game_mode_ = nullptr;
   WeaponHandler weapon_handler_;
   std::vector<WrapperBase<GameObject>*> game_objects_;
   std::vector<Animation> animations_;
   QTimer weapons_timer_;
   NetworkController* network_controller_;
+  int32_t next_position_to_finish_ = 1;
 };

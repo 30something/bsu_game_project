@@ -24,24 +24,24 @@ set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-Wall -Wextra -O0")
 
 set(SOURCES
         main.cpp
-        src/View/view.cpp
         "src/Main window/main_window.cpp"
         src/Menu/menu.cpp
-        src/GameCore/game_controller.cpp
-        src/EventsController/events_controller.cpp
-        src/GameCore/GameObjects/car.cpp
-        src/helpers/vec2f.cpp
-        src/GameCore/GameObjects/wheel.cpp
         src/Menu/pause_menu.cpp
         src/Menu/small_exit_window.cpp
         src/Menu/settings.cpp
         src/Menu/small_exit_window.cpp
-        src/GameCore/game_map.cpp
         src/Menu/game_mode_selector.cpp
         src/Menu/map_selector_tile.cpp
+        src/Menu/image_selector_tile.cpp
+        src/Menu/end_game_stats.cpp
+        src/Menu/image_selector.cpp
+        src/View/view.cpp
+        src/View/view_info_updater.cpp
+        src/GameCore/game_controller.cpp
+        src/GameCore/GameObjects/car.cpp
+        src/GameCore/GameObjects/wheel.cpp
+        src/GameCore/game_map.cpp
         src/GameCore/weapon_handler.cpp
-        src/helpers/json_map_parser.cpp
-        src/helpers/physics.cpp
         src/GameCore/GameObjects/animation.cpp
         src/GameCore/GameObjects/bonus.cpp
         src/GameCore/GameObjects/game_object.cpp
@@ -51,17 +51,19 @@ set(SOURCES
         src/GameCore/Behaviors/second_player_behavior.cpp
         src/GameCore/Behaviors/bot_behavior.cpp
         src/GameCore/input_controller.cpp
+        src/GameCore/Behaviors/network_player_behavior.cpp
+        src/EventsController/events_controller.cpp
+        src/helpers/vec2f.cpp
+        src/helpers/json_map_parser.cpp
+        src/helpers/physics.cpp
         src/helpers/pixmap_loader.cpp
-        src/Menu/end_game_stats.cpp
-        src/View/view_info_updater.cpp
+        src/helpers/map_data.cpp
         src/helpers/cars_data.cpp
+        src/helpers/client_car_data_sender.cpp
         src/Network/network_player.cpp
         src/Network/network_room.cpp
         src/Network/player_tile.cpp
-        src/Network/network_controller.cpp
-        src/helpers/map_data.cpp
-        src/GameCore/Behaviors/network_player_behavior.cpp
-        src/helpers/client_car_data_sender.cpp)
+        src/Network/network_controller.cpp)
 
 set(RESOURCES
         explosion_animation.qrc
@@ -74,8 +76,8 @@ set(RESOURCES
 
 set(SERVER_SOURCES
         src/Server/main.cpp
-        src/Network/network_player.cpp
         src/Server/server_controller.cpp
+        src/Network/network_player.cpp
         src/helpers/vec2f.cpp)
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})

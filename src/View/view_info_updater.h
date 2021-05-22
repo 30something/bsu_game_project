@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include <vector>
 
 #include <QLabel>
@@ -10,6 +11,7 @@
 #include "src/View/view.h"
 #include "src/helpers/game_mode.h"
 #include "src/helpers/cars_data.h"
+#include "src/helpers/fonts.h"
 
 class ViewInfoUpdater {
  public:
@@ -34,8 +36,11 @@ class ViewInfoUpdater {
   bool GetStartState() const;
 
  private:
+  QString GetEditedTimeInfo(int index) const;
+  QString GetEditedFinishInfo(int index) const;
+  static std::string GetSuffix(int value);
+
   GameMode* game_mode_ = nullptr;
-  QWidget* parent_ = nullptr;
   QLabel* start_label_ = nullptr;
   QLayout* layout_ = nullptr;
 
@@ -43,6 +48,4 @@ class ViewInfoUpdater {
   int seconds_before_start_ = 5;
   bool is_game_started_ = false;
   CarsData cars_data_;
-
-  static constexpr int kDescriptionOffset = 10;
 };

@@ -217,6 +217,14 @@ double Car::GetHitPoints() const {
   return hit_points_;
 }
 
+size_t Car::GetBulletsAmount() const {
+  return bullets_amount_;
+}
+
+size_t Car::GetMinesAmount() const {
+  return mines_amount_;
+}
+
 void Car::AddHitPoints(double hit_points) {
   hit_points_ += hit_points;
   if (std::abs(hit_points) + kEps >= kMinSignificantDamage) {
@@ -229,11 +237,11 @@ void Car::AddHitPoints(double hit_points) {
   health_increasing_state = (hit_points + kEps >= 0);
 }
 
-void Car::AddBulletsAmount(double bullets_amount) {
+void Car::AddBulletsAmount(size_t bullets_amount) {
   bullets_amount_ += bullets_amount;
 }
 
-void Car::AddMinesAmount(double mines_amount) {
+void Car::AddMinesAmount(size_t mines_amount) {
   mines_amount_ += mines_amount;
 }
 
@@ -311,10 +319,6 @@ void Car::ChoosePixmap() {
 
 void Car::SetAngleVec(const Vec2f& angle_vec) {
   angle_vec_ = angle_vec;
-}
-
-void Car::SetHitPoints(double hp) {
-  hit_points_ = hp;
 }
 
 void Car::CarPixmapComponent::SetCarPixmapId(CarStates car_state,
