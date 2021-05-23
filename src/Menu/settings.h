@@ -10,6 +10,7 @@
 #include <QWidget>
 
 #include "src/helpers/fonts.h"
+#include "src/helpers/styles.h"
 
 class Settings : public QWidget {
   Q_OBJECT

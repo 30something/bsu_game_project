@@ -62,25 +62,12 @@ void NetworkRoom::SetStyles() {
     } else if (button_ptr) {
       button_ptr->setFont(fonts::kDefaultButtonFont);
       button_ptr->setMinimumSize(button_sizes::kMultiplayerButtonMinSize);
+      button_ptr->setStyleSheet(styles::kStandardPushbuttonStyle);
       button_ptr->setStyleSheet("QPushButton {"
-                                "background-color: #ff9900;"
-                                "border-style: outset;"
-                                "border-width: 2px;"
-                                "border-radius: 10px;"
-                                "border-color: beige;"
-                                "font: bold 18px; }"
-
-                                "QPushButton::pressed {"
-                                "background-color: #e68a00;"
-                                "border-style: inset; }");
+                                "font: bold 18px; }");
     }
   }
-  ip_->setStyleSheet("QLineEdit {"
-                     "border: 2px solid gray;"
-                     "border-radius: 10px;"
-                     "padding: 0 8px;"
-                     "font: 15px;"
-                     "selection-background-color: darkgray; }");
+  ip_->setStyleSheet(styles::kStandardLineEditStyle);
 }
 
 void NetworkRoom::Connect() {
@@ -170,17 +157,7 @@ void NetworkRoom::AddStartButton() {
   start_button_ = new QPushButton("Start Game", this);
   start_button_->setFont(fonts::kDefaultButtonFont);
   start_button_->setMinimumSize(button_sizes::kMultiplayerButtonMinSize);
-  start_button_->setStyleSheet("QPushButton {"
-                               "background-color: #ff9900;"
-                               "border-style: outset;"
-                               "border-width: 2px;"
-                               "border-radius: 10px;"
-                               "border-color: beige;"
-                               "font: bold 18px; }"
-
-                               "QPushButton::pressed {"
-                               "background-color: #e68a00;"
-                               "border-style: inset; }");
+  start_button_->setStyleSheet(styles::kStandardPushbuttonStyle);
   buttons_layout_->addWidget(start_button_);
   connect(start_button_,
           &QPushButton::clicked,

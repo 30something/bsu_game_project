@@ -3,7 +3,7 @@
 Menu::Menu(QWidget* parent) :
     QWidget(parent),
     main_layout_(new QVBoxLayout(this)),
-    name_label_(new QLabel("Death Rally", this)),
+    name_label_(new QLabel("Survival Rally: Big Guns", this)),
     single_player_button_(new QPushButton("Singleplayer", this)),
     multi_player_button_(new QPushButton("Multiplayer", this)),
     settings_button_(new QPushButton("Settings", this)),
@@ -22,17 +22,9 @@ void Menu::SetStyles() {
     if (button_ptr != nullptr) {
       button_ptr->setFont(fonts::kDefaultButtonFont);
       button_ptr->setMinimumSize(button_sizes::kDefaultButtonSize);
+      button_ptr->setStyleSheet(styles::kStandardPushbuttonStyle);
       button_ptr->setStyleSheet("QPushButton {"
-                                "background-color: #ff9900;"
-                                "border-style: outset;"
-                                "border-width: 2px;"
-                                "border-radius: 10px;"
-                                "border-color: beige;"
-                                "font: bold 18px; }"
-
-                                "QPushButton::pressed {"
-                                "background-color: #e68a00;"
-                                "border-style: inset; }");
+                                "font: bold 18px; }");
     }
   }
 }

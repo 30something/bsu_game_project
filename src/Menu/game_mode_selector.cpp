@@ -36,7 +36,7 @@ GameModeSelector::GameModeSelector(QWidget* parent, GameMode* game_mode) :
   ConnectUI();
 }
 
-void GameModeSelector::SetSingleplayerFlag(bool new_state) {
+void GameModeSelector::SetSingleplayer(bool new_state) {
   if (singleplayer_layouts_added_ && !new_state) {
     players_label_->hide();
     number_of_players_->hide();
@@ -90,34 +90,13 @@ void GameModeSelector::SetStyles() {
     } else if (button_ptr) {
       button_ptr->setFont(fonts::kDefaultButtonFont);
       button_ptr->setMinimumSize(button_sizes::kDefaultButtonSize);
+      button_ptr->setStyleSheet(styles::kStandardPushbuttonStyle);
       button_ptr->setStyleSheet("QPushButton {"
-                                "background-color: #ff9900;"
-                                "border-style: outset;"
-                                "border-width: 2px;"
-                                "border-radius: 10px;"
-                                "border-color: beige;"
-                                "font: bold 18px; }"
-
-                                "QPushButton::pressed {"
-                                "background-color: #e68a00;"
-                                "border-style: inset; }");
+                                "font: bold 18px; }");
     } else if (combo_box_ptr) {
       combo_box_ptr->setFont(fonts::kDefaultButtonFont);
       combo_box_ptr->setMinimumSize(combo_boxes_sizes::kComboBoxDefaultSize);
-      combo_box_ptr->setStyleSheet("QComboBox {"
-                                   "background-color: #ff9900;"
-                                   "border-style: outset;"
-                                   "border-width: 2px;"
-                                   "border-radius: 10px;"
-                                   "border-color: beige;"
-                                   "padding: 5px;"
-                                   "font: bold 18px; }"
-
-                                   "QComboBox::drop-down {"
-                                   "border-width: 0px; }"
-
-                                   "QComboBox::down-arrow {"
-                                   "border-width: 0px; }");
+      combo_box_ptr->setStyleSheet(styles::kStandardComboBoxStyle);
     }
   }
   enable_drifts_->setFont(fonts::kDefaultButtonFont);

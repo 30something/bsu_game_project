@@ -8,6 +8,7 @@
 
 #include "src/helpers/sizes.h"
 #include "src/helpers/fonts.h"
+#include "src/helpers/styles.h"
 
 class Menu : public QWidget {
   Q_OBJECT

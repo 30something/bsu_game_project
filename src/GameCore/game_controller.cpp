@@ -152,47 +152,52 @@ void GameController::Tick(int time_millis) {
 }
 
 void GameController::UpdateOrderPositions() {
-  for (auto first_car : remaining_cars_) {
-    for (auto second_car : remaining_cars_) {
+  for (const auto& first_car : remaining_cars_) {
+    for (const auto& second_car : remaining_cars_) {
       if (car_achievements_[first_car].current_order_position -
           car_achievements_[second_car].current_order_position != 1) {
         continue;
       }
-      if (car_achievements_[first_car].laps_counter >
-          car_achievements_[second_car].laps_counter) {
+      if (SwapOrderPositions(first_car, second_car)) {
         std::swap(car_achievements_[first_car].current_order_position,
                   car_achievements_[second_car].current_order_position);
-      } else if (car_achievements_[first_car].laps_counter ==
-          car_achievements_[second_car].laps_counter) {
-        uint32_t nearest_waypoint_first =
-            map_.GetNearestWaypointIndex(cars_[first_car].GetPosition());
-        uint32_t nearest_waypoint_second =
-            map_.GetNearestWaypointIndex(cars_[second_car].GetPosition());
-        uint32_t last_waypoint_index = map_.GetWaypointsNumber() - 1;
-        if (!(nearest_waypoint_first == last_waypoint_index &&
-            nearest_waypoint_second == 0 &&
-            car_achievements_[second_car].launched_finish_deviation *
-                car_achievements_[second_car].finish_deviation > 0) &&
-            (nearest_waypoint_first > nearest_waypoint_second || (
-                nearest_waypoint_first == 0 && nearest_waypoint_second > 0 &&
-                    car_achievements_[first_car].launched_finish_deviation *
-                        car_achievements_[first_car].finish_deviation > 0))) {
-          std::swap(car_achievements_[first_car].current_order_position,
-                    car_achievements_[second_car].current_order_position);
-        } else if (nearest_waypoint_first == nearest_waypoint_second) {
-          Vec2f next_waypoint = map_.GetNextWaypoint(nearest_waypoint_first);
-          double first_distance = physics::Distance(
-              cars_[first_car].GetPosition(), next_waypoint);
-          double second_distance = physics::Distance(
-              cars_[second_car].GetPosition(), next_waypoint);
-          if (first_distance < second_distance) {
-            std::swap(car_achievements_[first_car].current_order_position,
-                      car_achievements_[second_car].current_order_position);
-          }
-        }
       }
     }
   }
+}
+
+bool GameController::SwapOrderPositions(uint32_t first_car,
+                                        uint32_t second_car) {
+  if (car_achievements_[first_car].laps_counter >
+      car_achievements_[second_car].laps_counter) {
+    return true;
+  }
+  if (car_achievements_[first_car].laps_counter <
+      car_achievements_[second_car].laps_counter) {
+    return false;
+  }
+  uint32_t nearest_waypoint_first =
+      map_.GetNearestWaypointIndex(cars_[first_car].GetPosition());
+  uint32_t nearest_waypoint_second =
+      map_.GetNearestWaypointIndex(cars_[second_car].GetPosition());
+  uint32_t last_waypoint_index = map_.GetWaypointsNumber() - 1;
+  if (!(nearest_waypoint_first == last_waypoint_index &&
+      nearest_waypoint_second == 0 &&
+      car_achievements_[second_car].launched_finish_deviation *
+          car_achievements_[second_car].finish_deviation > 0) &&
+      (nearest_waypoint_first > nearest_waypoint_second || (
+          nearest_waypoint_first == 0 && nearest_waypoint_second > 0 &&
+              car_achievements_[first_car].launched_finish_deviation *
+                  car_achievements_[first_car].finish_deviation > 0))) {
+    return true;
+  } else if (nearest_waypoint_first == nearest_waypoint_second) {
+    Vec2f next_waypoint = map_.GetNextWaypoint(nearest_waypoint_first);
+    if (physics::Distance(cars_[first_car].GetPosition(), next_waypoint) <
+        physics::Distance(cars_[second_car].GetPosition(), next_waypoint)) {
+      return true;
+    }
+  }
+  return false;
 }
 
 void GameController::UpdateCarsInfoAndCollisions(int time_millis) {

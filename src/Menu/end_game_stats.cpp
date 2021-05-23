@@ -1,5 +1,4 @@
 #include "end_game_stats.h"
-#include <iostream>
 
 EndGameStats::EndGameStats(QWidget* parent) :
     QWidget(parent),
@@ -14,20 +13,8 @@ void EndGameStats::SetInfo() {
   stats_label_->setFont(fonts::kDefaultStatsFont);
   return_to_main_menu_button_->setMinimumSize(button_sizes::kDefaultButtonSize);
   return_to_main_menu_button_->setFont(fonts::kDefaultButtonFont);
-  setStyleSheet("QPushButton {"
-                "background-color: #ff9900;"
-                "border-style: outset;"
-                "border-width: 2px;"
-                "border-radius: 10px;"
-                "border-color: beige;"
-                "padding: 2px;"
-                "font: bold 16px; }"
-
-                "QPushButton::pressed {"
-                "background-color: #e68a00;"
-                "border-style: inset; }"
-
-                "QLabel {"
+  setStyleSheet(styles::kStandardPushbuttonStyle);
+  setStyleSheet("QLabel {"
                 "font: bold 26px; }");
   layout_->setAlignment(Qt::AlignCenter);
   layout_->addWidget(stats_label_, 5, Qt::AlignCenter);
@@ -67,24 +54,30 @@ void EndGameStats::UpdateStats() {
       images_[i]->LoadImage(image_path_qt);
       times_[i]->setText(QString::fromStdString(stats_string));
     } else {
-      auto stats_layout = new QHBoxLayout;
-      auto pos_label = new QLabel(QString::fromStdString(
-          std::to_string(i + 1) + ") "));
-      auto image = new ImageSelectorTile(this, image_path_qt);
-      auto time_label = new QLabel(QString::fromStdString(stats_string));
-      pos_label->setFont(fonts::kDefaultLabelFont);
-      time_label->setFont(fonts::kDefaultLabelFont);
-      stats_layout->addStretch(15);
-      stats_layout->addWidget(pos_label, 1, Qt::AlignCenter);
-      stats_layout->addWidget(image, 1, Qt::AlignCenter);
-      stats_layout->addWidget(time_label, 1, Qt::AlignCenter);
-      stats_layout->addStretch(15);
-      positions_layout_->addLayout(stats_layout);
-      images_.emplace_back(image);
-      times_.emplace_back(time_label);
+      CreateLayouts(i, image_path_qt, stats_string);
     }
   }
   show();
+}
+
+void EndGameStats::CreateLayouts(int index,
+                                 const QString& image_path,
+                                 const std::string& stats_string) {
+  auto stats_layout = new QHBoxLayout;
+  auto pos_label = new QLabel(QString::fromStdString(
+      std::to_string(index + 1) + ") "));
+  auto image = new ImageSelectorTile(this, image_path);
+  auto time_label = new QLabel(QString::fromStdString(stats_string));
+  pos_label->setFont(fonts::kDefaultLabelFont);
+  time_label->setFont(fonts::kDefaultLabelFont);
+  stats_layout->addStretch(15);
+  stats_layout->addWidget(pos_label, 1, Qt::AlignCenter);
+  stats_layout->addWidget(image, 1, Qt::AlignCenter);
+  stats_layout->addWidget(time_label, 1, Qt::AlignCenter);
+  stats_layout->addStretch(15);
+  positions_layout_->addLayout(stats_layout);
+  images_.emplace_back(image);
+  times_.emplace_back(time_label);
 }
 
 std::string EndGameStats::CreateStatsString(int index) {

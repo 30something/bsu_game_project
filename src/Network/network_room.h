@@ -19,6 +19,7 @@
 #include "src/helpers/game_mode.h"
 #include "src/helpers/fonts.h"
 #include "src/helpers/sizes.h"
+#include "src/helpers/styles.h"
 
 class NetworkRoom : public QWidget {
   Q_OBJECT

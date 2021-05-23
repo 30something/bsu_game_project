@@ -41,17 +41,9 @@ void PauseMenu::SetStyles() {
     if (button_ptr) {
       button_ptr->setFont(fonts::kDefaultButtonFont);
       button_ptr->setMinimumSize(button_sizes::kPauseMenuMinButtonSize);
+      button_ptr->setStyleSheet(styles::kStandardPushbuttonStyle);
       button_ptr->setStyleSheet("QPushButton {"
-                                "background-color: #ff9900;"
-                                "border-style: outset;"
-                                "border-width: 2px;"
-                                "border-radius: 10px;"
-                                "border-color: beige;"
-                                "font: bold 20px; }"
-
-                                "QPushButton::pressed {"
-                                "background-color: #e68a00;"
-                                "border-style: inset; }");
+                                "font: bold 20px; }");
     }
   }
 }

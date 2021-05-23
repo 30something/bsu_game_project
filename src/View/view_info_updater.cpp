@@ -52,8 +52,7 @@ void ViewInfoUpdater::UpdateTopInfo(QPainter* painter,
   painter->drawText(x_pos,
                     y_pos + description_offset,
                     QString::fromStdString("Laps: " +
-                        std::to_string(std::min(
-                            static_cast<int>(laps_amount_),
+                        std::to_string(std::min(laps_amount_,
                             cars_data_.GetLapsCounter(index)))
                                                + " / " +
                         std::to_string(laps_amount_)));

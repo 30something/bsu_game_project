@@ -8,6 +8,7 @@
 
 #include "src/helpers/sizes.h"
 #include "src/helpers/fonts.h"
+#include "src/helpers/styles.h"
 
 class SmallExitWindow : public QWidget {
   Q_OBJECT

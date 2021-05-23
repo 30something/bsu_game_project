@@ -15,12 +15,7 @@ SmallExitWindow::SmallExitWindow(QWidget* parent)
 
 void SmallExitWindow::SetStyles() {
   resize(menu_sizes::kSmallExitWindowSize);
-  main_widget_->setStyleSheet("QWidget {"
-                              "background-color: #ffff00;"
-                              "border-style: outset;"
-                              "border-width: 2px;"
-                              "border-color: beige;"
-                              "border-radius: 10px; }");
+  main_widget_->setStyleSheet(styles::kPauseWidgetStyle);
   for (auto& widget : main_widget_->children()) {
     auto* label_ptr = qobject_cast<QLabel*>(widget);
     auto* button_ptr = qobject_cast<QPushButton*>(widget);
@@ -30,17 +25,7 @@ void SmallExitWindow::SetStyles() {
                                "font: bold 18px; }");
     } else if (button_ptr) {
       button_ptr->setFont(fonts::kDefaultButtonFont);
-      button_ptr->setStyleSheet("QPushButton {"
-                                "background-color: #ffff00;"
-                                "border-style: outset;"
-                                "border-width: 2px;"
-                                "border-radius: 10px;"
-                                "border-color: beige;"
-                                "font: bold 18px; }"
-
-                                "QPushButton::pressed {"
-                                "background-color: #d5d501;"
-                                "border-style: inset; }");
+      button_ptr->setStyleSheet(styles::kSmallPausPushbuttonStyle);
     }
   }
   main_widget_->resize(menu_sizes::kSmallExitWindowSize);

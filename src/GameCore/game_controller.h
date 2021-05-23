@@ -63,6 +63,7 @@ class GameController : public QObject {
   void EnableWeapons();
   static void CollideCars(Car* car_1, Car* car_2);
   std::set<CarsColors> SetBotsColors() const;
+  bool SwapOrderPositions(uint32_t first_car, uint32_t second_car);
 
   static constexpr double kVelocityDecrease = 0.5;
   static constexpr double kDeviationDecrease = 0.5;

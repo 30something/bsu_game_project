@@ -5,6 +5,10 @@ ImageSelectorTile::ImageSelectorTile(QWidget* parent, const QString& filename) :
   LoadImage(filename);
 }
 
+ImageSelectorTile::~ImageSelectorTile() {
+  delete pixmap_;
+}
+
 void ImageSelectorTile::LoadImage(const QString& filename) {
   QTransform trans;
   trans.rotate(90);

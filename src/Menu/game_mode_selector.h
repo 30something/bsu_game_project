@@ -13,6 +13,7 @@
 #include "src/helpers/game_mode.h"
 #include "src/helpers/fonts.h"
 #include "src/helpers/sizes.h"
+#include "src/helpers/styles.h"
 
 class GameModeSelector : public QWidget {
   Q_OBJECT
@@ -20,7 +21,7 @@ class GameModeSelector : public QWidget {
  public:
   explicit GameModeSelector(QWidget* parent, GameMode* game_mode);
   ~GameModeSelector() override = default;
-  void SetSingleplayerFlag(bool flag);
+  void SetSingleplayer(bool flag);
 
  signals:
   void StartGame();

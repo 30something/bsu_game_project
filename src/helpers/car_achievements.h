@@ -3,10 +3,10 @@
 #include <cstdint>
 
 struct CarAchievements {
-  int32_t laps_counter = 0;
-  int32_t finish_position = 0;
-  uint32_t current_order_position = 0;
-  uint32_t car_number = 0;
+  size_t laps_counter = 0;
+  size_t finish_position = 0;
+  size_t current_order_position = 0;
+  size_t car_number = 0;
   size_t bullets_amount_ = 1000;
   size_t mines_amount_ = 10;
   size_t elapsed_millis_time = 0;
