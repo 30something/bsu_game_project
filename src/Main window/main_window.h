@@ -20,6 +20,8 @@ class MainWindow : public QMainWindow {
 
  private:
   void resizeEvent(QResizeEvent*) override;
+  void SingleplayerStarted();
+  void MultiplayerStarted();
 
   void SetUpStackedWidget();
   void ConnectUI();

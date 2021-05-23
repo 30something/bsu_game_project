@@ -36,6 +36,24 @@ GameModeSelector::GameModeSelector(QWidget* parent, GameMode* game_mode) :
   ConnectUI();
 }
 
+void GameModeSelector::SetSingleplayerFlag(bool new_state) {
+  if (singleplayer_layouts_added_ && !new_state) {
+    players_label_->hide();
+    number_of_players_->hide();
+    first_car_selector_->hide();
+    first_player_label_->hide();
+    second_car_selector_->hide();
+    second_player_label_->hide();
+    singleplayer_layouts_added_ = false;
+  } else if (!singleplayer_layouts_added_ && new_state) {
+    players_label_->show();
+    number_of_players_->show();
+    first_car_selector_->show();
+    first_player_label_->show();
+    singleplayer_layouts_added_ = true;
+  }
+}
+
 void GameModeSelector::resizeEvent(QResizeEvent*) {
   map_stacked_widget_->setGeometry(width() / kMinimapStartXDivisionCoef,
                                    height() / kMinimapStartYDivisionCoef,

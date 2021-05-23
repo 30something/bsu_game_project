@@ -26,6 +26,7 @@ class NetworkRoom : public QWidget {
  public:
   explicit NetworkRoom(QWidget* parent, GameMode* game_mode);
   ~NetworkRoom() override = default;
+  void Disconnect();
 
  signals:
   void StartGame();
@@ -39,7 +40,6 @@ class NetworkRoom : public QWidget {
   void PrepareForStart();
   void ChangeReadyStatus();
   void Connect();
-  void Disconnect();
   void SetUpLayouts();
   void SetStyles();
   void ConnectButtons() const;

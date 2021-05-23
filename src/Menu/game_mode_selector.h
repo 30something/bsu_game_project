@@ -20,6 +20,7 @@ class GameModeSelector : public QWidget {
  public:
   explicit GameModeSelector(QWidget* parent, GameMode* game_mode);
   ~GameModeSelector() override = default;
+  void SetSingleplayerFlag(bool flag);
 
  signals:
   void StartGame();
@@ -68,6 +69,7 @@ class GameModeSelector : public QWidget {
   QComboBox* number_of_bots_ = nullptr;
 
   uint32_t number_of_maps_pixmaps_ = 0;
+  bool singleplayer_layouts_added_ = true;
 
   static constexpr uint32_t kMaxPlayersAmount = 2;
   static constexpr uint32_t kMaxLapsAmount = 10;

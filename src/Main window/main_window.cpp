@@ -75,6 +75,14 @@ void MainWindow::CloseNetworkRoom() {
   stacked_widget_->setCurrentWidget(menu_);
 }
 
+void MainWindow::SingleplayerStarted() {
+  game_mode_selector_->SetSingleplayerFlag(true);
+}
+
+void MainWindow::MultiplayerStarted() {
+  game_mode_selector_->SetSingleplayerFlag(false);
+}
+
 void MainWindow::SetUpStackedWidget() {
   stacked_widget_->addWidget(menu_);
   stacked_widget_->addWidget(game_mode_selector_);
@@ -84,6 +92,14 @@ void MainWindow::SetUpStackedWidget() {
 }
 
 void MainWindow::ConnectUI() {
+  connect(menu_,
+          &Menu::SinglePlayerPressed,
+          this,
+          &MainWindow::SingleplayerStarted);
+  connect(menu_,
+          &Menu::MultiPlayerPressed,
+          this,
+          &MainWindow::MultiplayerStarted);
   connect(menu_,
           &Menu::SinglePlayerPressed,
           this,
