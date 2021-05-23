@@ -1,5 +1,5 @@
-# Project_name (Death Rally, Survival Rally, etc.)
-project_name - некоммерческая онлайн игра-гонки с видом сверху, написанная на С++/Qt. 
+# Survival Rally: Big Guns
+Survival Rally: Big Guns - некоммерческая онлайн игра-гонки с видом сверху, написанная на С++/Qt. 
 Активный этап разработки окончен в мае 2021.
 
 Команда:
