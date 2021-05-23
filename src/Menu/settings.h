@@ -24,8 +24,7 @@ class Settings : public QWidget {
   void MakeDefaultScreenSize();
 
  private:
-  void SetFonts();
-  void SetSizes();
+  void SetStyles();
   void SetUpLayout();
   void ConnectUI();
 

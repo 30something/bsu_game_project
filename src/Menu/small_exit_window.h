@@ -21,8 +21,7 @@ class SmallExitWindow : public QWidget {
   void ReturnToMainMenu();
 
  private:
-  void SetFonts();
-  void SetSizes();
+  void SetStyles();
   void SetUpLayout();
   void ConnectUI();
 

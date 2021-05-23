@@ -23,8 +23,7 @@ class Menu : public QWidget {
   void ExitButtonPressed();
 
  private:
-  void SetFonts();
-  void SetSizes();
+  void SetStyles();
   void SetUpLayout();
   void ConnectUI();
 

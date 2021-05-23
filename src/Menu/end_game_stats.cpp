@@ -13,6 +13,21 @@ void EndGameStats::SetInfo() {
   stats_label_->setFont(fonts::kDefaultStatsFont);
   return_to_main_menu_button_->setMinimumSize(button_sizes::kDefaultButtonSize);
   return_to_main_menu_button_->setFont(fonts::kDefaultButtonFont);
+  setStyleSheet("QPushButton {"
+                "background-color: #ff9900;"
+                "border-style: outset;"
+                "border-width: 2px;"
+                "border-radius: 10px;"
+                "border-color: beige;"
+                "padding: 2px;"
+                "font: bold 16px; }"
+
+                "QPushButton::pressed {"
+                "background-color: #e68a00;"
+                "border-style: inset; }"
+
+                "QLabel {"
+                "font: bold 26px; }");
   layout_->setAlignment(Qt::AlignCenter);
   layout_->addWidget(stats_label_, 5, Qt::AlignCenter);
   layout_->addLayout(positions_layout_);

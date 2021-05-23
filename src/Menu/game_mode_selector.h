@@ -29,8 +29,7 @@ class GameModeSelector : public QWidget {
   void resizeEvent(QResizeEvent*) override;
 
   void InitializeImages();
-  void SetFonts();
-  void SetSizes();
+  void SetStyles();
   void SetUpLayouts();
   void ConnectUI();
   void PrepareComboBoxes();
@@ -77,5 +76,5 @@ class GameModeSelector : public QWidget {
   static constexpr int32_t kMinimapStartXDivisionCoef = 3;
   static constexpr int32_t kMinimapStartYDivisionCoef = 30;
   static constexpr int32_t kMinimapWidthDivisionCoef = 3;
-  static constexpr double kMinimapHeightDivisionCoef = 2.3;
+  static constexpr double kMinimapHeightDivisionCoef = 2.5;
 };

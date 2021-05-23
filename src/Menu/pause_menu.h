@@ -28,8 +28,7 @@ class PauseMenu : public QWidget {
   void resizeEvent(QResizeEvent*) override;
   void keyPressEvent(QKeyEvent*) override;
 
-  void SetFonts();
-  void SetSizes();
+  void SetStyles();
   void SetUpLayout();
   void ConnectUI();
 

@@ -30,8 +30,7 @@ GameModeSelector::GameModeSelector(QWidget* parent, GameMode* game_mode) :
     number_of_laps_(new QComboBox(this)),
     number_of_bots_(new QComboBox(this)) {
   InitializeImages();
-  SetFonts();
-  SetSizes();
+  SetStyles();
   PrepareComboBoxes();
   SetUpLayouts();
   ConnectUI();
@@ -53,7 +52,7 @@ void GameModeSelector::InitializeImages() {
                                                        image));
   }
   QFileInfoList standard_cars_list =
-      QDir(":resources/images/cars/standard_cars").entryInfoList();
+      QDir(":resources/images/cars/cars_icons").entryInfoList();
   first_car_selector_->InitializeImages(standard_cars_list);
   second_car_selector_->InitializeImages(standard_cars_list);
   map_stacked_widget_->setCurrentIndex(0);
@@ -61,30 +60,53 @@ void GameModeSelector::InitializeImages() {
   second_player_label_->hide();
 }
 
-void GameModeSelector::SetFonts() {
+void GameModeSelector::SetStyles() {
   for (auto& widget : children()) {
     auto* label_ptr = qobject_cast<QLabel*>(widget);
     auto* button_ptr = qobject_cast<QPushButton*>(widget);
     auto* combo_box_ptr = qobject_cast<QComboBox*>(widget);
     if (label_ptr) {
       label_ptr->setFont(fonts::kDefaultLabelFont);
+      label_ptr->setStyleSheet("QLabel {"
+                               "font: bold 18px; }");
     } else if (button_ptr) {
       button_ptr->setFont(fonts::kDefaultButtonFont);
+      button_ptr->setMinimumSize(button_sizes::kDefaultButtonSize);
+      button_ptr->setStyleSheet("QPushButton {"
+                                "background-color: #ff9900;"
+                                "border-style: outset;"
+                                "border-width: 2px;"
+                                "border-radius: 10px;"
+                                "border-color: beige;"
+                                "font: bold 18px; }"
+
+                                "QPushButton::pressed {"
+                                "background-color: #e68a00;"
+                                "border-style: inset; }");
     } else if (combo_box_ptr) {
       combo_box_ptr->setFont(fonts::kDefaultButtonFont);
+      combo_box_ptr->setMinimumSize(combo_boxes_sizes::kComboBoxDefaultSize);
+      combo_box_ptr->setStyleSheet("QComboBox {"
+                                   "background-color: #ff9900;"
+                                   "border-style: outset;"
+                                   "border-width: 2px;"
+                                   "border-radius: 10px;"
+                                   "border-color: beige;"
+                                   "padding: 5px;"
+                                   "font: bold 18px; }"
+
+                                   "QComboBox::drop-down {"
+                                   "border-width: 0px; }"
+
+                                   "QComboBox::down-arrow {"
+                                   "border-width: 0px; }");
     }
   }
   enable_drifts_->setFont(fonts::kDefaultButtonFont);
-}
-
-void GameModeSelector::SetSizes() {
-  start_game_->setMinimumSize(button_sizes::kDefaultButtonSize);
-  back_to_main_menu_->setMinimumSize(button_sizes::kDefaultButtonSize);
+  enable_drifts_->setStyleSheet("QCheckBox {"
+                                "font: bold 16px; }");
   left_->setMinimumSize(button_sizes::kMapSelectorsSize);
   right_->setMinimumSize(button_sizes::kMapSelectorsSize);
-  number_of_players_->setMinimumSize(combo_boxes_sizes::kComboBoxDefaultSize);
-  number_of_laps_->setMinimumSize(combo_boxes_sizes::kComboBoxDefaultSize);
-  number_of_bots_->setMinimumSize(combo_boxes_sizes::kComboBoxDefaultSize);
 }
 
 void GameModeSelector::PrepareComboBoxes() {

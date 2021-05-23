@@ -14,7 +14,7 @@ NetworkRoom::NetworkRoom(QWidget* parent, GameMode* game_mode) :
     players_layout_(new QVBoxLayout()),
     game_mode_(game_mode),
     network_player_(new NetworkPlayer(new QTcpSocket())) {
-  SetFonts();
+  SetStyles();
   SetUpLayouts();
   ConnectButtons();
 }
@@ -51,13 +51,36 @@ void NetworkRoom::SetUpLayouts() {
   buttons_layout_->addWidget(ready_);
 }
 
-void NetworkRoom::SetFonts() {
-  back_to_main_menu_->setFont(fonts::kDefaultButtonFont);
-  try_connect_->setFont(fonts::kDefaultButtonFont);
-  ready_->setFont(fonts::kDefaultButtonFont);
-  disconnect_->setFont(fonts::kDefaultButtonFont);
-  ip_->setFont(fonts::kDefaultLabelFont);
-  connection_status_->setFont(fonts::kDefaultLabelFont);
+void NetworkRoom::SetStyles() {
+  for (auto& widget : children()) {
+    auto* label_ptr = qobject_cast<QLabel*>(widget);
+    auto* button_ptr = qobject_cast<QPushButton*>(widget);
+    if (label_ptr) {
+      label_ptr->setFont(fonts::kDefaultLabelFont);
+      label_ptr->setStyleSheet("QLabel {"
+                               "font: bold 18px; }");
+    } else if (button_ptr) {
+      button_ptr->setFont(fonts::kDefaultButtonFont);
+      button_ptr->setMinimumSize(button_sizes::kMultiplayerButtonMinSize);
+      button_ptr->setStyleSheet("QPushButton {"
+                                "background-color: #ff9900;"
+                                "border-style: outset;"
+                                "border-width: 2px;"
+                                "border-radius: 10px;"
+                                "border-color: beige;"
+                                "font: bold 18px; }"
+
+                                "QPushButton::pressed {"
+                                "background-color: #e68a00;"
+                                "border-style: inset; }");
+    }
+  }
+  ip_->setStyleSheet("QLineEdit {"
+                     "border: 2px solid gray;"
+                     "border-radius: 10px;"
+                     "padding: 0 8px;"
+                     "font: 15px;"
+                     "selection-background-color: darkgray; }");
 }
 
 void NetworkRoom::Connect() {
