@@ -1,4 +1,3 @@
-#include <iostream>
 #include "pixmap_loader.h"
 
 PixmapLoader::PixmapLoader(const QString& filepath) : map_filepath_(filepath) {
