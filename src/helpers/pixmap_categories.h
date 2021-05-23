@@ -3,5 +3,6 @@
 enum class PixmapCategories {
   kCar,
   kMine,
-  kBonus
+  kBonus,
+  kAnimations
 };

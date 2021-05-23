@@ -21,6 +21,7 @@ class GameObject {
                       PixmapComponent* pixmap_component);
   virtual ~GameObject() = default;
   Vec2f GetPosition() const;
+  const Vec2f* GetPositionPointer() const;
   virtual double GetAngle() const;
   virtual PixmapID GetPixmapId() const;
   virtual const std::vector<Line>& GetCollisionLines() const;

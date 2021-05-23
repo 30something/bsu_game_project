@@ -15,6 +15,7 @@
 #include "weapon_handler.h"
 #include "src/helpers/json_map_parser.h"
 #include "src/helpers/car_achievements.h"
+#include "src/helpers/cars_data.h"
 #include "src/GameCore/Behaviors/first_player_behavior.h"
 #include "src/GameCore/Behaviors/second_player_behavior.h"
 #include "src/GameCore/Behaviors/bot_behavior.h"
@@ -22,6 +23,7 @@
 #include "input_controller.h"
 #include "src/helpers/wrapper_template.h"
 #include "src/helpers/cars_colors.h"
+#include "src/GameCore/GameObjects/animation.h"
 #include "src/Network/network_controller.h"
 #include "src/helpers/client_car_data_sender.h"
 
@@ -39,6 +41,8 @@ class GameController : public QObject {
 
   bool IsGameFinished() const;
   std::vector<CarAchievements> GetCarsData() const;
+
+  void UpdateAnimations();
 
  private:
   void AddCar(Vec2f position,
@@ -75,6 +79,7 @@ class GameController : public QObject {
   GameMode* game_mode_ = nullptr;
   WeaponHandler weapon_handler_;
   std::vector<WrapperBase<GameObject>*> game_objects_;
+  std::vector<Animation> animations_;
   QTimer weapons_timer_;
   NetworkController* network_controller_;
   ClientCarDataSender* client_car_data_sender_ = nullptr;

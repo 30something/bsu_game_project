@@ -33,6 +33,7 @@ void EventsController::FinishCheckEvent() {
 
 void EventsController::paintEvent(QPaintEvent*) {
   QPainter main_painter(this);
+  game_controller_->UpdateAnimations();
   view_->Repaint(game_controller_->GetGameObjects(),
                  game_controller_->GetPlayersCarPositions(),
                  &main_painter);

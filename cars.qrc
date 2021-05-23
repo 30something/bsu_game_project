@@ -1,0 +1,15 @@
+<RCC>
+    <qresource>
+        <file>resources/images/cars/car_dead.png</file>
+        <file>resources/images/cars/damaged_car.png</file>
+        <file>resources/images/cars/healthy_car.png</file>
+        <file>resources/images/cars/standard_cars/car1.png</file>
+        <file>resources/images/cars/standard_cars/car2.png</file>
+        <file>resources/images/cars/standard_cars/car3.png</file>
+        <file>resources/images/cars/standard_cars/car4.png</file>
+        <file>resources/images/cars/standard_cars/car5.png</file>
+        <file>resources/images/cars/standard_cars/car6.png</file>
+        <file>resources/images/cars/standard_cars/car7.png</file>
+        <file>resources/images/cars/standard_cars/car8.png</file>
+    </qresource>
+</RCC>
