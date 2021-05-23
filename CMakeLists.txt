@@ -42,6 +42,7 @@ set(SOURCES
         src/GameCore/GameObjects/wheel.cpp
         src/GameCore/game_map.cpp
         src/GameCore/weapon_handler.cpp
+        src/GameCore/GameObjects/animation.cpp
         src/GameCore/GameObjects/bonus.cpp
         src/GameCore/GameObjects/game_object.cpp
         src/GameCore/GameObjects/mine.cpp
@@ -62,13 +63,16 @@ set(SOURCES
         src/Network/network_player.cpp
         src/Network/network_room.cpp
         src/Network/player_tile.cpp
-        src/Network/network_controller.cpp
-        )
+        src/Network/network_controller.cpp)
 
 set(RESOURCES
-        images.qrc
+        explosion_animation.qrc
+        fire_animation.qrc
+        shooting_animation.qrc
+        cars.qrc
+        maps.qrc
         map_data.qrc
-        )
+        other_images.qrc)
 
 set(SERVER_SOURCES
         src/Server/main.cpp

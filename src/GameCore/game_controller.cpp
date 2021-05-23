@@ -37,6 +37,8 @@ GameController::GameController(GameMode* game_mode,
       new WrapperTemplate<GameObject, Bonus>(map_.GetActiveBonuses()));
   game_objects_.push_back(
       new WrapperTemplate<GameObject, Car>(cars_));
+  game_objects_.push_back(
+      new WrapperTemplate<GameObject, Animation>(animations_));
 }
 
 void GameController::AddCar(Vec2f position,
@@ -139,7 +141,7 @@ void GameController::SetUpCarsAchievements() {
 }
 
 void GameController::Tick(int time_millis) {
-  weapon_handler_.ProceedWeapons(&cars_);
+  weapon_handler_.ProceedWeapons(&cars_, &car_achievements_, &animations_);
   ProceedCollisionsWithCars();
   ProceedCollisionsWithFinish();
   ProceedFinishGame();
@@ -153,6 +155,11 @@ void GameController::UpdateCarsInfoAndCollisions(int time_millis) {
     cars_[i].Tick(time_millis);
     UpdateCarAchievements(i, cars_[i]);
     if (cars_[i].GetHitPoints() < physics::kAlmostZero) {
+      if (!(car_achievements_[i].animation_of_death_state)) {
+        car_achievements_[i].animation_of_death_state = true;
+        animations_.emplace_back(AnimationTypes::kFire,
+                                 cars_[i].GetPositionPointer());
+      }
       cars_[i].BecomeDead();
       remaining_cars_.erase(i);
       remaining_players_.erase(i);
@@ -301,6 +308,16 @@ std::vector<CarAchievements> GameController::GetCarsData() const {
 
 void GameController::EnableWeapons() {
   weapon_handler_.SetEnableWeapons(true);
+}
+
+void GameController::UpdateAnimations() {
+  for (auto& animation : animations_) {
+    animation.GoToNextFrame();
+  }
+  animations_.erase(std::remove_if(animations_.begin(), animations_.end(),
+                                   [](const Animation& animation) {
+                                     return animation.IsEnded();
+                                   }), animations_.end());
 }
 
 GameController::~GameController() {
