@@ -25,7 +25,7 @@ void SmallExitWindow::SetStyles() {
                                "font: bold 18px; }");
     } else if (button_ptr) {
       button_ptr->setFont(fonts::kDefaultButtonFont);
-      button_ptr->setStyleSheet(styles::kSmallPausPushbuttonStyle);
+      button_ptr->setStyleSheet(styles::kSmallPausePushbuttonStyle);
     }
   }
   main_widget_->resize(menu_sizes::kSmallExitWindowSize);

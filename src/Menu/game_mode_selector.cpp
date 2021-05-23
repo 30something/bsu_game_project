@@ -91,8 +91,6 @@ void GameModeSelector::SetStyles() {
       button_ptr->setFont(fonts::kDefaultButtonFont);
       button_ptr->setMinimumSize(button_sizes::kDefaultButtonSize);
       button_ptr->setStyleSheet(styles::kStandardPushbuttonStyle);
-      button_ptr->setStyleSheet("QPushButton {"
-                                "font: bold 18px; }");
     } else if (combo_box_ptr) {
       combo_box_ptr->setFont(fonts::kDefaultButtonFont);
       combo_box_ptr->setMinimumSize(combo_boxes_sizes::kComboBoxDefaultSize);

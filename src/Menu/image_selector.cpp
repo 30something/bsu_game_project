@@ -11,18 +11,7 @@ ImageSelector::ImageSelector(QWidget*, GameMode* game_mode) :
 
 void ImageSelector::InitializeInfo() {
   setFont(fonts::kDefaultButtonFont);
-  setStyleSheet("QPushButton {"
-                "background-color: #ff9900;"
-                "border-style: outset;"
-                "border-width: 2px;"
-                "border-radius: 10px;"
-                "border-color: beige;"
-                "padding: 2px;"
-                "font: bold 14px; }"
-
-                "QPushButton::pressed {"
-                "background-color: #e68a00;"
-                "border-style: inset; }");
+  setStyleSheet(styles::kImageSelectorPushbuttonStyle);
   left_->setMinimumSize(button_sizes::kSmallChooseButtonSize);
   right_->setMinimumSize(button_sizes::kSmallChooseButtonSize);
   layout_->addWidget(left_, 1, Qt::AlignCenter);

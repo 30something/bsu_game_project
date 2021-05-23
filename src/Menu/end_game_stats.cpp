@@ -13,7 +13,7 @@ void EndGameStats::SetInfo() {
   stats_label_->setFont(fonts::kDefaultStatsFont);
   return_to_main_menu_button_->setMinimumSize(button_sizes::kDefaultButtonSize);
   return_to_main_menu_button_->setFont(fonts::kDefaultButtonFont);
-  setStyleSheet(styles::kStandardPushbuttonStyle);
+  return_to_main_menu_button_->setStyleSheet(styles::kStandardPushbuttonStyle);
   setStyleSheet("QLabel {"
                 "font: bold 26px; }");
   layout_->setAlignment(Qt::AlignCenter);

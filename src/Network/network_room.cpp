@@ -63,8 +63,6 @@ void NetworkRoom::SetStyles() {
       button_ptr->setFont(fonts::kDefaultButtonFont);
       button_ptr->setMinimumSize(button_sizes::kMultiplayerButtonMinSize);
       button_ptr->setStyleSheet(styles::kStandardPushbuttonStyle);
-      button_ptr->setStyleSheet("QPushButton {"
-                                "font: bold 18px; }");
     }
   }
   ip_->setStyleSheet(styles::kStandardLineEditStyle);

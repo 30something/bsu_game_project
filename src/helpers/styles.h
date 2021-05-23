@@ -12,13 +12,41 @@ const QString kStandardPushbuttonStyle =
     "border-radius: 10px;"
     "border-color: beige;"
     "padding: 2px;"
-    "font: bold 16px; }"
+    "font: bold 18px; }"
 
     "QPushButton::pressed {"
     "background-color: #e68a00;"
     "border-style: inset; }";
 
-const QString kSmallPausPushbuttonStyle =
+const QString kImageSelectorPushbuttonStyle =
+    "QPushButton {"
+    "background-color: #ff9900;"
+    "border-style: outset;"
+    "border-width: 2px;"
+    "border-radius: 10px;"
+    "border-color: beige;"
+    "padding: 2px;"
+    "font: bold 14px; }"
+
+    "QPushButton::pressed {"
+    "background-color: #e68a00;"
+    "border-style: inset; }";
+
+const QString kPausePushbuttonStyle =
+    "QPushButton {"
+    "background-color: #ff9900;"
+    "border-style: outset;"
+    "border-width: 2px;"
+    "border-radius: 10px;"
+    "border-color: beige;"
+    "padding: 2px;"
+    "font: bold 20px; }"
+
+    "QPushButton::pressed {"
+    "background-color: #e68a00;"
+    "border-style: inset; }";
+
+const QString kSmallPausePushbuttonStyle =
     "QPushButton {"
     "background-color: #ffff00;"
     "border-style: outset;"
