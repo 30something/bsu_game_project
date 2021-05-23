@@ -10,6 +10,7 @@
 #include <QTimer>
 #include <QWidget>
 
+#include "src/Menu/image_selector_tile.h"
 #include "src/helpers/cars_data.h"
 #include "src/helpers/fonts.h"
 #include "src/helpers/sizes.h"
@@ -40,6 +41,8 @@ class EndGameStats : public QWidget {
   QPushButton* return_to_main_menu_button_ = nullptr;
   QTimer finish_info_update_timer_;
   CarsData cars_data_;
+  std::vector<ImageSelectorTile*> images_;
+  std::vector<QLabel*> times_;
 
   static constexpr int kMillisPerFinishInfoUpdate = 20;
 };

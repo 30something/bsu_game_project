@@ -12,6 +12,7 @@ class ImageSelectorTile : public QWidget {
  public:
   ImageSelectorTile(QWidget* parent, const QString& filename);
   ~ImageSelectorTile() override = default;
+  void LoadImage(const QString& filename);
 
  private:
   void paintEvent(QPaintEvent*) override;

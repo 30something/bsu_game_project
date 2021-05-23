@@ -14,6 +14,7 @@ struct CarsData {
   int32_t GetLapsCounter(int index) const;
   size_t GetBulletsAmount(int index) const;
   size_t GetMinesAmount(int index) const;
+  size_t GetNumber(int index) const;
   double GetHP(int index) const;
   size_t GetElapsedTime(int index) const;
   int32_t GetFinishPosition(int index) const;

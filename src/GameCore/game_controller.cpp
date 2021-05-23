@@ -132,7 +132,7 @@ void GameController::SetUpCarsAchievements() {
     if (i < game_mode_->players_amount + game_mode_->network_players_amount) {
       remaining_players_.insert(i);
     }
-    car_achievements_[i].car_number = i;
+    car_achievements_[i].car_number = cars_[i].GetColor();
     car_achievements_[i].current_order_position = i + 1;
     car_achievements_[i].launched_finish_deviation =
         physics::CalculateLineDeviation(cars_[i].GetPosition().GetX(),

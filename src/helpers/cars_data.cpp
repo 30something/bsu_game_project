@@ -35,3 +35,7 @@ int32_t CarsData::GetFinishPosition(int index) const {
 uint32_t CarsData::GetCurrentOrderPosition(int index) const {
   return cars_data[index].current_order_position;
 }
+
+size_t CarsData::GetNumber(int index) const {
+  return cars_data[index].car_number;
+}
