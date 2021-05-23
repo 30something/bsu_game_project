@@ -10,7 +10,7 @@ struct CarsData {
   CarsData() = default;
   explicit CarsData(std::vector<CarAchievements>  new_cars_data);
 
-  double GetVelocity(int index) const;
+  size_t GetVelocity(int index) const;
   int32_t GetLapsCounter(int index) const;
   size_t GetBulletsAmount(int index) const;
   size_t GetMinesAmount(int index) const;

@@ -11,6 +11,9 @@ ViewInfoUpdater::ViewInfoUpdater(QWidget* parent,
   layout_->setAlignment(Qt::AlignCenter);
   start_label_->setAlignment(Qt::AlignCenter);
   start_label_->setFont(fonts::kStartInfoFont);
+  start_label_->setStyleSheet("QLabel {"
+                              "color: #ff0000;"
+                              "font: bold 60px; }");
   layout_->addWidget(start_label_);
   if (game_mode_->network_controller != nullptr) {
     network_id_ = game_mode_->network_controller->GetId();
@@ -42,13 +45,13 @@ void ViewInfoUpdater::UpdateTopInfo(QPainter* painter,
                                     int x_pos,
                                     int y_pos,
                                     int index) {
-  int32_t description_offset = fonts::kDefaultInfoFont.pointSize();
+  painter->setPen(QPen(QColor(0, 0, 153)));
+  int32_t description_offset = fonts::kDefaultInfoFont.pointSize() + 5;
+  y_pos -= 5;
   painter->setFont(fonts::kDefaultInfoFont);
   painter->drawText(x_pos,
                     y_pos + description_offset,
-                    QString::fromStdString("Velocity: " +
-                        std::to_string(cars_data_.GetVelocity(index)) +
-                        ", Laps: " +
+                    QString::fromStdString("Laps: " +
                         std::to_string(std::min(
                             static_cast<int>(laps_amount_),
                             cars_data_.GetLapsCounter(index)))
@@ -60,7 +63,7 @@ void ViewInfoUpdater::UpdateTopInfo(QPainter* painter,
   painter->drawText(x_pos,
                     y_pos + 3 * description_offset,
                     QString::fromStdString(
-                        "Current position: " + std::to_string(
+                        "Position: " + std::to_string(
                             cars_data_.GetCurrentOrderPosition(index)) + " / " +
                             std::to_string(players_amount_)));
   if (cars_data_.GetFinishPosition(index) > 0) {
@@ -78,7 +81,12 @@ void ViewInfoUpdater::UpdateBottomInfo(QPainter* painter,
                                        int x_pos,
                                        int y_pos,
                                        int index) {
-  int32_t description_offset = fonts::kDefaultInfoFont.pointSize();
+  int32_t description_offset = fonts::kDefaultInfoFont.pointSize() + 5;
+  painter->drawText(x_pos,
+                    y_pos - 2 * description_offset,
+                    QString::fromStdString("Velocity: " +
+                        std::to_string(cars_data_.GetVelocity(index))) +
+                        " km/h");
   painter->drawText(x_pos,
                     y_pos - description_offset,
                     QString::fromStdString(
@@ -145,7 +153,7 @@ QString ViewInfoUpdater::GetEditedTimeInfo(int index) const {
     millis_str += "0";
   }
   millis_str += std::to_string(millis);
-  return QString::fromStdString("Elapsed time: " +
+  return QString::fromStdString("Time: " +
       minutes_str + ":" + seconds_str + ":" + millis_str);
 }
 
