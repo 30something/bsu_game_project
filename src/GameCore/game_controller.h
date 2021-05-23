@@ -57,11 +57,13 @@ class GameController : public QObject {
   void ProceedCollisionsWithFinish();
   void ProceedFinishGame();
   void RecalculateDeviations();
+  void UpdateOrderPositions();
   void UpdateCarsInfoAndCollisions(int time_millis);
   void UpdateCarAchievements(uint32_t index, const Car& car);
   void EnableWeapons();
   static void CollideCars(Car* car_1, Car* car_2);
   std::set<CarsColors> SetBotsColors() const;
+  bool SwapOrderPositions(uint32_t first_car, uint32_t second_car);
 
   static constexpr double kVelocityDecrease = 0.5;
   static constexpr double kDeviationDecrease = 0.5;
@@ -81,6 +83,6 @@ class GameController : public QObject {
   std::vector<Animation> animations_;
   QTimer weapons_timer_;
   NetworkController* network_controller_;
-  int32_t next_position_to_finish_ = 1;
   ClientCarDataSender* client_car_data_sender_ = nullptr;
+  int32_t next_position_to_finish_ = 1;
 };

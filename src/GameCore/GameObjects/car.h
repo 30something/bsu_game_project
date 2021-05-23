@@ -37,6 +37,7 @@ class Car : public GameObject {
   double GetHitPoints() const;
   size_t GetBulletsAmount() const;
   size_t GetMinesAmount() const;
+  size_t GetColor() const;
   double GetAngle() const override;
   const std::vector<Line>& GetCollisionLines() const override;
   const Vec2f& GetVelocity() const;

@@ -7,28 +7,40 @@ Settings::Settings(QWidget* parent) :
     music_layout_(new QHBoxLayout),
     sound_layout_(new QHBoxLayout),
     music_(new QLabel("Music", this)),
-    music_volume_(new QSlider(Qt::Horizontal)),
+    music_volume_(new QSlider(Qt::Horizontal, this)),
     sound_effects_(new QLabel("Sound Effects", this)),
-    sound_effects_volume_(new QSlider(Qt::Horizontal)),
+    sound_effects_volume_(new QSlider(Qt::Horizontal, this)),
     full_screen_cell_(new QCheckBox("Full Screen")),
     apply_button_(new QPushButton("Apply", this)),
     back_button_(new QPushButton("Back", this)) {
-  SetFonts();
-  SetSizes();
+  SetStyles();
   SetUpLayout();
   ConnectUI();
 }
 
-void Settings::SetFonts() {
-  music_->setFont(fonts::kDefaultLabelFont);
-  sound_effects_->setFont(fonts::kDefaultLabelFont);
-  full_screen_cell_->setFont(fonts::kDefaultButtonFont);
-  apply_button_->setFont(fonts::kDefaultButtonFont);
-  back_button_->setFont(fonts::kDefaultButtonFont);
-}
-
-void Settings::SetSizes() {
+void Settings::SetStyles() {
   setMinimumSize(menu_sizes::kSettingsSize);
+  for (auto& widget : children()) {
+    auto* label_ptr = qobject_cast<QLabel*>(widget);
+    auto* button_ptr = qobject_cast<QPushButton*>(widget);
+    auto* slider_ptr = qobject_cast<QSlider*>(widget);
+    if (label_ptr) {
+      label_ptr->setFont(fonts::kDefaultLabelFont);
+      label_ptr->setStyleSheet("QLabel {"
+                               "font: bold 18px; }");
+    } else if (button_ptr) {
+      button_ptr->setFont(fonts::kDefaultButtonFont);
+      button_ptr->setMinimumSize(button_sizes::kDefaultButtonSize);
+      button_ptr->setStyleSheet(styles::kStandardPushbuttonStyle);
+      button_ptr->setStyleSheet("QPushButton {"
+                                "font: bold 18px; }");
+    } else if (slider_ptr) {
+      slider_ptr->setStyleSheet(styles::kStandardSliderStyle);
+    }
+  }
+  full_screen_cell_->setFont(fonts::kDefaultButtonFont);
+  full_screen_cell_->setStyleSheet("QCheckBox {"
+                                "font: bold 16px; }");
   apply_button_->setMinimumSize(button_sizes::kSettingsMinButtonSize);
   back_button_->setMinimumSize(button_sizes::kSettingsMinButtonSize);
 }

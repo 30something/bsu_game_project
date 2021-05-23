@@ -10,9 +10,11 @@
 #include <QTimer>
 #include <QWidget>
 
+#include "src/Menu/image_selector_tile.h"
 #include "src/helpers/cars_data.h"
 #include "src/helpers/fonts.h"
 #include "src/helpers/sizes.h"
+#include "src/helpers/styles.h"
 #include "src/helpers/physics.h"
 
 class EndGameStats : public QWidget {
@@ -31,6 +33,9 @@ class EndGameStats : public QWidget {
 
  private:
   void UpdateStats();
+  void CreateLayouts(int index,
+                     const QString& image_path,
+                     const std::string& stats_string);
   void SetInfo();
   std::string CreateStatsString(int index);
 
@@ -40,6 +45,8 @@ class EndGameStats : public QWidget {
   QPushButton* return_to_main_menu_button_ = nullptr;
   QTimer finish_info_update_timer_;
   CarsData cars_data_;
+  std::vector<ImageSelectorTile*> images_;
+  std::vector<QLabel*> times_;
 
   static constexpr int kMillisPerFinishInfoUpdate = 20;
 };

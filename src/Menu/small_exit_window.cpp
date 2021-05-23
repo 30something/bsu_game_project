@@ -5,23 +5,29 @@ SmallExitWindow::SmallExitWindow(QWidget* parent)
       main_widget_(new QWidget(this)),
       grid_layout_(new QGridLayout(this)),
       question_(new QLabel("Go to main menu?", main_widget_)),
-      yes_button_(new QPushButton("YES", main_widget_)),
-      no_button_(new QPushButton("NO", main_widget_)) {
-  SetFonts();
-  SetSizes();
+      yes_button_(new QPushButton("Yes", main_widget_)),
+      no_button_(new QPushButton("No", main_widget_)) {
+  SetStyles();
   main_widget_->move(0, 0);
   SetUpLayout();
   ConnectUI();
 }
 
-void SmallExitWindow::SetFonts() {
-  question_->setFont(fonts::kDefaultLabelFont);
-  yes_button_->setFont(fonts::kDefaultButtonFont);
-  no_button_->setFont(fonts::kDefaultButtonFont);
-}
-
-void SmallExitWindow::SetSizes() {
+void SmallExitWindow::SetStyles() {
   resize(menu_sizes::kSmallExitWindowSize);
+  main_widget_->setStyleSheet(styles::kPauseWidgetStyle);
+  for (auto& widget : main_widget_->children()) {
+    auto* label_ptr = qobject_cast<QLabel*>(widget);
+    auto* button_ptr = qobject_cast<QPushButton*>(widget);
+    if (label_ptr) {
+      label_ptr->setFont(fonts::kDefaultLabelFont);
+      label_ptr->setStyleSheet("QLabel {"
+                               "font: bold 18px; }");
+    } else if (button_ptr) {
+      button_ptr->setFont(fonts::kDefaultButtonFont);
+      button_ptr->setStyleSheet(styles::kSmallPausPushbuttonStyle);
+    }
+  }
   main_widget_->resize(menu_sizes::kSmallExitWindowSize);
 }
 

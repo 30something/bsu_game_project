@@ -10,7 +10,8 @@ MainWindow::MainWindow(QMainWindow* parent) :
     settings_(new Settings(this)),
     network_room_(new NetworkRoom(this, game_mode_)) {
   setMinimumSize(mainwindow_sizes::kDefaultScreenSize);
-  setWindowTitle("Death Rally");
+  setWindowTitle("Survival Rally: Big Guns");
+  setWindowIcon(QIcon(":resources/images/other_stuff/icon0.png"));
   SetUpStackedWidget();
   pause_menu_->Close();
   ConnectUI();
@@ -75,6 +76,14 @@ void MainWindow::CloseNetworkRoom() {
   stacked_widget_->setCurrentWidget(menu_);
 }
 
+void MainWindow::SingleplayerStarted() {
+  game_mode_selector_->SetSingleplayer(true);
+}
+
+void MainWindow::MultiplayerStarted() {
+  game_mode_selector_->SetSingleplayer(false);
+}
+
 void MainWindow::SetUpStackedWidget() {
   stacked_widget_->addWidget(menu_);
   stacked_widget_->addWidget(game_mode_selector_);
@@ -84,6 +93,14 @@ void MainWindow::SetUpStackedWidget() {
 }
 
 void MainWindow::ConnectUI() {
+  connect(menu_,
+          &Menu::SinglePlayerPressed,
+          this,
+          &MainWindow::SingleplayerStarted);
+  connect(menu_,
+          &Menu::MultiPlayerPressed,
+          this,
+          &MainWindow::MultiplayerStarted);
   connect(menu_,
           &Menu::SinglePlayerPressed,
           this,

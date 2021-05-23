@@ -3,34 +3,30 @@
 Menu::Menu(QWidget* parent) :
     QWidget(parent),
     main_layout_(new QVBoxLayout(this)),
-    name_label_(new QLabel("Death Rally", this)),
-    single_player_button_(new QPushButton("Single player", this)),
-    multi_player_button_(new QPushButton("Multi player", this)),
+    name_label_(new QLabel("Survival Rally: Big Guns", this)),
+    single_player_button_(new QPushButton("Singleplayer", this)),
+    multi_player_button_(new QPushButton("Multiplayer", this)),
     settings_button_(new QPushButton("Settings", this)),
     credits_button_(new QPushButton("Credits", this)),
     exit_button_(new QPushButton("Exit", this)) {
-  SetFonts();
-  SetSizes();
+  SetStyles();
   SetUpLayout();
   ConnectUI();
 }
 
-void Menu::SetFonts() {
-  name_label_->setFont(fonts::kGameNameLabelFont);
-  single_player_button_->setFont(fonts::kDefaultButtonFont);
-  multi_player_button_->setFont(fonts::kDefaultButtonFont);
-  settings_button_->setFont(fonts::kDefaultButtonFont);
-  credits_button_->setFont(fonts::kDefaultButtonFont);
-  exit_button_->setFont(fonts::kDefaultButtonFont);
-}
-
-void Menu::SetSizes() {
+void Menu::SetStyles() {
   setMinimumSize(menu_sizes::kMenuSize);
-  single_player_button_->setMinimumSize(button_sizes::kDefaultButtonSize);
-  multi_player_button_->setMinimumSize(button_sizes::kDefaultButtonSize);
-  settings_button_->setMinimumSize(button_sizes::kDefaultButtonSize);
-  credits_button_->setMinimumSize(button_sizes::kDefaultButtonSize);
-  exit_button_->setMinimumSize(button_sizes::kDefaultButtonSize);
+  name_label_->setFont(fonts::kGameNameLabelFont);
+  for (auto& widget : children()) {
+    auto* button_ptr = qobject_cast<QPushButton*>(widget);
+    if (button_ptr != nullptr) {
+      button_ptr->setFont(fonts::kDefaultButtonFont);
+      button_ptr->setMinimumSize(button_sizes::kDefaultButtonSize);
+      button_ptr->setStyleSheet(styles::kStandardPushbuttonStyle);
+      button_ptr->setStyleSheet("QPushButton {"
+                                "font: bold 18px; }");
+    }
+  }
 }
 
 void Menu::SetUpLayout() {

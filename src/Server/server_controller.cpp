@@ -1,5 +1,4 @@
 #include "server_controller.h"
-#include <iostream>
 
 ServerController::ServerController() :
     ip_(this),
@@ -64,6 +63,9 @@ void ServerController::ReceiveClientData() {
         }
         case MessageType::kNewBonusData : {
           SendBonusData(data.data);
+          break;
+        }
+        case MessageType::kPlayersVector: {
           break;
         }
       }

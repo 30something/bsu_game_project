@@ -27,7 +27,8 @@ constexpr QSize kDefaultButtonSize(300, 60);
 constexpr QSize kSmallChooseButtonSize(100, 20);
 constexpr QSize kMapSelectorsSize(200, 60);
 constexpr QSize kSettingsMinButtonSize(200, 65);
-constexpr QSize kPauseMenuMinButtonSize(300, 45);
+constexpr QSize kMultiplayerButtonMinSize(0, 50);
+constexpr QSize kPauseMenuMinButtonSize(350, 60);
 
 }  // button_sizes
 

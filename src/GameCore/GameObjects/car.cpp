@@ -225,6 +225,10 @@ size_t Car::GetMinesAmount() const {
   return mines_amount_;
 }
 
+size_t Car::GetColor() const {
+  return static_cast<size_t>(car_color_);
+}
+
 void Car::AddHitPoints(double hit_points) {
   hit_points_ += hit_points;
   if (std::abs(hit_points) + kEps >= kMinSignificantDamage) {

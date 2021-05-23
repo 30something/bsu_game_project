@@ -1,14 +1,23 @@
 #include "image_selector_tile.h"
 
 ImageSelectorTile::ImageSelectorTile(QWidget* parent, const QString& filename) :
-    QWidget(parent),
-    pixmap_(new QPixmap(filename)) {
-  QTransform transform;
+    QWidget(parent) {
+  LoadImage(filename);
+}
+
+ImageSelectorTile::~ImageSelectorTile() {
+  delete pixmap_;
+}
+
+void ImageSelectorTile::LoadImage(const QString& filename) {
   QTransform trans;
-  trans = transform.rotate(90);
-  pixmap_ = new QPixmap(pixmap_->transformed(trans));
-  repaint();
+  trans.rotate(90);
+  delete pixmap_;
+  auto transformed_pixmap = new QPixmap(filename);
+  pixmap_ = new QPixmap(transformed_pixmap->transformed(trans));
+  delete transformed_pixmap;
   setMinimumSize(pixmap_->width(), pixmap_->height());
+  repaint();
 }
 
 void ImageSelectorTile::paintEvent(QPaintEvent*) {

@@ -18,6 +18,8 @@
 #include "player_tile.h"
 #include "src/helpers/game_mode.h"
 #include "src/helpers/fonts.h"
+#include "src/helpers/sizes.h"
+#include "src/helpers/styles.h"
 
 class NetworkRoom : public QWidget {
   Q_OBJECT
@@ -25,6 +27,7 @@ class NetworkRoom : public QWidget {
  public:
   explicit NetworkRoom(QWidget* parent, GameMode* game_mode);
   ~NetworkRoom() override = default;
+  void Disconnect();
 
  signals:
   void StartGame();
@@ -38,9 +41,8 @@ class NetworkRoom : public QWidget {
   void PrepareForStart();
   void ChangeReadyStatus();
   void Connect();
-  void Disconnect();
   void SetUpLayouts();
-  void SetFonts();
+  void SetStyles();
   void ConnectButtons() const;
   void AddStartButton();
   void DecodeGameModeData();

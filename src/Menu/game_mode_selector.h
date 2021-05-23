@@ -13,6 +13,7 @@
 #include "src/helpers/game_mode.h"
 #include "src/helpers/fonts.h"
 #include "src/helpers/sizes.h"
+#include "src/helpers/styles.h"
 
 class GameModeSelector : public QWidget {
   Q_OBJECT
@@ -20,6 +21,7 @@ class GameModeSelector : public QWidget {
  public:
   explicit GameModeSelector(QWidget* parent, GameMode* game_mode);
   ~GameModeSelector() override = default;
+  void SetSingleplayer(bool flag);
 
  signals:
   void StartGame();
@@ -29,8 +31,7 @@ class GameModeSelector : public QWidget {
   void resizeEvent(QResizeEvent*) override;
 
   void InitializeImages();
-  void SetFonts();
-  void SetSizes();
+  void SetStyles();
   void SetUpLayouts();
   void ConnectUI();
   void PrepareComboBoxes();
@@ -69,6 +70,7 @@ class GameModeSelector : public QWidget {
   QComboBox* number_of_bots_ = nullptr;
 
   uint32_t number_of_maps_pixmaps_ = 0;
+  bool singleplayer_layouts_added_ = true;
 
   static constexpr uint32_t kMaxPlayersAmount = 2;
   static constexpr uint32_t kMaxLapsAmount = 10;
@@ -77,5 +79,5 @@ class GameModeSelector : public QWidget {
   static constexpr int32_t kMinimapStartXDivisionCoef = 3;
   static constexpr int32_t kMinimapStartYDivisionCoef = 30;
   static constexpr int32_t kMinimapWidthDivisionCoef = 3;
-  static constexpr double kMinimapHeightDivisionCoef = 2.3;
+  static constexpr double kMinimapHeightDivisionCoef = 2.5;
 };

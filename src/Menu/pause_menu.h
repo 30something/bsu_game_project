@@ -9,6 +9,7 @@
 #include "small_exit_window.h"
 #include "src/helpers/fonts.h"
 #include "src/helpers/sizes.h"
+#include "src/helpers/styles.h"
 
 class PauseMenu : public QWidget {
   Q_OBJECT
@@ -28,8 +29,7 @@ class PauseMenu : public QWidget {
   void resizeEvent(QResizeEvent*) override;
   void keyPressEvent(QKeyEvent*) override;
 
-  void SetFonts();
-  void SetSizes();
+  void SetStyles();
   void SetUpLayout();
   void ConnectUI();
 

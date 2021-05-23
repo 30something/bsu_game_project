@@ -13,6 +13,9 @@ void EndGameStats::SetInfo() {
   stats_label_->setFont(fonts::kDefaultStatsFont);
   return_to_main_menu_button_->setMinimumSize(button_sizes::kDefaultButtonSize);
   return_to_main_menu_button_->setFont(fonts::kDefaultButtonFont);
+  setStyleSheet(styles::kStandardPushbuttonStyle);
+  setStyleSheet("QLabel {"
+                "font: bold 26px; }");
   layout_->setAlignment(Qt::AlignCenter);
   layout_->addWidget(stats_label_, 5, Qt::AlignCenter);
   layout_->addLayout(positions_layout_);
@@ -44,23 +47,41 @@ void EndGameStats::UpdateStats() {
             });
   for (int i = 0; i < static_cast<int>(cars_data_.cars_data.size()); i++) {
     std::string stats_string = CreateStatsString(i);
+    std::string image_path = ":resources/images/cars/cars_icons/car";
+    image_path += std::to_string(cars_data_.GetNumber(i) + 1) + ".png";
+    QString image_path_qt = QString::fromStdString(image_path);
     if (positions_layout_->count() > i) {
-      qobject_cast<QLabel*>(positions_layout_->itemAt(i)->widget())->setText(
-          QString::fromStdString(stats_string));
+      images_[i]->LoadImage(image_path_qt);
+      times_[i]->setText(QString::fromStdString(stats_string));
     } else {
-      positions_layout_->addWidget(
-          new QLabel(QString::fromStdString(stats_string)), 1, Qt::AlignCenter);
-      qobject_cast<QLabel*>(positions_layout_->itemAt(i)->widget())->setFont(
-          fonts::kDefaultStatsFont);
+      CreateLayouts(i, image_path_qt, stats_string);
     }
   }
   show();
 }
 
+void EndGameStats::CreateLayouts(int index,
+                                 const QString& image_path,
+                                 const std::string& stats_string) {
+  auto stats_layout = new QHBoxLayout;
+  auto pos_label = new QLabel(QString::fromStdString(
+      std::to_string(index + 1) + ") "));
+  auto image = new ImageSelectorTile(this, image_path);
+  auto time_label = new QLabel(QString::fromStdString(stats_string));
+  pos_label->setFont(fonts::kDefaultLabelFont);
+  time_label->setFont(fonts::kDefaultLabelFont);
+  stats_layout->addStretch(15);
+  stats_layout->addWidget(pos_label, 1, Qt::AlignCenter);
+  stats_layout->addWidget(image, 1, Qt::AlignCenter);
+  stats_layout->addWidget(time_label, 1, Qt::AlignCenter);
+  stats_layout->addStretch(15);
+  positions_layout_->addLayout(stats_layout);
+  images_.emplace_back(image);
+  times_.emplace_back(time_label);
+}
+
 std::string EndGameStats::CreateStatsString(int index) {
-  auto temp_string = std::to_string(index + 1) + ") ";
-  temp_string += std::to_string(
-      cars_data_.cars_data[index].car_number + 1) + " - ";
+  std::string temp_string = "- ";
   if (cars_data_.cars_data[index].is_finished) {
     std::vector<size_t> parsed_time = physics::TimeParse(
         cars_data_.cars_data[index].elapsed_millis_time);

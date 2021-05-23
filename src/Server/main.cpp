@@ -3,7 +3,7 @@
 
 int main(int argc, char* argv[]) {
   QApplication a(argc, argv);
-  ServerController butt;
-  butt.show();
+  ServerController server_controller;
+  server_controller.show();
   return QApplication::exec();
 }

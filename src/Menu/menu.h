@@ -8,6 +8,7 @@
 
 #include "src/helpers/sizes.h"
 #include "src/helpers/fonts.h"
+#include "src/helpers/styles.h"
 
 class Menu : public QWidget {
   Q_OBJECT
@@ -23,8 +24,7 @@ class Menu : public QWidget {
   void ExitButtonPressed();
 
  private:
-  void SetFonts();
-  void SetSizes();
+  void SetStyles();
   void SetUpLayout();
   void ConnectUI();
 
