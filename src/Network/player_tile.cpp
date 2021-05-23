@@ -7,7 +7,11 @@ PlayerTile::PlayerTile(QWidget* parent, const NetworkPlayer* player) :
     is_ready_(new QLabel(this)),
     main_layout_(new QHBoxLayout(this)) {
   nickname_->setFont(fonts::kDefaultLabelFont);
+  nickname_->setStyleSheet("QLabel {"
+                           "font: bold 18px; }");
   is_ready_->setFont(fonts::kDefaultLabelFont);
+  is_ready_->setStyleSheet("QLabel {"
+                           "font: bold 18px; }");
   if (player->IsReady()) {
     is_ready_->setText("Ready");
   } else {

@@ -169,6 +169,18 @@ void NetworkRoom::UpdatePlayersVector() {
 void NetworkRoom::AddStartButton() {
   start_button_ = new QPushButton("Start Game", this);
   start_button_->setFont(fonts::kDefaultButtonFont);
+  start_button_->setMinimumSize(button_sizes::kMultiplayerButtonMinSize);
+  start_button_->setStyleSheet("QPushButton {"
+                               "background-color: #ff9900;"
+                               "border-style: outset;"
+                               "border-width: 2px;"
+                               "border-radius: 10px;"
+                               "border-color: beige;"
+                               "font: bold 18px; }"
+
+                               "QPushButton::pressed {"
+                               "background-color: #e68a00;"
+                               "border-style: inset; }");
   buttons_layout_->addWidget(start_button_);
   connect(start_button_,
           &QPushButton::clicked,

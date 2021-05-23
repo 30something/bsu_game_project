@@ -4,8 +4,8 @@ Menu::Menu(QWidget* parent) :
     QWidget(parent),
     main_layout_(new QVBoxLayout(this)),
     name_label_(new QLabel("Death Rally", this)),
-    single_player_button_(new QPushButton("Single player", this)),
-    multi_player_button_(new QPushButton("Multi player", this)),
+    single_player_button_(new QPushButton("Singleplayer", this)),
+    multi_player_button_(new QPushButton("Multiplayer", this)),
     settings_button_(new QPushButton("Settings", this)),
     credits_button_(new QPushButton("Credits", this)),
     exit_button_(new QPushButton("Exit", this)) {
