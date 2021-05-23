@@ -5,7 +5,7 @@ EventsController::EventsController(QWidget *parent, GameMode *game_mode) :
         QWidget(parent),
         input_controller_(),
         game_controller_(new GameController(game_mode, &input_controller_)),
-        view_(new View(this, game_controller_, game_mode)),
+        view_(new View(this, game_mode)),
         view_info_updater_(new ViewInfoUpdater(this, game_mode)),
         end_game_stats_(new EndGameStats(this)) {
     LaunchStartCountdownTimer();
@@ -152,6 +152,6 @@ void EventsController::PlaySounds() {
     view_->PlayShooting(
             game_controller_->GetParametersForShootingSound(),
             pause);
-    view_->PlayMine(game_controller_->MineIsExploded());
-    view_->PlayCarExplosion(game_controller_->CarIsExploded());
+    view_->PlayMine(game_controller_->GetParametersForMineExplosionSound());
+    view_->PlayCarExplosion(game_controller_->GetParametersForCarExplosionSound());
 }

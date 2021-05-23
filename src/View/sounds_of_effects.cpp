@@ -13,11 +13,15 @@ void Effects::PlayBonus(bool is_playing) {
     }
 }
 
-void Effects::PlayMine(bool play_mine) {
+void Effects::PlayMine(bool play_mine, double volume_parameter) {
     if (play_mine) {
         QMediaPlayer *player = new QMediaPlayer;
         QMediaPlaylist *playlist = new QMediaPlaylist(player);
+
+        int volume = static_cast<int>(100 * volume_parameter);
+
         player->setPlaylist(playlist);
+        player->setVolume(volume);
         playlist->addMedia(QUrl(
                 "qrc:/resources/sounds/weapon/mine.wav"));
         playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);
@@ -25,11 +29,15 @@ void Effects::PlayMine(bool play_mine) {
     }
 }
 
-void Effects::PlayCarExplosion(bool play_car_explosion) {
+void Effects::PlayCarExplosion(bool play_car_explosion, double volume_parameter) {
     if (play_car_explosion) {
         QMediaPlayer *player = new QMediaPlayer;
         QMediaPlaylist *playlist = new QMediaPlaylist(player);
+
+        int volume = static_cast<int>(100 * volume_parameter);
+
         player->setPlaylist(playlist);
+        player->setVolume(volume);
         playlist->addMedia(QUrl(
                 "qrc:/resources/sounds/effects/car_explosion.wav"));
         playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);

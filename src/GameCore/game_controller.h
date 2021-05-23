@@ -44,13 +44,13 @@ class GameController : public QObject {
   std::vector<EngineParameters> GetParametersForEngineSound() const;
   std::vector<ShootingParameters> GetParametersForShootingSound() const;
   std::vector<DriftParameters> GetParametersForDriftSound() const;
-  std::vector<double>  GetParametersForBrakeSound() const;
+  std::vector<BrakeParameters> GetParametersForBrakeSound() const;
+  EffectParameters GetParametersForCarExplosionSound();
   uint32_t GetCarsAmount() const;
-  uint32_t GetPlayersAmount() const;
+  double GetDistance(uint32_t i, uint32_t j) const;
   bool BonusIsApplied() const;
   bool BonusOfPlayersIsApplied() const;
-  bool MineIsExploded() const;
-  bool CarIsExploded() const;
+  EffectParameters GetParametersForMineExplosionSound() const;
 
  private:
   void SetUpCars(const InputController* input_controller);
@@ -65,8 +65,11 @@ class GameController : public QObject {
   void UpdateCarsInfoAndCollisions(int time_millis);
   static void CollideCars(Car* car_1, Car* car_2);
   void EnableWeapons();
+  void VolumeHandling(std::vector<double>& volume_parameters) const;
+  void ChangingParameterForBonusSound(uint32_t i);
+  void ChangingParametersForExplosionSound(uint32_t i);
 
-  static constexpr double kVelocityDecrease = 0.5;
+    static constexpr double kVelocityDecrease = 0.5;
   static constexpr double kDeviationDecrease = 0.5;
   static constexpr double kHPDecrease = 0.005;
   static constexpr double kMillisWeaponsEnable = 10000;
@@ -82,6 +85,7 @@ class GameController : public QObject {
   QTimer weapons_timer_;
   NetworkController* network_controller_;
 
-  bool car_is_exploded_ = false;
   bool bonus_is_applied_ = false;
+  std::vector<bool> exploded_cars_;
+  std::vector<double> volume_parameters_;
 };

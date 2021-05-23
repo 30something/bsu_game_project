@@ -132,25 +132,25 @@ void GameController::Tick(int time_millis) {
     ProceedFinishGame();
     RecalculateDeviations();
     UpdateCarsInfoAndCollisions(time_millis);
+    VolumeHandling(volume_parameters_);
 }
 
 void GameController::UpdateCarsInfoAndCollisions(int time_millis) {
-//TODO only for 1 car
     SetNoBonusIsApplied();
     bonus_is_applied_ = false;
-    car_is_exploded_ = false;
     for (uint32_t i = 0; i < cars_.size(); i++) {
         map_.HandleCarTick(&cars_[i]);
-        if (i < game_mode_->players_amount && BonusIsApplied()) {
-            bonus_is_applied_ = true;
-        }
+
+        ChangingParameterForBonusSound(i);
+
         cars_[i].Tick(time_millis);
         car_achievements_[i].current_showed_velocity =
                 cars_[i].GetVelocity().GetLength();
         if (cars_[i].GetHitPoints() < physics::kAlmostZero) {
-            if (i < game_mode_->players_amount && !cars_[i].IsDead()) {
-                car_is_exploded_ = true;
+            if (!cars_[i].IsDead()) {
+                ChangingParametersForExplosionSound(i);
             }
+
             cars_[i].BecomeDead();
             remaining_cars_.erase(i);
         }
@@ -293,26 +293,11 @@ void GameController::EnableWeapons() {
 std::vector<EngineParameters> GameController::GetParametersForEngineSound() const {
     std::vector<EngineParameters> parameters_of_cars;
     parameters_of_cars.reserve(cars_.size());
+
     for (uint32_t i = 0; i < cars_.size(); i++) {
         std::pair<double, Motion> parameters = cars_[i].GetParametersForEngineSound();
-        if (i < game_mode_->players_amount) {
-            parameters_of_cars.push_back(
-                    {parameters.first, parameters.second, true});
-        } else {
-            bool play_sound = false;
-            for (uint32_t j = 0; j < game_mode_->players_amount; j++) {
-                double distance = std::sqrt((cars_[j].GetPosition().GetX() - cars_[i].GetPosition().GetX()) *
-                        (cars_[j].GetPosition().GetX() - cars_[i].GetPosition().GetX()) +
-                        (cars_[j].GetPosition().GetY() - cars_[i].GetPosition().GetY()) *
-                        (cars_[j].GetPosition().GetY() - cars_[i].GetPosition().GetY()));
-                if (distance < 150.0f) {
-                    play_sound = true;
-                    break;
-                }
-            }
-            parameters_of_cars.push_back(
-                    {parameters.first, parameters.second, play_sound});
-        }
+        parameters_of_cars.push_back(
+                {parameters.first, parameters.second, volume_parameters_.at(i)});
     }
     return parameters_of_cars;
 }
@@ -320,17 +305,22 @@ std::vector<EngineParameters> GameController::GetParametersForEngineSound() cons
 std::vector<DriftParameters> GameController::GetParametersForDriftSound() const {
     std::vector<DriftParameters> parameters_of_cars;
     parameters_of_cars.reserve(cars_.size());
-    for (const auto& car : cars_) {
-        parameters_of_cars.push_back({car.GetParameterForDriftSound(), game_mode_->enable_drifting});
+
+    for (uint32_t i = 0; i < cars_.size(); i++) {
+        parameters_of_cars.push_back({cars_[i].GetParameterForDriftSound(),
+                                      game_mode_->enable_drifting,
+                                      volume_parameters_.at(i)});
     }
     return parameters_of_cars;
 }
 
-std::vector<double> GameController::GetParametersForBrakeSound() const {
-    std::vector<double> parameters_of_cars;
+std::vector<BrakeParameters> GameController::GetParametersForBrakeSound() const {
+    std::vector<BrakeParameters> parameters_of_cars;
     parameters_of_cars.reserve(cars_.size());
-    for (const auto& car : cars_) {
-        parameters_of_cars.push_back(car.GetParameterForBrakeSound());
+
+    for (uint32_t i = 0; i < cars_.size(); i++) {
+        parameters_of_cars.push_back({cars_[i].GetParameterForBrakeSound(),
+                                      volume_parameters_.at(i)});
     }
     return parameters_of_cars;
 }
@@ -347,43 +337,111 @@ bool GameController::BonusOfPlayersIsApplied() const {
     return bonus_is_applied_;
 }
 
+void GameController::ChangingParameterForBonusSound(uint32_t i) {
+    if (game_mode_->network_controller == nullptr) {
+        if (i < game_mode_->players_amount && BonusIsApplied()) {
+            bonus_is_applied_ = true;
+        }
+    } else if (i == game_mode_->network_controller->GetId()) {
+        bonus_is_applied_ = true;
+    }
+}
+
 std::vector<ShootingParameters> GameController::GetParametersForShootingSound() const {
     std::vector<ShootingParameters> parameters_of_cars;
     parameters_of_cars.reserve(cars_.size());
-    for (const auto& car : cars_) {
+
+    for (uint32_t i = 0; i < cars_.size(); i++) {
         bool bullets = true;
-        if (car.GetBulletsAmount() <= 0) {
+        if (cars_[i].GetBulletsAmount() <= 0) {
             bullets = false;
         }
-        parameters_of_cars.push_back({car.UsingGun(), bullets,
-                                      weapon_handler_.GetEnableWeapons()});
+        parameters_of_cars.push_back({cars_[i].UsingGun(), bullets,
+                                      weapon_handler_.GetEnableWeapons(),
+                                      volume_parameters_.at(i)});
     }
     return parameters_of_cars;
 }
 
-bool GameController::MineIsExploded() const {
-    bool is_exploded = false;
+EffectParameters GameController::GetParametersForMineExplosionSound() const {
     std::vector<bool> cars_on_mines = weapon_handler_.CarsOnMines();
+
     if (cars_on_mines.empty()) {
-        return false;
+        return {false, 0.0f};
     }
-    for (uint32_t i = 0; i < game_mode_->players_amount; i++) {
-        if (cars_on_mines.at(i)) {
-            is_exploded = true;
-            break;
-        }
+
+    auto car_iterator = std::find(cars_on_mines.begin(),
+                                  cars_on_mines.end(), true);
+
+    if (car_iterator == cars_on_mines.end()) {
+        return {false, 0.0f};
     }
-    return is_exploded;
+
+    uint32_t index = car_iterator - cars_on_mines.begin();
+    return {true, volume_parameters_.at(index)};
 }
 
-bool GameController::CarIsExploded() const {
-    return car_is_exploded_;
+EffectParameters GameController::GetParametersForCarExplosionSound() {
+    if (exploded_cars_.empty()) {
+        exploded_cars_ = std::vector<bool>(cars_.size(), false);
+        return {false, 0.0f};
+    }
+
+    auto car_iterator = std::find(exploded_cars_.begin(),
+                                  exploded_cars_.end(), true);
+
+    if (car_iterator == exploded_cars_.end()) {
+        exploded_cars_ = std::vector<bool>(cars_.size(), false);
+        return {false, 0.0f};
+    }
+
+    uint32_t index = car_iterator - exploded_cars_.begin();
+    exploded_cars_ = std::vector<bool>(cars_.size(), false);
+    return {true, volume_parameters_.at(index)};
+}
+
+void GameController::ChangingParametersForExplosionSound(uint32_t i) {
+    std::vector<bool> exploded_cars(cars_.size(), false);
+    exploded_cars.at(i) = true;
+    exploded_cars_ = exploded_cars;
 }
 
 uint32_t GameController::GetCarsAmount() const {
     return cars_.size();
 }
 
-uint32_t GameController::GetPlayersAmount() const {
-    return game_mode_->players_amount;
+double GameController::GetDistance(uint32_t i, uint32_t j) const {
+    return std::sqrt((cars_[j].GetPosition().GetX() - cars_[i].GetPosition().GetX()) *
+                     (cars_[j].GetPosition().GetX() - cars_[i].GetPosition().GetX()) +
+                     (cars_[j].GetPosition().GetY() - cars_[i].GetPosition().GetY()) *
+                     (cars_[j].GetPosition().GetY() - cars_[i].GetPosition().GetY()));
+}
+
+void GameController::VolumeHandling(std::vector<double>& result) const {
+    std::vector<double> volume_parameters;
+    volume_parameters.reserve(cars_.size());
+    for (uint32_t i = 0; i < cars_.size(); i++) {
+        double volume_parameter = 0.0f;
+        double max_volume_parameter = 0.0f;
+        uint32_t first_index = 0;
+        if (game_mode_->network_controller != nullptr) {
+            first_index = game_mode_->network_controller->GetId();
+        }
+        for (uint32_t j = first_index; j < first_index + game_mode_->players_amount; j++) {
+            double distance = GetDistance(i, j);
+            if (distance > 150.0f) {
+                volume_parameter = 0.0f;
+            } else {
+                volume_parameter = 20.0f / distance;
+            }
+            if (volume_parameter > 1.0f) {
+                volume_parameter = 1.0f;
+            }
+            if (max_volume_parameter - volume_parameter < -1e-6) {
+                max_volume_parameter = volume_parameter;
+            }
+        }
+        volume_parameters.push_back(max_volume_parameter);
+    }
+    result = volume_parameters;
 }

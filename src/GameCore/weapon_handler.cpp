@@ -1,4 +1,5 @@
 #include "weapon_handler.h"
+#include <QDebug>
 
 void WeaponHandler::ShootBullet(Car *car, std::vector<Car> *cars) {
     std::optional<Line> shoot_trajectory = car->ShootBullet();
@@ -37,24 +38,22 @@ void WeaponHandler::ProceedWeapons(std::vector<Car> *cars) {
             PutMine(&car);
         }
     }
-    cars_on_mines_.clear();
-    cars_on_mines_.reserve(cars->size());
+    std::vector<bool> cars_on_mines(cars->size(), false);
     for (auto &mine : mines_) {
         if (!mine.IsExploded()) {
-            for (auto &car : *cars) {
-                if (physics::IsIntersects(car.GetCollisionLines(),
+            for (uint32_t i = 0; i < cars->size(); i++) {
+                if (physics::IsIntersects((*cars)[i].GetCollisionLines(),
                                           mine.GetCollisionLines())) {
-                    car.AddHitPoints(-kMineDamage);
-                    car.SetVelocity(Vec2f(car.GetVelocity()).Normalize() *
+                    (*cars)[i].AddHitPoints(-kMineDamage);
+                    (*cars)[i].SetVelocity(Vec2f((*cars)[i].GetVelocity()).Normalize() *
                                     -kMineSplash);
                     mine.SetExploded();
-                    cars_on_mines_.push_back(true);
-                    continue;
+                    cars_on_mines.at(i) = true;
                 }
-                cars_on_mines_.push_back(false);
             }
         }
     }
+    cars_on_mines_ = cars_on_mines;
 }
 
 const std::vector<Mine> &WeaponHandler::GetMines() const {
