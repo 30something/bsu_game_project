@@ -9,7 +9,7 @@ Settings::Settings(QWidget* parent) :
     manual_(new QLabel(this)),
     music_(new QLabel("Music", this)),
     music_volume_(new QSlider(Qt::Horizontal, this)),
-    sound_effects_(new QLabel("Sound Effects", this)),
+    sound_effects_(new QLabel("Sound Effects  ", this)),
     sound_effects_volume_(new QSlider(Qt::Horizontal, this)),
     full_screen_cell_(new QCheckBox("Full Screen")),
     apply_button_(new QPushButton("Apply", this)),
