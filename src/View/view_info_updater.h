@@ -60,7 +60,7 @@ class ViewInfoUpdater {
   GameMode* game_mode_ = nullptr;
   QLabel* start_label_ = nullptr;
   QLayout* layout_ = nullptr;
-  size_t laps_amount_ = 0;
+  int32_t laps_amount_ = 0;
   size_t players_amount_ = 0;
   size_t seconds_before_start_ = 5;
   size_t network_id_ = 0;

@@ -39,6 +39,9 @@ void NetworkController::ParseData() {
       emit GotNewBonusData();
       break;
     }
+    case MessageType::kReadyStatus : {
+      break;
+    }
   }
 }
 

@@ -9,8 +9,6 @@ PauseMenu::PauseMenu(QWidget* parent)
       small_exit_window_(new SmallExitWindow(this)) {
   SetStyles();
   SetUpLayout();
-  small_exit_window_->setStyleSheet("background-color : yellow;"
-                                    "color : darkBlue");
   small_exit_window_->close();
   ConnectUI();
 }

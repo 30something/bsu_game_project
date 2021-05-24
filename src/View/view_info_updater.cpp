@@ -69,26 +69,30 @@ void ViewInfoUpdater::UpdateRightInfo(QPainter* painter,
             });
   painter->translate(x_pos - 130, 10);
   for (const auto& player : players_ui) {
-    if (player.number == index) {
+    if (player.number == static_cast<size_t>(index)) {
       painter->setBrush(QBrush(QColor(255, 200, 200)));
     } else {
-      painter->setBrush(QBrush(QColor(255, 255, 255, 100)));
+      painter->setBrush(QBrush(QColor(255, 255, 255, 150)));
     }
     painter->setPen(QPen(QColor(255, 255, 255)));
     painter->drawRect(0, 0, 120, player_span);
     painter->setPen(QPen(QColor(0, 0, 153)));
     if (player.hp == 0) {
       painter->setPen(QPen(QColor(255, 0, 0)));
+      painter->drawText(3,
+                        player_span - 5,
+                        QString::number(player.number + 1) + ".");
       painter->drawText(3, player_span - 5, "Dead");
     } else {
       painter->drawText(3,
                         player_span - 5,
-                        QString::number(player.number) + ".");
+                        QString::number(player.number + 1) + ".");
       painter->drawText(15,
                         player_span - 5,
                         "Pos: " + QString::number(player.position));
       painter->drawPixmap(55, 8, hp_);
-      painter->setPen(QPen(QColor(255 - player.hp, player.hp * 255 / 200, 0)));
+      painter->setPen(QPen(QColor(std::max(0., 255 - player.hp),
+                                  std::min(200., player.hp * 255 / 200), 0)));
       painter->drawText(65,
                         player_span - 5,
                         QString::number(player.hp));
@@ -104,8 +108,8 @@ void ViewInfoUpdater::UpdateTopInfo(QPainter* painter,
                                     int index) {
   painter->save();
   painter->setPen(QPen(QColor(255, 255, 255)));
-  painter->setBrush(QBrush(QColor(255, 255, 255, 100)));
-  painter->drawRoundedRect(x_pos + 3, 3, 120, 57, 10, 10);
+  painter->setBrush(QBrush(QColor(255, 255, 255, 150)));
+  painter->drawRoundedRect(x_pos + 3, 3, 118, 57, 10, 10);
   painter->translate(6, 6);
   painter->setPen(QPen(QColor(0, 0, 153)));
   int32_t description_offset = fonts::kDefaultInfoFont.pointSize() + 5;
@@ -113,12 +117,11 @@ void ViewInfoUpdater::UpdateTopInfo(QPainter* painter,
   painter->setFont(fonts::kDefaultInfoFont);
   painter->drawText(x_pos,
                     y_pos + description_offset,
-                    "Laps: " +
-                        QString::number(std::min(laps_amount_,
-                                                 cars_data_.GetLapsCounter(
-                                                     index)))
-                        + " / "
-                        + QString::number(laps_amount_));
+                    QString::fromStdString("Laps: " +
+                        std::to_string(std::min(
+                            laps_amount_, cars_data_.GetLapsCounter(index)))
+                                               + " / " +
+                        std::to_string(laps_amount_)));
   painter->drawText(x_pos,
                     y_pos + 2 * description_offset,
                     GetEditedTimeInfo(index));
@@ -159,10 +162,10 @@ void ViewInfoUpdater::DrawHP(QPainter* painter, int index) {
   painter->setBrush(QBrush(QColor(255, 0, 0)));
   painter->setPen(QPen(QColor(255, 0, 0)));
   double hp = cars_data_.GetHP(index);
-  painter->drawRect(31, 51, hp * 59 / 200, 11);
+  painter->drawRect(31, 51, std::min(58., hp * 58 / 200), 11);
 
   painter->setPen(QPen(QColor(50, 50, 200)));
-  painter->drawText(48, 60, QString::number(hp));
+  painter->drawText(50, 60, QString::number(static_cast<int>(hp)));
 }
 
 void ViewInfoUpdater::DrawAmmo(QPainter* painter, int index) {
@@ -187,7 +190,7 @@ void ViewInfoUpdater::UpdateBottomInfo(QPainter* painter,
                                        int x_pos,
                                        int y_pos,
                                        int index) {
-  painter->setBrush(QBrush(QColor(255, 255, 255, 100)));
+  painter->setBrush(QBrush(QColor(255, 255, 255, 150)));
   painter->setPen(QPen(QColor(255, 255, 255)));
   painter->drawRoundedRect(x_pos + 3, y_pos - 103, 120, 100, 10, 10);
   painter->save();

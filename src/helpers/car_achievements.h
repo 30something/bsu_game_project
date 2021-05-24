@@ -3,7 +3,7 @@
 #include <cstdint>
 
 struct CarAchievements {
-  size_t laps_counter = 0;
+  int32_t laps_counter = 0;
   size_t finish_position = 0;
   size_t current_order_position = 0;
   size_t car_number = 0;

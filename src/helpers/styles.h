@@ -48,7 +48,7 @@ const QString kPausePushbuttonStyle =
 
 const QString kSmallPausePushbuttonStyle =
     "QPushButton {"
-    "background-color: #ffff00;"
+    "background-color: #ff9900;"
     "border-style: outset;"
     "border-width: 2px;"
     "border-radius: 10px;"
@@ -56,7 +56,7 @@ const QString kSmallPausePushbuttonStyle =
     "font: bold 18px; }"
 
     "QPushButton::pressed {"
-    "background-color: #d5d501;"
+    "background-color: #e68a00;"
     "border-style: inset; }";
 
 const QString kStandardComboBoxStyle =
@@ -78,6 +78,14 @@ const QString kStandardComboBoxStyle =
 const QString kPauseWidgetStyle =
     "QWidget {"
     "background-color: #ffff00;"
+    "border-style: outset;"
+    "border-width: 2px;"
+    "border-color: beige;"
+    "border-radius: 10px; }";
+
+const QString kFinishWidgetStyle =
+    "QWidget {"
+    "background-color: rgba(255, 255, 255, 150);"
     "border-style: outset;"
     "border-width: 2px;"
     "border-color: beige;"

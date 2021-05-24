@@ -1,7 +1,9 @@
 #include "end_game_stats.h"
+#include <iostream>
 
 EndGameStats::EndGameStats(QWidget* parent) :
     QWidget(parent),
+    main_widget(new QWidget(this)),
     stats_label_(new QLabel("Statistics", this)),
     layout_(new QVBoxLayout(this)),
     positions_layout_(new QVBoxLayout),
@@ -10,12 +12,14 @@ EndGameStats::EndGameStats(QWidget* parent) :
 }
 
 void EndGameStats::SetInfo() {
+  main_widget->setStyleSheet(styles::kFinishWidgetStyle);
   stats_label_->setFont(fonts::kDefaultStatsFont);
   return_to_main_menu_button_->setMinimumSize(button_sizes::kDefaultButtonSize);
   return_to_main_menu_button_->setFont(fonts::kDefaultButtonFont);
   return_to_main_menu_button_->setStyleSheet(styles::kStandardPushbuttonStyle);
   setStyleSheet("QLabel {"
-                "font: bold 26px; }");
+                "color: #0000ff;"
+                "font: bold 30px; }");
   layout_->setAlignment(Qt::AlignCenter);
   layout_->addWidget(stats_label_, 5, Qt::AlignCenter);
   layout_->addLayout(positions_layout_);
@@ -57,6 +61,11 @@ void EndGameStats::UpdateStats() {
       CreateLayouts(i, image_path_qt, stats_string);
     }
   }
+  main_widget->setGeometry(
+      return_to_main_menu_button_->x() - 60,
+      stats_label_->y() - 50,
+      return_to_main_menu_button_->width() + 120,
+      return_to_main_menu_button_->y() - stats_label_->y() + 150);
   show();
 }
 

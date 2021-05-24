@@ -10,7 +10,7 @@ size_t CarsData::GetVelocity(int index) const {
          0 : static_cast<size_t>(current_velocity);
 }
 
-size_t CarsData::GetLapsCounter(int index) const {
+int32_t CarsData::GetLapsCounter(int index) const {
   return cars_data[index].laps_counter;
 }
 size_t CarsData::GetBulletsAmount(int index) const {
