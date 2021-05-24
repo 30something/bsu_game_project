@@ -14,6 +14,7 @@ NetworkRoom::NetworkRoom(QWidget* parent, GameMode* game_mode) :
     players_layout_(new QVBoxLayout()),
     game_mode_(game_mode),
     network_player_(new NetworkPlayer(new QTcpSocket())) {
+  SetStyles();
   SetUpLayouts();
   ConnectButtons();
 }
@@ -41,12 +42,32 @@ void NetworkRoom::SetUpLayouts() {
   main_layout_->addLayout(buttons_layout_);
   main_layout_->addLayout(connection_layout_);
   main_layout_->addLayout(players_layout_);
+  connection_status_->setAlignment(Qt::AlignCenter);
   connection_layout_->addWidget(ip_);
   connection_layout_->addWidget(connection_status_);
   connection_layout_->addWidget(disconnect_);
   connection_layout_->addWidget(try_connect_);
   buttons_layout_->addWidget(back_to_main_menu_);
   buttons_layout_->addWidget(ready_);
+}
+
+void NetworkRoom::SetStyles() {
+  for (auto& widget : children()) {
+    auto* label_ptr = qobject_cast<QLabel*>(widget);
+    auto* button_ptr = qobject_cast<QPushButton*>(widget);
+    if (label_ptr) {
+      label_ptr->setFont(fonts::kDefaultLabelFont);
+      label_ptr->setStyleSheet("QLabel {"
+                               "font: bold 18px; }");
+    } else if (button_ptr) {
+      button_ptr->setFont(fonts::kDefaultButtonFont);
+      button_ptr->setMinimumSize(button_sizes::kMultiplayerButtonMinSize);
+      button_ptr->setStyleSheet(styles::kStandardPushbuttonStyle);
+      button_ptr->setStyleSheet("QPushButton {"
+                                "font: bold 18px; }");
+    }
+  }
+  ip_->setStyleSheet(styles::kStandardLineEditStyle);
 }
 
 void NetworkRoom::Connect() {
@@ -102,8 +123,7 @@ void NetworkRoom::SetUpAndStartGame() {
 }
 
 void NetworkRoom::UpdatePlayersVector() {
-  QString json =
-      network_controller_->GetData().toString();
+  QString json = network_controller_->GetData().toString();
   auto data_vector = JsonHelper::DecodePlayersVectorJson(json);
 
   QLayoutItem* item;
@@ -135,6 +155,9 @@ void NetworkRoom::UpdatePlayersVector() {
 
 void NetworkRoom::AddStartButton() {
   start_button_ = new QPushButton("Start Game", this);
+  start_button_->setFont(fonts::kDefaultButtonFont);
+  start_button_->setMinimumSize(button_sizes::kMultiplayerButtonMinSize);
+  start_button_->setStyleSheet(styles::kStandardPushbuttonStyle);
   buttons_layout_->addWidget(start_button_);
   connect(start_button_,
           &QPushButton::clicked,
@@ -165,6 +188,9 @@ void NetworkRoom::Disconnect() {
   if (network_player_->Socket()->state() != QAbstractSocket::ConnectedState) {
     connection_status_->setText("You are not connected to disconnect!");
     return;
+  }
+  if (network_controller_->IsAlreadyStarted()) {
+    emit ExitDisconnected();
   }
   network_player_->Socket()->disconnectFromHost();
   QLayoutItem* item;

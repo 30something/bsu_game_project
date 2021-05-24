@@ -1,0 +1,10 @@
+<RCC>
+    <qresource>
+        <file>resources/images/other_stuff/ammo.png</file>
+        <file>resources/images/other_stuff/explosion_trace.png</file>
+        <file>resources/images/other_stuff/hp.png</file>
+        <file>resources/images/other_stuff/mine.png</file>
+        <file>resources/images/other_stuff/mines_ammo.png</file>
+        <file>resources/images/other_stuff/icon0.png</file>
+    </qresource>
+</RCC>

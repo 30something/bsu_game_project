@@ -1,15 +1,17 @@
 #include "car.h"
-#include <QDebug>
+#include "src/helpers/other_constants.h"
 
-Car::Car(QPoint position,
+Car::Car(Vec2f position,
          double angle,
          Behavior* behavior,
          CarsColors car_color,
          bool enable_drifts) :
-    GameObject(Vec2f(position.x(), position.y()), new CarPixmapComponent),
+    GameObject(position, new CarPixmapComponent),
     behavior_(behavior),
     car_color_(car_color),
     enable_drifts_(enable_drifts) {
+  car_pixmap_component_ =
+      dynamic_cast<CarPixmapComponent*> (pixmap_component_.get());
   velocity_.Set(physics::kAlmostZero, physics::kAlmostZero);
   angle_vec_.Set(1.0, 0.0);
   angle_vec_.Rotate(angle);
@@ -17,8 +19,7 @@ Car::Car(QPoint position,
   for (auto& wheel : wheels_) {
     wheel.SetPreviousPosition(wheel.GetPosition());
   }
-  dynamic_cast<CarPixmapComponent*>(pixmap_component_.get())->
-      SetCarPixmapId(CarStates::kStandard, car_color_);
+  car_pixmap_component_->SetCarPixmapId(CarStates::kStandard, car_color_);
 }
 
 void Car::ProceedInputFlagsArcade() {
@@ -65,28 +66,28 @@ void Car::ProceedInputFlagsRealistic() {
 }
 
 void Car::ProceedUpDownFlags() {
-    if (behavior_->IsFlagUp()) {
-        velocity_ += angle_vec_ * kAccelFactor;
-        if (velocity_.GetLength() > behavior_->GetMaxSpeed()) {
-            velocity_.SetLen(behavior_->GetMaxSpeed());
-        }
+  if (behavior_->IsFlagUp()) {
+    velocity_ += angle_vec_ * kAccelFactor;
+    if (velocity_.GetLength() > behavior_->GetMaxSpeed()) {
+      velocity_.SetLen(behavior_->GetMaxSpeed());
     }
-    if (behavior_->IsFlagDown()) {
-        velocity_ -= angle_vec_ * kAccelFactor;
-        if (velocity_.GetLength() > kMaxSpeedBackward &&
-            std::abs(velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees())
+  }
+  if (behavior_->IsFlagDown()) {
+    velocity_ -= angle_vec_ * kAccelFactor;
+    if (velocity_.GetLength() > kMaxSpeedBackward &&
+        std::abs(velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees())
             > 90) {
-            velocity_.SetLen(kMaxSpeedBackward);
-        }
+      velocity_.SetLen(kMaxSpeedBackward);
     }
-    if ((!behavior_->IsFlagUp() && !behavior_->IsFlagDown())) {
-        Vec2f coef = angle_vec_ * kFrictionFactor;
-        if (velocity_.GetLength() < (coef).GetLength()) {
-            velocity_.SetLen(physics::kAlmostZero);
-        } else {
-            velocity_.SetLen(velocity_.GetLength() - coef.GetLength());
-        }
+  }
+  if ((!behavior_->IsFlagUp() && !behavior_->IsFlagDown())) {
+    Vec2f coef = angle_vec_ * kFrictionFactor;
+    if (velocity_.GetLength() < (coef).GetLength()) {
+      velocity_.SetLen(physics::kAlmostZero);
+    } else {
+      velocity_.SetLen(velocity_.GetLength() - coef.GetLength());
     }
+  }
 }
 
 void Car::Tick(int time_millisec) {
@@ -96,10 +97,10 @@ void Car::Tick(int time_millisec) {
   } else {
     ArcadeStep(time_millisec);
   }
-  if (bullets_amount_ == 0 || !behavior_->IsFlagShoot()) {
-    dynamic_cast<CarPixmapComponent*>(pixmap_component_.get())->
-        SetCarPixmapId(CarStates::kStandard, car_color_);
+  if (car_pixmap_component_->GetFramesForChangingHitpoints() == 0) {
+    car_pixmap_component_->SetShowingHealthChangeState(false);
   }
+  ChoosePixmap();
   mines_tick_timer_++;
   UpdateCollisionLines();
 }
@@ -145,18 +146,18 @@ void Car::CalcAccelerations(Vec2f* accel, double* angular_accel) {
 }
 
 void Car::CalcLateralForces() {
-    wheels_[0].CalcLateralForce(kMaxSlipAngleRadians,
-                                kMass,
-                                FrontCoefFriction);
-    wheels_[1].CalcLateralForce(kMaxSlipAngleRadians,
-                                kMass,
-                                FrontCoefFriction);
-    wheels_[2].CalcLateralForce(kMaxSlipAngleRadians,
-                                kMass,
-                                kRearCoefFriction);
-    wheels_[3].CalcLateralForce(kMaxSlipAngleRadians,
-                                kMass,
-                                kRearCoefFriction);
+  wheels_[0].CalcLateralForce(kMaxSlipAngleRadians,
+                              kMass,
+                              FrontCoefFriction);
+  wheels_[1].CalcLateralForce(kMaxSlipAngleRadians,
+                              kMass,
+                              FrontCoefFriction);
+  wheels_[2].CalcLateralForce(kMaxSlipAngleRadians,
+                              kMass,
+                              kRearCoefFriction);
+  wheels_[3].CalcLateralForce(kMaxSlipAngleRadians,
+                              kMass,
+                              kRearCoefFriction);
 }
 
 const std::vector<Line>& Car::GetCollisionLines() const {
@@ -164,80 +165,44 @@ const std::vector<Line>& Car::GetCollisionLines() const {
 }
 
 void Car::UpdateWheelsPosAndOrientation() {
-    for (auto &wheel : wheels_) {
-        wheel.SetPreviousPosition(wheel.GetPosition());
-    }
+  for (auto& wheel : wheels_) {
+    wheel.SetPreviousPosition(wheel.GetPosition());
+  }
 
-    const Vec2f right(angle_vec_.GetY(), -angle_vec_.GetX());
-    wheels_[0].SetPosition(
-            position_ + angle_vec_ * kHalfWheelBase - right * kHalfFrontTrack_);
-    wheels_[1].SetPosition(
-            wheels_[0].GetPosition() + right * kHalfFrontTrack_ * 2.0);
-    wheels_[2].SetPosition(
-            position_ - angle_vec_ * kHalfWheelBase + right * kHalfRearTrack);
-    wheels_[3].SetPosition(
-            wheels_[2].GetPosition() - right * kHalfRearTrack * 2.0);
+  const Vec2f right(angle_vec_.GetY(), -angle_vec_.GetX());
+  wheels_[0].SetPosition(
+      position_ + angle_vec_ * kHalfWheelBase - right * kHalfFrontTrack_);
+  wheels_[1].SetPosition(
+      wheels_[0].GetPosition() + right * kHalfFrontTrack_ * 2.0);
+  wheels_[2].SetPosition(
+      position_ - angle_vec_ * kHalfWheelBase + right * kHalfRearTrack);
+  wheels_[3].SetPosition(
+      wheels_[2].GetPosition() - right * kHalfRearTrack * 2.0);
 
-    for (int i = 0; i < 4; i++) {
-        wheels_[i].SetFront(angle_vec_);
-    }
+  for (int i = 0; i < 4; i++) {
+    wheels_[i].SetFront(angle_vec_);
+  }
 
-    // Calculated different angles for each front_ wheel using the Ackerman
-    // principle. https://en.wikipedia.org/wiki/Ackermann_steering_geometry
-    double cornerRadius = kLength / tan(fabs(steering_angle_));
-    double outerWheelAngle =
-            atan(kLength / (cornerRadius + kHalfFrontTrack_ * 2.0));
-    if (steering_angle_ > 0.0) {
-        wheels_[0].Front().Rotate(std::min(steering_angle_, kMaxSteeringLock));
-        wheels_[1].Front().Rotate(std::min(outerWheelAngle, kMaxSteeringLock));
-    } else {
-        wheels_[0].Front().Rotate(std::min(-outerWheelAngle, kMaxSteeringLock));
-        wheels_[1].Front().Rotate(std::min(steering_angle_, kMaxSteeringLock));
-    }
+  // Calculated different angles for each front_ wheel using the Ackerman
+  // principle. https://en.wikipedia.org/wiki/Ackermann_steering_geometry
+  double cornerRadius = kLength / tan(fabs(steering_angle_));
+  double outerWheelAngle =
+      atan(kLength / (cornerRadius + kHalfFrontTrack_ * 2.0));
+  if (steering_angle_ > 0.0) {
+    wheels_[0].Front().Rotate(std::min(steering_angle_, kMaxSteeringLock));
+    wheels_[1].Front().Rotate(std::min(outerWheelAngle, kMaxSteeringLock));
+  } else {
+    wheels_[0].Front().Rotate(std::min(-outerWheelAngle, kMaxSteeringLock));
+    wheels_[1].Front().Rotate(std::min(steering_angle_, kMaxSteeringLock));
+  }
 }
 
 double Car::GetAngle() const {
-    return angle_vec_.GetAngleDegrees() + 90;
+  return angle_vec_.GetAngleDegrees() + 90;
 }
 
 const Vec2f& Car::GetVelocity() const {
   return velocity_;
-}
-
-void Car::SetVelocity(const Vec2f &velocity) {
-    velocity_ = velocity;
-}
-
-void Car::SetPosition(const Vec2f &position) {
-    position_ = position;
-}
-
-double Car::GetHitPoints() const {
-    return hit_points_;
-}
-
-double Car::GetBulletsAmount() const {
-    return bullets_amount_;
-}
-
-double Car::GetMinesAmount() const {
-    return mines_amount_;
-}
-
-void Car::AddHitPoints(double hit_points) {
-    hit_points_ += hit_points;
-}
-
-void Car::AddBulletsAmount(double bullets_amount) {
-    bullets_amount_ += bullets_amount;
-}
-
-void Car::AddMinesAmount(double mines_amount) {
-    mines_amount_ += mines_amount;
-}
-
-const Vec2f &Car::GetAngleVec() const {
-    return angle_vec_;
 }
 
 std::pair<double, Motion> Car::GetParametersForEngineSound() const {
@@ -298,8 +263,60 @@ double Car::GetParameterForBrakeSound() const {
     return 0;
 }
 
+void Car::SetVelocity(const Vec2f& velocity) {
+  velocity_ = velocity;
+}
+
+void Car::SetPosition(const Vec2f& position) {
+  position_ = position;
+}
+
+double Car::GetHitPoints() const {
+  return hit_points_;
+}
+
+size_t Car::GetBulletsAmount() const {
+  return bullets_amount_;
+}
+
+size_t Car::GetMinesAmount() const {
+  return mines_amount_;
+}
+
+size_t Car::GetColor() const {
+  return static_cast<size_t>(car_color_);
+}
+
+void Car::AddHitPoints(double hit_points) {
+  hit_points_ += hit_points;
+  if (std::abs(hit_points) + kEps >= kMinSignificantDamage) {
+    car_pixmap_component_->SetShowingHealthChangeState(true);
+  } else if (car_pixmap_component_->GetShowingHealthChangeState()) {
+    return;
+  }
+  car_pixmap_component_->SetFramesForChangingHitPoints(
+      CarPixmapComponent::kChangingHitPointsAnimationLastFrame);
+  health_increasing_state = (hit_points + kEps >= 0);
+}
+
+void Car::AddBulletsAmount(size_t bullets_amount) {
+  bullets_amount_ += bullets_amount;
+}
+
+void Car::AddMinesAmount(size_t mines_amount) {
+  mines_amount_ += mines_amount;
+}
+
+const Vec2f& Car::GetAngleVec() const {
+  return angle_vec_;
+}
+
+const Vec2f* Car::GetAngleVecPointer() const {
+  return &angle_vec_;
+}
+
 bool Car::IsShooting() const {
-  if (bullets_amount_ <= 0) {
+  if (bullets_amount_ == 0) {
     return false;
   }
   return behavior_->IsFlagShoot();
@@ -309,15 +326,14 @@ bool Car::UsingGun() const {
     return behavior_->IsFlagShoot();
 }
 
+bool Car::IsDead() const {
+    return behavior_->IsDead();
+}
+
 void Car::BecomeDead() {
   behavior_->EnableInput(false);
   behavior_->SetIsDead();
-  dynamic_cast<CarPixmapComponent*>(pixmap_component_.get())->
-      SetCarPixmapId(CarStates::kDead, car_color_);
-}
-
-bool Car::IsDead() const {
-    return behavior_->IsDead();
+  car_pixmap_component_->SetCarPixmapId(CarStates::kDead, car_color_);
 }
 
 std::optional<Vec2f> Car::DropMine() {
@@ -333,8 +349,6 @@ std::optional<Vec2f> Car::DropMine() {
 
 std::optional<Line> Car::ShootBullet() {
   if (bullets_amount_ > 0) {
-    dynamic_cast<CarPixmapComponent*>(pixmap_component_.get())->
-        SetCarPixmapId(CarStates::kShooting, car_color_);
     bullets_amount_--;
     return Line(
         position_.GetX(),
@@ -342,8 +356,6 @@ std::optional<Line> Car::ShootBullet() {
         angle_vec_.GetX() * kShootingRange + position_.GetX(),
         angle_vec_.GetY() * kShootingRange + position_.GetY());
   } else {
-    dynamic_cast<CarPixmapComponent*>(pixmap_component_.get())->
-        SetCarPixmapId(CarStates::kStandard, car_color_);
     return std::nullopt;
   }
 }
@@ -363,12 +375,21 @@ void Car::UpdateCollisionLines() {
       Line(wheels_[2].GetPosition(), wheels_[3].GetPosition());
 }
 
-void Car::SetAngleVec(const Vec2f& angle_vec) {
-  angle_vec_ = angle_vec;
+void Car::ChoosePixmap() {
+  if (car_pixmap_component_->GetShowingHealthChangeState()) {
+    car_pixmap_component_->DecrementFramesForChangingHitpoints();
+    if (health_increasing_state) {
+      car_pixmap_component_->SetCarPixmapId(CarStates::kHealthy, car_color_);
+    } else {
+      car_pixmap_component_->SetCarPixmapId(CarStates::kDamaged, car_color_);
+    }
+  } else {
+    car_pixmap_component_->SetCarPixmapId(CarStates::kStandard, car_color_);
+  }
 }
 
-void Car::SetHitPoints(double hp) {
-  hit_points_ = hp;
+void Car::SetAngleVec(const Vec2f& angle_vec) {
+  angle_vec_ = angle_vec;
 }
 
 void Car::CarPixmapComponent::SetCarPixmapId(CarStates car_state,
@@ -379,3 +400,26 @@ void Car::CarPixmapComponent::SetCarPixmapId(CarStates car_state,
   pixmap_id_ = (category_value << 24) + (car_state_value << 16) +
       car_color_value;
 }
+
+size_t Car::CarPixmapComponent::GetFramesForChangingHitpoints() const {
+  return frames_for_changing_hitpoints_;
+}
+
+bool Car::CarPixmapComponent::GetShowingHealthChangeState() const {
+  return showing_health_change_state_;
+}
+
+void Car::CarPixmapComponent::SetFramesForChangingHitPoints(
+    size_t frames_for_changing_hitpoints) {
+  frames_for_changing_hitpoints_ = frames_for_changing_hitpoints;
+}
+
+void Car::CarPixmapComponent::SetShowingHealthChangeState(
+    bool showing_health_change_state) {
+  showing_health_change_state_ = showing_health_change_state;
+}
+
+void Car::CarPixmapComponent::DecrementFramesForChangingHitpoints() {
+  frames_for_changing_hitpoints_--;
+}
+

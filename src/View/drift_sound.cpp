@@ -14,7 +14,9 @@ Drift::Drift(QWidget *parent) : QWidget(parent),
     sound_playlist_->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
 }
 
-void Drift::Play(double speed_parameter, bool enable_drifting, double volume_parameter, bool pause) {
+void Drift::Play(double speed_parameter, bool enable_drifting,
+                 double volume_parameter, int volume_settings_parameter,
+                 bool pause) {
     if (!enable_drifting) {
         sound_player_->stop();
         return;
@@ -29,6 +31,9 @@ void Drift::Play(double speed_parameter, bool enable_drifting, double volume_par
     volume *= static_cast<int>(100 * volume_parameter);
     volume /= 100;
 
+    volume_settings_parameter_ = volume_settings_parameter;
+    volume *= volume_settings_parameter_;
+    volume /= 100;
     sound_player_->setVolume(volume);
 
     if (volume > 0) {

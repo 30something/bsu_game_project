@@ -1,22 +1,27 @@
 #include "engine_sound.h"
 #include <QDebug>
 
-Engine::Engine(QWidget *parent) : QWidget(parent),
-                                  sound_playlist_(new QMediaPlaylist(this)),
-                                  sound_player_(new QMediaPlayer(this)) {
+Engine::Engine(QWidget *parent, int volume_settings_parameter) :
+        QWidget(parent),
+        sound_playlist_(new QMediaPlaylist(this)),
+        sound_player_(new QMediaPlayer(this)),
+        volume_settings_parameter_(volume_settings_parameter) {
     sound_player_->setPlaylist(sound_playlist_);
     sound_player_->setVolume(kDefaultVolume);
 
-    sound_playlist_->addMedia(QUrl("qrc:/resources/sounds/car_sounds/idle_speed.wav"));
-    sound_playlist_->addMedia(QUrl("qrc:/resources/sounds/car_sounds/main_engine.wav"));
-    sound_playlist_->addMedia(QUrl("qrc:/resources/sounds/car_sounds/reversed_engine.wav"));
+    sound_playlist_->addMedia(
+            QUrl("qrc:/resources/sounds/car_sounds/idle_speed.wav"));
+    sound_playlist_->addMedia(
+            QUrl("qrc:/resources/sounds/car_sounds/main_engine.wav"));
+    sound_playlist_->addMedia(
+            QUrl("qrc:/resources/sounds/car_sounds/reversed_engine.wav"));
 
     sound_playlist_->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
-    sound_player_->setPlaybackRate(1);
-    sound_player_->play();
 }
 
-void Engine::Play(double speed_parameter, Motion motion_parameter, double volume_parameter, bool pause) {
+void Engine::Play(double speed_parameter, Motion motion_parameter,
+                  double volume_parameter, int volume_settings_parameter,
+                  bool pause) {
     if (motion_parameter == Motion::kIsDead) {
         sound_player_->stop();
         return;
@@ -32,6 +37,10 @@ void Engine::Play(double speed_parameter, Motion motion_parameter, double volume
     volume = (volume / 100) + kDefaultVolume;
 
     volume *= static_cast<int>(100 * volume_parameter);
+    volume /= 100;
+
+    volume_settings_parameter_ = volume_settings_parameter;
+    volume *= volume_settings_parameter_;
     volume /= 100;
 
     sound_player_->setVolume(volume);

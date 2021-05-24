@@ -2,14 +2,20 @@
 
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
+#include <QWidget>
 
-class Effects {
-
+class Effects : public QWidget {
+    Q_OBJECT
  public:
-    Effects() = default;
-    ~Effects() = default;
+    explicit Effects(QWidget* parent = nullptr);
+    ~Effects() override = default;
 
-    void PlayBonus(bool play_bonus);
-    void PlayMine(bool play_mine, double volume_parameter);
-    void PlayCarExplosion(bool play_car_explosion, double volume_parameter);
+    void PlayBonus(bool play_bonus, int volume_settings_parameter);
+    void PlayMine(bool play_mine, double volume_parameter,
+                  int volume_settings_parameter);
+    void PlayCarExplosion(bool play_car_explosion, double volume_parameter,
+                          int volume_settings_parameter);
+
+ private:
+    int volume_settings_parameter_;
 };

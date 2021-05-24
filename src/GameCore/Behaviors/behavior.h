@@ -13,10 +13,12 @@ class Behavior {
   bool IsFlagRight() const;
   bool IsFlagShoot() const;
   bool IsFlagMine() const;
+
   bool IsDead() const;
+  void SetIsDead();
+
   double GetMaxSpeed() const;
   void EnableInput(bool enable);
-  void SetIsDead();
 
  protected:
   static constexpr double kMaxSpeed = 240;

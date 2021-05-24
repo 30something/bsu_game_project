@@ -1,28 +1,5 @@
 #include "physics.h"
 
-int physics::Product(const QPoint& m, const QPoint& p1, const QPoint& p2) {
-  return (p2.x() - p1.x()) * (m.y() - p1.y())
-      - (p2.y() - p1.y()) * (m.x() - p1.x());
-}
-
-//  Works only with rectangles
-bool physics::IsInside(const std::vector<Line>& rect, const QPoint& point) {
-  int p1 = Product(point,
-                   QPoint(rect[0].x1, rect[0].y1),
-                   QPoint(rect[0].x2, rect[0].y2));
-  int p2 = Product(point,
-                   QPoint(rect[0].x2, rect[0].y2),
-                   QPoint(rect[1].x2, rect[1].y2));
-  int p3 = Product(point,
-                   QPoint(rect[1].x2, rect[1].y2),
-                   QPoint(rect[2].x2, rect[2].y2));
-  int p4 = Product(point,
-                   QPoint(rect[2].x2, rect[2].y2),
-                   QPoint(rect[0].x1, rect[0].y1));
-  return ((p1 < 0 && p2 < 0 && p3 < 0 && p4 < 0) ||
-      (p1 > 0 && p2 > 0 && p3 > 0 && p4 > 0));
-}
-
 bool physics::IsIntersects(Line l1, Line l2) {
   double v1 =
       (l2.x2 - l2.x1) * (l1.y1 - l2.y1) - (l2.y2 - l2.y1) * (l1.x1 - l2.x1);
@@ -72,8 +49,8 @@ bool physics::IsIntersects(const std::vector<Line>& lines_1,
   return false;
 }
 
-double physics::Distance(QPoint first, QPoint second) {
-  return std::hypot(first.x() - second.x(), first.y() - second.y());
+double physics::Distance(Vec2f first, Vec2f second) {
+  return std::hypot(first.GetX() - second.GetX(), first.GetY() - second.GetY());
 }
 
 double physics::CalculateLineDeviation(double x_pos, double y_pos, Line line) {
@@ -101,4 +78,9 @@ Vec2f physics::GetRandomPointOnLine(Line line, double lower, double upper) {
   dx *= scalar;
   dy *= scalar;
   return Vec2f(line.x1 - dx, line.y1 - dy);
+}
+
+std::vector<size_t> physics::TimeParse(size_t millis) {
+  // Returns vector of size 3 with minutes, seconds and millis accordingly
+  return {millis / 60000, (millis % 60000) / 1000, millis % 1000};
 }

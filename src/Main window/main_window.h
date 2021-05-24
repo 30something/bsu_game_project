@@ -20,6 +20,8 @@ class MainWindow : public QMainWindow {
 
  private:
   void resizeEvent(QResizeEvent*) override;
+  void SingleplayerStarted();
+  void MultiplayerStarted();
 
   void SetUpStackedWidget();
   void ConnectUI();
@@ -36,6 +38,8 @@ class MainWindow : public QMainWindow {
 
   void ShowSettings();
   void HideSettings();
+
+  void ChangeSoundVolume(int value);
 
   QStackedWidget* stacked_widget_ = nullptr;
   EventsController* events_controller_ = nullptr;

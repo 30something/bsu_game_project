@@ -1,7 +1,7 @@
 #include "weapon_handler.h"
 #include <QDebug>
 
-void WeaponHandler::ShootBullet(Car *car, std::vector<Car> *cars) {
+void WeaponHandler::ShootBullet(Car* car, std::vector<Car>* cars) {
     std::optional<Line> shoot_trajectory = car->ShootBullet();
     if (shoot_trajectory) {
         for (auto &second_car : *cars) {
@@ -19,23 +19,36 @@ void WeaponHandler::ShootBullet(Car *car, std::vector<Car> *cars) {
     }
 }
 
-void WeaponHandler::PutMine(Car *car) {
-    std::optional<Vec2f> position = car->DropMine();
-    if (position) {
-        mines_.emplace_back(*position);
-    }
+void WeaponHandler::PutMine(Car* car) {
+  std::optional<Vec2f> position = car->DropMine();
+  if (position) {
+    mines_.emplace_back(*position);
+  }
 }
 
-void WeaponHandler::ProceedWeapons(std::vector<Car> *cars) {
+void WeaponHandler::ProceedWeapons(
+    std::vector<Car>* cars,
+    std::vector<CarAchievements>* car_achievements,
+    std::vector<Animation>* animations) {
     if (!enable_weapons_) {
         return;
     }
-    for (auto &car : *cars) {
-        if (car.IsShooting()) {
-            ShootBullet(&car, cars);
+    for (size_t i = 0; i < cars->size(); i++) {
+        if (cars->at(i).IsShooting()) {
+            ShootBullet(&(cars->at(i)), cars);
+            if (!(car_achievements->at(i).animation_of_shooting_state)) {
+                car_achievements->at(i).animation_of_shooting_state = true;
+                animations->emplace_back(
+                        AnimationTypes::kShooting,
+                        cars->at(i).GetPositionPointer(),
+                        cars->at(i).GetAngleVecPointer(),
+                        &(car_achievements->at(i).animation_of_shooting_state));
+            }
+        } else {
+            car_achievements->at(i).animation_of_shooting_state = false;
         }
-        if (car.IsPuttingMine()) {
-            PutMine(&car);
+        if (cars->at(i).IsPuttingMine()) {
+            PutMine(&(cars->at(i)));
         }
     }
     std::vector<bool> cars_on_mines(cars->size(), false);
@@ -44,16 +57,18 @@ void WeaponHandler::ProceedWeapons(std::vector<Car> *cars) {
             for (uint32_t i = 0; i < cars->size(); i++) {
                 if (physics::IsIntersects((*cars)[i].GetCollisionLines(),
                                           mine.GetCollisionLines())) {
+                    animations->emplace_back(AnimationTypes::kExplosion,
+                                             mine.GetPosition());
                     (*cars)[i].AddHitPoints(-kMineDamage);
                     (*cars)[i].SetVelocity(Vec2f((*cars)[i].GetVelocity()).Normalize() *
                                     -kMineSplash);
                     mine.SetExploded();
-                    cars_on_mines.at(i) = true;
+                    cars_on_mines[i] = true;
                 }
             }
         }
+        cars_on_mines_ = cars_on_mines;
     }
-    cars_on_mines_ = cars_on_mines;
 }
 
 const std::vector<Mine> &WeaponHandler::GetMines() const {
@@ -64,10 +79,11 @@ std::vector<bool> WeaponHandler::CarsOnMines() const {
     return cars_on_mines_;
 }
 
+bool WeaponHandler::GetEnableWeapons() const {
+    return enable_weapons_;
+}
+
 void WeaponHandler::SetEnableWeapons(bool enable_weapons) {
     enable_weapons_ = enable_weapons;
 }
 
-bool WeaponHandler::GetEnableWeapons() const {
-    return enable_weapons_;
-}

@@ -17,61 +17,61 @@
 #include "src/helpers/cars_data.h"
 
 class EventsController : public QWidget {
-  Q_OBJECT
+    Q_OBJECT
 
  public:
-  explicit EventsController(QWidget* parent, GameMode* game_mode);
-  ~EventsController() override;
+    explicit EventsController(QWidget* parent, GameMode* game_mode);
+    ~EventsController() override;
 
-  void paintEvent(QPaintEvent*) override;
-  void resizeEvent(QResizeEvent*) override;
-  void keyPressEvent(QKeyEvent*) override;
-  void keyReleaseEvent(QKeyEvent*) override;
+    void paintEvent(QPaintEvent*) override;
+    void resizeEvent(QResizeEvent*) override;
+    void keyPressEvent(QKeyEvent*) override;
+    void keyReleaseEvent(QKeyEvent*) override;
 
-  void SetUnsetPause();
+    void SetUnsetPause();
 
-  void PhysicsTimerEvent();
-  void ViewTimerEvent();
-  void FinishCheckEvent();
+    void PhysicsTimerEvent();
+    void ViewTimerEvent();
+    void FinishCheckEvent();
 
-  void UpdateStartInfo();
-  void ShowEndGameStats();
-
-  void PlaySounds();
+    void UpdateStartInfo();
+    void ShowEndGameStats();
+    void PlaySounds();
 
  signals:
-  void SetGamePause();
-  void StopGamePause();
-  void ReturnToMainMenu();
+    void SetGamePause();
+    void StopGamePause();
+    void ReturnToMainMenu();
 
  private:
-  void LaunchStartCountdownTimer();
-  void LaunchGameTimers();
-  void LaunchFinishTimer();
-  void PrepareEndGameStats();
+    void LaunchStartCountdownTimer();
+    void LaunchGameTimers();
+    void LaunchFinishTimer();
+    void PrepareEndGameStats();
+    void SendFinishData();
 
-  enum class Actions {
-    kOpenOrCloseMenu = Qt::Key_Escape,
-  };
+    enum class Actions {
+        kOpenOrCloseMenu = Qt::Key_Escape,
+    };
 
-  enum class GameStatus {
-    kPaused,
-    kRunning,
-  };
+    enum class GameStatus {
+        kPaused,
+        kRunning,
+    };
 
-  QTimer start_countdown_timer_;
-  QTimer view_timer_;
-  QTimer controller_timer_;
-  QTimer finish_pause_timer_;
-  QTimer finish_check_timer_;
-  InputController input_controller_;
-  GameController* game_controller_ = nullptr;
-  View* view_ = nullptr;
-  ViewInfoUpdater* view_info_updater_ = nullptr;
-  EndGameStats* end_game_stats_ = nullptr;
-  GameStatus game_status_ = GameStatus::kRunning;
+    QTimer start_countdown_timer_;
+    QTimer view_timer_;
+    QTimer controller_timer_;
+    QTimer finish_pause_timer_;
+    QTimer finish_check_timer_;
+    InputController input_controller_;
+    GameController* game_controller_ = nullptr;
+    View* view_ = nullptr;
+    ViewInfoUpdater* view_info_updater_ = nullptr;
+    EndGameStats* end_game_stats_ = nullptr;
+    GameStatus game_status_ = GameStatus::kRunning;
 
-  static constexpr int kMillisInSecond = 1000;
-  static constexpr int kMillisPerFrame = 15;
-  static constexpr int kMillisPerPhysicsTick = 5;
+    static constexpr int kMillisInSecond = 1000;
+    static constexpr int kMillisPerFrame = 15;
+    static constexpr int kMillisPerPhysicsTick = 5;
 };

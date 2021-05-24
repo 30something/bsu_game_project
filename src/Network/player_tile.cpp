@@ -6,10 +6,16 @@ PlayerTile::PlayerTile(QWidget* parent, const NetworkPlayer* player) :
     nickname_(new QLabel(QString::number(player->GetId()), this)),
     is_ready_(new QLabel(this)),
     main_layout_(new QHBoxLayout(this)) {
+  nickname_->setFont(fonts::kDefaultLabelFont);
+  nickname_->setStyleSheet("QLabel {"
+                           "font: bold 18px; }");
+  is_ready_->setFont(fonts::kDefaultLabelFont);
+  is_ready_->setStyleSheet("QLabel {"
+                           "font: bold 18px; }");
   if (player->IsReady()) {
-    is_ready_->setText("ready");
+    is_ready_->setText("Ready");
   } else {
-    is_ready_->setText("not ready");
+    is_ready_->setText("Not ready");
   }
   main_layout_->addWidget(nickname_);
   main_layout_->addWidget(is_ready_);

@@ -30,11 +30,13 @@ class View {
   std::vector<QRect> GetFrames() const;
   double GetScale() const;
 
-  void PlayEngine(const std::vector<EngineParameters>& engine_parameters, bool pause);
+  void PlayEngine(const std::vector<EngineParameters>& engine_parameters,
+                  bool pause);
   void PlayDrift(std::vector<DriftParameters> drift_parameters, bool pause);
   void PlayBrake(std::vector<BrakeParameters> brake_parameters, bool pause);
   void PlayBonus(bool play_bonus);
-  void PlayShooting(std::vector<ShootingParameters> shooting_parameters, bool pause);
+  void PlayShooting(std::vector<ShootingParameters> shooting_parameters,
+                    bool pause);
   void PlayMine(EffectParameters explosion_parameters);
   void PlayCarExplosion(EffectParameters explosion_parameters);
 
@@ -43,7 +45,6 @@ class View {
   void DrawMap(QPainter* painter,
                const QRect& frame,
                const Vec2f& pos);
-
   void DrawObjects(QPainter* painter,
                    const QRect& frame,
                    const Vec2f& frame_center,
@@ -55,11 +56,12 @@ class View {
 
   uint32_t players_amount_ = 0;
   uint32_t cars_amount_ = 0;
+  GameMode* game_mode_;
   double scale_ = 0;
 
   std::vector<Engine*> engine_sounds_;
   std::vector<Drift*> drift_sounds_;
   std::vector<Brake*> brake_sounds_;
   std::vector<Shooting*> shooting_sounds_;
-  Effects* sounds_of_effects_;
+  Effects sounds_of_effects_;
 };

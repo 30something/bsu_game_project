@@ -65,6 +65,9 @@ void ServerController::ReceiveClientData() {
           SendBonusData(data.data);
           break;
         }
+        case MessageType::kPlayersVector: {
+          break;
+        }
       }
     }
   }
@@ -81,7 +84,10 @@ void ServerController::SendStartSignal(const QVariant& q_variant) {
   network::WriteDataForAll(&players_,
                            q_variant,
                            MessageType::kSignalToStart);
-  startTimer(network::kMillisDataSend);
+  if (timer_id_ == -1) {
+    timer_id_ = startTimer(network::kMillisDataSend);
+  }
+  players_cars_data_.clear();
   players_cars_data_.resize(players_.size());
 }
 
@@ -108,10 +114,14 @@ void ServerController::DisconnectClient() {
   for (size_t i = 0; i < players_.size(); i++) {
     players_[i].SetId(i);
   }
+  if (players_cars_data_.empty()) {
+    killTimer(timer_id_);
+    timer_id_ = -1;
+  }
   UpdateClientsInfo();
 }
 
-void ServerController::SendBonusData(QVariant q_variant) {
+void ServerController::SendBonusData(const QVariant& q_variant) {
   network::WriteDataForAll(&players_,
                            q_variant,
                            MessageType::kNewBonusData);

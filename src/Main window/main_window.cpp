@@ -10,7 +10,8 @@ MainWindow::MainWindow(QMainWindow* parent) :
     settings_(new Settings(this)),
     network_room_(new NetworkRoom(this, game_mode_)) {
   setMinimumSize(mainwindow_sizes::kDefaultScreenSize);
-  setWindowTitle("Death Rally");
+  setWindowTitle("Survival Rally: Big Guns");
+  setWindowIcon(QIcon(":resources/images/other_stuff/icon0.png"));
   SetUpStackedWidget();
   pause_menu_->Close();
   ConnectUI();
@@ -54,7 +55,7 @@ void MainWindow::ReturnToMainMenu() {
              &MainWindow::ReturnToMainMenu);
   delete events_controller_;
   events_controller_ = nullptr;
-  if(game_mode_->network_controller != nullptr) {
+  if (game_mode_->network_controller != nullptr) {
     game_mode_->network_controller->SetAlreadyStarted(false);
   }
 }
@@ -75,6 +76,14 @@ void MainWindow::CloseNetworkRoom() {
   stacked_widget_->setCurrentWidget(menu_);
 }
 
+void MainWindow::SingleplayerStarted() {
+  game_mode_selector_->SetSingleplayer(true);
+}
+
+void MainWindow::MultiplayerStarted() {
+  game_mode_selector_->SetSingleplayer(false);
+}
+
 void MainWindow::SetUpStackedWidget() {
   stacked_widget_->addWidget(menu_);
   stacked_widget_->addWidget(game_mode_selector_);
@@ -83,7 +92,19 @@ void MainWindow::SetUpStackedWidget() {
   stacked_widget_->setCurrentWidget(menu_);
 }
 
+void MainWindow::ChangeSoundVolume(int value) {
+    game_mode_->volume_settings_parameter = value;
+}
+
 void MainWindow::ConnectUI() {
+  connect(menu_,
+          &Menu::SinglePlayerPressed,
+          this,
+          &MainWindow::SingleplayerStarted);
+  connect(menu_,
+          &Menu::MultiPlayerPressed,
+          this,
+          &MainWindow::MultiplayerStarted);
   connect(menu_,
           &Menu::SinglePlayerPressed,
           this,
@@ -112,6 +133,10 @@ void MainWindow::ConnectUI() {
           &NetworkRoom::OpenGameModeSelector,
           this,
           &MainWindow::OpenGameModeSelector);
+  connect(network_room_,
+          &NetworkRoom::ExitDisconnected,
+          this,
+          &MainWindow::ReturnToMainMenu);
   connect(menu_,
           &Menu::SettingsButtonPressed,
           this,
@@ -132,6 +157,10 @@ void MainWindow::ConnectUI() {
           &Menu::ExitButtonPressed,
           this,
           &MainWindow::close);
+    connect(settings_,
+            &Settings::VolumeChanged,
+            this,
+            &MainWindow::ChangeSoundVolume);
 }
 
 void MainWindow::ConnectGameSignals() {

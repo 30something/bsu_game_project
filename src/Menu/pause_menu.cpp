@@ -1,15 +1,13 @@
 #include "pause_menu.h"
-#include "src/helpers/sizes.h"
 
 PauseMenu::PauseMenu(QWidget* parent)
     : QWidget(parent),
       main_layout_(new QVBoxLayout(this)),
-      settings_button_(new QPushButton("SETTINGS", this)),
-      exit_button_(new QPushButton("MAIN MENU", this)),
-      continue_button_(new QPushButton("CONTINUE", this)),
+      settings_button_(new QPushButton("Settings", this)),
+      exit_button_(new QPushButton("Main menu", this)),
+      continue_button_(new QPushButton("Continue", this)),
       small_exit_window_(new SmallExitWindow(this)) {
-  setStyleSheet("background-color : red");
-  SetSizes();
+  SetStyles();
   SetUpLayout();
   small_exit_window_->setStyleSheet("background-color : yellow;"
                                     "color : darkBlue");
@@ -36,19 +34,26 @@ void PauseMenu::Close() {
   close();
 }
 
-void PauseMenu::SetSizes() {
-  resize(menu_sizes::kPauseMenuSize);
-  settings_button_->setMinimumSize(button_sizes::kPauseMenuMinButtonSize);
-  continue_button_->setMinimumSize(button_sizes::kPauseMenuMinButtonSize);
-  exit_button_->setMinimumSize(button_sizes::kPauseMenuMinButtonSize);
+void PauseMenu::SetStyles() {
+  setMinimumSize(menu_sizes::kPauseMenuSize);
+  for (auto& widget : children()) {
+    auto* button_ptr = qobject_cast<QPushButton*>(widget);
+    if (button_ptr) {
+      button_ptr->setFont(fonts::kDefaultButtonFont);
+      button_ptr->setMinimumSize(button_sizes::kPauseMenuMinButtonSize);
+      button_ptr->setStyleSheet(styles::kStandardPushbuttonStyle);
+      button_ptr->setStyleSheet("QPushButton {"
+                                "font: bold 20px; }");
+    }
+  }
 }
 
 void PauseMenu::SetUpLayout() {
-  main_layout_->addStretch(5);
-  main_layout_->addWidget(settings_button_, 1, Qt::AlignCenter);
-  main_layout_->addWidget(continue_button_, 1, Qt::AlignCenter);
-  main_layout_->addWidget(exit_button_, 1, Qt::AlignCenter);
-  main_layout_->addStretch(5);
+  main_layout_->addStretch(10);
+  main_layout_->addWidget(settings_button_, 2, Qt::AlignCenter);
+  main_layout_->addWidget(continue_button_, 2, Qt::AlignCenter);
+  main_layout_->addWidget(exit_button_, 2, Qt::AlignCenter);
+  main_layout_->addStretch(10);
 }
 
 void PauseMenu::ConnectUI() {

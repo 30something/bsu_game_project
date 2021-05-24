@@ -1,16 +1,19 @@
 #include "shooting_sound.h"
 
 Shooting::Shooting(QWidget *parent) : QWidget(parent),
-                                               sound_player_(new QMediaPlayer(this)),
-                                               sound_playlist_(new QMediaPlaylist(this)) {
+                                      sound_player_(new QMediaPlayer(this)),
+                                      sound_playlist_(new QMediaPlaylist(this)) {
     sound_player_->setPlaylist(sound_playlist_);
 
-    sound_playlist_->addMedia(QUrl("qrc:/resources/sounds/weapon/gunshot_sound.wav"));
-    sound_playlist_->addMedia(QUrl("qrc:/resources/sounds/weapon/no_bullets.wav"));
+    sound_playlist_->addMedia(
+            QUrl("qrc:/resources/sounds/weapon/gunshot_sound.wav"));
+    sound_playlist_->addMedia(
+            QUrl("qrc:/resources/sounds/weapon/no_bullets.wav"));
 }
 
 void Shooting::Play(bool using_gun, bool bullets, bool enable_weapons,
-                    double volume_parameter, bool pause) {
+                    double volume_parameter, int volume_settings_parameter,
+                    bool pause) {
     if (!enable_weapons) {
         sound_player_->stop();
         return;
@@ -21,6 +24,10 @@ void Shooting::Play(bool using_gun, bool bullets, bool enable_weapons,
     }
 
     int volume = static_cast<int>(100 * volume_parameter);
+
+    volume_settings_parameter_ = volume_settings_parameter;
+    volume *= volume_settings_parameter_;
+    volume /= 100;
 
     sound_player_->setVolume(volume);
 

@@ -70,9 +70,9 @@ struct network {
 };
 
 struct JsonHelper {
-  static QString EncodeGameModeJson(int map_index,
-                                    int bots_amount,
-                                    int laps_amount,
+  static QString EncodeGameModeJson(uint32_t map_index,
+                                    uint32_t bots_amount,
+                                    int32_t laps_amount,
                                     bool enable_drifting) {
     QJsonObject json_object;
     json_object.insert("map_index",
@@ -200,7 +200,6 @@ struct JsonHelper {
   static PlayerCarData
   DecodePlayerCarData(const QString& json) {
     PlayerCarData car_data;
-    std::vector<PlayerCarData> result;
     QJsonObject data_obj = QJsonDocument::fromJson(json.toUtf8()).object();
     QJsonObject angle_obj = data_obj["angle"].toObject();
     car_data.angle = Vec2f(angle_obj["x"].toDouble(),
