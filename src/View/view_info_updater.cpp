@@ -46,7 +46,7 @@ void ViewInfoUpdater::UpdateStartInfo() {
 
 void ViewInfoUpdater::UpdateRightInfo(QPainter* painter,
                                       int x_pos,
-                                      int y_pos,
+                                      int,
                                       int index) {
   painter->save();
   std::vector<PlayerUI> players_ui;
@@ -160,10 +160,8 @@ void ViewInfoUpdater::DrawHP(QPainter* painter, int index) {
   double hp = cars_data_.GetHP(index);
   painter->drawRect(31, 51, hp * 59 / 200, 11);
 
-  painter->scale(0.5, 0.5);
   painter->setPen(QPen(QColor(50, 50, 200)));
-  painter->drawText(115, 118, QString::number(hp));
-  painter->scale(2, 2);
+  painter->drawText(48, 60, QString::number(hp));
 }
 
 void ViewInfoUpdater::DrawAmmo(QPainter* painter, int index) {
@@ -202,6 +200,8 @@ void ViewInfoUpdater::UpdateBottomInfo(QPainter* painter,
 void ViewInfoUpdater::UpdateAllInfoDescription(QPainter* painter,
                                                const std::vector<QRect>& frames,
                                                double scale) {
+  painter->scale(2./scale, 2./scale);
+  scale = 2;
   if (game_mode_->network_controller != nullptr) {
     UpdateTopInfo(painter,
                   frames[0].left() / scale,

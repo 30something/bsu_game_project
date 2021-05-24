@@ -109,7 +109,6 @@ void NetworkRoom::SetUpAndStartGame() {
     if (network_controller_->GetId() != 0) {
       DecodeGameModeData();
     }
-    network_controller_->SetAlreadyStarted(true);
     game_mode_->network_players_amount = players_.size() - 1;
     game_mode_->network_controller = network_controller_;
     if (network_player_->GetId() == 0) {
