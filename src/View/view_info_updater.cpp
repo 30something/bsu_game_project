@@ -79,9 +79,6 @@ void ViewInfoUpdater::UpdateRightInfo(QPainter* painter,
     painter->setPen(QPen(QColor(0, 0, 153)));
     if (player.hp == 0) {
       painter->setPen(QPen(QColor(255, 0, 0)));
-      painter->drawText(3,
-                        player_span - 5,
-                        QString::number(player.number + 1) + ".");
       painter->drawText(3, player_span - 5, "Dead");
     } else {
       painter->drawText(3,
