@@ -25,11 +25,11 @@ void View::UpdateFrames(int width, int height) {
                          width,
                          height);
   } else {
-    frames_.emplace_back(0,
+    frames_.emplace_back(width / 2,
                          0,
                          width / 2,
                          height);
-    frames_.emplace_back(width / 2,
+    frames_.emplace_back(0,
                          0,
                          width / 2,
                          height);

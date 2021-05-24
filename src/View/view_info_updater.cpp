@@ -216,7 +216,7 @@ void ViewInfoUpdater::UpdateAllInfoDescription(QPainter* painter,
                     frames[0].bottom() / scale,
                     network_id_);
   } else {
-    for (int32_t i = 0; i < static_cast<int>(frames.size()); i++) {
+    for (size_t i = 0; i < frames.size(); i++) {
       UpdateTopInfo(painter,
                     frames[i].left() / scale,
                     frames[i].top() / scale,
