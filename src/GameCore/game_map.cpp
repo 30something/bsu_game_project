@@ -76,11 +76,13 @@ void Map::ProceedNewBonuses() {
                 kAmountOfBonusTypes)));
         Vec2f rand_point = waypoints_[position_index];
         int32_t center_deviation_x =
-                QRandomGenerator::global()->bounded(2 * kMaxBonusSpawnDeviation) -
-                kMaxBonusSpawnDeviation;
+                QRandomGenerator::global()->bounded(
+                        2 * kMaxBonusSpawnDeviation) -
+                        kMaxBonusSpawnDeviation;
         int32_t center_deviation_y =
-                QRandomGenerator::global()->bounded(2 * kMaxBonusSpawnDeviation) -
-                kMaxBonusSpawnDeviation;
+                QRandomGenerator::global()->bounded(
+                        2 * kMaxBonusSpawnDeviation) -
+                        kMaxBonusSpawnDeviation;
         rand_point.Set(rand_point.GetX() + center_deviation_x,
                        rand_point.GetY() + center_deviation_y);
         bonuses_.emplace_back(rand_point, type);
@@ -166,3 +168,5 @@ void Map::SetNoBonusIsApplied() {
 bool Map::BonusIsApplied() const {
     return bonus_is_applied_;
 }
+
+

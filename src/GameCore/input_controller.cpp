@@ -72,3 +72,5 @@ void InputController::SetKeyConditions(QKeyEvent* event, bool value) {
         keys_condition_[KeyID::kSecondMine] = value;
     }
 }
+
+

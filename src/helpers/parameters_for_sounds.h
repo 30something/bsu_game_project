@@ -29,3 +29,6 @@ struct EffectParameters {
     bool play;
     double volume_parameter;
 };
+
+
+

@@ -69,7 +69,7 @@ class GameController : public QObject {
   void ProceedFinishGame();
   void RecalculateDeviations();
 
-  void UpdateVolumeParameters(std::vector<double>& volume_parameters);
+  void UpdateVolumeParameters(std::vector<double>* volume_parameters);
   void ChangingParameterForBonusSound(uint32_t i);
   void ChangingParametersForExplosionSound(uint32_t i);
 

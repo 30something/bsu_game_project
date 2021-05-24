@@ -38,3 +38,5 @@ class Engine : public QWidget {
     static constexpr int kBackwardEngineLength = 1000;
     static constexpr int kMaxReversedEnginePosition = 11000;
 };
+
+

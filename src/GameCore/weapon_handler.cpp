@@ -60,8 +60,9 @@ void WeaponHandler::ProceedWeapons(
                     animations->emplace_back(AnimationTypes::kExplosion,
                                              mine.GetPosition());
                     (*cars)[i].AddHitPoints(-kMineDamage);
-                    (*cars)[i].SetVelocity(Vec2f((*cars)[i].GetVelocity()).Normalize() *
-                                    -kMineSplash);
+                    (*cars)[i].SetVelocity(
+                            Vec2f((*cars)[i].GetVelocity()).Normalize() *
+                            -kMineSplash);
                     mine.SetExploded();
                     cars_on_mines[i] = true;
                 }

@@ -152,7 +152,7 @@ void GameController::Tick(int time_millis) {
     RecalculateDeviations();
     UpdateOrderPositions();
     UpdateCarsInfoAndCollisions(time_millis);
-    UpdateVolumeParameters(volume_parameters_);
+    UpdateVolumeParameters(&volume_parameters_);
 }
 
 void GameController::UpdateOrderPositions() {
@@ -400,7 +400,8 @@ GameController::GetParametersForEngineSound() const {
     parameters_of_cars.reserve(cars_.size());
 
     for (uint32_t i = 0; i < cars_.size(); i++) {
-        std::pair<double, Motion> parameters = cars_[i].GetParametersForEngineSound();
+        std::pair<double, Motion> parameters =
+                cars_[i].GetParametersForEngineSound();
         parameters_of_cars.push_back(
                 {parameters.first, parameters.second, volume_parameters_[i]});
     }
@@ -522,7 +523,7 @@ double GameController::GetDistance(uint32_t i, uint32_t j) const {
             (cars_[j].GetPosition().GetY() - cars_[i].GetPosition().GetY()));
 }
 
-void GameController::UpdateVolumeParameters(std::vector<double> &result) {
+void GameController::UpdateVolumeParameters(std::vector<double>* result) {
     std::vector<double> volume_parameters;
     volume_parameters.reserve(cars_.size());
     for (uint32_t i = 0; i < cars_.size(); i++) {
@@ -549,7 +550,7 @@ void GameController::UpdateVolumeParameters(std::vector<double> &result) {
         }
         volume_parameters.push_back(max_volume_parameter);
     }
-    result = volume_parameters;
+    (*result) = volume_parameters;
 }
 
 GameController::~GameController() {

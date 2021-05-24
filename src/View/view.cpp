@@ -3,7 +3,8 @@
 
 View::View(QWidget *events_controller, GameMode *game_mode) :
         pixmap_loader_(
-                map_data::image_file_paths.maps_file_paths[game_mode->map_index]),
+                map_data::image_file_paths.maps_file_paths[
+                        game_mode->map_index]),
         players_amount_(game_mode->players_amount),
         cars_amount_(
                 game_mode->players_amount + game_mode->network_players_amount +
@@ -123,7 +124,6 @@ void View::PlayEngine(const std::vector<EngineParameters> &engine_parameters,
                                    game_mode_->volume_settings_parameter,
                                    pause);
     }
-
 }
 
 void

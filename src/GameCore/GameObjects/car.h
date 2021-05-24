@@ -22,7 +22,7 @@
 #include "src/helpers/types_of_motion.h"
 
 class Car : public GameObject {
-public:
+ public:
     Car(Vec2f position,
         double angle,
         Behavior* behavior,
@@ -60,20 +60,21 @@ public:
     void EnableInput(bool flag);
     void BecomeDead();
 
-private:
+ private:
     class CarPixmapComponent : public PixmapComponent {
-    public:
+     public:
         void SetCarPixmapId(CarStates car_state, CarsColors car_color);
         ~CarPixmapComponent() override = default;
         size_t GetFramesForChangingHitpoints() const;
         bool GetShowingHealthChangeState() const;
-        void SetFramesForChangingHitPoints(size_t frames_for_changing_hitpoints);
+        void SetFramesForChangingHitPoints(
+                size_t frames_for_changing_hitpoints);
         void SetShowingHealthChangeState(bool showing_health_change_state);
         void DecrementFramesForChangingHitpoints();
 
         static constexpr size_t kChangingHitPointsAnimationLastFrame = 40;
 
-    private:
+     private:
         size_t frames_for_changing_hitpoints_ =
                 kChangingHitPointsAnimationLastFrame;
         bool showing_health_change_state_ = false;
@@ -126,3 +127,5 @@ private:
     bool enable_drifts_ = true;
     bool health_increasing_state = false;
 };
+
+
