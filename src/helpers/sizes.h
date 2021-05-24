@@ -17,7 +17,7 @@ constexpr int kSmallExitWindowMoveCoef = 2;
 
 namespace mainwindow_sizes {
 
-constexpr QSize kDefaultScreenSize(800, 600);
+constexpr QSize kDefaultScreenSize(850, 600);
 
 }  // mainwindow_sizes
 
