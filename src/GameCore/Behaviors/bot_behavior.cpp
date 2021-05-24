@@ -46,7 +46,16 @@ void BotBehavior::ProceedCarFlags() {
 
   ProceedIfCorrectDirection();
 
-  if (AnyCarInFront()) {
+  if (NeedToAvoidCollision(car_->GetPosition(), car_->GetAngleVec())) {
+    if (left_distance_ < right_distance_) {
+      flag_right_ = true;
+      flag_left_ = false;
+    } else {
+      flag_right_ = false;
+      flag_left_ = true;
+    }
+  }
+  if (AnyCarInFront() && car_->GetBulletsAmount() > 0) {
     flag_shoot_ = true;
   } else {
     flag_shoot_ = false;
@@ -216,4 +225,21 @@ BotBehavior::GetMinimalElementIndex(const std::vector<double>& distances) {
     }
   }
   return minimal_index;
+}
+
+bool BotBehavior::NeedToAvoidCollision(Vec2f position, Vec2f angle_vec) {
+  Line shooting_trajectory(
+      position.GetX(),
+      position.GetY(),
+      angle_vec.GetX() * 20 + position.GetX(),
+      angle_vec.GetY() * 20 + position.GetY());
+  for (const auto& car : cars_) {
+    if (car.GetPosition() == car_->GetPosition()) {
+      continue;
+    }
+    if (physics::IsIntersects(car.GetCollisionLines(), {shooting_trajectory})) {
+      return true;
+    }
+  }
+  return false;
 }

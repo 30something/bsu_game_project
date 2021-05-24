@@ -86,7 +86,7 @@ class Car : public GameObject {
 
   static constexpr int32_t kPutMineOffset = -15;
   static constexpr int32_t kMineDelayTicks = 500;
-  static constexpr double kShootingRange = 100;
+  static constexpr double kShootingRange = 300;
   static constexpr double kAccelFactor = 2.0;
   static constexpr double kFrictionFactor = 0.5;
   static constexpr double kMaxSpeedBackward = 100;

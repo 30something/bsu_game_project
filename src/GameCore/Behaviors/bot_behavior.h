@@ -49,7 +49,7 @@ class BotBehavior : public Behavior {
   void ProceedCarFlags();
   void ProceedIfCorrectDirection();
   size_t FindClosestPlayersCar();
-
+  bool NeedToAvoidCollision(Vec2f position, Vec2f angle_vec);
   static constexpr double kDistanceRange = 100000;
   static constexpr double kWeaponsRange = 100;
   static constexpr double kSpeedCoefficientMultiplier = 10;
