@@ -96,7 +96,7 @@ void NetworkRoom::Connect() {
 }
 
 void NetworkRoom::ChangeReadyStatus() {
-  if (network_player_->Socket()->isOpen()) {
+  if (network_player_->Socket()->state() == QAbstractSocket::ConnectedState) {
     network_player_->SetIsReady(!network_player_->IsReady());
     network_controller_->SendReadyStatus();
   } else {

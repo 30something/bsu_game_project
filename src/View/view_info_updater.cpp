@@ -7,7 +7,10 @@ ViewInfoUpdater::ViewInfoUpdater(QWidget* parent,
     layout_(new QVBoxLayout(parent)),
     laps_amount_(game_mode_->laps_amount),
     players_amount_(game_mode_->players_amount + game_mode_->bots_amount +
-        game_mode_->network_players_amount) {
+        game_mode_->network_players_amount),
+    hp_(":resources/images/other_stuff/hp.png"),
+    bullets_(":resources/images/other_stuff/ammo.png"),
+    mines_(":resources/images/other_stuff/mines_ammo.png") {
   layout_->setAlignment(Qt::AlignCenter);
   start_label_->setAlignment(Qt::AlignCenter);
   start_label_->setFont(fonts::kStartInfoFont);
@@ -53,7 +56,7 @@ void ViewInfoUpdater::UpdateTopInfo(QPainter* painter,
                     y_pos + description_offset,
                     QString::fromStdString("Laps: " +
                         std::to_string(std::min(laps_amount_,
-                            cars_data_.GetLapsCounter(index)))
+                                                cars_data_.GetLapsCounter(index)))
                                                + " / " +
                         std::to_string(laps_amount_)));
   painter->drawText(x_pos,
@@ -76,26 +79,73 @@ void ViewInfoUpdater::UpdateTopInfo(QPainter* painter,
   }
 }
 
+void ViewInfoUpdater::DrawSpeed(QPainter* painter, int index) {
+  painter->setPen(QPen(QColor(0, 0, 153)));
+  painter->drawEllipse(10, 10, 30, 30);
+  painter->save();
+  painter->translate(25, 25);
+  double angle = cars_data_.GetVelocity(index) * 1.4;
+  painter->rotate(angle + 45);
+  painter->drawLine(0, 0, 10, 10);
+  painter->restore();
+  painter->drawText(50,
+                    30,
+                    QString::number(cars_data_.GetVelocity(index))
+                        + QString(" km/h"));
+}
+
+void ViewInfoUpdater::DrawHP(QPainter* painter, int index) {
+  painter->setPen(QPen(QColor(0, 0, 153)));
+  painter->scale(2, 2);
+  painter->drawPixmap(5, 25, hp_);
+  painter->scale(0.5, 0.5);
+
+  painter->setPen(QPen(QColor(0, 0, 0)));
+  painter->setBrush(QBrush(QColor(0, 0, 0, 0)));
+  painter->drawRect(30, 50, 60, 13);
+
+  painter->setBrush(QBrush(QColor(255, 0, 0)));
+  painter->setPen(QPen(QColor(255, 0, 0)));
+  double hp = cars_data_.GetHP(index);
+  painter->drawRect(31, 51, hp * 59 / 200, 11);
+
+  painter->scale(0.5, 0.5);
+  painter->setPen(QPen(QColor(50, 50, 200)));
+  painter->drawText(115, 118, QString::number(hp));
+  painter->scale(2, 2);
+}
+
+void ViewInfoUpdater::DrawAmmo(QPainter* painter, int index) {
+  painter->scale(3. / 2, 3. / 2);
+  painter->drawPixmap(5, 52, bullets_);
+  painter->scale(2. / 3, 2. / 3);
+  painter->drawText(20,
+                    90,
+                    QString::number(cars_data_.GetBulletsAmount(index)));
+  painter->save();
+  painter->scale(3. / 2, 3. / 2);
+  painter->drawPixmap(5 + 40, 52, mines_);
+  painter->scale(2. / 3, 2. / 3);
+  painter->drawText(20 + 65,
+                    90,
+                    QString::number(cars_data_.GetMinesAmount(index)));
+
+  painter->restore();
+}
+
 void ViewInfoUpdater::UpdateBottomInfo(QPainter* painter,
                                        int x_pos,
                                        int y_pos,
                                        int index) {
-  int32_t description_offset = fonts::kDefaultInfoFont.pointSize() + 5;
-  painter->drawText(x_pos,
-                    y_pos - 2 * description_offset,
-                    QString::fromStdString("Velocity: " +
-                        std::to_string(cars_data_.GetVelocity(index))) +
-                        " km/h");
-  painter->drawText(x_pos,
-                    y_pos - description_offset,
-                    QString::fromStdString(
-                        "HP: " + std::to_string(cars_data_.GetHP(index))));
-  painter->drawText(x_pos,
-                    y_pos,
-                    QString::fromStdString("Bullets: " +
-                        std::to_string(cars_data_.GetBulletsAmount(index)) +
-                        ", Mines: " +
-                        std::to_string(cars_data_.GetMinesAmount(index))));
+  painter->setBrush(QBrush(QColor(255, 255, 255)));
+  painter->setPen(QPen(QColor(255, 255, 255)));
+  painter->drawRoundedRect(x_pos + 3, y_pos - 103, 120, 100, 10, 10);
+  painter->save();
+  painter->translate(x_pos + 3, y_pos - 103);
+  DrawSpeed(painter, index);
+  DrawHP(painter, index);
+  DrawAmmo(painter, index);
+  painter->restore();
 }
 
 void ViewInfoUpdater::UpdateAllInfoDescription(QPainter* painter,
@@ -180,3 +230,4 @@ std::string ViewInfoUpdater::GetSuffix(int value) {
     }
   }
 }
+
