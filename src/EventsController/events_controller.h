@@ -75,3 +75,5 @@ class EventsController : public QWidget {
     static constexpr int kMillisPerFrame = 15;
     static constexpr int kMillisPerPhysicsTick = 5;
 };
+
+
