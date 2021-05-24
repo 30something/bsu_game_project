@@ -8,7 +8,8 @@ MainWindow::MainWindow(QMainWindow* parent) :
     game_mode_(new GameMode()),
     game_mode_selector_(new GameModeSelector(this, game_mode_)),
     settings_(new Settings(this)),
-    network_room_(new NetworkRoom(this, game_mode_)) {
+    network_room_(new NetworkRoom(this, game_mode_)),
+    credits_(new Credits(this)) {
   setMinimumSize(mainwindow_sizes::kDefaultScreenSize);
   setWindowTitle("Survival Rally: Big Guns");
   setWindowIcon(QIcon(":resources/images/other_stuff/icon0.png"));
@@ -42,6 +43,14 @@ void MainWindow::HideSettings() {
     stacked_widget_->setCurrentWidget(events_controller_);
     pause_menu_->show();
   }
+}
+
+void MainWindow::ShowCredits() {
+  stacked_widget_->setCurrentWidget(credits_);
+}
+
+void MainWindow::CloseCredits() {
+  stacked_widget_->setCurrentWidget(menu_);
 }
 
 void MainWindow::ReturnToMainMenu() {
@@ -89,6 +98,7 @@ void MainWindow::SetUpStackedWidget() {
   stacked_widget_->addWidget(game_mode_selector_);
   stacked_widget_->addWidget(settings_);
   stacked_widget_->addWidget(network_room_);
+  stacked_widget_->addWidget(credits_);
   stacked_widget_->setCurrentWidget(menu_);
 }
 
@@ -109,6 +119,14 @@ void MainWindow::ConnectUI() {
           &Menu::MultiPlayerPressed,
           this,
           &MainWindow::OpenNetworkRoom);
+  connect(menu_,
+          &Menu::CreditsButtonPressed,
+          this,
+          &MainWindow::ShowCredits);
+  connect(credits_,
+          &Credits::ReturnToMainMenu,
+          this,
+          &MainWindow::CloseCredits);
   connect(game_mode_selector_,
           &GameModeSelector::StartGame,
           this,

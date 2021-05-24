@@ -53,6 +53,10 @@ void Menu::ConnectUI() {
           &QPushButton::clicked,
           this,
           &Menu::SettingsButtonPressed);
+  connect(credits_button_,
+          &QPushButton::clicked,
+          this,
+          &Menu::CreditsButtonPressed);
   connect(exit_button_,
           &QPushButton::clicked,
           this,
