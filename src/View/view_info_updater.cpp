@@ -113,11 +113,12 @@ void ViewInfoUpdater::UpdateTopInfo(QPainter* painter,
   painter->setFont(fonts::kDefaultInfoFont);
   painter->drawText(x_pos,
                     y_pos + description_offset,
-                    QString::fromStdString("Laps: " +
-                        std::to_string(std::min(laps_amount_,
-                                                cars_data_.GetLapsCounter(index)))
-                                               + " / " +
-                        std::to_string(laps_amount_)));
+                    "Laps: " +
+                        QString::number(std::min(laps_amount_,
+                                                 cars_data_.GetLapsCounter(
+                                                     index)))
+                        + " / "
+                        + QString::number(laps_amount_));
   painter->drawText(x_pos,
                     y_pos + 2 * description_offset,
                     GetEditedTimeInfo(index));
@@ -200,7 +201,7 @@ void ViewInfoUpdater::UpdateBottomInfo(QPainter* painter,
 void ViewInfoUpdater::UpdateAllInfoDescription(QPainter* painter,
                                                const std::vector<QRect>& frames,
                                                double scale) {
-  painter->scale(2./scale, 2./scale);
+  painter->scale(2. / scale, 2. / scale);
   scale = 2;
   if (game_mode_->network_controller != nullptr) {
     UpdateTopInfo(painter,
