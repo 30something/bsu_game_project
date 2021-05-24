@@ -24,8 +24,8 @@ GameModeSelector::GameModeSelector(QWidget* parent, GameMode* game_mode) :
     buttons_layout_(new QHBoxLayout),
     map_stacked_widget_(new QStackedWidget(this)),
     game_mode_(game_mode),
-    first_car_selector_(new ImageSelector(this, game_mode_)),
-    second_car_selector_(new ImageSelector(this, game_mode_)),
+    first_car_selector_(new ImageSelector(this, game_mode_, 1)),
+    second_car_selector_(new ImageSelector(this, game_mode_, 2)),
     number_of_players_(new QComboBox(this)),
     number_of_laps_(new QComboBox(this)),
     number_of_bots_(new QComboBox(this)) {
