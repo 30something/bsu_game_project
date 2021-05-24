@@ -4,8 +4,9 @@
 Settings::Settings(QWidget* parent) :
     QWidget(parent),
     main_layout_(new QVBoxLayout(this)),
-    music_layout_(new QHBoxLayout),
-    sound_layout_(new QHBoxLayout),
+    manual_layout_(new QHBoxLayout),
+    sliders_layout_(new QHBoxLayout),
+    manual_(new QLabel(this)),
     music_(new QLabel("Music", this)),
     music_volume_(new QSlider(Qt::Horizontal, this)),
     sound_effects_(new QLabel("Sound Effects", this)),
@@ -13,9 +14,21 @@ Settings::Settings(QWidget* parent) :
     full_screen_cell_(new QCheckBox("Full Screen")),
     apply_button_(new QPushButton("Apply", this)),
     back_button_(new QPushButton("Back", this)) {
+  SetManual();
   SetStyles();
   SetUpLayout();
   ConnectUI();
+}
+
+void Settings::SetManual() {
+  manual_->setText(
+      "\t           Keyboard manual\n\n"
+      "First player car control - arrows (up, left, down, right)\n"
+      "Second player car control - W, A, S, D\n"
+      "First player puts mine - P\n"
+      "First player shoots - O\n"
+      "Second player puts mine - V\n"
+      "Second player shoots - C");
 }
 
 void Settings::SetStyles() {
@@ -27,36 +40,37 @@ void Settings::SetStyles() {
     if (label_ptr) {
       label_ptr->setFont(fonts::kDefaultLabelFont);
       label_ptr->setStyleSheet("QLabel {"
-                               "font: bold 18px; }");
+                               "font: bold 20px; }");
     } else if (button_ptr) {
       button_ptr->setFont(fonts::kDefaultButtonFont);
       button_ptr->setMinimumSize(button_sizes::kDefaultButtonSize);
       button_ptr->setStyleSheet(styles::kStandardPushbuttonStyle);
     } else if (slider_ptr) {
       slider_ptr->setStyleSheet(styles::kStandardSliderStyle);
+      slider_ptr->setMinimumSize(slider_sizes::kStandardSliderSizes);
     }
   }
   full_screen_cell_->setFont(fonts::kDefaultButtonFont);
   full_screen_cell_->setStyleSheet("QCheckBox {"
-                                "font: bold 16px; }");
+                                   "font: bold 20px; }");
   apply_button_->setMinimumSize(button_sizes::kSettingsMinButtonSize);
   back_button_->setMinimumSize(button_sizes::kSettingsMinButtonSize);
 }
 
 void Settings::SetUpLayout() {
-  music_layout_->addStretch(2);
-  music_layout_->addWidget(music_, 1, Qt::AlignCenter);
-  music_layout_->addWidget(music_volume_, 1, Qt::AlignCenter);
-  music_layout_->addStretch(2);
-  sound_layout_->addStretch(2);
-  sound_layout_->addWidget(sound_effects_, 1, Qt::AlignCenter);
-  sound_layout_->addWidget(sound_effects_volume_, 1, Qt::AlignCenter);
-  sound_layout_->addStretch(2);
+  manual_layout_->addWidget(manual_, 1, Qt::AlignCenter);
+  sliders_layout_->addStretch(2);
+  sliders_layout_->addWidget(music_, 1, Qt::AlignCenter);
+  sliders_layout_->addWidget(music_volume_, 1, Qt::AlignCenter);
+  sliders_layout_->addStretch(1);
+  sliders_layout_->addWidget(sound_effects_, 1, Qt::AlignCenter);
+  sliders_layout_->addWidget(sound_effects_volume_, 1, Qt::AlignCenter);
+  sliders_layout_->addStretch(2);
   main_layout_->addStretch(3);
-  main_layout_->addLayout(music_layout_);
+  main_layout_->addLayout(manual_layout_);
   main_layout_->addStretch(2);
-  main_layout_->addLayout(sound_layout_);
-  main_layout_->addStretch(5);
+  main_layout_->addLayout(sliders_layout_);
+  main_layout_->addStretch(3);
   main_layout_->addWidget(full_screen_cell_, 2, Qt::AlignCenter);
   main_layout_->addWidget(apply_button_, 2, Qt::AlignCenter);
   main_layout_->addWidget(back_button_, 2, Qt::AlignCenter);

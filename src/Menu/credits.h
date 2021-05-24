@@ -22,6 +22,7 @@ class Credits : public QWidget {
  private:
   void SetText();
 
+  QWidget* parent_ = nullptr;
   QLabel* credits_ = nullptr;
   QPushButton* menu_button_ = nullptr;
   QVBoxLayout* layout_ = nullptr;

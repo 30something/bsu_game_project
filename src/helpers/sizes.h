@@ -44,3 +44,9 @@ constexpr int kPercentageOfCarSizeOnSceeen = 3;
 constexpr int kCarDiagonalInPixels = 20;
 
 }  // car_sizes
+
+namespace slider_sizes {
+
+constexpr QSize kStandardSliderSizes(150, 50);
+
+}  // slider_sizes
