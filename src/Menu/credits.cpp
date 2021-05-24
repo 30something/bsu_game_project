@@ -1,6 +1,6 @@
 #include "credits.h"
 
-Credits::Credits(QWidget*) :
+Credits::Credits(QWidget* parent) :
     credits_(new QLabel(this)),
     menu_button_(new QPushButton("Return to main menu", this)),
     layout_(new QVBoxLayout(this)) {
