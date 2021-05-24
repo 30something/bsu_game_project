@@ -67,10 +67,8 @@ void ViewInfoUpdater::UpdateRightInfo(QPainter* painter,
               }
               return p1.position < p2.position;
             });
-  size_t top_coord = y_pos / 2 - (players_ui.size() + 1) / 2 * player_span;
-  painter->translate(x_pos - 120, top_coord);
+  painter->translate(x_pos - 130, 10);
   for (const auto& player : players_ui) {
-    painter->translate(0, player_span);
     if (player.number == index) {
       painter->setBrush(QBrush(QColor(255, 200, 200)));
     } else {
@@ -80,7 +78,7 @@ void ViewInfoUpdater::UpdateRightInfo(QPainter* painter,
     painter->drawRect(0, 0, 120, player_span);
     painter->setPen(QPen(QColor(0, 0, 153)));
     if (player.hp == 0) {
-      painter->setPen(QPen(QColor(255,0,0)));
+      painter->setPen(QPen(QColor(255, 0, 0)));
       painter->drawText(3, player_span - 5, "Dead");
     } else {
       painter->drawText(3,
@@ -90,19 +88,12 @@ void ViewInfoUpdater::UpdateRightInfo(QPainter* painter,
                         player_span - 5,
                         "Pos: " + QString::number(player.position));
       painter->drawPixmap(55, 8, hp_);
-      if(player.hp < 50) {
-        painter->setPen(QPen(QColor(255,0,0)));
-      } else if(player.hp < 100) {
-        painter->setPen(QPen(QColor(255,100,0)));
-      } else if(player.hp < 150) {
-        painter->setPen(QPen(QColor(200,150,0)));
-      } else {
-        painter->setPen(QPen(QColor(100,255,0)));
-      }
+      painter->setPen(QPen(QColor(255 - player.hp, player.hp * 255 / 200, 0)));
       painter->drawText(65,
                         player_span - 5,
                         QString::number(player.hp));
     }
+    painter->translate(0, player_span);
   }
   painter->restore();
 }
