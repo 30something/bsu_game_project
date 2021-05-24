@@ -44,10 +44,78 @@ void ViewInfoUpdater::UpdateStartInfo() {
   }
 }
 
+void ViewInfoUpdater::UpdateRightInfo(QPainter* painter,
+                                      int x_pos,
+                                      int y_pos,
+                                      int index) {
+  painter->save();
+  std::vector<PlayerUI> players_ui;
+  for (size_t i = 0; i < cars_data_.cars_data.size(); i++) {
+    players_ui.emplace_back(cars_data_.GetHP(i),
+                            cars_data_.GetCurrentOrderPosition(i),
+                            i);
+  }
+  int player_span = 20;
+  std::sort(players_ui.begin(),
+            players_ui.end(),
+            [](const PlayerUI& p1, const PlayerUI& p2) {
+              if (p1.hp == 0) {
+                return false;
+              }
+              if (p2.hp == 0) {
+                return true;
+              }
+              return p1.position < p2.position;
+            });
+  size_t top_coord = y_pos / 2 - (players_ui.size() + 1) / 2 * player_span;
+  painter->translate(x_pos - 120, top_coord);
+  for (const auto& player : players_ui) {
+    painter->translate(0, player_span);
+    if (player.number == index) {
+      painter->setBrush(QBrush(QColor(255, 200, 200)));
+    } else {
+      painter->setBrush(QBrush(QColor(255, 255, 255, 100)));
+    }
+    painter->setPen(QPen(QColor(255, 255, 255)));
+    painter->drawRect(0, 0, 120, player_span);
+    painter->setPen(QPen(QColor(0, 0, 153)));
+    if (player.hp == 0) {
+      painter->setPen(QPen(QColor(255,0,0)));
+      painter->drawText(3, player_span - 5, "Dead");
+    } else {
+      painter->drawText(3,
+                        player_span - 5,
+                        QString::number(player.number) + ".");
+      painter->drawText(15,
+                        player_span - 5,
+                        "Pos: " + QString::number(player.position));
+      painter->drawPixmap(55, 8, hp_);
+      if(player.hp < 50) {
+        painter->setPen(QPen(QColor(255,0,0)));
+      } else if(player.hp < 100) {
+        painter->setPen(QPen(QColor(255,100,0)));
+      } else if(player.hp < 150) {
+        painter->setPen(QPen(QColor(200,150,0)));
+      } else {
+        painter->setPen(QPen(QColor(100,255,0)));
+      }
+      painter->drawText(65,
+                        player_span - 5,
+                        QString::number(player.hp));
+    }
+  }
+  painter->restore();
+}
+
 void ViewInfoUpdater::UpdateTopInfo(QPainter* painter,
                                     int x_pos,
                                     int y_pos,
                                     int index) {
+  painter->save();
+  painter->setPen(QPen(QColor(255, 255, 255)));
+  painter->setBrush(QBrush(QColor(255, 255, 255, 100)));
+  painter->drawRoundedRect(x_pos + 3, 3, 120, 57, 10, 10);
+  painter->translate(6, 6);
   painter->setPen(QPen(QColor(0, 0, 153)));
   int32_t description_offset = fonts::kDefaultInfoFont.pointSize() + 5;
   y_pos -= 5;
@@ -68,15 +136,7 @@ void ViewInfoUpdater::UpdateTopInfo(QPainter* painter,
                         "Position: " + std::to_string(
                             cars_data_.GetCurrentOrderPosition(index)) + " / " +
                             std::to_string(players_amount_)));
-  if (cars_data_.GetFinishPosition(index) > 0) {
-    painter->drawText(x_pos,
-                      y_pos + 4 * description_offset,
-                      GetEditedFinishInfo(index));
-  } else if (cars_data_.GetHP(index) == 0) {
-    painter->drawText(x_pos,
-                      y_pos + 4 * description_offset,
-                      QString::fromStdString("Oops, you've exploded!"));
-  }
+  painter->restore();
 }
 
 void ViewInfoUpdater::DrawSpeed(QPainter* painter, int index) {
@@ -137,7 +197,7 @@ void ViewInfoUpdater::UpdateBottomInfo(QPainter* painter,
                                        int x_pos,
                                        int y_pos,
                                        int index) {
-  painter->setBrush(QBrush(QColor(255, 255, 255)));
+  painter->setBrush(QBrush(QColor(255, 255, 255, 100)));
   painter->setPen(QPen(QColor(255, 255, 255)));
   painter->drawRoundedRect(x_pos + 3, y_pos - 103, 120, 100, 10, 10);
   painter->save();
@@ -160,6 +220,10 @@ void ViewInfoUpdater::UpdateAllInfoDescription(QPainter* painter,
                      frames[0].left() / scale,
                      frames[0].bottom() / scale,
                      network_id_);
+    UpdateRightInfo(painter,
+                    frames[0].right() / scale,
+                    frames[0].bottom() / scale,
+                    network_id_);
   } else {
     for (int32_t i = 0; i < static_cast<int>(frames.size()); i++) {
       UpdateTopInfo(painter,
@@ -170,6 +234,10 @@ void ViewInfoUpdater::UpdateAllInfoDescription(QPainter* painter,
                        frames[i].left() / scale,
                        frames[i].bottom() / scale,
                        i);
+      UpdateRightInfo(painter,
+                      frames[i].right() / scale,
+                      frames[i].bottom() / scale,
+                      i);
     }
   }
 }
@@ -205,29 +273,3 @@ QString ViewInfoUpdater::GetEditedTimeInfo(int index) const {
   return QString::fromStdString("Time: " +
       minutes_str + ":" + seconds_str + ":" + millis_str);
 }
-
-QString ViewInfoUpdater::GetEditedFinishInfo(int index) const {
-  auto finish_position = cars_data_.GetFinishPosition(index);
-  auto pos_with_suffix = std::to_string(finish_position) +
-      GetSuffix(finish_position);
-  return QString::fromStdString(
-      "You finished on " + pos_with_suffix + " position!");
-}
-
-std::string ViewInfoUpdater::GetSuffix(int value) {
-  switch (value) {
-    case 1: {
-      return "st";
-    }
-    case 2: {
-      return "nd";
-    }
-    case 3: {
-      return "rd";
-    }
-    default: {
-      return "th";
-    }
-  }
-}
-

@@ -28,6 +28,14 @@ class ViewInfoUpdater {
   bool GetStartState() const;
 
  private:
+  struct PlayerUI {
+    PlayerUI(double hp, size_t position, size_t number)
+        : hp(hp), position(position), number(number) {}
+    double hp;
+    size_t position;
+    size_t number;
+  };
+
   void UpdateAllInfoDescription(QPainter* painter,
                                 const std::vector<QRect>& frames,
                                 double scale);
@@ -39,15 +47,16 @@ class ViewInfoUpdater {
                         int x_pos,
                         int y_pos,
                         int index);
+  void UpdateRightInfo(QPainter* painter,
+                       int x_pos,
+                       int y_pos,
+                       int index);
 
   QString GetEditedTimeInfo(int index) const;
-  QString GetEditedFinishInfo(int index) const;
-  static std::string GetSuffix(int value);
 
   void DrawSpeed(QPainter* painter, int index);
   void DrawHP(QPainter* painter, int index);
   void DrawAmmo(QPainter* painter, int index);
-
   GameMode* game_mode_ = nullptr;
   QLabel* start_label_ = nullptr;
   QLayout* layout_ = nullptr;
