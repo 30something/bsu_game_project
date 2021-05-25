@@ -1,0 +1,17 @@
+<RCC>
+    <qresource>
+        <file>resources/sounds/car_sounds/engine.wav</file>
+
+        <file>resources/sounds/car_sounds/drift.wav</file>
+        <file>resources/sounds/car_sounds/drift_loop.wav</file>
+
+        <file>resources/sounds/car_sounds/car_brake.wav</file>
+
+        <file>resources/sounds/weapon/gunshot_sound.wav</file>
+        <file>resources/sounds/weapon/no_bullets.wav</file>
+
+        <file>resources/sounds/effects/bonus.wav</file>
+        <file>resources/sounds/effects/car_explosion.wav</file>
+        <file>resources/sounds/weapon/mine.wav</file>
+    </qresource>
+</RCC>

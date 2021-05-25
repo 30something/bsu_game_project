@@ -1,0 +1,9 @@
+<RCC>
+    <qresource>
+        <file>resources/images/images_for_animations/shooting_animation/shooting000.png</file>
+        <file>resources/images/images_for_animations/shooting_animation/shooting001.png</file>
+        <file>resources/images/images_for_animations/shooting_animation/shooting002.png</file>
+        <file>resources/images/images_for_animations/shooting_animation/shooting003.png</file>
+        <file>resources/images/images_for_animations/shooting_animation/shooting004.png</file>
+    </qresource>
+</RCC>
