@@ -76,10 +76,12 @@ void Map::ProceedNewBonuses() {
         kAmountOfBonusTypes)));
     Vec2f rand_point = waypoints_[position_index];
     int32_t center_deviation_x =
-        QRandomGenerator::global()->bounded(2 * kMaxBonusSpawnDeviation) -
+        QRandomGenerator::global()->bounded(
+            2 * kMaxBonusSpawnDeviation) -
             kMaxBonusSpawnDeviation;
     int32_t center_deviation_y =
-        QRandomGenerator::global()->bounded(2 * kMaxBonusSpawnDeviation) -
+        QRandomGenerator::global()->bounded(
+            2 * kMaxBonusSpawnDeviation) -
             kMaxBonusSpawnDeviation;
     rand_point.Set(rand_point.GetX() + center_deviation_x,
                    rand_point.GetY() + center_deviation_y);
@@ -101,6 +103,7 @@ void Map::ProceedActiveBonuses(Car* car) {
       bonuses_.erase(std::find(bonuses_.begin(),
                                bonuses_.end(),
                                bonuses_[i]));
+      bonus_is_applied_ = true;
     }
   }
 }
@@ -158,3 +161,13 @@ void Map::ProceedNewBonusFromNetwork() {
   BonusTypes type = static_cast<BonusTypes>(json_object["type"].toInt());
   bonuses_.emplace_back(position, type);
 }
+
+void Map::SetNoBonusIsApplied() {
+  bonus_is_applied_ = false;
+}
+
+bool Map::BonusIsApplied() const {
+  return bonus_is_applied_;
+}
+
+

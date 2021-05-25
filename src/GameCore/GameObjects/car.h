@@ -19,6 +19,7 @@
 #include "game_object.h"
 #include "src/GameCore/Behaviors/behavior.h"
 #include "src/GameCore/GameObjects/animation.h"
+#include "src/helpers/types_of_motion.h"
 
 class Car : public GameObject {
  public:
@@ -45,6 +46,11 @@ class Car : public GameObject {
   const Vec2f* GetAngleVecPointer() const;
   bool IsPuttingMine() const;
   bool IsShooting() const;
+  bool IsDead() const;
+  bool UsingGun() const;
+  std::pair<double, Motion> GetParametersForEngineSound() const;
+  double GetParameterForDriftSound() const;
+  double GetParameterForBrakeSound() const;
   void SetAngleVec(const Vec2f& angle_vec);
   void SetVelocity(const Vec2f& velocity);
   void SetPosition(const Vec2f& position);
@@ -61,7 +67,8 @@ class Car : public GameObject {
     ~CarPixmapComponent() override = default;
     size_t GetFramesForChangingHitpoints() const;
     bool GetShowingHealthChangeState() const;
-    void SetFramesForChangingHitPoints(size_t frames_for_changing_hitpoints);
+    void SetFramesForChangingHitPoints(
+        size_t frames_for_changing_hitpoints);
     void SetShowingHealthChangeState(bool showing_health_change_state);
     void DecrementFramesForChangingHitpoints();
 

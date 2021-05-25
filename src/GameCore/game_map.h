@@ -24,6 +24,10 @@ class Map : public QObject {
   explicit Map(GameMode* game_mode);
   void HandleCarTick(Car* car);
   const std::vector<Bonus>& GetActiveBonuses() const;
+
+  void SetNoBonusIsApplied();
+  bool BonusIsApplied() const;
+
   const std::vector<std::vector<Vec2f>>& GetBorders() const;
   const std::vector<Vec2f>& GetWaypoints() const;
   const std::vector<Line>& GetNoGoLines() const;
@@ -57,4 +61,6 @@ class Map : public QObject {
   Line finish_line_;
   QTimer bonus_timer_;
   GameMode* game_mode_;
+
+  bool bonus_is_applied_ = false;
 };

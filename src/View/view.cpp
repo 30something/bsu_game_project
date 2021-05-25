@@ -3,8 +3,11 @@
 
 View::View(GameMode* game_mode) :
     pixmap_loader_(
-        map_data::image_file_paths.maps_file_paths[game_mode->map_index]),
-    players_amount_(game_mode->players_amount) {}
+        map_data::image_file_paths.maps_file_paths[
+            game_mode->map_index]),
+    players_amount_(game_mode->players_amount),
+    game_mode_(game_mode) {
+}
 
 void View::Repaint(const std::vector<WrapperBase<GameObject>*>& objects,
                    const std::vector<Vec2f>& cars_positions,

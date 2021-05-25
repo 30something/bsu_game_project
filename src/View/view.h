@@ -10,6 +10,11 @@
 #include "src/GameCore/game_controller.h"
 #include "src/helpers/sizes.h"
 #include "src/helpers/pixmap_loader.h"
+#include "src/View/Sounds/engine_sound.h"
+#include "src/View/Sounds/drift_sound.h"
+#include "src/View/Sounds/brake_sound.h"
+#include "src/View/Sounds/sounds_of_effects.h"
+#include "src/View/Sounds/shooting_sound.h"
 
 class View {
  public:
@@ -38,5 +43,6 @@ class View {
   std::vector<QRect> frames_;
 
   uint32_t players_amount_ = 0;
+  GameMode* game_mode_;
   double scale_ = 0;
 };

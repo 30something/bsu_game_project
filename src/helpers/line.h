@@ -8,11 +8,13 @@ struct Line {
       y1(y1_),
       x2(x2_),
       y2(y2_) {}
+
   Line(Vec2f first, Vec2f second) :
-  x1(first.GetX()),
-  y1(first.GetY()),
-  x2(second.GetX()),
-  y2(second.GetY()) {}
+      x1(first.GetX()),
+      y1(first.GetY()),
+      x2(second.GetX()),
+      y2(second.GetY()) {}
+
   Line() = default;
   double x1 = 0;
   double y1 = 0;

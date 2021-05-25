@@ -102,7 +102,7 @@ void ViewInfoUpdater::UpdateRightInfo(QPainter* painter,
 void ViewInfoUpdater::UpdateTopInfo(QPainter* painter,
                                     int x_pos,
                                     int y_pos,
-                                    int index) {
+                                    int i) {
   painter->save();
   painter->setPen(QPen(QColor(255, 255, 255)));
   painter->setBrush(QBrush(QColor(255, 255, 255, 150)));
@@ -116,17 +116,17 @@ void ViewInfoUpdater::UpdateTopInfo(QPainter* painter,
                     y_pos + description_offset,
                     QString::fromStdString("Laps: " +
                         std::to_string(std::min(
-                            laps_amount_, cars_data_.GetLapsCounter(index)))
+                            laps_amount_, cars_data_.GetLapsCounter(i)))
                                                + " / " +
                         std::to_string(laps_amount_)));
   painter->drawText(x_pos,
                     y_pos + 2 * description_offset,
-                    GetEditedTimeInfo(index));
+                    GetEditedTimeInfo(i));
   painter->drawText(x_pos,
                     y_pos + 3 * description_offset,
                     QString::fromStdString(
                         "Position: " + std::to_string(
-                            cars_data_.GetCurrentOrderPosition(index)) + " / " +
+                            cars_data_.GetCurrentOrderPosition(i)) + " / " +
                             std::to_string(players_amount_)));
   painter->restore();
 }
