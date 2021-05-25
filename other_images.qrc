@@ -6,5 +6,6 @@
         <file>resources/images/other_stuff/mine.png</file>
         <file>resources/images/other_stuff/mines_ammo.png</file>
         <file>resources/images/other_stuff/icon0.png</file>
+        <file>resources/images/other_stuff/background.png</file>
     </qresource>
 </RCC>

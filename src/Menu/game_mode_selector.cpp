@@ -69,6 +69,7 @@ void GameModeSelector::InitializeImages() {
     map_stacked_widget_->addWidget(new MapSelectorTile(map_stacked_widget_,
                                                        image));
   }
+  map_stacked_widget_->setStyleSheet(styles::kMapWidgetStyle);
   QFileInfoList standard_cars_list =
       QDir(":resources/images/cars/cars_icons").entryInfoList();
   first_car_selector_->InitializeImages(standard_cars_list);
@@ -86,7 +87,7 @@ void GameModeSelector::SetStyles() {
     if (label_ptr) {
       label_ptr->setFont(fonts::kDefaultLabelFont);
       label_ptr->setStyleSheet("QLabel {"
-                               "font: bold 18px; }");
+                               "font: bold 20px; }");
     } else if (button_ptr) {
       button_ptr->setFont(fonts::kDefaultButtonFont);
       button_ptr->setMinimumSize(button_sizes::kDefaultButtonSize);
@@ -99,7 +100,7 @@ void GameModeSelector::SetStyles() {
   }
   enable_drifts_->setFont(fonts::kDefaultButtonFont);
   enable_drifts_->setStyleSheet("QCheckBox {"
-                                "font: bold 16px; }");
+                                "font: bold 20px; }");
   left_->setMinimumSize(button_sizes::kMapSelectorsSize);
   right_->setMinimumSize(button_sizes::kMapSelectorsSize);
 }

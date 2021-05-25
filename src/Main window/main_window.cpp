@@ -18,6 +18,15 @@ MainWindow::MainWindow(QMainWindow* parent) :
   ConnectUI();
 }
 
+void MainWindow::paintEvent(QPaintEvent*) {
+  QPixmap pixmap;
+  QPainter painter(this);
+  pixmap.load(":resources/images/other_stuff/background.png");
+  pixmap = pixmap.scaled(width(), height(), Qt::IgnoreAspectRatio);
+  painter.setOpacity(0.5);
+  painter.drawPixmap(0, 0, pixmap);
+}
+
 void MainWindow::resizeEvent(QResizeEvent*) {
   stacked_widget_->setGeometry(0, 0, width(), height());
   pause_menu_->setGeometry(0, 0, width(), height());
