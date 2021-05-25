@@ -1,5 +1,4 @@
 #include "brake_sound.h"
-#include <QDebug>
 
 Brake::Brake(QWidget* parent) : QWidget(parent),
                                 sound_playlist_(new QMediaPlaylist(this)),

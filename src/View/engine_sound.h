@@ -1,19 +1,19 @@
 #pragma once
 
+#include <vector>
+
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
 #include <QWidget>
 
 #include "src/helpers/types_of_motion.h"
 
-#include <vector>
-
 class Engine : public QWidget {
  Q_OBJECT
 
  public:
   explicit Engine(QWidget* parent = nullptr,
-                  int volume_settings_parameter = 0.0f);
+                  int volume_settings_parameter = 0);
   ~Engine() override = default;
 
   void Play(double speed_parameter, Motion motion_parameter,
@@ -27,5 +27,3 @@ class Engine : public QWidget {
 
   static constexpr int kDefaultVolume = 10;
 };
-
-

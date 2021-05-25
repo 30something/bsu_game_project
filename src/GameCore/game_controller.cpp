@@ -450,8 +450,6 @@ void GameController::ChangingParameterForBonusSound(uint32_t i) {
     if (i < game_mode_->players_amount && BonusIsApplied()) {
       bonus_is_applied_ = true;
     }
-  } else if (i == game_mode_->network_controller->GetId()) {
-    bonus_is_applied_ = true;
   }
 }
 

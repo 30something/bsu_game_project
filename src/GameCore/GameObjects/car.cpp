@@ -219,8 +219,7 @@ std::pair<double, Motion> Car::GetParametersForEngineSound() const {
     if (!behavior_->IsFlagUp()) {
       return std::pair<double, Motion>(speed_parameter,
                                        Motion::kWithoutMotion);
-    }
-    if (behavior_->IsFlagUp()) {
+    } else {
       return std::pair<double, Motion>(speed_parameter,
                                        Motion::kForwardMotion);
     }
@@ -236,10 +235,7 @@ double Car::GetParameterForDriftSound() const {
         velocity_.GetLength() / behavior_->GetMaxSpeed();
     if ((behavior_->IsFlagRight() || behavior_->IsFlagLeft()) &&
         velocity_.GetLength() > kDriftSpeed) {
-      if (relative_velocity < 0.1) {
-        return 0.1;
-      }
-      return relative_velocity;
+      return std::max(relative_velocity, 0.1);
     }
   }
   return 0;
@@ -254,10 +250,7 @@ double Car::GetParameterForBrakeSound() const {
         velocity_.GetLength() > kSpeedForBrake &&
         std::abs(velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees())
             <= 90) {
-      if (relative_velocity < 0.1) {
-        return 0.1;
-      }
-      return relative_velocity;
+      return std::max(relative_velocity, 0.1);
     }
   }
   return 0;
