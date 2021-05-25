@@ -13,7 +13,7 @@
 #include "network_player.h"
 
 class NetworkController : public QObject {
- Q_OBJECT
+  Q_OBJECT
 
  public:
   explicit NetworkController(NetworkPlayer* player);

@@ -8,7 +8,7 @@
 #include "src/GameCore/Behaviors/behavior.h"
 
 class ClientCarDataSender : public QObject {
- Q_OBJECT
+  Q_OBJECT
  public:
   ClientCarDataSender(Car* car,
                       NetworkController* network_controller,

@@ -3,9 +3,9 @@
 Sound::Sound(QWidget* events_controller, GameMode* game_mode) :
     sounds_of_effects_(new Effects(events_controller)),
     game_mode_(game_mode),
-  cars_amount_(
-      game_mode->players_amount + game_mode->network_players_amount +
-          game_mode->bots_amount){
+    cars_amount_(
+        game_mode->players_amount + game_mode->network_players_amount +
+            game_mode->bots_amount) {
   engine_sounds_.reserve(cars_amount_);
   drift_sounds_.reserve(cars_amount_);
   brake_sounds_.reserve(cars_amount_);
@@ -21,7 +21,7 @@ Sound::Sound(QWidget* events_controller, GameMode* game_mode) :
 }
 
 void Sound::PlayEngine(const std::vector<EngineParameters>& engine_parameters,
-                      bool pause) {
+                       bool pause) {
   for (uint32_t i = 0; i < cars_amount_; i++) {
     engine_sounds_.at(i)->Play(engine_parameters.at(i).speed_parameter,
                                engine_parameters.at(i).motion_parameter,
@@ -58,7 +58,7 @@ void Sound::PlayBonus(bool play_bonus) {
 }
 
 void Sound::PlayShooting(std::vector<ShootingParameters> shooting_parameters,
-                        bool pause) {
+                         bool pause) {
   for (uint32_t i = 0; i < cars_amount_; i++) {
     shooting_sounds_.at(i)->Play(shooting_parameters.at(i).using_gun,
                                  shooting_parameters.at(i).bullets,
