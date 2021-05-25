@@ -5,7 +5,7 @@
 #include <QWidget>
 
 class Effects : public QWidget {
- Q_OBJECT
+  Q_OBJECT
  public:
   explicit Effects(QWidget* parent = nullptr);
   ~Effects() override = default;

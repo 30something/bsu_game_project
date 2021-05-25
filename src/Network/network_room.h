@@ -22,7 +22,7 @@
 #include "src/helpers/styles.h"
 
 class NetworkRoom : public QWidget {
- Q_OBJECT
+  Q_OBJECT
 
  public:
   explicit NetworkRoom(QWidget* parent, GameMode* game_mode);

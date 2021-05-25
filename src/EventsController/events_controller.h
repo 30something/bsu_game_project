@@ -18,7 +18,7 @@
 #include "src/View/Sounds/sound.h"
 
 class EventsController : public QWidget {
- Q_OBJECT
+  Q_OBJECT
 
  public:
   explicit EventsController(QWidget* parent, GameMode* game_mode);

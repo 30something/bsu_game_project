@@ -5,7 +5,7 @@
 #include <QPainter>
 
 class MapSelectorTile : public QWidget {
- Q_OBJECT
+  Q_OBJECT
 
  public:
   MapSelectorTile(QWidget* parent,

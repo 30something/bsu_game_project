@@ -15,7 +15,7 @@
 #include "src/helpers/game_mode.h"
 
 class Settings : public QWidget {
- Q_OBJECT
+  Q_OBJECT
 
  public:
   explicit Settings(GameMode* game_mode, QWidget* parent = nullptr);

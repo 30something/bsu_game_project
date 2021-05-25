@@ -11,7 +11,7 @@
 #include "src/helpers/styles.h"
 
 class SmallExitWindow : public QWidget {
- Q_OBJECT
+  Q_OBJECT
 
  public:
   explicit SmallExitWindow(QWidget* parent = nullptr);

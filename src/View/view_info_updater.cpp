@@ -44,7 +44,7 @@ void ViewInfoUpdater::UpdateStartInfo() {
 void ViewInfoUpdater::UpdateTopInfo(QPainter* painter,
                                     int x_pos,
                                     int y_pos,
-                                    int index) {
+                                    int i) {
   painter->setPen(QPen(QColor(0, 0, 153)));
   int32_t description_offset = fonts::kDefaultInfoFont.pointSize() + 5;
   y_pos -= 5;
@@ -53,23 +53,23 @@ void ViewInfoUpdater::UpdateTopInfo(QPainter* painter,
                     y_pos + description_offset,
                     QString::fromStdString("Laps: " +
                         std::to_string(std::min(laps_amount_,
-                                                cars_data_.GetLapsCounter(index)))
+                                                cars_data_.GetLapsCounter(i)))
                                                + " / " +
                         std::to_string(laps_amount_)));
   painter->drawText(x_pos,
                     y_pos + 2 * description_offset,
-                    GetEditedTimeInfo(index));
+                    GetEditedTimeInfo(i));
   painter->drawText(x_pos,
                     y_pos + 3 * description_offset,
                     QString::fromStdString(
                         "Position: " + std::to_string(
-                            cars_data_.GetCurrentOrderPosition(index)) + " / " +
+                            cars_data_.GetCurrentOrderPosition(i)) + " / " +
                             std::to_string(players_amount_)));
-  if (cars_data_.GetFinishPosition(index) > 0) {
+  if (cars_data_.GetFinishPosition(i) > 0) {
     painter->drawText(x_pos,
                       y_pos + 4 * description_offset,
-                      GetEditedFinishInfo(index));
-  } else if (cars_data_.GetHP(index) == 0) {
+                      GetEditedFinishInfo(i));
+  } else if (cars_data_.GetHP(i) == 0) {
     painter->drawText(x_pos,
                       y_pos + 4 * description_offset,
                       QString::fromStdString("Oops, you've exploded!"));

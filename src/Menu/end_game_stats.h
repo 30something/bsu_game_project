@@ -18,7 +18,7 @@
 #include "src/helpers/physics.h"
 
 class EndGameStats : public QWidget {
- Q_OBJECT
+  Q_OBJECT
 
  public:
   explicit EndGameStats(QWidget* parent = nullptr);

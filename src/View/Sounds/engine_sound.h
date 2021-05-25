@@ -9,7 +9,7 @@
 #include "src/helpers/types_of_motion.h"
 
 class Engine : public QWidget {
- Q_OBJECT
+  Q_OBJECT
 
  public:
   explicit Engine(QWidget* parent = nullptr,

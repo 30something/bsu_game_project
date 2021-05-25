@@ -12,7 +12,7 @@
 #include "src/helpers/styles.h"
 
 class PauseMenu : public QWidget {
- Q_OBJECT
+  Q_OBJECT
 
  public:
   explicit PauseMenu(QWidget* parent = nullptr);

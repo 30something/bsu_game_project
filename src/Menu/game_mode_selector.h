@@ -16,7 +16,7 @@
 #include "src/helpers/styles.h"
 
 class GameModeSelector : public QWidget {
- Q_OBJECT
+  Q_OBJECT
 
  public:
   explicit GameModeSelector(QWidget* parent, GameMode* game_mode);

@@ -5,7 +5,7 @@
 #include <QWidget>
 
 class Shooting : public QWidget {
- Q_OBJECT
+  Q_OBJECT
 
  public:
   explicit Shooting(QWidget* parent = nullptr);

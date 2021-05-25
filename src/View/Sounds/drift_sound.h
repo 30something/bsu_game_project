@@ -5,7 +5,7 @@
 #include <QWidget>
 
 class Drift : public QWidget {
- Q_OBJECT
+  Q_OBJECT
 
  public:
   explicit Drift(QWidget* parent = nullptr);

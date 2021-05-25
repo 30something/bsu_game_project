@@ -5,7 +5,7 @@
 #include <QWidget>
 
 class Brake : public QWidget {
- Q_OBJECT
+  Q_OBJECT
 
  public:
   explicit Brake(QWidget* parent = nullptr);
