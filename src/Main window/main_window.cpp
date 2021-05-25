@@ -19,16 +19,14 @@ MainWindow::MainWindow(QMainWindow* parent) :
   ConnectUI();
 }
 
-void MainWindow::paintEvent(QPaintEvent*) {
-  QPainter painter(this);
-  painter.setOpacity(0.5);
-  painter.drawPixmap(0, 0, background_);
-}
-
 void MainWindow::resizeEvent(QResizeEvent*) {
   stacked_widget_->setGeometry(0, 0, width(), height());
   pause_menu_->setGeometry(0, 0, width(), height());
-  background_ = background_.scaled(width(), height(), Qt::IgnoreAspectRatio);
+  QPixmap scaled_background =
+      background_.scaled(width(), height(), Qt::IgnoreAspectRatio);
+  QPalette palette;
+  palette.setBrush(QPalette::Window, scaled_background);
+  setPalette(palette);
 }
 
 void MainWindow::StartGame() {

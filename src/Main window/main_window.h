@@ -20,7 +20,6 @@ class MainWindow : public QMainWindow {
   ~MainWindow() override = default;
 
  private:
-  void paintEvent(QPaintEvent*) override;
   void resizeEvent(QResizeEvent*) override;
 
   void SingleplayerStarted();
