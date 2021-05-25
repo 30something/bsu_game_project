@@ -37,6 +37,8 @@ class EventsController : public QWidget {
   void UpdateStartInfo();
   void ShowEndGameStats();
 
+  void PlaySounds();
+
  signals:
   void SetGamePause();
   void StopGamePause();

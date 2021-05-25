@@ -31,3 +31,11 @@ void Behavior::EnableInput(bool enable) {
 double Behavior::GetMaxSpeed() const {
   return max_speed_;
 }
+
+bool Behavior::IsDead() const {
+  return is_dead_;
+}
+
+void Behavior::SetIsDead() {
+  is_dead_ = true;
+}
