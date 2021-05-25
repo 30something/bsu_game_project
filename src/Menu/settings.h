@@ -27,6 +27,7 @@ class Settings : public QWidget {
   void MakeDefaultScreenSize();
 
  private:
+  void SetManual();
   void SetStyles();
   void SetUpLayout();
   void ConnectUI();
@@ -34,8 +35,9 @@ class Settings : public QWidget {
   void CommitSettingsChanges();
 
   QVBoxLayout* main_layout_;
-  QHBoxLayout* music_layout_;
-  QHBoxLayout* sound_layout_;
+  QHBoxLayout* manual_layout_;
+  QHBoxLayout* sliders_layout_;
+  QLabel* manual_;
   QLabel* music_;
   QSlider* music_volume_;
   QLabel* sound_effects_;

@@ -25,8 +25,8 @@ GameModeSelector::GameModeSelector(QWidget* parent, GameMode* game_mode) :
     buttons_layout_(new QHBoxLayout),
     map_stacked_widget_(new QStackedWidget(this)),
     game_mode_(game_mode),
-    first_car_selector_(new ImageSelector(this, game_mode_)),
-    second_car_selector_(new ImageSelector(this, game_mode_)),
+    first_car_selector_(new ImageSelector(this, game_mode_, 1)),
+    second_car_selector_(new ImageSelector(this, game_mode_, 2)),
     number_of_players_(new QComboBox(this)),
     number_of_laps_(new QComboBox(this)),
     number_of_bots_(new QComboBox(this)) {
@@ -70,6 +70,7 @@ void GameModeSelector::InitializeImages() {
     map_stacked_widget_->addWidget(new MapSelectorTile(map_stacked_widget_,
                                                        image));
   }
+  map_stacked_widget_->setStyleSheet(styles::kMapWidgetStyle);
   QFileInfoList standard_cars_list =
       QDir(":resources/images/cars/cars_icons").entryInfoList();
   first_car_selector_->InitializeImages(standard_cars_list);
@@ -87,13 +88,11 @@ void GameModeSelector::SetStyles() {
     if (label_ptr) {
       label_ptr->setFont(fonts::kDefaultLabelFont);
       label_ptr->setStyleSheet("QLabel {"
-                               "font: bold 18px; }");
+                               "font: bold 20px; }");
     } else if (button_ptr) {
       button_ptr->setFont(fonts::kDefaultButtonFont);
       button_ptr->setMinimumSize(button_sizes::kDefaultButtonSize);
       button_ptr->setStyleSheet(styles::kStandardPushbuttonStyle);
-      button_ptr->setStyleSheet("QPushButton {"
-                                "font: bold 18px; }");
     } else if (combo_box_ptr) {
       combo_box_ptr->setFont(fonts::kDefaultButtonFont);
       combo_box_ptr->setMinimumSize(combo_boxes_sizes::kComboBoxDefaultSize);
@@ -102,7 +101,7 @@ void GameModeSelector::SetStyles() {
   }
   enable_drifts_->setFont(fonts::kDefaultButtonFont);
   enable_drifts_->setStyleSheet("QCheckBox {"
-                                "font: bold 16px; }");
+                                "font: bold 20px; }");
   left_->setMinimumSize(button_sizes::kMapSelectorsSize);
   right_->setMinimumSize(button_sizes::kMapSelectorsSize);
 }

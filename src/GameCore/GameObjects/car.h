@@ -93,7 +93,7 @@ class Car : public GameObject {
 
   static constexpr int32_t kPutMineOffset = -15;
   static constexpr int32_t kMineDelayTicks = 500;
-  static constexpr double kShootingRange = 100;
+  static constexpr double kShootingRange = 300;
   static constexpr double kAccelFactor = 2.0;
   static constexpr double kFrictionFactor = 0.5;
   static constexpr double kMaxSpeedBackward = 100;
@@ -110,7 +110,7 @@ class Car : public GameObject {
   static constexpr double kMinVelocityThreshold = 5;
   static constexpr double kMinAngularVelocityThreshold = 0.1;
   static constexpr double kTickRotationAngle = 0.015;
-  static constexpr double kMinSignificantDamage = 0.3;
+  static constexpr double kMinSignificantDamage = 0.15;
 
   std::vector<Wheel> wheels_{4};
   std::shared_ptr<Behavior> behavior_ = nullptr;

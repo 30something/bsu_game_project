@@ -23,8 +23,6 @@ void Menu::SetStyles() {
       button_ptr->setFont(fonts::kDefaultButtonFont);
       button_ptr->setMinimumSize(button_sizes::kDefaultButtonSize);
       button_ptr->setStyleSheet(styles::kStandardPushbuttonStyle);
-      button_ptr->setStyleSheet("QPushButton {"
-                                "font: bold 18px; }");
     }
   }
 }
@@ -55,6 +53,10 @@ void Menu::ConnectUI() {
           &QPushButton::clicked,
           this,
           &Menu::SettingsButtonPressed);
+  connect(credits_button_,
+          &QPushButton::clicked,
+          this,
+          &Menu::CreditsButtonPressed);
   connect(exit_button_,
           &QPushButton::clicked,
           this,

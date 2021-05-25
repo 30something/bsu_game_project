@@ -12,6 +12,7 @@ GameController::GameController(GameMode* game_mode,
                     + game_mode_->players_amount
                     + game_mode_->bots_amount);
   if (network_controller_) {
+    network_controller_->SetAlreadyStarted(true);
     if (network_controller_->GetId() == 0) {
       network_controller_->SendStartSignal(JsonHelper::EncodeGameModeJson(
           game_mode->map_index,

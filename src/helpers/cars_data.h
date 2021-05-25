@@ -11,7 +11,7 @@ struct CarsData {
   explicit CarsData(std::vector<CarAchievements> new_cars_data);
 
   size_t GetVelocity(int index) const;
-  size_t GetLapsCounter(int index) const;
+  int32_t GetLapsCounter(int index) const;
   size_t GetBulletsAmount(int index) const;
   size_t GetMinesAmount(int index) const;
   size_t GetNumber(int index) const;

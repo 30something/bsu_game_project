@@ -17,7 +17,7 @@ constexpr int kSmallExitWindowMoveCoef = 2;
 
 namespace mainwindow_sizes {
 
-constexpr QSize kDefaultScreenSize(800, 600);
+constexpr QSize kDefaultScreenSize(1000, 800);
 
 }  // mainwindow_sizes
 
@@ -44,3 +44,9 @@ constexpr int kPercentageOfCarSizeOnSceeen = 3;
 constexpr int kCarDiagonalInPixels = 20;
 
 }  // car_sizes
+
+namespace slider_sizes {
+
+constexpr QSize kStandardSliderSizes(150, 50);
+
+}  // slider_sizes

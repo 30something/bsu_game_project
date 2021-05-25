@@ -1,28 +1,20 @@
 #include "image_selector.h"
 
-ImageSelector::ImageSelector(QWidget*, GameMode* game_mode) :
+ImageSelector::ImageSelector(QWidget*,
+                             GameMode* game_mode,
+                             size_t player_number) :
     layout_(new QHBoxLayout(this)),
     left_(new QPushButton("Previous", this)),
     right_(new QPushButton("Next", this)),
     image_widget_(new QStackedWidget(this)),
-    game_mode_(game_mode) {
+    game_mode_(game_mode),
+    player_number_(player_number) {
   InitializeInfo();
 }
 
 void ImageSelector::InitializeInfo() {
   setFont(fonts::kDefaultButtonFont);
-  setStyleSheet("QPushButton {"
-                "background-color: #ff9900;"
-                "border-style: outset;"
-                "border-width: 2px;"
-                "border-radius: 10px;"
-                "border-color: beige;"
-                "padding: 2px;"
-                "font: bold 14px; }"
-
-                "QPushButton::pressed {"
-                "background-color: #e68a00;"
-                "border-style: inset; }");
+  setStyleSheet(styles::kImageSelectorPushbuttonStyle);
   left_->setMinimumSize(button_sizes::kSmallChooseButtonSize);
   right_->setMinimumSize(button_sizes::kSmallChooseButtonSize);
   layout_->addWidget(left_, 1, Qt::AlignCenter);
@@ -48,21 +40,39 @@ void ImageSelector::InitializeImages(const QFileInfoList& images_list) {
 }
 
 void ImageSelector::SwitchLeft() {
-  if (game_mode_->first_player_car_number == 0) {
-    game_mode_->first_player_car_number = number_of_images_ - 1;
+  if (player_number_ == 1) {
+    if (game_mode_->first_player_car_number == 0) {
+      game_mode_->first_player_car_number = number_of_images_ - 1;
+    } else {
+      game_mode_->first_player_car_number--;
+    }
+    image_widget_->setCurrentIndex(game_mode_->first_player_car_number);
   } else {
-    game_mode_->first_player_car_number--;
+    if (game_mode_->second_player_car_number == 0) {
+      game_mode_->second_player_car_number = number_of_images_ - 1;
+    } else {
+      game_mode_->second_player_car_number--;
+    }
+    image_widget_->setCurrentIndex(game_mode_->second_player_car_number);
   }
-  image_widget_->setCurrentIndex(game_mode_->first_player_car_number);
   repaint();
 }
 
 void ImageSelector::SwitchRight() {
-  if (game_mode_->first_player_car_number >= number_of_images_ - 1) {
-    game_mode_->first_player_car_number = 0;
+  if (player_number_ == 1) {
+    if (game_mode_->first_player_car_number >= number_of_images_ - 1) {
+      game_mode_->first_player_car_number = 0;
+    } else {
+      game_mode_->first_player_car_number++;
+    }
+    image_widget_->setCurrentIndex(game_mode_->first_player_car_number);
   } else {
-    game_mode_->first_player_car_number++;
+    if (game_mode_->second_player_car_number >= number_of_images_ - 1) {
+      game_mode_->second_player_car_number = 0;
+    } else {
+      game_mode_->second_player_car_number++;
+    }
+    image_widget_->setCurrentIndex(game_mode_->second_player_car_number);
   }
-  image_widget_->setCurrentIndex(game_mode_->first_player_car_number);
   repaint();
 }

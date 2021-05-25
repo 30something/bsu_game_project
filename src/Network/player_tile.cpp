@@ -6,6 +6,8 @@ PlayerTile::PlayerTile(QWidget* parent, const NetworkPlayer* player) :
     nickname_(new QLabel(QString::number(player->GetId()), this)),
     is_ready_(new QLabel(this)),
     main_layout_(new QHBoxLayout(this)) {
+  setAutoFillBackground(true);
+  setPalette(QPalette(QColor(200, 200, 255)));
   nickname_->setFont(fonts::kDefaultLabelFont);
   nickname_->setStyleSheet("QLabel {"
                            "font: bold 18px; }");

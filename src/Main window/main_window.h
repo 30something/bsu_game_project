@@ -9,6 +9,7 @@
 #include "src/Menu/pause_menu.h"
 #include "src/Menu/game_mode_selector.h"
 #include "src/Menu/settings.h"
+#include "src/Menu/credits.h"
 #include "src/Network/network_room.h"
 
 class MainWindow : public QMainWindow {
@@ -20,6 +21,7 @@ class MainWindow : public QMainWindow {
 
  private:
   void resizeEvent(QResizeEvent*) override;
+
   void SingleplayerStarted();
   void MultiplayerStarted();
 
@@ -39,6 +41,9 @@ class MainWindow : public QMainWindow {
   void ShowSettings();
   void HideSettings();
 
+  void ShowCredits();
+  void CloseCredits();
+
   QStackedWidget* stacked_widget_ = nullptr;
   EventsController* events_controller_ = nullptr;
   PauseMenu* pause_menu_ = nullptr;
@@ -47,5 +52,7 @@ class MainWindow : public QMainWindow {
   GameModeSelector* game_mode_selector_ = nullptr;
   Settings* settings_ = nullptr;
   NetworkRoom* network_room_ = nullptr;
+  Credits* credits_ = nullptr;
+  QPixmap background_;
   bool is_game_in_main_menu_ = true;
 };

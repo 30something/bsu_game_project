@@ -63,8 +63,6 @@ void NetworkRoom::SetStyles() {
       button_ptr->setFont(fonts::kDefaultButtonFont);
       button_ptr->setMinimumSize(button_sizes::kMultiplayerButtonMinSize);
       button_ptr->setStyleSheet(styles::kStandardPushbuttonStyle);
-      button_ptr->setStyleSheet("QPushButton {"
-                                "font: bold 18px; }");
     }
   }
   ip_->setStyleSheet(styles::kStandardLineEditStyle);
@@ -98,7 +96,7 @@ void NetworkRoom::Connect() {
 }
 
 void NetworkRoom::ChangeReadyStatus() {
-  if (network_player_->Socket()->isOpen()) {
+  if (network_player_->Socket()->state() == QAbstractSocket::ConnectedState) {
     network_player_->SetIsReady(!network_player_->IsReady());
     network_controller_->SendReadyStatus();
   } else {
@@ -111,7 +109,6 @@ void NetworkRoom::SetUpAndStartGame() {
     if (network_controller_->GetId() != 0) {
       DecodeGameModeData();
     }
-    network_controller_->SetAlreadyStarted(true);
     game_mode_->network_players_amount = players_.size() - 1;
     game_mode_->network_controller = network_controller_;
     if (network_player_->GetId() == 0) {

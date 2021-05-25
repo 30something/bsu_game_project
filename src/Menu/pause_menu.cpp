@@ -9,8 +9,6 @@ PauseMenu::PauseMenu(QWidget* parent)
       small_exit_window_(new SmallExitWindow(this)) {
   SetStyles();
   SetUpLayout();
-  small_exit_window_->setStyleSheet("background-color : yellow;"
-                                    "color : darkBlue");
   small_exit_window_->close();
   ConnectUI();
 }
@@ -41,9 +39,7 @@ void PauseMenu::SetStyles() {
     if (button_ptr) {
       button_ptr->setFont(fonts::kDefaultButtonFont);
       button_ptr->setMinimumSize(button_sizes::kPauseMenuMinButtonSize);
-      button_ptr->setStyleSheet(styles::kStandardPushbuttonStyle);
-      button_ptr->setStyleSheet("QPushButton {"
-                                "font: bold 20px; }");
+      button_ptr->setStyleSheet(styles::kPausePushbuttonStyle);
     }
   }
 }

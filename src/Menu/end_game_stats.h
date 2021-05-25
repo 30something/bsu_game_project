@@ -39,6 +39,7 @@ class EndGameStats : public QWidget {
   void SetInfo();
   std::string CreateStatsString(int index);
 
+  QWidget* main_widget = nullptr;
   QLabel* stats_label_ = nullptr;
   QVBoxLayout* layout_ = nullptr;
   QVBoxLayout* positions_layout_ = nullptr;

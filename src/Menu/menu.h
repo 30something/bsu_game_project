@@ -21,6 +21,7 @@ class Menu : public QWidget {
   void SinglePlayerPressed();
   void MultiPlayerPressed();
   void SettingsButtonPressed();
+  void CreditsButtonPressed();
   void ExitButtonPressed();
 
  private:
