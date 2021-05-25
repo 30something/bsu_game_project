@@ -42,7 +42,7 @@ class Map : public QObject {
   static void HandleCarCrashIntoBorder(Car* car, const Vec2f& point);
 
   static constexpr double kVelocityDecrease = 0.9;
-  static constexpr double kHPDecrease = 0.001;
+  static constexpr double kHPDecrease = 0.0006;
   static constexpr size_t kMaxBonusesAmount = 5;
   static constexpr int32_t kMaxBonusSpawnDeviation = 15;
   static constexpr int32_t kAmountOfBonusTypes = 3;

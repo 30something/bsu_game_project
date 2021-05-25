@@ -103,7 +103,7 @@ class Car : public GameObject {
   static constexpr double kMinVelocityThreshold = 5;
   static constexpr double kMinAngularVelocityThreshold = 0.1;
   static constexpr double kTickRotationAngle = 0.015;
-  static constexpr double kMinSignificantDamage = 0.3;
+  static constexpr double kMinSignificantDamage = 0.15;
 
   std::vector<Wheel> wheels_{4};
   std::shared_ptr<Behavior> behavior_ = nullptr;

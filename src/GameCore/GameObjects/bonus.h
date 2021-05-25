@@ -31,5 +31,5 @@ class Bonus : public GameObject {
 
   static constexpr double kBonusHealthPrize = 20;
   static constexpr double kBonusBulletsAmmoPrize = 500;
-  static constexpr double kBonusMinesPrize = 2;
+  static constexpr double kBonusMinesPrize = 4;
 };

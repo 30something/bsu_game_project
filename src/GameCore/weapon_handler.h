@@ -24,6 +24,6 @@ class WeaponHandler {
   static void ShootBullet(Car* car, std::vector<Car>* cars);
   bool enable_weapons_ = false;
   static constexpr int kMineSplash = 100;
-  static constexpr double kBulletDamage = 0.3;
+  static constexpr double kBulletDamage = 0.15;
   static constexpr double kMineDamage = 20;
 };
