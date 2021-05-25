@@ -54,5 +54,6 @@ class MainWindow : public QMainWindow {
   Settings* settings_ = nullptr;
   NetworkRoom* network_room_ = nullptr;
   Credits* credits_ = nullptr;
+  QPixmap background_;
   bool is_game_in_main_menu_ = true;
 };

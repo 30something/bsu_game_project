@@ -15,21 +15,20 @@ MainWindow::MainWindow(QMainWindow* parent) :
   setWindowIcon(QIcon(":resources/images/other_stuff/icon0.png"));
   SetUpStackedWidget();
   pause_menu_->Close();
+  background_.load(":resources/images/other_stuff/background.png");
   ConnectUI();
 }
 
 void MainWindow::paintEvent(QPaintEvent*) {
-  QPixmap pixmap;
   QPainter painter(this);
-  pixmap.load(":resources/images/other_stuff/background.png");
-  pixmap = pixmap.scaled(width(), height(), Qt::IgnoreAspectRatio);
   painter.setOpacity(0.5);
-  painter.drawPixmap(0, 0, pixmap);
+  painter.drawPixmap(0, 0, background_);
 }
 
 void MainWindow::resizeEvent(QResizeEvent*) {
   stacked_widget_->setGeometry(0, 0, width(), height());
   pause_menu_->setGeometry(0, 0, width(), height());
+  background_ = background_.scaled(width(), height(), Qt::IgnoreAspectRatio);
 }
 
 void MainWindow::StartGame() {
