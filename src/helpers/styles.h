@@ -93,11 +93,12 @@ const QString kFinishWidgetStyle =
 
 const QString kStandardSliderStyle =
     "QSlider::groove:horizontal {"
-    "border: 1px solid #999999;"
+    "border: 2px solid #cc5200;"
     "height: 8px;"
     "background: qlineargradient(x1:0, y1:0, x2:0, "
-    "y2:1, stop:0 #B1B1B1, stop:1 #c4c4c4);"
-    "margin: 2px 0; }"
+    "y2:1, stop:0 #ff6600, stop:1 #ff6600);"
+    "margin: 2px 0;"
+    "border-radius: 5px; }"
 
     "QSlider::handle:horizontal {"
     "background: qlineargradient(x1:0, y1:0, x2:1, "
@@ -105,7 +106,7 @@ const QString kStandardSliderStyle =
     "border: 1px solid #5c5c5c;"
     "width: 18px;"
     "margin: -2px 0;"
-    "border-radius: 3px; }";
+    "border-radius: 5px; }";
 
 const QString kStandardLineEditStyle =
     "QLineEdit {"
@@ -114,5 +115,12 @@ const QString kStandardLineEditStyle =
     "padding: 0 8px;"
     "font: 15px;"
     "selection-background-color: darkgray; }";
+
+const QString kMapWidgetStyle =
+    "QWidget {"
+    "border-style: solid;"
+    "border-width: 5px;"
+    "border-radius: 10px;"
+    "border-color: #ff6600; }";
 
 }  // namespace styles

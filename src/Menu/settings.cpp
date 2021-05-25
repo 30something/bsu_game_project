@@ -40,7 +40,7 @@ void Settings::SetStyles() {
     if (label_ptr) {
       label_ptr->setFont(fonts::kDefaultLabelFont);
       label_ptr->setStyleSheet("QLabel {"
-                               "font: bold 20px; }");
+                               "font: bold 25px; }");
     } else if (button_ptr) {
       button_ptr->setFont(fonts::kDefaultButtonFont);
       button_ptr->setMinimumSize(button_sizes::kDefaultButtonSize);
@@ -52,7 +52,7 @@ void Settings::SetStyles() {
   }
   full_screen_cell_->setFont(fonts::kDefaultButtonFont);
   full_screen_cell_->setStyleSheet("QCheckBox {"
-                                   "font: bold 20px; }");
+                                   "font: bold 25px; }");
   apply_button_->setMinimumSize(button_sizes::kSettingsMinButtonSize);
   back_button_->setMinimumSize(button_sizes::kSettingsMinButtonSize);
 }
