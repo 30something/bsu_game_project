@@ -15,8 +15,9 @@ if (NOT CMAKE_PREFIX_PATH)
 endif ()
 
 set(QT_VERSION 5)
-set(REQUIRED_LIBS Core Widgets Network)
-set(REQUIRED_LIBS_QUALIFIED Qt5::Core Qt5::Widgets Qt5::Network)
+set(REQUIRED_LIBS Core Widgets Multimedia Network)
+set(REQUIRED_LIBS_QUALIFIED Qt5::Core Qt5::Widgets Qt5::Multimedia Qt5::Network)
+
 find_package(Qt${QT_VERSION} COMPONENTS ${REQUIRED_LIBS} REQUIRED)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -63,7 +64,12 @@ set(SOURCES
         src/Network/network_player.cpp
         src/Network/network_room.cpp
         src/Network/player_tile.cpp
-        src/Network/network_controller.cpp)
+        src/Network/network_controller.cpp
+        src/View/Sounds/engine_sound.cpp
+        src/View/Sounds/drift_sound.cpp
+        src/View/Sounds/brake_sound.cpp
+        src/View/Sounds/shooting_sound.cpp
+        src/View/Sounds/sounds_of_effects.cpp src/View/Sounds/sound.cpp src/View/Sounds/sound.h)
 
 set(RESOURCES
         explosion_animation.qrc
@@ -72,6 +78,7 @@ set(RESOURCES
         cars.qrc
         maps.qrc
         map_data.qrc
+        sounds.qrc
         other_images.qrc)
 
 set(SERVER_SOURCES

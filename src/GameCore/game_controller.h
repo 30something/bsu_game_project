@@ -23,6 +23,7 @@
 #include "input_controller.h"
 #include "src/helpers/wrapper_template.h"
 #include "src/helpers/cars_colors.h"
+#include "src/helpers/parameters_for_sounds.h"
 #include "src/GameCore/GameObjects/animation.h"
 #include "src/Network/network_controller.h"
 #include "src/helpers/client_car_data_sender.h"
@@ -38,6 +39,15 @@ class GameController : public QObject {
 
   std::vector<WrapperBase<GameObject>*> GetGameObjects() const;
   std::vector<Vec2f> GetPlayersCarPositions() const;
+  std::vector<EngineParameters> GetParametersForEngineSound() const;
+  std::vector<DriftParameters> GetParametersForDriftSound() const;
+  std::vector<BrakeParameters> GetParametersForBrakeSound() const;
+  std::vector<ShootingParameters> GetParametersForShootingSound() const;
+  EffectParameters GetParametersForMineExplosionSound() const;
+  EffectParameters GetParametersForCarExplosionSound();
+  double GetDistance(uint32_t i, uint32_t j) const;
+  bool BonusIsApplied() const;
+  bool BonusOfPlayersIsApplied() const;
 
   bool IsGameFinished() const;
   std::vector<CarAchievements> GetCarsData() const;
@@ -53,10 +63,16 @@ class GameController : public QObject {
   void SetUpCarsNetwork(const InputController* input_controller);
   void SetUpBots();
   void SetUpCarsAchievements();
+  void SetNoBonusIsApplied();
   void ProceedCollisionsWithCars();
   void ProceedCollisionsWithFinish();
   void ProceedFinishGame();
   void RecalculateDeviations();
+
+  void UpdateVolumeParameters(std::vector<double>* volume_parameters);
+  void ChangingParameterForBonusSound(uint32_t i);
+  void ChangingParametersForExplosionSound(uint32_t i);
+
   void UpdateOrderPositions();
   void UpdateCarsInfoAndCollisions(int time_millis);
   void UpdateCarAchievements(uint32_t index, const Car& car);
@@ -85,4 +101,8 @@ class GameController : public QObject {
   NetworkController* network_controller_;
   ClientCarDataSender* client_car_data_sender_ = nullptr;
   int32_t next_position_to_finish_ = 1;
+
+  bool bonus_is_applied_ = false;
+  std::vector<bool> exploded_cars_;
+  std::vector<double> volume_parameters_;
 };

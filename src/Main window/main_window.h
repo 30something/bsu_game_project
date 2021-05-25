@@ -12,7 +12,7 @@
 #include "src/Network/network_room.h"
 
 class MainWindow : public QMainWindow {
- Q_OBJECT
+  Q_OBJECT
 
  public:
   explicit MainWindow(QMainWindow* parent = nullptr);

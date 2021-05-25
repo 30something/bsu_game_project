@@ -35,7 +35,7 @@ JsonMapParser::GetCarStartPositionsAndAngles() {
     QJsonObject position_obj = position.toObject();
     result.emplace_back(
         std::make_pair(Vec2f(position_obj["x"].toInt(),
-                              position_obj["y"].toInt()),
+                             position_obj["y"].toInt()),
                        position_obj["angle"].toDouble()));
   }
   return result;

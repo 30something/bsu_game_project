@@ -18,6 +18,9 @@ class WeaponHandler {
                       std::vector<Animation>* animations);
   const std::vector<Mine>& GetMines() const;
   void SetEnableWeapons(bool enable_weapons);
+  bool GetEnableWeapons() const;
+
+  std::vector<bool> CarsOnMines() const;
 
  private:
   std::vector<Mine> mines_;
@@ -26,4 +29,6 @@ class WeaponHandler {
   static constexpr int kMineSplash = 100;
   static constexpr double kBulletDamage = 0.3;
   static constexpr double kMineDamage = 20;
+
+  std::vector<bool> cars_on_mines_;
 };

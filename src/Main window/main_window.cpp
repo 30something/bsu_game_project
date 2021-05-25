@@ -7,7 +7,7 @@ MainWindow::MainWindow(QMainWindow* parent) :
     menu_(new Menu(this)),
     game_mode_(new GameMode()),
     game_mode_selector_(new GameModeSelector(this, game_mode_)),
-    settings_(new Settings(this)),
+    settings_(new Settings(game_mode_, this)),
     network_room_(new NetworkRoom(this, game_mode_)) {
   setMinimumSize(mainwindow_sizes::kDefaultScreenSize);
   setWindowTitle("Survival Rally: Big Guns");

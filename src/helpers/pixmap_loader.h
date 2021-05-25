@@ -31,7 +31,6 @@ class PixmapLoader {
   std::unordered_map<BonusTypes, std::vector<QPixmap>> bonuses_pixmaps_;
   std::unordered_map<AnimationTypes, std::vector<QPixmap>> animation_pixmaps_;
 
-
   // Masks and shifts used to decode the pixmap id
   static constexpr int32_t kCategoryPixmapShift = 24;
   static constexpr int32_t kStatePixmapMask = 16711680;

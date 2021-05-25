@@ -34,7 +34,7 @@ class ViewInfoUpdater {
   void UpdateTopInfo(QPainter* painter,
                      int x_pos,
                      int y_pos,
-                     int index);
+                     int i);
   void UpdateBottomInfo(QPainter* painter,
                         int x_pos,
                         int y_pos,

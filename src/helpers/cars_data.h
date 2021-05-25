@@ -8,7 +8,7 @@
 
 struct CarsData {
   CarsData() = default;
-  explicit CarsData(std::vector<CarAchievements>  new_cars_data);
+  explicit CarsData(std::vector<CarAchievements> new_cars_data);
 
   size_t GetVelocity(int index) const;
   size_t GetLapsCounter(int index) const;

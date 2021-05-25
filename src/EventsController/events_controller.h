@@ -15,6 +15,7 @@
 #include "src/GameCore/input_controller.h"
 #include "src/GameCore/game_controller.h"
 #include "src/helpers/cars_data.h"
+#include "src/View/Sounds/sound.h"
 
 class EventsController : public QWidget {
   Q_OBJECT
@@ -36,6 +37,8 @@ class EventsController : public QWidget {
 
   void UpdateStartInfo();
   void ShowEndGameStats();
+
+  void PlaySounds();
 
  signals:
   void SetGamePause();
@@ -66,6 +69,7 @@ class EventsController : public QWidget {
   InputController input_controller_;
   GameController* game_controller_ = nullptr;
   View* view_ = nullptr;
+  Sound* sound_ = nullptr;
   ViewInfoUpdater* view_info_updater_ = nullptr;
   EndGameStats* end_game_stats_ = nullptr;
   GameStatus game_status_ = GameStatus::kRunning;

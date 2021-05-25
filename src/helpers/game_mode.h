@@ -10,6 +10,7 @@ struct GameMode {
   size_t laps_amount = 1;
   size_t first_player_car_number = 0;
   size_t second_player_car_number = 0;
+  int volume_settings_parameter = 0;
   bool enable_drifting = false;
   NetworkController* network_controller = nullptr;
 };

@@ -5,6 +5,7 @@ EventsController::EventsController(QWidget* parent, GameMode* game_mode) :
     input_controller_(),
     game_controller_(new GameController(game_mode, &input_controller_)),
     view_(new View(game_mode)),
+    sound_(new Sound(this, game_mode)),
     view_info_updater_(new ViewInfoUpdater(this, game_mode)),
     end_game_stats_(new EndGameStats(this)) {
   LaunchStartCountdownTimer();
@@ -15,6 +16,7 @@ void EventsController::PhysicsTimerEvent() {
   if (game_status_ == GameStatus::kRunning) {
     game_controller_->Tick(kMillisPerPhysicsTick);
   }
+  PlaySounds();
 }
 
 void EventsController::ViewTimerEvent() {
@@ -137,9 +139,31 @@ void EventsController::LaunchFinishTimer() {
   finish_pause_timer_.start(kMillisInSecond);
 }
 
+void EventsController::PlaySounds() {
+  bool pause = true;
+  if (game_status_ == GameStatus::kRunning) {
+    pause = false;
+  }
+  sound_->PlayEngine(game_controller_->GetParametersForEngineSound(),
+                    pause);
+  sound_->PlayDrift(game_controller_->GetParametersForDriftSound(),
+                   pause);
+  sound_->PlayBrake(game_controller_->GetParametersForBrakeSound(),
+                   pause);
+
+  sound_->PlayBonus(game_controller_->BonusOfPlayersIsApplied());
+  sound_->PlayShooting(
+      game_controller_->GetParametersForShootingSound(),
+      pause);
+  sound_->PlayMine(game_controller_->GetParametersForMineExplosionSound());
+  sound_->PlayCarExplosion(
+      game_controller_->GetParametersForCarExplosionSound());
+}
+
 EventsController::~EventsController() {
   delete game_controller_;
   delete view_;
   delete view_info_updater_;
   delete end_game_stats_;
+  delete sound_;
 }
