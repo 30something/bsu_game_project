@@ -22,11 +22,11 @@ Survival Rally: Big Guns - некоммерческая онлайн игра-г
 
 P.S. Удачи проехать хотя бы 2 круга и выжить в режиме с 6-ю ботами!
 # Главное меню
-![image](https://user-images.githubusercontent.com/79033065/119348236-40ef9180-bca5-11eb-91fc-ea45074a134e.png)
+![image](https://user-images.githubusercontent.com/79033065/119549371-d0796b00-bd9f-11eb-9116-c70bf4e0909a.png)
 # Выбор режима игры
-![image](https://user-images.githubusercontent.com/79033065/119272119-2b2e8d80-bc0d-11eb-8ddf-bd259dc0d66e.png)
+![image](https://user-images.githubusercontent.com/79033065/119549467-ed15a300-bd9f-11eb-9285-55d1c92f4785.png)
 # Сетевая комната
-![image](https://user-images.githubusercontent.com/79033065/119272179-7052bf80-bc0d-11eb-81c7-b8c9074a2520.png)
+![image](https://user-images.githubusercontent.com/79033065/119550323-f18e8b80-bda0-11eb-8db7-a418487f8c1d.png)
 # Игра
 ![image](https://user-images.githubusercontent.com/79033065/119348516-a479bf00-bca5-11eb-8a91-6d2c85fc8629.png)
 
