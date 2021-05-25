@@ -39,8 +39,6 @@ class MainWindow : public QMainWindow {
   void ShowSettings();
   void HideSettings();
 
-  void ChangeSoundVolume(int value);
-
   QStackedWidget* stacked_widget_ = nullptr;
   EventsController* events_controller_ = nullptr;
   PauseMenu* pause_menu_ = nullptr;

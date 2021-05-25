@@ -11,19 +11,20 @@
 
 #include "src/helpers/fonts.h"
 #include "src/helpers/styles.h"
+#include "src/helpers/sizes.h"
+#include "src/helpers/game_mode.h"
 
 class Settings : public QWidget {
   Q_OBJECT
 
  public:
-  explicit Settings(QWidget* parent = nullptr);
+  explicit Settings(GameMode* game_mode, QWidget* parent = nullptr);
   ~Settings() override = default;
 
  signals:
   void BackButtonPressed();
   void MakeFullScreen();
   void MakeDefaultScreenSize();
-  void VolumeChanged(int value);
 
  private:
   void SetStyles();
@@ -42,4 +43,5 @@ class Settings : public QWidget {
   QCheckBox* full_screen_cell_;
   QPushButton* apply_button_;
   QPushButton* back_button_;
+  GameMode* game_mode_;
 };

@@ -49,19 +49,24 @@ void WeaponHandler::ProceedWeapons(
       PutMine(&(cars->at(i)));
     }
   }
-  for (auto& mine : mines_) {
+  std::vector<bool> cars_on_mines(cars->size(), false);
+  for (auto &mine : mines_) {
     if (!mine.IsExploded()) {
-      for (auto& car : *cars) {
-        if (physics::IsIntersects(car.GetCollisionLines(),
+      for (uint32_t i = 0; i < cars->size(); i++) {
+        if (physics::IsIntersects((*cars)[i].GetCollisionLines(),
                                   mine.GetCollisionLines())) {
           animations->emplace_back(AnimationTypes::kExplosion,
                                    mine.GetPosition());
-          car.AddHitPoints(-kMineDamage);
-          car.SetVelocity(Vec2f(car.GetVelocity()).Normalize() * -kMineSplash);
+          (*cars)[i].AddHitPoints(-kMineDamage);
+          (*cars)[i].SetVelocity(
+              Vec2f((*cars)[i].GetVelocity()).Normalize() *
+                  -kMineSplash);
           mine.SetExploded();
+          cars_on_mines[i] = true;
         }
       }
     }
+    cars_on_mines_ = cars_on_mines;
   }
 }
 

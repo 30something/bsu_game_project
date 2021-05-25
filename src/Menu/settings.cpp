@@ -1,7 +1,6 @@
 #include "settings.h"
-#include "src/helpers/sizes.h"
 
-Settings::Settings(QWidget* parent) :
+Settings::Settings(GameMode* game_mode, QWidget* parent) :
     QWidget(parent),
     main_layout_(new QVBoxLayout(this)),
     music_layout_(new QHBoxLayout),
@@ -12,7 +11,8 @@ Settings::Settings(QWidget* parent) :
     sound_effects_volume_(new QSlider(Qt::Horizontal, this)),
     full_screen_cell_(new QCheckBox("Full Screen")),
     apply_button_(new QPushButton("Apply", this)),
-    back_button_(new QPushButton("Back", this)) {
+    back_button_(new QPushButton("Back", this)),
+    game_mode_(game_mode){
   SetStyles();
   SetUpLayout();
   ConnectUI();
@@ -46,7 +46,9 @@ void Settings::SetStyles() {
 }
 
 void Settings::SetUpLayout() {
-  music_layout_->addStretch(2);
+  music_volume_->setValue(50);
+  sound_effects_volume_->setValue(50);
+  game_mode_->volume_settings_parameter = sound_effects_volume_->value();
   music_layout_->addWidget(music_, 1, Qt::AlignCenter);
   music_layout_->addWidget(music_volume_, 1, Qt::AlignCenter);
   music_layout_->addStretch(2);
@@ -82,5 +84,5 @@ void Settings::CommitSettingsChanges() {
   } else {
     emit MakeDefaultScreenSize();
   }
-  emit VolumeChanged(sound_effects_volume_->value());
+  game_mode_->volume_settings_parameter = sound_effects_volume_->value();
 }
