@@ -422,4 +422,7 @@ void Car::CarPixmapComponent::SetShowingHealthChangeState(
 void Car::CarPixmapComponent::DecrementFramesForChangingHitpoints() {
   frames_for_changing_hitpoints_--;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/dev

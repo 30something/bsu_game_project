@@ -10,7 +10,6 @@
 #include "src/GameCore/game_controller.h"
 #include "src/helpers/sizes.h"
 #include "src/helpers/pixmap_loader.h"
-
 #include "engine_sound.h"
 #include "drift_sound.h"
 #include "brake_sound.h"

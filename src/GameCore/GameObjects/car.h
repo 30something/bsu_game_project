@@ -127,5 +127,3 @@ class Car : public GameObject {
     bool enable_drifts_ = true;
     bool health_increasing_state = false;
 };
-
-

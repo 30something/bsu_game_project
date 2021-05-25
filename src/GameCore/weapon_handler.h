@@ -17,9 +17,9 @@ class WeaponHandler {
                       std::vector<CarAchievements>* car_achievements,
                       std::vector<Animation>* animations);
   const std::vector<Mine>& GetMines() const;
+  void SetEnableWeapons(bool enable_weapons);
   bool GetEnableWeapons() const;
 
-  void SetEnableWeapons(bool enable_weapons);
   std::vector<bool> CarsOnMines() const;
 
  private:
