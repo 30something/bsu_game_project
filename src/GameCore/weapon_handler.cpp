@@ -50,7 +50,7 @@ void WeaponHandler::ProceedWeapons(
     }
   }
   std::vector<bool> cars_on_mines(cars->size(), false);
-  for (auto &mine : mines_) {
+  for (auto& mine : mines_) {
     if (!mine.IsExploded()) {
       for (uint32_t i = 0; i < cars->size(); i++) {
         if (physics::IsIntersects((*cars)[i].GetCollisionLines(),
@@ -79,9 +79,9 @@ void WeaponHandler::SetEnableWeapons(bool enable_weapons) {
 }
 
 std::vector<bool> WeaponHandler::CarsOnMines() const {
-    return cars_on_mines_;
+  return cars_on_mines_;
 }
 
 bool WeaponHandler::GetEnableWeapons() const {
-    return enable_weapons_;
+  return enable_weapons_;
 }

@@ -16,7 +16,6 @@
 #include "sounds_of_effects.h"
 #include "shooting_sound.h"
 
-
 class View {
  public:
   explicit View(QWidget* events_controller, GameMode* game_mode);

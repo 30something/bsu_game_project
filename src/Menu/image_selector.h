@@ -12,7 +12,7 @@
 #include "src/helpers/sizes.h"
 
 class ImageSelector : public QWidget {
-  Q_OBJECT
+ Q_OBJECT
 
  public:
   explicit ImageSelector(QWidget* parent = nullptr,

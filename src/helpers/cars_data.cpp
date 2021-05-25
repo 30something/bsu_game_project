@@ -13,6 +13,7 @@ size_t CarsData::GetVelocity(int index) const {
 size_t CarsData::GetLapsCounter(int index) const {
   return cars_data[index].laps_counter;
 }
+
 size_t CarsData::GetBulletsAmount(int index) const {
   return cars_data[index].bullets_amount_;
 }

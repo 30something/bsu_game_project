@@ -18,7 +18,7 @@
 #include "src/helpers/physics.h"
 
 class Map : public QObject {
-  Q_OBJECT
+ Q_OBJECT
 
  public:
   explicit Map(GameMode* game_mode);

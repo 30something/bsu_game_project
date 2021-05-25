@@ -12,7 +12,7 @@ Settings::Settings(GameMode* game_mode, QWidget* parent) :
     full_screen_cell_(new QCheckBox("Full Screen")),
     apply_button_(new QPushButton("Apply", this)),
     back_button_(new QPushButton("Back", this)),
-    game_mode_(game_mode){
+    game_mode_(game_mode) {
   SetStyles();
   SetUpLayout();
   ConnectUI();
@@ -40,7 +40,7 @@ void Settings::SetStyles() {
   }
   full_screen_cell_->setFont(fonts::kDefaultButtonFont);
   full_screen_cell_->setStyleSheet("QCheckBox {"
-                                "font: bold 16px; }");
+                                   "font: bold 16px; }");
   apply_button_->setMinimumSize(button_sizes::kSettingsMinButtonSize);
   back_button_->setMinimumSize(button_sizes::kSettingsMinButtonSize);
 }

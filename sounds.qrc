@@ -1,8 +1,6 @@
 <RCC>
     <qresource>
-        <file>resources/sounds/car_sounds/idle_speed.wav</file>
-        <file>resources/sounds/car_sounds/main_engine.wav</file>
-        <file>resources/sounds/car_sounds/reversed_engine.wav</file>
+        <file>resources/sounds/car_sounds/engine.wav</file>
 
         <file>resources/sounds/car_sounds/drift.wav</file>
         <file>resources/sounds/car_sounds/drift_loop.wav</file>

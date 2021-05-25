@@ -7,7 +7,7 @@
 #include <QPainter>
 
 class ImageSelectorTile : public QWidget {
-  Q_OBJECT
+ Q_OBJECT
 
  public:
   ImageSelectorTile(QWidget* parent, const QString& filename);

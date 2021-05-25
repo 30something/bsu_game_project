@@ -17,7 +17,7 @@
 #include "src/helpers/cars_data.h"
 
 class EventsController : public QWidget {
-  Q_OBJECT
+ Q_OBJECT
 
  public:
   explicit EventsController(QWidget* parent, GameMode* game_mode);

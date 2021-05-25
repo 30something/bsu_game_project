@@ -16,6 +16,7 @@ using PixmapID = int32_t;
 class GameObject {
  protected:
   class PixmapComponent;
+
  public:
   explicit GameObject(const Vec2f& position,
                       PixmapComponent* pixmap_component);

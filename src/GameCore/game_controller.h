@@ -29,7 +29,7 @@
 #include "src/helpers/client_car_data_sender.h"
 
 class GameController : public QObject {
-  Q_OBJECT
+ Q_OBJECT
 
  public:
   explicit GameController(GameMode* game_mode, InputController*);

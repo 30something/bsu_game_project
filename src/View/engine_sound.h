@@ -8,35 +8,24 @@
 
 #include <vector>
 
-
 class Engine : public QWidget {
-    Q_OBJECT
+ Q_OBJECT
 
  public:
-    explicit Engine(QWidget* parent = nullptr,
-                    int volume_settings_parameter = 0.0f);
-    ~Engine() override = default;
+  explicit Engine(QWidget* parent = nullptr,
+                  int volume_settings_parameter = 0.0f);
+  ~Engine() override = default;
 
-    void Play(double speed_parameter, Motion motion_parameter,
-              double volume_parameter, int volume_settings_parameter,
-              bool pause);
-    void PlayIdleSpeed();
-    void PlayReversedEngine();
-    void PlayEngine();
-    void HandlingCases(int int_speed_parameter, Motion motion_parameter);
+  void Play(double speed_parameter, Motion motion_parameter,
+            double volume_parameter, int volume_settings_parameter,
+            bool pause);
 
  private:
-    QMediaPlaylist* sound_playlist_;
-    QMediaPlayer* sound_player_;
-    int volume_settings_parameter_;
+  QMediaPlaylist* sound_playlist_;
+  QMediaPlayer* sound_player_;
+  int volume_settings_parameter_;
 
-    static constexpr int kDefaultVolume = 30;
-    static constexpr int kIdleSpeedIndex = 0;
-    static constexpr int kMainEngineIndex = 1;
-    static constexpr int kReversedEngineIndex = 2;
-    static constexpr int kMainEngineLength = 2862;
-    static constexpr int kBackwardEngineLength = 1000;
-    static constexpr int kMaxReversedEnginePosition = 11000;
+  static constexpr int kDefaultVolume = 10;
 };
 
 

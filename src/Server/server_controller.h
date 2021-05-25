@@ -17,7 +17,7 @@
 #include "src/Network/network_helpers.h"
 
 class ServerController : public QWidget {
-  Q_OBJECT
+ Q_OBJECT
 
  public:
   ServerController();

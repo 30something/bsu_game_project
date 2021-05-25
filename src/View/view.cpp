@@ -1,28 +1,28 @@
 #include "src/helpers/sizes.h"
 #include "src/View/view.h"
 
-View::View(QWidget *events_controller, GameMode *game_mode) :
-        pixmap_loader_(
-                map_data::image_file_paths.maps_file_paths[
-                        game_mode->map_index]),
-        players_amount_(game_mode->players_amount),
-        cars_amount_(
-                game_mode->players_amount + game_mode->network_players_amount +
-                game_mode->bots_amount),
-        game_mode_(game_mode),
-        sounds_of_effects_(new Effects(events_controller)) {
-    engine_sounds_.reserve(cars_amount_);
-    drift_sounds_.reserve(cars_amount_);
-    brake_sounds_.reserve(cars_amount_);
-    shooting_sounds_.reserve(cars_amount_);
+View::View(QWidget* events_controller, GameMode* game_mode) :
+    pixmap_loader_(
+        map_data::image_file_paths.maps_file_paths[
+            game_mode->map_index]),
+    players_amount_(game_mode->players_amount),
+    cars_amount_(
+        game_mode->players_amount + game_mode->network_players_amount +
+            game_mode->bots_amount),
+    game_mode_(game_mode),
+    sounds_of_effects_(new Effects(events_controller)) {
+  engine_sounds_.reserve(cars_amount_);
+  drift_sounds_.reserve(cars_amount_);
+  brake_sounds_.reserve(cars_amount_);
+  shooting_sounds_.reserve(cars_amount_);
 
-    for (uint32_t i = 0; i < cars_amount_; i++) {
-        engine_sounds_.push_back(new Engine(
-                events_controller, game_mode_->volume_settings_parameter));
-        drift_sounds_.push_back(new Drift(events_controller));
-        brake_sounds_.push_back(new Brake(events_controller));
-        shooting_sounds_.push_back(new Shooting(events_controller));
-    }
+  for (uint32_t i = 0; i < cars_amount_; i++) {
+    engine_sounds_.push_back(new Engine(
+        events_controller, game_mode_->volume_settings_parameter));
+    drift_sounds_.push_back(new Drift(events_controller));
+    brake_sounds_.push_back(new Brake(events_controller));
+    shooting_sounds_.push_back(new Shooting(events_controller));
+  }
 }
 
 void View::Repaint(const std::vector<WrapperBase<GameObject>*>& objects,
@@ -37,22 +37,22 @@ void View::Repaint(const std::vector<WrapperBase<GameObject>*>& objects,
 }
 
 void View::UpdateFrames(int width, int height) {
-    frames_.clear();
-    if (players_amount_ == 1) {
-        frames_.emplace_back(0,
-                             0,
-                             width,
-                             height);
-    } else {
-        frames_.emplace_back(0,
-                             0,
-                             width / 2,
-                             height);
-        frames_.emplace_back(width / 2,
-                             0,
-                             width / 2,
-                             height);
-    }
+  frames_.clear();
+  if (players_amount_ == 1) {
+    frames_.emplace_back(0,
+                         0,
+                         width,
+                         height);
+  } else {
+    frames_.emplace_back(0,
+                         0,
+                         width / 2,
+                         height);
+    frames_.emplace_back(width / 2,
+                         0,
+                         width / 2,
+                         height);
+  }
 }
 
 std::vector<QRect> View::GetFrames() const {
@@ -114,64 +114,64 @@ void View::resizeEvent(int width, int height) {
   UpdateFrames(width, height);
 }
 
-void View::PlayEngine(const std::vector<EngineParameters> &engine_parameters,
+void View::PlayEngine(const std::vector<EngineParameters>& engine_parameters,
                       bool pause) {
-    for (uint32_t i = 0; i < cars_amount_; i++) {
-        engine_sounds_.at(i)->Play(engine_parameters.at(i).speed_parameter,
-                                   engine_parameters.at(i).motion_parameter,
-                                   engine_parameters.at(i).volume_parameter,
-                                   game_mode_->volume_settings_parameter,
-                                   pause);
-    }
+  for (uint32_t i = 0; i < cars_amount_; i++) {
+    engine_sounds_.at(i)->Play(engine_parameters.at(i).speed_parameter,
+                               engine_parameters.at(i).motion_parameter,
+                               engine_parameters.at(i).volume_parameter,
+                               game_mode_->volume_settings_parameter,
+                               pause);
+  }
 }
 
 void
 View::PlayDrift(std::vector<DriftParameters> drift_parameters, bool pause) {
-    for (uint32_t i = 0; i < cars_amount_; i++) {
-        drift_sounds_.at(i)->Play(drift_parameters.at(i).speed_parameter,
-                                  drift_parameters.at(i).enable_drifting,
-                                  drift_parameters.at(i).volume_parameter,
-                                  game_mode_->volume_settings_parameter,
-                                  pause);
-    }
+  for (uint32_t i = 0; i < cars_amount_; i++) {
+    drift_sounds_.at(i)->Play(drift_parameters.at(i).speed_parameter,
+                              drift_parameters.at(i).enable_drifting,
+                              drift_parameters.at(i).volume_parameter,
+                              game_mode_->volume_settings_parameter,
+                              pause);
+  }
 }
 
 void
 View::PlayBrake(std::vector<BrakeParameters> brake_parameters, bool pause) {
-    for (uint32_t i = 0; i < cars_amount_; i++) {
-        brake_sounds_.at(i)->Play(brake_parameters.at(i).speed_parameter,
-                                  brake_parameters.at(i).volume_parameter,
-                                  game_mode_->volume_settings_parameter,
-                                  pause);
-    }
+  for (uint32_t i = 0; i < cars_amount_; i++) {
+    brake_sounds_.at(i)->Play(brake_parameters.at(i).speed_parameter,
+                              brake_parameters.at(i).volume_parameter,
+                              game_mode_->volume_settings_parameter,
+                              pause);
+  }
 }
 
 void View::PlayBonus(bool play_bonus) {
-    sounds_of_effects_.PlayBonus(play_bonus,
-                                 game_mode_->volume_settings_parameter);
+  sounds_of_effects_.PlayBonus(play_bonus,
+                               game_mode_->volume_settings_parameter);
 }
 
 void View::PlayShooting(std::vector<ShootingParameters> shooting_parameters,
                         bool pause) {
-    for (uint32_t i = 0; i < cars_amount_; i++) {
-        shooting_sounds_.at(i)->Play(shooting_parameters.at(i).using_gun,
-                                     shooting_parameters.at(i).bullets,
-                                     shooting_parameters.at(i).enable_weapons,
-                                     shooting_parameters.at(i).volume_parameter,
-                                     game_mode_->volume_settings_parameter,
-                                     pause);
-    }
+  for (uint32_t i = 0; i < cars_amount_; i++) {
+    shooting_sounds_.at(i)->Play(shooting_parameters.at(i).using_gun,
+                                 shooting_parameters.at(i).bullets,
+                                 shooting_parameters.at(i).enable_weapons,
+                                 shooting_parameters.at(i).volume_parameter,
+                                 game_mode_->volume_settings_parameter,
+                                 pause);
+  }
 }
 
 void View::PlayMine(EffectParameters explosion_parameters) {
-    sounds_of_effects_.PlayMine(explosion_parameters.play,
-                                explosion_parameters.volume_parameter,
-                                game_mode_->volume_settings_parameter);
+  sounds_of_effects_.PlayMine(explosion_parameters.play,
+                              explosion_parameters.volume_parameter,
+                              game_mode_->volume_settings_parameter);
 }
 
 void View::PlayCarExplosion(EffectParameters explosion_parameters) {
-    sounds_of_effects_.PlayCarExplosion(explosion_parameters.play,
-                                        explosion_parameters.volume_parameter,
-                                        game_mode_->volume_settings_parameter);
+  sounds_of_effects_.PlayCarExplosion(explosion_parameters.play,
+                                      explosion_parameters.volume_parameter,
+                                      game_mode_->volume_settings_parameter);
 }
 

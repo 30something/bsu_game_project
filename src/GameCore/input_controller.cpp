@@ -1,18 +1,18 @@
 #include "input_controller.h"
 
 InputController::InputController() {
-    keys_condition_[KeyID::kFirstUp] = false;
-    keys_condition_[KeyID::kFirstDown] = false;
-    keys_condition_[KeyID::kFirstLeft] = false;
-    keys_condition_[KeyID::kFirstRight] = false;
-    keys_condition_[KeyID::kFirstShoot] = false;
-    keys_condition_[KeyID::kFirstMine] = false;
-    keys_condition_[KeyID::kSecondUp] = false;
-    keys_condition_[KeyID::kSecondDown] = false;
-    keys_condition_[KeyID::kSecondLeft] = false;
-    keys_condition_[KeyID::kSecondRight] = false;
-    keys_condition_[KeyID::kSecondShoot] = false;
-    keys_condition_[KeyID::kSecondMine] = false;
+  keys_condition_[KeyID::kFirstUp] = false;
+  keys_condition_[KeyID::kFirstDown] = false;
+  keys_condition_[KeyID::kFirstLeft] = false;
+  keys_condition_[KeyID::kFirstRight] = false;
+  keys_condition_[KeyID::kFirstShoot] = false;
+  keys_condition_[KeyID::kFirstMine] = false;
+  keys_condition_[KeyID::kSecondUp] = false;
+  keys_condition_[KeyID::kSecondDown] = false;
+  keys_condition_[KeyID::kSecondLeft] = false;
+  keys_condition_[KeyID::kSecondRight] = false;
+  keys_condition_[KeyID::kSecondShoot] = false;
+  keys_condition_[KeyID::kSecondMine] = false;
 }
 
 void InputController::HandleKeyPressEvent(QKeyEvent* event) {

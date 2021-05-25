@@ -9,7 +9,7 @@
 #include "src/helpers/fonts.h"
 
 class PlayerTile : public QWidget {
-  Q_OBJECT
+ Q_OBJECT
  public:
   PlayerTile(QWidget* parent, const NetworkPlayer* player);
   void Highlight();

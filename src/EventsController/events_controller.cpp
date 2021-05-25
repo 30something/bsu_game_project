@@ -139,24 +139,24 @@ void EventsController::LaunchFinishTimer() {
 }
 
 void EventsController::PlaySounds() {
-    bool pause = true;
-    if (game_status_ == GameStatus::kRunning) {
-        pause = false;
-    }
-    view_->PlayEngine(game_controller_->GetParametersForEngineSound(),
-                      pause);
-    view_->PlayDrift(game_controller_->GetParametersForDriftSound(),
-                     pause);
-    view_->PlayBrake(game_controller_->GetParametersForBrakeSound(),
-                     pause);
+  bool pause = true;
+  if (game_status_ == GameStatus::kRunning) {
+    pause = false;
+  }
+  view_->PlayEngine(game_controller_->GetParametersForEngineSound(),
+                    pause);
+  view_->PlayDrift(game_controller_->GetParametersForDriftSound(),
+                   pause);
+  view_->PlayBrake(game_controller_->GetParametersForBrakeSound(),
+                   pause);
 
-    view_->PlayBonus(game_controller_->BonusOfPlayersIsApplied());
-    view_->PlayShooting(
-            game_controller_->GetParametersForShootingSound(),
-            pause);
-    view_->PlayMine(game_controller_->GetParametersForMineExplosionSound());
-    view_->PlayCarExplosion(
-            game_controller_->GetParametersForCarExplosionSound());
+  view_->PlayBonus(game_controller_->BonusOfPlayersIsApplied());
+  view_->PlayShooting(
+      game_controller_->GetParametersForShootingSound(),
+      pause);
+  view_->PlayMine(game_controller_->GetParametersForMineExplosionSound());
+  view_->PlayCarExplosion(
+      game_controller_->GetParametersForCarExplosionSound());
 }
 
 EventsController::~EventsController() {

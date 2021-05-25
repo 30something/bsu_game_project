@@ -206,61 +206,61 @@ const Vec2f& Car::GetVelocity() const {
 }
 
 std::pair<double, Motion> Car::GetParametersForEngineSound() const {
-    double speed_parameter = velocity_.GetLength() / behavior_->GetMaxSpeed();
+  double speed_parameter = velocity_.GetLength() / behavior_->GetMaxSpeed();
 
-    if (!(behavior_->IsDead())) {
-        if (behavior_->IsFlagDown() && std::abs(velocity_.GetAngleDegrees() -
-                                                angle_vec_.GetAngleDegrees()) >
-                                       90) {
-            speed_parameter = velocity_.GetLength() / kMaxSpeedBackward;
-            return std::pair<double, Motion>(speed_parameter,
-                                             Motion::kBackwardMotion);
-        }
-        if (!behavior_->IsFlagUp()) {
-            return std::pair<double, Motion>(speed_parameter,
-                                             Motion::kWithoutMotion);
-        }
-        if (behavior_->IsFlagUp()) {
-            return std::pair<double, Motion>(speed_parameter,
-                                             Motion::kForwardMotion);
-        }
+  if (!(behavior_->IsDead())) {
+    if (behavior_->IsFlagDown() && std::abs(velocity_.GetAngleDegrees() -
+        angle_vec_.GetAngleDegrees()) >
+        90) {
+      speed_parameter = velocity_.GetLength() / kMaxSpeedBackward;
+      return std::pair<double, Motion>(speed_parameter,
+                                       Motion::kBackwardMotion);
     }
-    return std::pair<double, Motion>(speed_parameter,
-                                     Motion::kIsDead);
+    if (!behavior_->IsFlagUp()) {
+      return std::pair<double, Motion>(speed_parameter,
+                                       Motion::kWithoutMotion);
+    }
+    if (behavior_->IsFlagUp()) {
+      return std::pair<double, Motion>(speed_parameter,
+                                       Motion::kForwardMotion);
+    }
+  }
+  return std::pair<double, Motion>(speed_parameter,
+                                   Motion::kIsDead);
 }
 
 double Car::GetParameterForDriftSound() const {
-    if (!(behavior_->IsDead())) {
-        const double kDriftSpeed = 50;
-        double relative_velocity =
-                velocity_.GetLength() / behavior_->GetMaxSpeed();
-        if ((behavior_->IsFlagRight() || behavior_->IsFlagLeft()) &&
-            velocity_.GetLength() > kDriftSpeed) {
-            if (relative_velocity < 0.1) {
-                return 0.1;
-            }
-            return relative_velocity;
-        }
+  if (!(behavior_->IsDead())) {
+    const double kDriftSpeed = 50;
+    double relative_velocity =
+        velocity_.GetLength() / behavior_->GetMaxSpeed();
+    if ((behavior_->IsFlagRight() || behavior_->IsFlagLeft()) &&
+        velocity_.GetLength() > kDriftSpeed) {
+      if (relative_velocity < 0.1) {
+        return 0.1;
+      }
+      return relative_velocity;
     }
-    return 0;
+  }
+  return 0;
 }
 
 double Car::GetParameterForBrakeSound() const {
-    if (!(behavior_->IsDead())) {
-        const double kSpeedForBrake = 100;
-        double relative_velocity =
-                velocity_.GetLength() / behavior_->GetMaxSpeed();
-        if (behavior_->IsFlagDown() && !behavior_->IsFlagUp() &&
-            velocity_.GetLength() > kSpeedForBrake &&
-            std::abs(velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees())
+  if (!(behavior_->IsDead())) {
+    const double kSpeedForBrake = 100;
+    double relative_velocity =
+        velocity_.GetLength() / behavior_->GetMaxSpeed();
+    if (behavior_->IsFlagDown() && !behavior_->IsFlagUp() &&
+        velocity_.GetLength() > kSpeedForBrake &&
+        std::abs(velocity_.GetAngleDegrees() - angle_vec_.GetAngleDegrees())
             <= 90) {
-            if (relative_velocity < 0.1) {
-                return 0.1;
-            }
-            return relative_velocity;
-        }
+      if (relative_velocity < 0.1) {
+        return 0.1;
+      }
+      return relative_velocity;
     }
-    return 0;
+  }
+  return 0;
 }
 
 void Car::SetVelocity(const Vec2f& velocity) {
@@ -323,11 +323,11 @@ bool Car::IsShooting() const {
 }
 
 bool Car::UsingGun() const {
-    return behavior_->IsFlagShoot();
+  return behavior_->IsFlagShoot();
 }
 
 bool Car::IsDead() const {
-    return behavior_->IsDead();
+  return behavior_->IsDead();
 }
 
 void Car::BecomeDead() {
