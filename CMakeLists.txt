@@ -65,11 +65,11 @@ set(SOURCES
         src/Network/network_room.cpp
         src/Network/player_tile.cpp
         src/Network/network_controller.cpp
-        src/View/engine_sound.cpp
-        src/View/drift_sound.cpp
-        src/View/brake_sound.cpp
-        src/View/shooting_sound.cpp
-        src/View/sounds_of_effects.cpp)
+        src/View/Sounds/engine_sound.cpp
+        src/View/Sounds/drift_sound.cpp
+        src/View/Sounds/brake_sound.cpp
+        src/View/Sounds/shooting_sound.cpp
+        src/View/Sounds/sounds_of_effects.cpp src/View/Sounds/sound.cpp src/View/Sounds/sound.h)
 
 set(RESOURCES
         explosion_animation.qrc
